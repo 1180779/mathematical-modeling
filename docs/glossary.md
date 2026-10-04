@@ -40,3 +40,9 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | odpad | offcut; waste | r_j | Unused stock length / Niewykorzystana długość surowca |
 | rzaz | saw kerf | — | Material removed by cutting / Materiał usunięty podczas cięcia |
 | reszta regresji | regression residual | e_i | Observed minus fitted value / Wartość obserwowana minus dopasowana |
+| wektor wierszowy | row vector | 1 × n | Horizontal array / Tablica pozioma |
+| wektor kolumnowy | column vector | n × 1 | Decision-vector convention / Konwencja wektora decyzji |
+| indeksowanie | indexing | M(i,j) | Selecting entries / Wybór elementów |
+| operacje elementowe | element-wise operations | .*, ./, .^ | Operations on corresponding entries / Operacje na odpowiadających elementach |
+| uchwyt do funkcji | function handle | @ | Callable reference / Odwołanie do funkcji |
+| reszta układu równań | linear-system residual | Ax − b | Equation mismatch / Niedopasowanie równań |

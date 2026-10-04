@@ -1,9 +1,10 @@
 % Checks accompanying notes/lectures/02-linear-programming.tex.
 % Source inputs: s4_w2.pdf slides 7-9, 18, and the assumed reading of 19.
-% Expected values are hand-derived; this file has not yet been run in MATLAB.
+% Verified 2026-10-04 in MATLAB 26.2.0.3386108 (R2026b).
+% Evidence: user-supplied normal-terminal output in docs/matlab-verification.md.
 % Run from the repository root:
-%   run('matlab/exercises/lecture-02-checks.m')
-% No Optimization Toolbox is required. No output is claimed until execution.
+%   run('matlab/exercises/lecture_02_checks.m')
+% No Optimization Toolbox is required.
 clear;
 clc;
 tol = 1e-10; % Absolute tolerance, suitable for these small, unscaled examples.

@@ -483,18 +483,21 @@ and termination arguments require later algorithmic material; Lecture 2 does
 not yet supply a complete simplex implementation.
 
 \section{MATLAB checks and execution status}\label{sec:matlab}
-The shared script is \texttt{matlab/exercises/lecture-02-checks.m}.
+The shared script is \path{matlab/exercises/lecture_02_checks.m}.
 It enumerates production vertices, checks resource slacks and the optimal basis,
 verifies the 5.2 m cutting certificate, and enumerates the explicitly assumed
 2 m cabinet problem. It uses base MATLAB operations without Optimization Toolbox.
 The inputs match the hand derivations. Assertions use absolute tolerance
 $10^{-10}$ for these small examples; this is not a universal numerical tolerance.
 
-\textbf{Execution status:} Not run in MATLAB; MATLAB is unavailable in the current
-environment. Expected results are derived above: production $(2,6)$ with value
-18 PLN and slacks $(0,0,3)$ kg; 5.2 m cutting $(200,0,400)$ with offcut 140 m;
-2 m cabinet count 11 with pattern counts $(10,1,0)$.
-Do not treat these expected values as recorded MATLAB output.
+\textbf{Execution status:} Verified on 2026-10-04 in MATLAB
+26.2.0.3386108 (R2026b), using the user's normal terminal. All assertions passed.
+The reported output matches the hand derivations: production $(2,6)$ with value
+18 PLN; 5.2 m cutting $(200,0,400)$ with offcut 140 m; and 2 m cabinet count 11
+with pattern counts $(10,1,0)$. The script also asserts the production slacks
+$(0,0,3)$ kg. No Optimization Toolbox solver is invoked. The sandbox launcher
+still exits before code execution; this verification is based on the user's
+reported terminal output, recorded in \texttt{docs/matlab-verification.md}.
 
 \section{Common mistakes and revision questions}\label{sec:revision}
 \begin{itemize}[leftmargin=1.6em]

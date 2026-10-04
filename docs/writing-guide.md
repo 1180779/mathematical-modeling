@@ -38,6 +38,11 @@ Keep numerical approximation separate from exact mathematical results. Distingui
 model validity from numerical solver success. MATLAB revision and labs follow the
 same rules and use their dedicated notes and code directories.
 
+
+MATLAB script and function filenames must be valid identifiers: start with a
+letter and use letters, digits, and underscores. Use `lecture_02_checks.m`,
+not a filename containing hyphens or beginning with a digit.
+
 ## Language and decisions
 
 Follow the [language policy](language-policy.md). Add new terminology to the

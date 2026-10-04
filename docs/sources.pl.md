@@ -57,6 +57,18 @@ Planowana ścieżka lokalna względem repozytorium:
 **Nie pobrano:** rozwiązywanie nazwy DNS w powłoce nie powiodło się 2026-10-04.
 Zewnętrzny plik `../sources/README.md` zawiera oficjalny URL i polecenie ponowienia pobrania.
 
+## Dokumentacja do powtórki MATLAB-a
+
+Powtórka 1 zawiera własne przykłady ręczne oraz poniższe oficjalne źródła MathWorks
+dotyczące tablic, indeksowania, operatorów, rozwiązywania układów i eksportu wykresów.
+Równania produkcji pochodzą z `s4_w2.pdf`, slajdy 7–9.
+
+- [Matrices and Arrays](https://www.mathworks.com/help/matlab/learn_matlab/matrices-and-arrays.html)
+- [Array Indexing](https://www.mathworks.com/help/matlab/math/array-indexing.html)
+- [Array vs. Matrix Operations](https://www.mathworks.com/help/matlab/matlab_prog/array-vs-matrix-operations.html)
+- [mldivide](https://www.mathworks.com/help/matlab/ref/double.mldivide.html)
+- [exportgraphics](https://www.mathworks.com/help/matlab/ref/exportgraphics.html)
+
 ## Pochodzenie stylu AZ
 
 Styl dostosowano na podstawie preambuł i organizacji `Lecture_5May.tex`

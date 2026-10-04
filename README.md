@@ -57,8 +57,8 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exe
 
 Copy a template into the appropriate notes directory. Retain its repository-root
 paths and build it from the repository root using the same command with the new
-file path. MATLAB work will be checked in MATLAB when scripts are added; the
-Lecture 2 check script has not yet been run in MATLAB.
+file path. Both scripts were verified in MATLAB 26.2.0.3386108 (R2026b) on 2026-10-04
+in the user's normal terminal; the sandbox launcher still exits before execution.
 
 Build both lecture PDFs from the repository root:
 
@@ -67,14 +67,31 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lecture
 latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
 ```
 
+## MATLAB refresher
+
+[Refresher 1: Arrays, indexing, and linear systems](notes/matlab-review/01-arrays-and-linear-systems.tex)
+([PDF](build/01-arrays-and-linear-systems.pdf)) contains hand calculations and a
+matching script covering dimensions, indexing, operators, backslash, function
+handles, loops, and plotting.
+
+```matlab
+run('matlab/review/arrays_and_linear_systems.m')
+```
+
+The plot is written to ignored `matlab/output/`. Build the refresher PDF with:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/matlab-review/01-arrays-and-linear-systems.tex
+```
+
 ## Lecture 2 MATLAB checks
 
 ```matlab
-run('matlab/exercises/lecture-02-checks.m')
+run('matlab/exercises/lecture_02_checks.m')
 ```
 
 Run from the repository root. The script checks the hand examples using base
-MATLAB; no Optimization Toolbox is required. MATLAB execution remains unverified.
+MATLAB; no Optimization Toolbox is required. Both scripts passed, including plot export; see the [verification record](docs/matlab-verification.md).
 
 ## Study workflow
 

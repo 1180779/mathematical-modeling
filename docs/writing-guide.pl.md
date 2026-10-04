@@ -39,6 +39,11 @@ Oddzielaj przybliżenia numeryczne od dokładnych wyników matematycznych.
 Odróżniaj poprawność modelu od sukcesu solvera numerycznego. Powtórka MATLAB-a
 i laboratoria podlegają tym samym zasadom i mają własne katalogi notatek i kodu.
 
+
+Nazwy skryptów i funkcji MATLAB muszą być poprawnymi identyfikatorami: zaczynać
+się literą i używać liter, cyfr oraz podkreśleń. Stosuj `lecture_02_checks.m`,
+a nie nazwę z łącznikami lub rozpoczynającą się cyfrą.
+
 ## Język i decyzje
 
 Stosuj [politykę językową](language-policy.pl.md). Dodawaj nowe terminy do

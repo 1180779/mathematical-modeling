@@ -57,6 +57,18 @@ Intended local path from this repository:
 **Not downloaded:** shell DNS resolution failed on 2026-10-04.
 The external `../sources/README.md` records the official URL and retry command.
 
+## MATLAB refresher documentation
+
+Refresher 1 uses original hand examples and the official MathWorks references
+below for array construction, indexing, operators, linear solves, and figure export.
+The production equations are from `s4_w2.pdf`, slides 7–9.
+
+- [Matrices and Arrays](https://www.mathworks.com/help/matlab/learn_matlab/matrices-and-arrays.html)
+- [Array Indexing](https://www.mathworks.com/help/matlab/math/array-indexing.html)
+- [Array vs. Matrix Operations](https://www.mathworks.com/help/matlab/matlab_prog/array-vs-matrix-operations.html)
+- [mldivide](https://www.mathworks.com/help/matlab/ref/double.mldivide.html)
+- [exportgraphics](https://www.mathworks.com/help/matlab/ref/exportgraphics.html)
+
 ## AZ style provenance
 
 The style was adapted from the preambles and organization of `Lecture_5May.tex`

@@ -57,8 +57,8 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exe
 
 Skopiuj szablon do odpowiedniego katalogu notatek. Zachowaj ścieżki względem
 katalogu głównego repozytorium i kompiluj z niego tym samym poleceniem,
-podając nową ścieżkę pliku. Kod będzie sprawdzany w MATLAB-ie po dodaniu skryptów;
-skrypt sprawdzający z wykładu 2 nie został jeszcze uruchomiony w MATLAB-ie.
+podając nową ścieżkę pliku. Oba skrypty sprawdzono w MATLAB 26.2.0.3386108 (R2026b) 2026-10-04
+w zwykłym terminalu użytkownika; w sandboxie launcher nadal kończy się przed wykonaniem kodu.
 
 Skompiluj oba PDF-y wykładów z katalogu głównego repozytorium:
 
@@ -67,14 +67,31 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lecture
 latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
 ```
 
+## Powtórka MATLAB-a
+
+[Powtórka 1: Tablice, indeksowanie i układy liniowe](notes/matlab-review/01-arrays-and-linear-systems.tex)
+([PDF](build/01-arrays-and-linear-systems.pdf)) zawiera obliczenia ręczne i
+odpowiadający im skrypt dotyczący wymiarów, indeksowania, operatorów, backslash,
+uchwytów do funkcji, pętli i wykresów.
+
+```matlab
+run('matlab/review/arrays_and_linear_systems.m')
+```
+
+Wykres trafia do ignorowanego `matlab/output/`. Skompiluj PDF powtórki poleceniem:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/matlab-review/01-arrays-and-linear-systems.tex
+```
+
 ## Sprawdzenia MATLAB z wykładu 2
 
 ```matlab
-run('matlab/exercises/lecture-02-checks.m')
+run('matlab/exercises/lecture_02_checks.m')
 ```
 
 Uruchom z katalogu głównego repozytorium. Skrypt sprawdza przykłady ręczne za pomocą
-podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Wykonanie w MATLAB-ie pozostaje niezweryfikowane.
+podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Oba skrypty przeszły sprawdzenia, łącznie z eksportem wykresu; zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
 ## Sposób pracy
 
