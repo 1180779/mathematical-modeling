@@ -1,0 +1,22 @@
+{
+  "/commit-bilingual-review-pdf-and-formatting-checks": {
+    "en": "c3bb7a3c424539bd4b86b500a099e4b15adaf3d6fedb7bc000e2e593e9e53469",
+    "pl": "b4480ece5f32c078dc1e43e1a4d91504477bacf448b0f464d2da1157a020fa6f"
+  },
+  "/commit-bilingual-review-pdf-and-formatting-checks/problem": {
+    "en": "4b2ae5c34685464292d9763fe730ba76946e2f4fdbd753d568ce1cfbad25598e",
+    "pl": "e5b28c9ae337b4e74c5fb4b018fad497369559b15fc2aa0e85e63cc3301d98cd"
+  },
+  "/commit-bilingual-review-pdf-and-formatting-checks/decision": {
+    "en": "215a183198471896ed97d020ee4b5331492573131da39c1ee96e0417ee8029ed",
+    "pl": "86b880b664e9bf953509e8971613fca8eafff053409b0e4e3f0573e29efd1e52"
+  },
+  "/commit-bilingual-review-pdf-and-formatting-checks/alternatives-considered": {
+    "en": "738f25e6885668d5256bd08421f07289b498a4cb21213b0385b210a101ffeaa0",
+    "pl": "1b7fb260d687464429d2644363e04dea45ae4cbe2a8080d5f7ea3c0ccc00f787"
+  },
+  "/commit-bilingual-review-pdf-and-formatting-checks/consequences": {
+    "en": "4a1cbd19fa9a47e6be19728420160597ed9c8a8cf1c922b40f1fd1b285d4d540",
+    "pl": "26b9490d5d6e6efd70e510ef159ba6950e32f40eed1be9e3678f2fb4a91f35ad"
+  }
+}

@@ -64,3 +64,8 @@ together. For lasting choices, record rationale and genuine alternatives in the
 
 Commit messages use at most 72 characters per line. Separate the title from an
 optional description with a blank line; the shared `commit-msg` hook checks this.
+
+Format LaTeX and TikZ with `python3 scripts/format_tex.py --write`, then rebuild
+with `./build.sh`. Review changed language pairs and re-record their `.i18n.json`
+files explicitly. Stage both languages, hash records, sources, and refreshed PDFs;
+pre-commit checks read the index rather than unstaged editor contents.

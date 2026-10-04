@@ -1,0 +1,18 @@
+# Shared by the command-line check and the project Neovim configuration.
+defaultIndent: '  '
+removeTrailingWhitespace:
+  beforeProcessing: 0
+  afterProcessing: 1
+# Indent blocks without padding mathematical tables and matrices.
+lookForAlignDelims:
+  tabular: 0
+  array: 0
+  matrix: 0
+  pmatrix: 0
+  bmatrix: 0
+  align: 0
+  align*: 0
+  aligned: 0
+verbatimEnvironments:
+  lstlisting: 1
+  verbatim: 1

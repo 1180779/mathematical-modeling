@@ -1,0 +1,22 @@
+{
+  "/self-contained-teaching-text-and-visual-explanations": {
+    "en": "0e06729737b6924c0bc0253608293d7b2386f962c30eaa77fba2538c5e873ebc",
+    "pl": "86e5fec63e81d5ca89592d8f9fdb9b4098f6c4aa3252bfaa1bc5cea066784394"
+  },
+  "/self-contained-teaching-text-and-visual-explanations/problem": {
+    "en": "f3f618574fffdce6a9889e63716e93a5efdd55e12810a754048299b465814555",
+    "pl": "e90035e1801f2de5e346a9660333e4ffbfdadba72af38a615beac92cd61ff278"
+  },
+  "/self-contained-teaching-text-and-visual-explanations/decision": {
+    "en": "2486392abbf8775a29fe68b58a15357f37624edd301673f76dc765d7996654b8",
+    "pl": "9109a3b6320a63e8a34e921bba80b2c8dce95ffb4dcdbd527c3cff4921b8a1a8"
+  },
+  "/self-contained-teaching-text-and-visual-explanations/alternatives-considered": {
+    "en": "88e8d9c28cf2ee5051ff9c68b48534cd491bee77f0147d48d2908b216ad02a48",
+    "pl": "67ae902cddcce4169b9c159feaf26da6c7e9d9b31660b7c14604a536c6e06981"
+  },
+  "/self-contained-teaching-text-and-visual-explanations/consequences": {
+    "en": "7cae00520637cd9ccb6cbb19d153a881e5b112850040eb1576c09d16863d62e4",
+    "pl": "2757e0e3721e91b40c7ab9774588a06a31475188c7eeb30ef4b95f6f23101be3"
+  }
+}

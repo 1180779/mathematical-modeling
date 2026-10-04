@@ -48,7 +48,7 @@ script from the solution. Keep one executable implementation per task.
 
 ## Build notes
 
-Install Bash, a TeX distribution with pdfLaTeX, latexmk, and the packages listed
+Install Bash, Python 3, a TeX distribution with pdfLaTeX, latexmk, and the packages listed
 in `templates/modeling-notes.sty`. From the repository root, run:
 
 ```sh
@@ -70,7 +70,8 @@ Empty directories are created by the script; they contain no placeholder files.
 Existing PDF copies are overwritten after a successful build. If you rename or
 remove a note, remove its obsolete PDF from `output/` too.
 The script can also be invoked by its absolute path from another directory.
-Commit updated PDFs alongside the corresponding note changes.
+The build also refreshes `docs/pdf-build.json`, recording SHA-256 hashes of
+PDFs and build inputs. Commit that record and the PDFs alongside note changes.
 IntelliJ's `.idea/`, `*.iml`, `*.ipr`, and `*.iws` files are ignored.
 
 To preview an empty template without exporting it to `output/`:
@@ -120,6 +121,59 @@ git config --local core.hooksPath .githooks
 The `commit-msg` hook limits every message line to 72 Unicode characters and
 requires a blank line between the title and description. A title-only message
 is valid. Git editor comments are excluded from the check.
+
+The `pre-commit` hook checks staged contents for:
+
+- English–Polish pair completeness, section hashes, heading depths, and identical code fences.
+- PDF hashes, recorded build inputs, and available build copies of changed PDFs.
+- LaTeX/TikZ formatting with the staged `.latexindent.yaml` configuration.
+
+Run the working-tree checks directly:
+
+```sh
+python3 scripts/check_translations.py
+python3 scripts/check_output.py
+python3 scripts/format_tex.py --check
+```
+
+After editing paired documents, review both languages, then record the specific
+reviewed pair and stage all three files:
+
+```sh
+python3 scripts/check_translations.py --write README.md
+```
+
+Each pair has a sibling `.i18n.json` file with English and Polish section hashes,
+inspired by [DeepSeek's pairing convention](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
+Hashes detect edits since review; they cannot establish translation quality.
+The PDF check detects modified inputs or exported files; a fresh clone can pass
+using the committed record without having an intermediate `build/` tree.
+
+## LaTeX and TikZ formatting
+
+Use the shared latexindent settings for `.tex`, `.sty`, and `.tikz` files:
+
+```sh
+python3 scripts/format_tex.py --write
+./build.sh
+```
+
+The current TikZ figures are inline in lecture `.tex` files and are included in
+the check. Formatting preserves line breaks and verbatim MATLAB listings.
+Formatter scratch files stay outside source directories.
+
+The project `.nvim.lua` configures Conform with the same formatter settings.
+In Neovim, from the repository root:
+
+```vim
+:luafile .nvim.lua
+```
+
+Then use your existing `<leader>f` formatting mapping. Neovim's optional `exrc`
+setting can load the project configuration automatically after you trust it.
+`.editorconfig` supplies matching two-space indentation for TeX/TikZ buffers.
+Your global Neovim configuration is unchanged.
+
 
 ## Study workflow
 

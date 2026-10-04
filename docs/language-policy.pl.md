@@ -24,7 +24,19 @@ dwujęzyczny w jednym pliku; `AGENTS.md`, notatki i szablony LaTeX są tylko po 
 Aktualizuj obie wersje w tym samym commicie. Można zacząć od dowolnego języka;
 rozbieżności należy rozwiązać przed commitem. Sprawdzaj znaczenie ręcznie:
 obecność plików i zgodna struktura nie dowodzą poprawności tłumaczenia.
-Pierwsza iteracja nie wprowadza plików z hashami ani automatyzacji tłumaczeń.
+Każda para ma też sąsiadujący zapis `.i18n.json` z hashami sprawdzonych sekcji.
+Po przeglądzie zmienionej pary uruchom
+`python3 scripts/check_translations.py --write <English-file.md>` i commituj
+wszystkie trzy pliki. Hook pre-commit porównuje hashe z indeksu, poziomy nagłówków,
+wzajemne odnośniki językowe i dokładną treść bloków kodu. Bloki kodu są porównywane
+osobno i wyłączone z hashy sekcji. Kluczami zapisu są ścieżki angielskich nagłówków;
+polskie sekcje odpowiadają im według pozycji. Hashe SHA-256 obejmują nagłówek i
+treść sekcji po usunięciu skrajnych białych znaków. Wykrywają zmiany od przeglądu,
+ale nie poprawność znaczenia. Stosuj nagłówki ATX (`#`) w dokumentach parowanych;
+skrypt celowo obsługuje obecny format repozytorium. Zakres obejmuje README i
+dokumenty Markdown w `docs/`; `AGENTS.md`, notatki i pojedynczy dwujęzyczny słownik
+nie są parowane. Potwierdzenie jest jawne: `--write` wymaga nazwanych par lub
+wywołania `--write --all` dla całego zbioru.
 
 ## Ponowne rozważenie
 

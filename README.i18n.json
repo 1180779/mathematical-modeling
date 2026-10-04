@@ -1,0 +1,42 @@
+{
+  "/mathematical-modeling": {
+    "en": "39be5e52197d1a2c6c6aa0e56790e8c0f0e4d5cb0d64a45a4017fa71461308a0",
+    "pl": "7dfea075648dac7a61e6bb55821f83fd7be25602303c3a2831ad48a5bfe8658c"
+  },
+  "/mathematical-modeling/start-here": {
+    "en": "376b205025d1da5146bdb2950ebacbb2c3a064df0ae02ab7b822c7efc1ec4263",
+    "pl": "689a9de9b8f02ebf23456784315f04e32092737ea34a9a7d19f63eb25a996d49"
+  },
+  "/mathematical-modeling/lecture-notes": {
+    "en": "ee50d05e01b86882165f8a334fc28c6ce154da1784befba1504c29008fb78850",
+    "pl": "8749d2cc73aa15e4e6c03e712a9da2451ff61c2de55d65670199950ce5e09dd1"
+  },
+  "/mathematical-modeling/layout": {
+    "en": "516b5d40a533bb2f139dab09e2603fd5a58d71d9e253cf0d2575883ea1e8466c",
+    "pl": "e3d374df566be01accdf6268ee025735f61125364e934d025437586071780618"
+  },
+  "/mathematical-modeling/build-notes": {
+    "en": "132cd9edb783e5c9d716c83fc96f37f05b94d348573ea2a1c24e923d3e9d0a97",
+    "pl": "993f395f03fbcfc4443dc39faa7710cdfc87ba2efcff5bfd9c5d010e9b2e5149"
+  },
+  "/mathematical-modeling/matlab-refresher": {
+    "en": "732be5ed28c9ec90c4050d83d26ae3cfeb5366e42c549b97673185e6893e5833",
+    "pl": "e020f5c55e7b46904d269b0529e784d11aba4bc52098b8e997249c51f7c7916c"
+  },
+  "/mathematical-modeling/lecture-2-matlab-checks": {
+    "en": "5230dff5831e105b459fef2a1e2bbb830c0a29743856a1ea5dcf6d1ab15df181",
+    "pl": "e70f6c33d00bc93a67522f918a92e2c53291a6d8f75813cac5fba731403a57e9"
+  },
+  "/mathematical-modeling/git-checks": {
+    "en": "ef3bc86b413d8630e77e4f67a7b03f9a116823355bd3de6491fa11a3bd80994b",
+    "pl": "ff153f1fdd60dd906eb30362757641bba80b881db46d8cb2426a29e2d0d69d5b"
+  },
+  "/mathematical-modeling/latex-and-tikz-formatting": {
+    "en": "9d064f403407c51aad66b962b7ab2609a369a5c218c4d6607b8d9e870f690cb2",
+    "pl": "81076e34471ba35f9a676ab6823fcc561addb13712ef3d9eee07a38d98c1fc3f"
+  },
+  "/mathematical-modeling/study-workflow": {
+    "en": "50879dce13833e6c17530c00c2b052f4cfb9d81351f1f5b475eb4be601cf7b25",
+    "pl": "69adc5bfcacf5698a874d86f8a58c70717b2d7e09461a32bcf2d87b198a1e4fe"
+  }
+}

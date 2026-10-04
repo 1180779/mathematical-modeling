@@ -1,0 +1,18 @@
+{
+  "/decision-log": {
+    "en": "84e582e2f9b03234d4e68069557d761c2054f9fa5867efa128dfbdb54eef2235",
+    "pl": "4c7351ae988dfb465944d6b65abd1cb43e76ea384e0dbc5e32134af8c7e4cf43"
+  },
+  "/decision-log/purpose": {
+    "en": "2917cde021a8c150a0b7a17e7bff50fe064d7c918a5b6b09f6b187061edf6198",
+    "pl": "36839a80f6fd8c45a25b64e14210dc0f358f20cd5b1895b986aaf6cea13bb97f"
+  },
+  "/decision-log/lifecycle": {
+    "en": "913f067fb073e62b0f07cc20a2a36d73b55c158fc0d6b79cb9a3e194055290eb",
+    "pl": "eaa555c7314a9b2969ae6742c73fccc5d8be4a6027c25bb7d31359664eae58c6"
+  },
+  "/decision-log/format": {
+    "en": "6f458a1cfd68fceb186a25848b4f5ea10c1d7398c1980eaab20f1aabbec65659",
+    "pl": "2c1cb1490c1a6e29cc1810f7b14795408f7d004b97a93c6ec787166a27c4d1d0"
+  }
+}

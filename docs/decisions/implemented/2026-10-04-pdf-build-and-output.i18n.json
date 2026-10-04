@@ -1,0 +1,22 @@
+{
+  "/separate-intermediate-builds-from-reading-pdfs": {
+    "en": "8bd8fcd94dcbf5e51623e86b63ce4a2be02f4fc89a7728c6724c21262c60a9c6",
+    "pl": "c63379391962dab065ad50a5eb1e05fde21b3b90dd585dad91781913023fac81"
+  },
+  "/separate-intermediate-builds-from-reading-pdfs/problem": {
+    "en": "dd20dc0328ed3bd5872806d7be2e8d97d27b57a4414a4d347644ee4889defbc8",
+    "pl": "bd389d64afb2f38d6b2d442e271fd8cdfbbce8a14c134bf620b39a1cdc01872b"
+  },
+  "/separate-intermediate-builds-from-reading-pdfs/decision": {
+    "en": "5211dbd96b4b82db1f4e6e2ae9d63b86942adbe51da2334a445c66eb6d793c69",
+    "pl": "a40f86160c39289d35c6acdf530942146a6c28c19ae9a61e6bd7c2f7ec912e22"
+  },
+  "/separate-intermediate-builds-from-reading-pdfs/alternatives-considered": {
+    "en": "3b15ff90a033a2e36cea079862b80631a63f1bc03032e415c181ee2a098cdc5e",
+    "pl": "e591bd1fa6bb5b55a7c215c3489018698a3f179f6a5356083eaedba3f2a54cbf"
+  },
+  "/separate-intermediate-builds-from-reading-pdfs/consequences": {
+    "en": "da84ed4285b506a9f3d98f054b659aee94de2c762e262caa56e581e94e110f32",
+    "pl": "934e39816e1ae2710c42baf5f4a104a868888230cdd8162bbd2fd7e1cf256f78"
+  }
+}

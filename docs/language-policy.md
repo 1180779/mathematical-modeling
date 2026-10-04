@@ -23,8 +23,19 @@ one file; `AGENTS.md`, study notes, and LaTeX templates are English only.
 
 Update both members in the same commit. Either language may be edited first;
 resolve disagreements before committing. Review meaning manually: file presence
-and matching structure do not prove translation accuracy. No hash sidecars or
-translation automation are introduced in this first iteration.
+and matching structure do not prove translation accuracy. Each pair also has a
+sibling `.i18n.json` record of reviewed section hashes. After reviewing an edited
+pair, run `python3 scripts/check_translations.py --write <English-file.md>` and
+commit all three files. The pre-commit check compares staged hashes, heading
+depths, reciprocal language links, and exact fenced code. Code fences are
+compared separately and excluded from section hashes. English heading paths key
+the records; Polish sections align by position. SHA-256 hashes cover each
+section’s heading and prose after trimming its outer whitespace. This detects
+changes since review, not semantic correctness. Use ATX (`#`) headings in paired
+documents; the checker deliberately implements this repository’s current format.
+README and Markdown documents under `docs/` are in scope; `AGENTS.md`, study
+notes, and the single bilingual glossary are not paired. Record confirmation is
+explicit: `--write` requires named pairs or the corpus-wide `--write --all`.
 
 ## Reconsideration
 

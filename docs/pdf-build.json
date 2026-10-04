@@ -1,0 +1,13 @@
+{
+  "inputs": {
+    "notes/lectures/01-optimization-modeling.tex": "27bf2b11f1a91a50395d0e346c65fc09ef6df8e0dadde1782da6987905a9e814",
+    "notes/lectures/02-linear-programming.tex": "a3bdf587da3c9811d4be6d72cd989b87dc427b84764da92feaa6b51465c9d1a3",
+    "notes/matlab-review/01-arrays-and-linear-systems.tex": "a315f338be427d4acc5eeb4be8180b5771f57a48fa1b7095cbc49b1fad9ae57b",
+    "templates/modeling-notes.sty": "512d33d653c236bceed0755871e4df3bd18c67d880226daf48afa93748003dc0"
+  },
+  "pdfs": {
+    "output/lectures/01-optimization-modeling.pdf": "7ae98085161efcebb6c207f9895fead9bad34f094dd8d0ff6856c5a227002c30",
+    "output/lectures/02-linear-programming.pdf": "82bccbf6abb344808e725413d2ecbf6e9780efe3647750fcf5fed3a40fd035b6",
+    "output/matlab-review/01-arrays-and-linear-systems.pdf": "edddc40884ce01f6131e8d81ea427769a0aecfa4f953ef3c13b7e039bd6d8c5d"
+  }
+}

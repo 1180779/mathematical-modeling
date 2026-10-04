@@ -1,0 +1,26 @@
+{
+  "/source-inventory": {
+    "en": "d7b0b9f6641b611c14441b2e7abe78c8f7fc1ca6cedea7b355a0452d3292dfba",
+    "pl": "94d0bdb0df56e3ff4eca77dbb4b85c5304f80fa3fa384ea701d1428f736dd555"
+  },
+  "/source-inventory/historical-lectures": {
+    "en": "8ac299394e4ba4518a587e208e445ad730686dc1ff44790657fe717d3876f813",
+    "pl": "9d98f7850ba86931c63589a82cd7389740a06155020537770bc57e043de84a9c"
+  },
+  "/source-inventory/developed-notes-and-source-qualifications": {
+    "en": "f0b33830a3d6a3b63d598657cceea98f9420fe45ae745d43ca6f13421b56d3f7",
+    "pl": "cef106c13ff07b533fa2d8bc4edd6dc0318ce4c6cd1f1f12f6de1a8e997c4fc3"
+  },
+  "/source-inventory/supplementary-sources-outside-the-repository": {
+    "en": "ce01d38e9430bcb6463b240d3d0838637ba51c9aeea255cbf5c2850e4ac55bc8",
+    "pl": "91cde6e448a98287577577431ab1071bca9ede1e1ef3505aaaf839b7f1355bb4"
+  },
+  "/source-inventory/matlab-refresher-documentation": {
+    "en": "77dc4e8b761c12173ae2719ecb56862a6463586cbc9bec1672b3ee37ed5e676b",
+    "pl": "5b4cf263d473b22d5173a4dc2fc57c9fd9e7cb5794c2dfe0da5cc7ceb909a158"
+  },
+  "/source-inventory/az-style-provenance": {
+    "en": "cbfeeec6e7a6e97290135504485674d4a13569b6b5a8267713b21ecf36fedf11",
+    "pl": "4382392ab0b5c63a102d61e9ff5336e406388379664109bc0bdf40e034e640bb"
+  }
+}

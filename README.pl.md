@@ -48,7 +48,7 @@ powiąż skrypt z rozwiązaniem. Utrzymuj jedną wykonywalną implementację zad
 
 ## Kompilacja notatek
 
-Zainstaluj Bash, dystrybucję TeX z pdfLaTeX-em, latexmk i pakietami wymienionymi
+Zainstaluj Bash, Python 3, dystrybucję TeX z pdfLaTeX-em, latexmk i pakietami wymienionymi
 w `templates/modeling-notes.sty`. Z katalogu głównego repozytorium uruchom:
 
 ```sh
@@ -70,7 +70,8 @@ Skrypt tworzy puste katalogi bez plików zastępczych.
 Po udanej kompilacji istniejące kopie PDF są nadpisywane. Po zmianie nazwy lub
 usunięciu notatki usuń również jej nieaktualny PDF z `output/`.
 Skrypt można też wywołać ścieżką bezwzględną z innego katalogu.
-Commituj zaktualizowane PDF-y razem z odpowiednimi zmianami notatek.
+Kompilacja odświeża także `docs/pdf-build.json`, zapisując hashe SHA-256 PDF-ów
+i danych wejściowych. Commituj ten zapis oraz PDF-y razem ze zmianami notatek.
 Pliki IntelliJ `.idea/`, `*.iml`, `*.ipr` i `*.iws` są ignorowane.
 
 Aby obejrzeć pusty szablon bez eksportowania go do `output/`:
@@ -120,6 +121,59 @@ git config --local core.hooksPath .githooks
 Hook `commit-msg` ogranicza każdy wiersz komunikatu do 72 znaków Unicode i
 wymaga pustego wiersza między tytułem a opisem. Sam tytuł jest poprawny.
 Komentarze edytora Git są pomijane przy sprawdzaniu.
+
+Hook `pre-commit` sprawdza zawartość indeksu Git pod kątem:
+
+- Kompletności par angielsko-polskich, hashy sekcji, poziomów nagłówków i identycznych bloków kodu.
+- Hashy PDF-ów, zapisanych danych wejściowych i dostępnych kopii kompilacji zmienionych PDF-ów.
+- Formatowania LaTeX/TikZ zgodnie z konfiguracją `.latexindent.yaml` z indeksu.
+
+Uruchom sprawdzenia katalogu roboczego bezpośrednio:
+
+```sh
+python3 scripts/check_translations.py
+python3 scripts/check_output.py
+python3 scripts/format_tex.py --check
+```
+
+Po edycji dokumentów przejrzyj oba języki, zapisz konkretną sprawdzoną parę,
+a następnie dodaj wszystkie trzy pliki do indeksu:
+
+```sh
+python3 scripts/check_translations.py --write README.md
+```
+
+Każda para ma sąsiadujący plik `.i18n.json` z hashami sekcji angielskich i polskich,
+inspirowany [konwencją par DeepSeek](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
+Hashe wykrywają zmiany od przeglądu; nie dowodzą jakości tłumaczenia.
+Sprawdzenie PDF-ów wykrywa zmienione dane wejściowe lub pliki wynikowe; świeży klon
+może przejść sprawdzenie dzięki commitowanemu zapisowi bez pośredniego drzewa `build/`.
+
+## Formatowanie LaTeX i TikZ
+
+Stosuj wspólne ustawienia latexindent do plików `.tex`, `.sty` i `.tikz`:
+
+```sh
+python3 scripts/format_tex.py --write
+./build.sh
+```
+
+Obecne grafiki TikZ są wewnątrz wykładowych plików `.tex` i podlegają sprawdzeniu.
+Formatowanie zachowuje podziały wierszy oraz dosłowne listingi MATLAB-a.
+Pliki pomocnicze formattera pozostają poza katalogami źródłowymi.
+
+Projektowy `.nvim.lua` konfiguruje Conform z tymi samymi ustawieniami formattera.
+W Neovimie, z katalogu głównego repozytorium:
+
+```vim
+:luafile .nvim.lua
+```
+
+Następnie użyj istniejącego mapowania `<leader>f`. Opcjonalne ustawienie Neovima
+`exrc` może automatycznie wczytać konfigurację projektu po jej zatwierdzeniu.
+`.editorconfig` zapewnia zgodne wcięcia po dwie spacje w buforach TeX/TikZ.
+Globalna konfiguracja Neovima pozostaje bez zmian.
+
 
 ## Sposób pracy
 

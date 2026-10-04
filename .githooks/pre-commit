@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd -- "$(git rev-parse --show-toplevel)"
+python3 scripts/check_translations.py --staged
+python3 scripts/check_output.py --staged
+python3 scripts/format_tex.py --staged

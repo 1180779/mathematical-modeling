@@ -37,4 +37,5 @@ Twórz wpisy dla istotnych wyborów; zwykłe edycje opisuj komunikatami commitó
 Ta uproszczona konwencja jest inspirowana
 [Agent Notes projektu DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness/blob/master/.agents/notes/README.md)
 i jego [polityką dwujęzyczną](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
-Nie przejmuje katalogów klasyfikacji, plików z hashami ani mechanizmu archiwizacji.
+Nie przejmuje katalogów klasyfikacji ani mechanizmu archiwizacji. Pary wpisów
+mają pliki hashy sekcji zgodnie z [polityką językową](../language-policy.pl.md).

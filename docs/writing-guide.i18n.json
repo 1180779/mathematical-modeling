@@ -1,0 +1,22 @@
+{
+  "/writing-guide": {
+    "en": "30a752075c29e6c34dca5bb068ae13819a23a763d8ec043abc12981d527902a8",
+    "pl": "8b9f9dae1fd21ced125f1b8ea7f8bf73458a9d5a890a031dd37fca8a42cff7bd"
+  },
+  "/writing-guide/style-and-templates": {
+    "en": "793c1355734b2cdc2688de48cf0164d55a0eb261240bb52111826aa927029cee",
+    "pl": "231103bfa9b6fa55dc09944d7dafd7904a2847442e9c5386929f29deee56f81c"
+  },
+  "/writing-guide/lecture-notes": {
+    "en": "8d82ca7edf3bc56590cf61ddd0fccab6e3236b8e6b90344c22be5d3d8aeccea0",
+    "pl": "b72d70512b761543edef8db9c5fe9a31a5bb7a08abe95a3757211eec14b3fdbf"
+  },
+  "/writing-guide/exercises-and-matlab": {
+    "en": "1db59eed0b512be25ff673ca4a6ebeb536b05f0891f72cf5e834b4095ef19cd7",
+    "pl": "a90147cad62594c3c0a9985a90ac6111b77a39021fb30060333c822971abd982"
+  },
+  "/writing-guide/language-and-decisions": {
+    "en": "b154ad07f6720c0b2d628c634497deda45dfc52c6628369184ea577398a06d6b",
+    "pl": "a18198a239644dea99f086280055a1c7bf69da9aca397432ae9186d915fe3cf2"
+  }
+}

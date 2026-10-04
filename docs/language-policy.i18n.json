@@ -1,0 +1,18 @@
+{
+  "/language-policy": {
+    "en": "4ca273ed1d9794894cceab7067696bc1b4ad0c0f17fff944d80b16b29fb19324",
+    "pl": "cc9ba5a4afd2ac5d8daab87ed47dcd0d5d761b8546c1e5c3a70fec163e69bee2"
+  },
+  "/language-policy/study-material": {
+    "en": "c020dd4dd23e00223bf133c6109afd9448db42079bc1bfe8ba6babcd00b450fb",
+    "pl": "fd946eb339ce51af59a8986d77d40708eb1abad1fbdcda0b8c0efd48264776bd"
+  },
+  "/language-policy/repository-documentation": {
+    "en": "f742a33b6f290e1670c46fdd7be906b683bb2cd95e595750fe5e2c813e7be11a",
+    "pl": "60cc60324b89b190597bd2766486e32b156804d83c0f6df25eecf0196dd5b21e"
+  },
+  "/language-policy/reconsideration": {
+    "en": "a5ac32ddebd8537bc486f29efaeac68d3eba1ea57e351a54588efdd9357ac056",
+    "pl": "8222b7f66566d6446e9dbadf6bed05fcb9162a2d48468059328182e18fa6d34b"
+  }
+}

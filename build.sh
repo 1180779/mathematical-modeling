@@ -10,7 +10,7 @@ fi
 repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 cd -- "$repo_root"
 
-for tool in latexmk pdflatex; do
+for tool in latexmk pdflatex python3; do
     if ! command -v "$tool" >/dev/null 2>&1; then
         printf 'Required command not found: %s\n' "$tool" >&2
         exit 1
@@ -44,3 +44,5 @@ for source in "${note_files[@]}"; do
     cp -- "build/$pdf_path" "output/$pdf_path"
     printf 'PDF: output/%s\n' "$pdf_path"
 done
+
+python3 scripts/check_output.py --record

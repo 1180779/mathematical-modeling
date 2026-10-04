@@ -37,4 +37,5 @@ Write records for substantive choices; use commit messages for ordinary edits.
 This lightweight convention is inspired by
 [DeepSeek Harness Agent Notes](https://github.com/deepseek-ai/deepseek-harness/blob/master/.agents/notes/README.md)
 and its [bilingual policy](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
-It does not adopt their classification folders, hash sidecars, or archive machinery.
+It does not adopt their classification folders or archive machinery. Paired
+records have section hash sidecars following the [language policy](../language-policy.md).

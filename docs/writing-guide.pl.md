@@ -65,3 +65,8 @@ Dla trwałych wyborów zapisuj uzasadnienie i rzeczywiste alternatywy w
 
 Komunikaty commitów mają najwyżej 72 znaki w wierszu. Oddziel tytuł od opcjonalnego
 opisu pustym wierszem; wspólny hook `commit-msg` sprawdza tę zasadę.
+
+Formatuj LaTeX i TikZ poleceniem `python3 scripts/format_tex.py --write`, a potem
+kompiluj przez `./build.sh`. Przejrzyj zmienione pary językowe i jawnie odśwież
+ich pliki `.i18n.json`. Dodaj do indeksu oba języki, zapisy hashy, źródła i nowe
+PDF-y; hook pre-commit czyta indeks zamiast niezapisanych w nim zmian edytora.
