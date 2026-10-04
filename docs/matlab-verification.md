@@ -44,9 +44,23 @@ a successful Big M solve, and the finite-penalty counterexample. It needs base M
 matlab -batch "run('matlab/exercises/lecture_03_checks.m')"
 ```
 
-**MATLAB execution: pending.** The agent attempted this command in the sandbox;
-it exited with code 1 and no output. An earlier version-only attempt in this turn
-behaved the same way. No successful Lecture 3 terminal output has been supplied.
+**MATLAB execution: passed.** The user ran this command in a normal terminal
+from the repository root on 2026-10-04 and supplied the output below. All
+assertions passed, including checks that do not print separate summaries.
+This was not an agent-executed run inside the sandbox. This command did not
+print the MATLAB version; the earlier user run reported R2026b.
+
+```text
+Production: revenue sequence = 0, 12, 16, 18 PLN
+Unbounded ray: Ad = 0, d >= 0, objective slope = 2
+Two-phase: both starts give x = (7/8, 0, 0, 1/8), z = -11/8
+Infeasible original inequalities: Phase I optimum w = 1
+All Lecture 3 numerical assertions passed.
+```
+
+Before the successful user run, the agent's sandbox attempt exited with code 1
+and no output; a version-only attempt behaved the same way. The sandbox startup
+issue remains unresolved, but the normal-terminal run verifies the Lecture 3 script.
 The successful Lecture 2 and refresher runs above remain valid.
 
 **Static analysis: passed.** The installed R2026b analyzer ran successfully with

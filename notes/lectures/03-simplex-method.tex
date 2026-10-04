@@ -1023,11 +1023,11 @@ All displayed worked-example tableaus were independently recomputed using
 exact rational Gauss--Jordan elimination, with constraint residuals checked
 exactly. Their objective and indicator rows agree with the hand derivations.
 The installed R2026b static code analyzer checked the MATLAB companion with
-no diagnostics. The companion has not yet been executed successfully in MATLAB:
-on 2026-10-04 the agent's launcher again exited with code 1 and no diagnostic
-before displaying its version. This does not change the earlier user-confirmed
-MATLAB results for Lecture 2. The expected checks in Section~\ref{sec:matlab}
-are not presented as MATLAB execution evidence.
-Polish terminology is maintained in \texttt{docs/glossary.md}; detailed execution
-status is in \texttt{docs/matlab-verification.md}.
+no diagnostics. On 2026-10-04 the user ran the companion in a normal terminal
+and supplied its output: all numerical assertions passed. The reported production
+sequence, unbounded-ray slope, two-phase optimum, and infeasibility result agree
+with Section~\ref{sec:matlab}. The run did not print a version; an earlier
+user run reported MATLAB R2026b. The supplied terminal output is recorded in
+\texttt{docs/matlab-verification.md}.
+Polish terminology is maintained in \texttt{docs/glossary.md}.
 \end{document}

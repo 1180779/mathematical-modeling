@@ -121,9 +121,9 @@ run('matlab/exercises/lecture_03_checks.m')
 ```
 
 Run from the repository root. The base MATLAB script checks both simplex examples,
-both two-phase starts, and the added counterexamples. Static code analysis passed;
-MATLAB execution is pending. Exact rational calculations independently confirm the
-hand results; see the [verification record](docs/matlab-verification.md).
+both two-phase starts, and the added counterexamples. All assertions passed in the
+user's normal terminal. Static analysis and independent exact rational calculations
+also passed; see the [verification record](docs/matlab-verification.md).
 
 ## Git checks
 

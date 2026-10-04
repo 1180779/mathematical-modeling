@@ -122,8 +122,8 @@ run('matlab/exercises/lecture_03_checks.m')
 
 Uruchom z katalogu głównego repozytorium. Skrypt korzystający z podstawowego MATLAB-a
 sprawdza oba przykłady sympleksowe, oba warianty startu dwufazowego i dodane kontrprzykłady.
-Statyczna analiza kodu zakończyła się pomyślnie; wykonanie w MATLAB-ie jest oczekujące.
-Niezależne obliczenia na dokładnych ułamkach potwierdzają wyniki ręczne;
+Wszystkie asercje przeszły w zwykłym terminalu użytkownika. Analiza statyczna
+oraz niezależne obliczenia na dokładnych ułamkach także zakończyły się pomyślnie;
 zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
 ## Sprawdzenia Git

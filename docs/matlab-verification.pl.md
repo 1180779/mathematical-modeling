@@ -45,10 +45,25 @@ Wystarcza podstawowy MATLAB.
 matlab -batch "run('matlab/exercises/lecture_03_checks.m')"
 ```
 
-**Wykonanie w MATLAB-ie: oczekujące.** Agent uruchomił to polecenie w sandboxie;
-proces zakończył się kodem 1 bez wyjścia. Wcześniejsza próba samego odczytu wersji
-w tej turze zachowała się tak samo. Nie dostarczono pomyślnego wyjścia z terminala
-dla wykładu 3. Powyższe udane uruchomienia wykładu 2 i powtórki pozostają ważne.
+**Wykonanie w MATLAB-ie: pomyślne.** Użytkownik uruchomił to polecenie w zwykłym
+terminalu z katalogu głównego repozytorium w dniu 2026-10-04 i przekazał poniższe
+wyjście. Wszystkie asercje przeszły, także te bez osobnych komunikatów podsumowujących.
+Nie było to wykonanie przez agenta w sandboxie. To polecenie nie wypisało wersji
+MATLAB-a; wcześniejsze uruchomienie użytkownika wskazało R2026b.
+
+```text
+Production: revenue sequence = 0, 12, 16, 18 PLN
+Unbounded ray: Ad = 0, d >= 0, objective slope = 2
+Two-phase: both starts give x = (7/8, 0, 0, 1/8), z = -11/8
+Infeasible original inequalities: Phase I optimum w = 1
+All Lecture 3 numerical assertions passed.
+```
+
+Przed udanym wykonaniem przez użytkownika próba agenta w sandboxie zakończyła się
+kodem 1 bez wyjścia; próba samego odczytu wersji zachowała się tak samo. Problem
+startu w sandboxie pozostaje nieustalony, ale wykonanie w zwykłym terminalu
+potwierdza działanie skryptu wykładu 3. Powyższe udane uruchomienia wykładu 2
+i powtórki pozostają ważne.
 
 **Analiza statyczna: pomyślna.** Zainstalowany analizator R2026b zakończył pracę
 bez komunikatów diagnostycznych:

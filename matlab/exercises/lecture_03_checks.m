@@ -1,6 +1,7 @@
 % Checks accompanying notes/lectures/03-simplex-method.tex.
 % Inputs: s4_w3.pdf slides 8, 12, 24-31, 39-44, plus added counterexamples.
-% MATLAB execution is pending; see docs/matlab-verification.md.
+% Verified 2026-10-04 in the user's normal terminal; all assertions passed.
+% User-supplied output: docs/matlab-verification.md.
 % Run from the repository root:
 %   run('matlab/exercises/lecture_03_checks.m')
 % Base MATLAB only. This checks specified paths, not a general LP solver.
