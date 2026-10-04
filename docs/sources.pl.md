@@ -5,7 +5,7 @@
 ## Dawne wykłady
 
 Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
-wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–4 zostały
+wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–5 zostały
 przejrzane przy opracowaniu notatek; zgodność z obecnym prowadzącym, programem,
 ćwiczeniami i laboratoriami jest niepotwierdzona.
 Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały pozostają poza nim.
@@ -56,6 +56,17 @@ Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcz
   twierdzenie o istnieniu w silnej dualności, bazę z certyfikatem oraz ograniczenia
   prostej reguły dualnej przy degeneracji. Metadane utworzenia: 2019-10-27;
   nie jest to ustalona data wykładu. MATLAB: wszystkie asercje przeszły w R2026b.
+- Wykład 5: `s4_w5.pdf`, strony PDF 1–10, slajdy numerowane 1–38 (38 zamyka wykład).
+  Całość: zakresy zmian pojedynczej prawej strony i kosztu, zmiany wektorowe,
+  dodawanie i usuwanie zmiennych oraz ograniczeń i mnożniki Lagrange’a.
+  Przejrzano wszystkie strony; wzory wrażliwości i końcowy certyfikat także w powiększeniu.
+  Przydatne rysunki usuwania ograniczeń przerysowano w TikZ. Dodano wykresy wartości
+  bazowych, wskaźników, funkcji wartości, regionów danych i stożka normalnego.
+  Uzupełniono pytania ręcznymi rozwiązaniami, pełnymi tablicami, dowodami i MATLAB-em.
+  Doprecyzowano łączne zmiany, degenerację, znak kolumny prawej strony, usuwanie
+  zmiennych sztucznych i kwalifikację ograniczeń dla nieliniowych warunków KKT.
+  Metadane utworzenia: 2019-11-03; nie jest to ustalona data wykładu.
+  Wszystkie asercje MATLAB-a przeszły w terminalu użytkownika w R2026b.
 - Notatki odróżniają dodane dowody i wyprowadzenia ręczne od treści slajdów.
   Doprecyzowania obejmują przychód i zysk, dokładny i minimalny popyt,
   całkowitoliczbowe i ciągłe liczby cięć, ścisłe kombinacje wypukłe,
@@ -111,6 +122,22 @@ pobrania w powłoce 2026-10-04 zakończyły się błędem DNS. Planowane pliki:
 
 Zewnętrzne pliki `../sources/README.md` i `../sources/README.pl.md` zawierają
 URL-e i polecenia ponowienia pobrania. Materiały nie ustalają obecnego zakresu kursu.
+
+Dodatkowe sprawdzenia dla wykładu 5:
+
+- [MIT OCW Lecture 12: Sensitivity analysis](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/370982a2d3b22e090aa7a8d573bb5604_MIT6_251JF09_lec12.pdf),
+  strony PDF 2–6: lokalne testy bazy, zmiany parametrów, nowe kolumny i wiersze.
+- [L. Vandenberghe, UCLA ECE236B, Winter 2026: Duality](https://www.seas.ucla.edu/~vandenbe/ee236b/lectures/duality.pdf),
+  sekcje o kwalifikacji Slatera, warunkach optymalności i wrażliwości.
+
+Przeczytano przez narzędzie web. **Nie pobrano:** obie próby w powłoce w dniu
+2026-10-04 zakończyły się błędem DNS. Docelowe pliki zewnętrzne:
+
+- `../sources/mit/mit-6-251j-2009-lecture-12-sensitivity.pdf`
+- `../sources/ucla/ece236b-2026-duality.pdf`
+
+Zewnętrzne README w obu językach zawierają adresy i polecenia ponownego pobrania.
+Źródła uzupełniające nie potwierdzają zakresu obecnego kursu.
 
 ## Dokumentacja do powtórki MATLAB-a
 

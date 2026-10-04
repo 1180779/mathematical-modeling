@@ -78,3 +78,18 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | metoda punktu wewnętrznego | interior-point method | — | Interior iterates / Iteracje wewnątrz zbioru |
 | certyfikat sprzeczności | infeasibility certificate | hᵀA ≥ 0, hᵀb < 0 | Contradicts Ax = b, x ≥ 0 / Zaprzecza Ax = b, x ≥ 0 |
 | ściana optymalna | optimal face | cᵀx = z* | All optimizers in a polyhedron / Wszystkie optima w zbiorze wielościennym |
+| analiza post-optymalizacyjna | post-optimality analysis | — | Reuse a solved model / Wykorzystanie rozwiązanego modelu |
+| analiza przedziałowa | one-parameter range analysis | L ≤ t ≤ U | Hold a certifying basis / Zachowanie bazy z certyfikatem |
+| cena dualna; cena cienia | shadow price | y_r | RHS marginal value on a valid branch / Krańcowa wartość prawej strony na ważnej gałęzi |
+| zmiana strukturalna | structural change | new/deleted row or column / nowy/usunięty wiersz lub kolumna | Modify model dimensions / Zmiana wymiarów modelu |
+| ponowna optymalizacja | reoptimization | — | Start with a previous basis / Start z poprzedniej bazy |
+| region dopuszczalnych zmian danych | allowable parameter region | A_B⁻¹b ≥ 0; q ≥ 0 | Coupled data conditions / Sprzężone warunki na dane |
+| zbiór ograniczeń aktywnych | active set | 𝒜(x) | Tight inequalities / Nierówności spełnione równościowo |
+| ograniczenie aktywne | active constraint | g_i(x) = 0 | Can have zero multiplier / Może mieć zerowy mnożnik |
+| stożek normalny | normal cone | cone of active outward normals / stożek aktywnych normalnych zewnętrznych | Supports an optimum / Podpiera optimum |
+| mnożnik Lagrange’a | Lagrange multiplier | λ_i; ν_j | Inequalities nonnegative, equalities free / Nierówności nieujemne, równości dowolne |
+| funkcja Lagrange’a | Lagrangian | L(x, λ, ν) | Weighted objective and constraints / Ważona funkcja celu i ograniczenia |
+| warunki Karusha–Kuhna–Tuckera | Karush–Kuhn–Tucker conditions | KKT | Feasibility, signs, complementarity, stationarity / Dopuszczalność, znaki, komplementarność, stacjonarność |
+| stacjonarność | stationarity | ∇_x L = 0 | Normal balance / Równowaga normalnych |
+| kwalifikacja ograniczeń | constraint qualification | CQ | Regularity for multiplier necessity / Regularność dla konieczności mnożników |
+| warunek Slatera | Slater's condition | strict feasibility / ścisła dopuszczalność | Convex constraint qualification / Kwalifikacja ograniczeń w zadaniu wypukłym |

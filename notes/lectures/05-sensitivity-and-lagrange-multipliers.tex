@@ -1,0 +1,1125 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\usepackage{needspace}
+\hypersetup{pdftitle={Lecture 5 -- Sensitivity analysis and Lagrange multipliers}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Lecture 5: Sensitivity Analysis and Lagrange Multipliers}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+\clearpage
+
+\section{What an optimal basis tells us}\label{sec:basis}
+Suppose a linear program has already been solved. Sensitivity analysis asks what
+happens when its data change, and whether the final basis can be reused.
+We work with
+\[
+  \max c^Tx,\qquad Ax=b,\qquad x\geq0,\qquad
+  A\in\R^{m\times n},\quad\operatorname{rank}A=m.
+\]
+An ordered basis $B=(j_1,\ldots,j_m)$ selects a nonsingular matrix $A_B$.
+Let $N$ be the remaining indices, and define
+\begin{equation}\label{eq:basis-data}
+  \bar A=A_B^{-1}A,\quad\bar b=A_B^{-1}b,\quad
+  y=A_B^{-T}c_B,\quad q=A^Ty-c=\bar A^Tc_B-c.
+\end{equation}
+Our sign convention is $q_j=z_j-c_j$, the negative of the usual reduced cost.
+The basic solution and objective dictionary are
+\begin{equation}\label{eq:dictionary}
+  x_N=0,\quad x_B=\bar b,\qquad
+  c^Tx=z_0-q_N^Tx_N,\quad z_0=c_B^T\bar b=b^Ty.
+\end{equation}
+Thus $\bar b\geq0$ establishes primal feasibility, and $q\geq0$ establishes
+dual feasibility for $\min b^Ty$ subject to $A^Ty\geq c$, $y$ free.
+Together they certify optimality.
+
+Here an \emph{optimal basis} means a basis passing both tests. An optimal point
+can have several bases, and at a degenerate optimal point a particular basis may
+fail $q\geq0$. The calculations below follow the chosen certifying basis.
+Losing its certificate does not, by itself, show that an old degenerate point
+has lost optimality.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{5.5cm}}
+    \toprule
+    What is retained? & Meaning & What can still change?\\\midrule
+    Basis & Same column indices; both tests pass & Basic values, objective, dual prices\\
+    Point & Same decision vector remains optimal & Basis, objective value, multipliers\\
+    Optimal value & Same best objective value & Optimizers and bases\\\bottomrule
+  \end{tabular}
+\end{center}
+Keeping a basis is often the useful goal: it gives explicit formulas rather
+than requiring a new solve. Simultaneous changes are analyzable;
+they must be tested together, not against separate one-parameter intervals.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[font=\small]
+    \node[draw=modelblue,rounded corners,align=center,text width=3cm] (data) at (0,0)
+    {Changed model\\$A',b',c'$};
+    \node[draw=modelblue,rounded corners,align=center,text width=4.4cm] (tests) at (4.8,0)
+    {Recompute with the old basis\\$\bar b'=A_B'^{-1}b'$\\$q'=A'^TA_B'^{-T}c_B'-c'$};
+    \node[draw=modelblue,rounded corners,align=center,text width=3cm] (answer) at (9.6,0)
+    {Both nonnegative?\\Keep the basis\\and update the result};
+    \draw[model flow] (data)--(tests);
+    \draw[model flow] (tests)--(answer);
+  \end{tikzpicture}
+  \caption{An optimal basis is a reusable certificate. The updated basis matrix
+    must first be nonsingular.}\label{fig:certificate}
+\end{figure}
+
+\section{Changing one right-hand side}\label{sec:rhs}
+Change only equation $r$:
+\[
+  b'=b+t e_r,\qquad v=A_B^{-1}e_r,\qquad \bar b'=\bar b+t v.
+\]
+Since $A$ and $c$ stay fixed, $q$ and $y$ stay fixed. The basis remains optimal
+exactly when every basic value stays nonnegative:
+\begin{equation}\label{eq:rhs-interval}
+  \max_{i:v_i>0}\left(-\frac{\bar b_i}{v_i}\right)
+  \leq t\leq
+  \min_{i:v_i<0}\left(-\frac{\bar b_i}{v_i}\right).
+\end{equation}
+An empty maximum is $-\infty$, and an empty minimum is $+\infty$.
+A zero $v_i$ imposes no new restriction because the starting $\bar b_i\geq0$.
+Indices $i$ refer to \emph{basis rows}; $r$ refers to an original equation.
+
+Within this closed interval,
+\begin{equation}\label{eq:shadow}
+  x_B(t)=\bar b+t v,\qquad
+  z^*(b+t e_r)=z_0+t c_B^Tv=z_0+t y_r.
+\end{equation}
+The multiplier $y_r$ is the \emph{shadow price}: objective change per unit of
+RHS change, while this basis is valid. At a finite endpoint a basic variable
+becomes zero. The same basis still certifies optimality there, but degeneracy
+and a different marginal value beyond the endpoint are possible.
+
+Compute $v$ by solving $A_Bv=e_r$. A final tableau column gives $v$ only if its
+original column is $+e_r$. A surplus column $-e_r$ gives $-v$.
+An artificial column is not part of the final original LP; retain the row
+transformation explicitly rather than relying on a deleted artificial.
+
+\subsection{A worked sensitivity tableau}\label{sec:main-example}
+Consider
+\begin{equation}\label{eq:main-lp}
+  \begin{aligned}
+    \max\quad&-x_1+3x_2-2x_3\\
+    \text{subject to}\quad&3x_1-x_2+2x_3\leq7,\\
+    &-2x_1+4x_2\leq12,\\
+    &-4x_1+3x_2+8x_3\leq10,\qquad x_1,x_2,x_3\geq0.
+  \end{aligned}
+\end{equation}
+Introduce slacks $x_4,x_5,x_6$. For $B=(1,2,6)$ the final tableau is
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & 1&0&$4/5$&$2/5$&$1/10$&0&4\\
+    $x_2$ & 0&1&$2/5$&$1/5$&$3/10$&0&5\\
+    $x_6$ & 0&0&10&1&$-1/2$&1&11\\\midrule
+    $q$ & 0&0&$12/5$&$1/5$&$4/5$&0&$z_0=11$\\\bottomrule
+  \end{tabular}
+\end{center}
+This gives $x^*=(4,5,0)$, slacks $(0,0,11)$, and
+$y=(1/5,4/5,0)$. The basis is nondegenerate and all nonbasic indicators are
+strictly positive, so the optimizer is unique.
+
+Change the second RHS to $12+t$. The $x_5$ column is $v$, hence
+\[
+  x_B(t)=\begin{pmatrix}4+t/10\\5+3t/10\\11-t/2\end{pmatrix},
+  \qquad \max\{-40,-50/3\}\leq t\leq22.
+\]
+Therefore
+\begin{equation}\label{eq:rhs-result}
+  -\frac{50}{3}\leq t\leq22,\qquad
+  -\frac{14}{3}\leq b_2'\leq34,\qquad z^*=11+\frac45t.
+\end{equation}
+The negative lower bound on $b_2'$ is allowed: the row has a negative $x_1$
+coefficient, so a negative RHS need not make it infeasible.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=0.25cm,y=0.21cm,font=\small]
+    \fill[modelblue!7] (-16.6667,0) rectangle (22,21);
+    \draw[model axis] (-20,0)--(27,0) node[right] {$t$};
+    \draw[model axis] (0,-1)--(0,23) node[above] {basic value};
+    \draw[modelblue,thick] (-16.6667,2.3333)--(22,6.2) node[right] {$x_1$};
+    \draw[modelorange,thick] (-16.6667,0)--(22,11.6) node[right] {$x_2$};
+    \draw[black,thick] (-16.6667,19.3333)--(22,0);
+    \node at (-8,16.8) {$x_6$};
+    \draw[dashed] (-16.6667,0)--(-16.6667,21);
+    \draw[dashed] (22,0)--(22,21);
+    \node[below] at (-16.6667,0) {$-50/3$};
+    \node[below] at (22,0) {$22$};
+    \node[below left] at (0,0) {$0$};
+    \node[above] at (3,21) {all three values nonnegative};
+  \end{tikzpicture}
+  \caption{The allowable interval is the intersection of three basic-value
+    inequalities. Its endpoints are determined by $x_2=0$ and $x_6=0$.}
+\end{figure}
+
+\subsection{Endpoints, exercises, and the whole value function}
+\begin{center}
+  \begin{tabular}{r|rrr|r}\toprule
+    $b_2'$ & $x_1$ & $x_2$ & $x_6$ & $z^*$\\\midrule
+    $-14/3$ & $7/3$ & 0 & $58/3$ & $-7/3$\\
+    12 & 4 & 5 & 11 & 11\\
+    34 & $31/5$ & $58/5$ & 0 & $143/5$\\\bottomrule
+  \end{tabular}
+\end{center}
+The endpoint calculation answers the exercise:
+\begin{quote}\selectlanguage{polish}
+  Jakie jest RO zadania, gdy zmienimy $b_2=-14/3$?
+\end{quote}
+\selectlanguage{english}
+Here RO means an optimal solution. Substitute $t=-50/3$ in the basic vector,
+rather than substituting $-14/3$ for the \emph{change}.
+
+For the first RHS the $x_4$ column gives
+\[
+  (x_1,x_2,x_6)=(4+2t/5,\ 5+t/5,\ 11+t),\qquad
+  t\geq-10,\quad b_1'\geq-3,\quad z^*=11+t/5.
+\]
+Thus the answer to \emph{Optymalna wartość f. celu ulega zmianie. O ile?}
+is $\Delta z=t/5$. The third RHS can change by $t\geq-11$:
+only $x_6=11+t$ changes, and the value remains 11.
+
+We can go beyond the basis interval for the second RHS, denoted now by $r$:
+\begin{equation}\label{eq:value-function}
+  z^*(r)=
+  \begin{cases}
+    \text{infeasible}, & r<-14/3,           \\
+    (4r+7)/5,          & -14/3\leq r\leq34, \\
+    143/5,             & r\geq34.
+  \end{cases}
+\end{equation}
+To justify all three cases, first observe that $x_3$ can be set to zero:
+doing so relaxes constraints and increases the objective if $x_3>0$.
+The first constraint gives $x_1\leq(7+x_2)/3$, so
+$-2x_1+4x_2\geq-14/3+(10/3)x_2\geq-14/3$.
+Below $-14/3$ feasibility is impossible. In the middle range,
+\eqref{eq:rhs-result} supplies a feasible optimum and a dual certificate.
+For $r\geq34$, $x=(31/5,58/5,0)$ is feasible, and
+$y=(9/5,0,8/5)$ is dual feasible with value $143/5$.
+Matching values prove the final branch.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=0.23cm,y=0.14cm,font=\small]
+    \fill[pattern=north east lines,pattern color=gray!60] (-10,-5) rectangle (-4.6667,32);
+    \draw[model axis] (-11,0)--(49,0) node[right] {$r=b_2'$};
+    \draw[model axis] (0,-5)--(0,34) node[above] {$z^*(r)$};
+    \draw[modelblue,very thick] (-4.6667,-2.3333)--(34,28.6)--(46,28.6);
+    \draw[dashed] (34,0)--(34,28.6);
+    \draw[dashed] (12,0)--(12,11);
+    \node[model point] at (-4.6667,-2.3333) {};
+    \node[model point] at (12,11) {};
+    \node[model point] at (34,28.6) {};
+    \node[below] at (-4.6667,-5) {$-14/3$};
+    \node[below] at (12,0) {$12$};
+    \node[below] at (34,0) {$34$};
+    \node[above,rotate=26] at (19,20) {slope $4/5$};
+    \node[above] at (40,28.6) {slope $0$};
+    \node[rotate=90,fill=white,inner sep=2pt] at (-7,17) {infeasible};
+  \end{tikzpicture}
+  \caption{A shadow price applies to a branch of the value function.
+    After $r=34$, the second resource has zero marginal value.}
+\end{figure}
+
+\section{Changing one objective coefficient}\label{sec:cost}
+Changing $c$ preserves every feasible point and the old basic vector.
+It changes the dual certificate and, usually, the value.
+
+\subsection{A nonbasic coefficient}
+If $k\in N$ and $c_k'=c_k+t$, then $c_B$ and $y$ are unchanged:
+\[
+  q_k'=q_k-t,\qquad q_j'=q_j\ (j\ne k).
+\]
+The basis remains optimal for $t\leq q_k$. Its objective is unchanged because
+$x_k=0$. For \eqref{eq:main-lp},
+\[
+  t\leq12/5\quad\Longleftrightarrow\quad c_3'\leq2/5.
+\]
+This answers \emph{O ile może wzrosnąć wsp. $c_3$, nie wpływając na zmianę RO?}
+The maximum increase is $12/5$, not the new coefficient $2/5$.
+
+At equality a zero indicator appears. To establish \emph{distinct} optimizers,
+also check that a positive feasible step is possible. Here $x_3=\theta$ gives
+\[
+  (x_1,x_2,x_6)=(4-4\theta/5,\ 5-2\theta/5,\ 11-10\theta),
+  \qquad 0\leq\theta\leq11/10.
+\]
+For $c_3'=2/5$ this whole segment has value 11. For a larger $c_3'$,
+even a small positive step improves the objective, so the old point is no
+longer optimal.
+
+\subsection{A basic coefficient}
+If $k=j_s\in B$ and $c_k'=c_k+t$, then $c_B'=c_B+t e_s$ and
+\[
+  q_j'=q_j+t\bar a_{sj}\qquad(j\in N).
+\]
+For basic columns the simultaneous change in $c_k$ cancels, so $q_B'=0$.
+The exact basis range is
+\begin{equation}\label{eq:basic-cost-range}
+  \max_{j\in N:\bar a_{sj}>0}\left(-\frac{q_j}{\bar a_{sj}}\right)
+  \leq t\leq
+  \min_{j\in N:\bar a_{sj}<0}\left(-\frac{q_j}{\bar a_{sj}}\right).
+\end{equation}
+Use original nonbasic columns only, not basic or removed artificial columns.
+A zero coefficient adds no restriction when $q_j\geq0$.
+The old point remains fixed and $z'=z_0+t x_k$.
+
+For the main example:
+\begin{center}
+  \begin{tabular}{c|rrr|c|c}\toprule
+    Changed cost & From $x_3$ & From $x_4$ & From $x_5$
+    & Allowable change & Value\\\midrule
+    $c_1=-1+t$ & $t\geq-3$ & $t\geq-1/2$ & $t\geq-8$
+    & $t\geq-1/2$ & $11+4t$\\
+    $c_2=3+t$ & $t\geq-6$ & $t\geq-1$ & $t\geq-8/3$
+    & $t\geq-1$ & $11+5t$\\\bottomrule
+  \end{tabular}
+\end{center}
+Thus $c_1'\geq-3/2$ and $c_2'\geq2$, with no upper bound.
+At $t=-1/2$ or $-1$ a nonbasic indicator vanishes and a positive step is
+available; alternative optimal points appear. Away from these endpoints,
+the original strict indicators give uniqueness.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=2.1cm,y=0.62cm,font=\small]
+    \fill[modelblue!7] (-0.5,0) rectangle (2.5,5.6);
+    \draw[model axis] (-1.5,0)--(3,0) node[right] {$t=\Delta c_1$};
+    \draw[model axis] (0,-0.5)--(0,6) node[above] {$q_j(t)$};
+    \draw[modelblue,thick] (-1,1.6)--(2.5,4.4) node[right] {$q_3$};
+    \draw[modelorange,thick] (-0.5,0)--(2.5,1.2) node[right] {$q_4$};
+    \draw[black,thick] (-1,0.7)--(2.5,1.05);
+    \node[above] at (-0.95,0.7) {$q_5$};
+    \draw[dashed] (-0.5,0)--(-0.5,5.6);
+    \node[below] at (-0.5,0) {$-1/2$};
+    \node[above] at (1,5.6) {all indicators nonnegative};
+  \end{tikzpicture}
+  \caption{For a basic-cost change, several indicators move together.
+    Here $q_4(t)=1/5+2t/5$ determines the endpoint.}
+\end{figure}
+
+\section{Vector changes and parameter regions}\label{sec:vector}
+With fixed $A$, simultaneous changes $b'=b+\delta b$ and $c'=c+\delta c$
+give
+\begin{equation}\label{eq:joint-tests}
+  \bar b'=\bar b+A_B^{-1}\delta b,\qquad
+  q'=q+\bar A^T\delta c_B-\delta c.
+\end{equation}
+These are direct, coupled tests of the old basis. When both pass,
+\begin{equation}\label{eq:joint-value}
+  z'=(c_B+\delta c_B)^TA_B^{-1}(b+\delta b).
+\end{equation}
+If only $b$ changes, this reduces to $z_0+y^T\delta b$.
+If only $c$ changes, it reduces to $z_0+x^T\delta c$.
+If both change, include the cross term
+$\delta c_B^TA_B^{-1}\delta b$.
+
+One-at-a-time intervals cannot be combined independently. In
+\eqref{eq:main-lp}, $\delta b=(0,20,0)$ gives $x_B=(6,11,1)$ and
+$\delta b=(0,0,-10)$ gives $(4,5,1)$: both are allowable separately.
+Together they give $(6,11,-9)$, which is infeasible.
+The exact joint region, rather than a rectangular collection of intervals,
+settles the question.
+
+\subsection{A smaller model for all subsequent updates}\label{sec:small-model}
+We will repeatedly reuse
+\begin{equation}\label{eq:small-lp}
+  \max\ 2x_1-x_2+x_3,\qquad
+  x_1+x_2+x_3\leq6,\quad -x_1+2x_2\leq4,\quad x\geq0.
+\end{equation}
+Slacks are $x_4,x_5$, $B=(1,5)$, and
+\[
+  A_B=\begin{pmatrix}1&0\\-1&1\end{pmatrix},\qquad
+  A_B^{-1}=\begin{pmatrix}1&0\\1&1\end{pmatrix}.
+\]
+The inverse is displayed to understand the row transformation; numerical code
+should solve linear systems.
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_1$ &1&1&1&1&0&6\\
+    $x_5$ &0&3&1&1&1&10\\\midrule
+    $q$ &0&3&1&2&0&$z_0=12$\\\bottomrule
+  \end{tabular}
+\end{center}
+The unique decision optimum is $(6,0,0)$; $y=(2,0)$.
+
+For arbitrary new RHS $(u,v)$ the same basis is optimal exactly when
+$u\geq0$ and $u+v\geq0$. The basic values are $(u,u+v)$ and the value is $2u$.
+For arbitrary decision costs $(\gamma_1,\gamma_2,\gamma_3)$ with slack costs
+zero, the basis is optimal exactly when
+\[
+  q_N=(\gamma_1-\gamma_2,\ \gamma_1-\gamma_3,\ \gamma_1)\geq0.
+\]
+This means $\gamma_1\geq0$, $\gamma_2\leq\gamma_1$, and
+$\gamma_3\leq\gamma_1$. These regions live in \emph{data space}, not
+decision space.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[font=\small]
+    \begin{scope}[x=0.65cm,y=0.45cm]
+      \fill[modelblue!12] (0,0)--(7,-7)--(7,6)--(0,6)--cycle;
+      \draw[modelblue,thick] (0,0)--(7,-7);
+      \draw[modelblue,thick] (0,0)--(0,6);
+      \draw[model axis] (-0.6,0)--(7.6,0) node[right] {$u$};
+      \draw[model axis] (0,-7.5)--(0,6.7) node[above] {$v$};
+      \node[model point] at (6,4) {};
+      \node[above left] at (6,4) {$(6,4)$};
+      \node[model point] at (3,4) {};
+      \node[above left] at (3,4) {$(3,4)$};
+      \node[rotate=-35,below] at (4,-4) {$u+v=0$};
+      \node[align=center] at (4,-0.9) {same basis\\$u\geq0,\ u+v\geq0$};
+    \end{scope}
+    \begin{scope}[shift={(8.1,0)},x=0.75cm,y=0.55cm]
+      \fill[modelblue!12] (1,-4)--(5,-4)--(5,5)--(1,1)--cycle;
+      \draw[modelblue,thick] (1,-4)--(1,1)--(5,5);
+      \draw[model axis] (-0.5,0)--(5.7,0) node[right] {$\gamma_1$};
+      \draw[model axis] (0,-4.7)--(0,5.7) node[above] {$\gamma_2$};
+      \node[model point] at (2,-1) {};
+      \node[below right] at (2,-1) {$(2,-1)$};
+      \node[fill=modelorange,circle,inner sep=1.7pt] at (3,4) {};
+      \node[above left] at (3,4) {$(3,4)$};
+      \node[rotate=36,below] at (3.7,3.7) {$\gamma_2=\gamma_1$};
+      \node[align=center] at (3,-3) {same basis\\slice $\gamma_3=1$};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{RHS feasibility and cost optimality regions for $B=(1,5)$.
+    The shaded regions continue beyond the plotting windows.
+    The orange cost point is outside; the two marked RHS points are inside.}
+\end{figure}
+
+\subsection{Reoptimize after changing the whole objective}
+Set decision costs to $(3,4,2)$. The old basic point is still feasible, its value
+is now 18, and its new indicator row is $(0,-1,1,3,0)$.
+Enter $x_2$. Ratios are $6/1$ and $10/3$, so $x_5$ leaves.
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_1$ &1&0&$2/3$&$2/3$&$-1/3$&$8/3$\\
+    $x_2$ &0&1&$1/3$&$1/3$&$1/3$&$10/3$\\\midrule
+    $q$ &0&0&$4/3$&$10/3$&$1/3$&$z_0=64/3$\\\bottomrule
+  \end{tabular}
+\end{center}
+The new optimum is $(8/3,10/3,0)$, with dual $y=(10/3,1/3)$.
+The gain from the \emph{new starting value} is $10/3$, not $64/3-12$.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=0.85cm,y=0.85cm,font=\small]
+    \draw[model region] (0,0)--(6,0)--(2.6667,3.3333)--(0,2)--cycle;
+    \draw[model axis] (-0.3,0)--(6.8,0) node[right] {$x_1$};
+    \draw[model axis] (0,-0.3)--(0,4.6) node[above] {$x_2$};
+    \draw[model objective] (3.5556,2.6667)--(1.7778,4);
+    \node[model point] at (6,0) {};
+    \node[below] at (6,0) {old $(6,0)$};
+    \node[model point] at (2.6667,3.3333) {};
+    \node[above right] at (2.6667,3.3333) {new $(8/3,10/3)$};
+    \draw[model flow] (5.5,0.5)--(3.2,2.8);
+    \node[align=center] at (7.3,2) {$x_3=0$ slice\\new objective\\$3x_1+4x_2$};
+  \end{tikzpicture}
+  \caption{Changing the objective leaves the feasible set fixed and changes the
+    supporting line. A single primal pivot follows the improving edge.}
+\end{figure}
+
+\subsection{Change the RHS vector}
+Set $b'=(3,4)$. The new basic vector is $(3,7)$ and $q$ is unchanged:
+$x=(3,0,0)$ is optimal, with value 6. No pivot is needed.
+
+A failed basis test can also expose genuine infeasibility. For $b'=(6,-8)$,
+the basic values are $(6,-2)$ and the second canonical equation is
+\[
+  3x_2+x_3+x_4+x_5=-2.
+\]
+Its left side is nonnegative. The contradiction certifies infeasibility;
+there is no eligible negative entry for a dual-simplex pivot.
+
+\section{Choosing a method after a model change}\label{sec:methods}
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.1cm}}
+    \toprule
+    Change & What the old basis keeps & What to do if its test fails\\\midrule
+    Costs $c$ & Primal feasibility & Recompute $q$; primal simplex\\
+    RHS $b$ & Dual feasibility & Recompute $\bar b$; dual simplex\\
+    New nonnegative variable & Primal feasibility at new variable zero & Test its indicator; primal simplex\\
+    New $\leq$ constraint & Dual feasibility with a basic slack & Canonicalize the row; dual simplex\\
+    Both $b$ and $c$ & Neither guaranteed & Test both; choose a valid start\\
+    Matrix $A$ & Neither guaranteed & Check nonsingularity, then both tests\\\bottomrule
+  \end{tabular}
+\end{center}
+This is a choice of starting method, not a guarantee that the modified problem
+has a finite optimum. Primal simplex can expose an improving ray;
+dual simplex can expose a contradictory row.
+
+For a changed matrix $A'$, the old column indices remain usable only if $A_B'$
+is nonsingular. Even one changed basic column can affect every transformed
+coefficient. If only a nonbasic column changes, $\bar b$ is unchanged and
+only that column's indicator needs retesting (when costs are unchanged).
+Use fresh linear solves rather than extending a one-parameter formula beyond
+its hypotheses.
+
+\section{Adding a nonnegative decision variable}\label{sec:new-variable}
+Add $w\geq0$ with column $a$ and objective coefficient $\gamma$:
+\[
+  Ax+aw=b,\qquad \max(c^Tx+\gamma w).
+\]
+At $w=0$ the old basic point is feasible. Append
+\begin{equation}\label{eq:new-column}
+  u=A_B^{-1}a,\qquad q_w=c_B^Tu-\gamma=y^Ta-\gamma.
+\end{equation}
+If $q_w\geq0$, the old basis certifies optimality with $w=0$.
+If $q_w<0$, it loses its dual certificate; primal simplex can enter $w$.
+From a nondegenerate feasible basis, a positive feasible step improves the
+objective. For a degenerate basis the first step can be zero; reoptimization
+determines whether the old point is still optimal.
+If $u\leq0$, the feasible direction $d_w=1$, $d_B=-u$, $d_N=0$
+gives an unbounded improving ray.
+
+For resource inequalities, $y^Ta$ is the resource value of the new activity.
+Compare it with the activity's revenue $\gamma$. A negative component of $a$
+means the activity releases that resource, rather than consuming it.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[font=\small]
+    \node[draw=modelblue,align=center,text width=3.1cm] (a) at (0,0)
+    {New activity\\column $a$, return $\gamma$};
+    \node[draw=modelblue,align=center,text width=3.6cm] (price) at (4.8,0)
+    {Current resource prices $y$\\value $y^Ta$};
+    \node[draw=modelorange,align=center,text width=3.5cm] (gain) at (9.8,0)
+    {Net marginal gain\\$\gamma-y^Ta=-q_w$};
+    \draw[model flow] (a)--(price);
+    \draw[model flow] (price)--(gain);
+  \end{tikzpicture}
+  \caption{Pricing a new column gives an immediate test of the old dual
+    certificate. Prices describe the current basis, not all later pivots.}
+\end{figure}
+
+\subsection{Worked column update}
+For \eqref{eq:small-lp}, introduce $x_6\geq0$ with
+\[
+  a=\begin{pmatrix}-1\\2\end{pmatrix},\qquad \gamma=1,\qquad
+  u=\begin{pmatrix}-1\\1\end{pmatrix},\qquad q_6=-3.
+\]
+The canonical equations are now
+\[
+  x_1+x_2+x_3+x_4-x_6=6,\qquad
+  3x_2+x_3+x_4+x_5+x_6=10.
+\]
+Enter $x_6$. Only the second row has a positive coefficient; the step is 10
+and $x_5$ leaves. The final tableau is
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ &1&4&2&2&1&0&16\\
+    $x_6$ &0&3&1&1&1&1&10\\\midrule
+    $q$ &0&12&4&5&3&0&$z_0=42$\\\bottomrule
+  \end{tabular}
+\end{center}
+The extended optimum is $(16,0,0,0,0,10)$, with objective $2(16)+10=42$.
+The gain is $(-q_6)10=30$.
+Both original inequalities with the new column are tight, and
+$y=(5,3)$ is dual feasible with value $6(5)+4(3)=42$.
+
+\section{Adding a constraint}\label{sec:new-constraint}
+A new constraint shrinks the feasible set. If an old optimizer satisfies it,
+that point remains optimal: no point in the smaller set can beat the old
+maximum. If the old point violates it, a new feasible point is required.
+
+For a new inequality $a^Tx\leq\beta$, introduce a slack $s\geq0$:
+$a^Tx+s=\beta$. Substitute $x_B=\bar b-\bar A_Nx_N$ to obtain
+\begin{equation}\label{eq:new-row}
+  s+(a_N^T-a_B^T\bar A_N)x_N=\beta-a_B^T\bar b.
+\end{equation}
+The old basic columns have been eliminated from this row. With $s$ basic and
+zero cost, the enlarged basis is nonsingular and its indicator row is
+$(q,0)$. The new slack value is the constraint residual at the old point.
+A negative residual gives a dual feasible, primal infeasible start for
+dual simplex. Merely appending the untransformed row does not produce a
+canonical tableau.
+
+For a new equality, no permanent slack can absorb a residual. If the old point
+violates it, one option is a signed artificial:
+$a^Tx+\sigma w=\beta$, $w\geq0$, where $\sigma$ is chosen so that
+$w=|\beta-a^Tx^*|$ at the old point. Phase I minimizes $w$.
+A positive Phase I minimum certifies infeasibility. At zero, remove the
+artificial and restore the true objective; a zero basic artificial needs
+pivoting out or redundant-row cleanup. Equalities already satisfied by the
+old point need no change of optimizer, though a basis representation may
+need adjustment.
+
+\subsection{Worked row update and a dual pivot}
+Add $x_1-2x_3\leq-2$ to \eqref{eq:small-lp}.
+The old point $(6,0,0)$ violates the row. With new slack $x_6$,
+\[
+  x_1-2x_3+x_6=-2.
+\]
+Subtract the old $x_1$ row. The new canonical tableau is
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ &1&1&1&1&0&0&6\\
+    $x_5$ &0&3&1&1&1&0&10\\
+    $x_6$ &0&$-1$&$-3$&$-1$&0&1&$-8$\\\midrule
+    $q$ &0&3&1&2&0&0&$z_0=12$\\\bottomrule
+  \end{tabular}
+\end{center}
+Select the negative RHS row. Eligible columns and dual ratios are
+\begin{center}
+  \begin{tabular}{c|rrr}\toprule
+    Entering candidate & $x_2$ & $x_3$ & $x_4$\\\midrule
+    $q_j/(-\bar a_{rj})$ & 3 & $1/3$ & 2\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_3$, leave $x_6$, and pivot on $-3$:
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ &1&$2/3$&0&$2/3$&0&$1/3$&$10/3$\\
+    $x_5$ &0&$8/3$&0&$2/3$&1&$1/3$&$22/3$\\
+    $x_3$ &0&$1/3$&1&$1/3$&0&$-1/3$&$8/3$\\\midrule
+    $q$ &0&$8/3$&0&$5/3$&0&$1/3$&$z_0=28/3$\\\bottomrule
+  \end{tabular}
+\end{center}
+The optimum is $(10/3,0,8/3)$ with value $28/3$.
+Its slacks are $(0,22/3,0)$; $y=(5/3,0,1/3)$ gives the matching
+dual value $6(5/3)+4(0)-2(1/3)=28/3$.
+The value decreases from 12, as a smaller feasible set requires.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=0.82cm,y=0.75cm,font=\small]
+    \draw[fill=gray!8,draw=gray] (0,0)--(6,0)--(0,6)--cycle;
+    \draw[model region] (0,1)--(0,6)--(3.3333,2.6667)--cycle;
+    \draw[model axis] (-0.3,0)--(6.8,0) node[right] {$x_1$};
+    \draw[model axis] (0,-0.3)--(0,6.7) node[above] {$x_3$};
+    \draw[modelorange,thick] (0,1)--(5.5,3.75);
+    \node[above,rotate=25] at (4.7,3.35) {$x_1-2x_3=-2$};
+    \node[model point] at (6,0) {};
+    \node[below] at (6,0) {old point};
+    \node[model point] at (3.3333,2.6667) {};
+    \node[below left] at (3.3333,2.6667) {new point};
+    \node at (0.8,3) {$\Omega'$};
+    \node[align=center] at (6.8,5.5) {$x_2=0$ slice\\gray: old set\\blue: new set};
+  \end{tikzpicture}
+  \caption{The new inequality cuts off the old optimizer.
+    This is the $x_2=0$ slice; the tableau certifies the optimum in the full space.}
+\end{figure}
+
+\section{Removing a variable}\label{sec:delete-variable}
+Removing $x_s$ means imposing $x_s=0$ and deleting its column and cost.
+The feasible set, embedded in the old space, becomes smaller.
+If an old optimizer has $x_s=0$, deleting that coordinate gives an optimizer
+of the reduced problem. A nonbasic zero column can simply be removed.
+A \emph{basic} zero variable requires a basis exchange or redundant-row
+cleanup before its column is removed.
+
+If $x_s^*>0$, feasibility of the reduced model is not assured.
+A reliable feasibility phase is
+\[
+  \min x_s,\qquad Ax=b,\quad x\geq0.
+\]
+The old point provides a feasible start. A strictly positive minimum proves
+that setting $x_s=0$ is impossible. At a zero minimum, remove the column after
+cleaning up the basis, then restore and optimize the reduced objective.
+A zero-valued variable can still be basic: basis membership alone is not an
+infeasibility certificate. An unqualified finite Big M is not a substitute
+for this feasibility test.
+
+Because the original maximum is finite, any feasible reduced model is bounded
+above by it. For a nonempty polyhedron, a bounded linear objective attains its
+maximum. Here the possible outcomes are therefore finite optimum or
+infeasibility, rather than a newly unbounded maximum.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{4cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{4.8cm}}
+    \toprule
+    Deletion & Feasible-set effect & Value effect for maximization\\\midrule
+    Variable & Impose its value zero & Cannot increase; may become infeasible\\
+    Constraint & Relax the restrictions & Cannot decrease; may become unbounded\\\bottomrule
+  \end{tabular}
+\end{center}
+For \eqref{eq:small-lp}, deleting $x_2$ retains $(6,0,0)$ and value 12.
+Deleting $x_1$ gives
+\[
+  \max(-x_2+x_3),\qquad x_2+x_3\leq6,\quad 2x_2\leq4,\quad x_2,x_3\geq0.
+\]
+Since $-x_2+x_3\leq x_2+x_3\leq6$, $(x_2,x_3)=(0,6)$ is optimal.
+By contrast, in $x_1+x_2=1$, $x_2=0$, $x\geq0$, deletion of $x_1$
+leaves the impossible equation $0=1$.
+
+\section{Removing a constraint}\label{sec:delete-constraint}
+Removing a constraint enlarges the feasible set. The old point stays feasible,
+but may cease to be optimal; a finite old optimum can become unbounded.
+
+\subsection{When the old dual certificate survives}
+For $\max c^Tx$ subject to $Gx\leq b$, $x\geq0$, a dual certificate is
+$y\geq0$, $G^Ty\geq c$. If some optimal dual vector has $y_r=0$, drop its
+$r$th component. The remaining vector is dual feasible for the model without
+row $r$, and its objective is unchanged. The old primal point still has the
+same value, so it remains optimal.
+
+Strict slack at an old optimal point implies $y_r=0$ by complementarity
+and is sufficient for this conclusion. It is not necessary: a tight row can
+also have zero multiplier. For equalities the multipliers are free; a zero
+multiplier similarly permits deletion of that row.
+Checking one chosen dual vector is a sufficient test; failure of that test
+alone does not determine the best new value.
+
+\subsection{Relaxing a row without throwing away the tableau}
+Deleting equation $r$ can be represented by
+\[
+  Ax+e_r u-e_r v=b,\qquad u,v\geq0,\quad c_u=c_v=0.
+\]
+The difference $u-v$ can absorb any residual of the deleted equation.
+The other equations are unchanged. Original feasible vectors of the reduced
+model correspond exactly to extended feasible vectors after choosing $u,v$.
+The new indicators are $q_u=y_r$ and $q_v=-y_r$.
+If either is negative, primal simplex can improve the old solution.
+
+For a converted $\leq$ row, its existing slack already has column $+e_r$.
+Add only the opposite column $-e_r$ with zero cost.
+For a converted $\geq$ row, the existing surplus is $-e_r$, so add $+e_r$.
+Once solved, discard the auxiliary pair and the deleted equation.
+This construction can also expose unboundedness.
+
+\subsection{Production model: two different deletions}
+Consider the production model
+\begin{equation}\label{eq:production}
+  \max\,3x_1+2x_2,\quad
+  2x_1+x_2\leq10,\quad 3x_1+3x_2\leq24,\quad
+  \tfrac32x_1\leq6,\quad x\geq0.
+\end{equation}
+The optimum is $(2,6)$, value 18, with slacks $(x_3,x_4,x_5)=(0,0,3)$
+and dual prices $(1,1/3,0)$.
+
+Removing the third constraint retains the optimum: its slack is positive,
+its dual multiplier is zero, and the first two rows still bound the objective
+by $3x_1+2x_2=(2x_1+x_2)+(x_1+x_2)\leq10+8=18$.
+
+Removing the first constraint changes the result. The remaining rows imply
+$x_1\leq4$ and $x_1+x_2\leq8$, giving
+\[
+  3x_1+2x_2=x_1+2(x_1+x_2)\leq4+16=20.
+\]
+The point $(4,4)$ attains 20. This is an exact bound, not just a graphical guess.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[font=\small]
+    \foreach \panel/\heading in {0/Original,1/Remove row 3,2/Remove row 1}{
+        \begin{scope}[shift={({\panel*4.7},0)},x=0.44cm,y=0.43cm]
+          \node[above] at (4,9.8) {\heading};
+          \ifnum\panel=0
+            \draw[model region] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+          \fi
+          \ifnum\panel=1
+            \draw[model region] (0,0)--(5,0)--(2,6)--(0,8)--cycle;
+          \fi
+          \ifnum\panel=2
+            \draw[model region] (0,0)--(4,0)--(4,4)--(0,8)--cycle;
+          \fi
+          \draw[model axis] (-0.4,0)--(8.6,0) node[right] {$x_1$};
+          \draw[model axis] (0,-0.4)--(0,9.3) node[above] {$x_2$};
+          \draw[gray] (0,8)--(8,0);
+          \ifnum\panel=2
+            \draw[model objective] (2.5,6.25)--(5,2.5);
+            \node[model point] at (4,4) {};
+            \node[above right] at (4,4) {$(4,4)$};
+            \node[below] at (4,-0.6) {$z^*=20$};
+          \else
+            \draw[gray] (1,8)--(5,0);
+            \draw[model objective] (1,7.5)--(4,3);
+            \node[model point] at (2,6) {};
+            \node[above right] at (2,6) {$(2,6)$};
+            \node[below] at (4,-0.6) {$z^*=18$};
+          \fi
+        \end{scope}}
+  \end{tikzpicture}
+  \caption{Constraint-removal geometry: deleting a slack row preserves the
+    optimizer; deleting a priced row permits improvement. All three sets enlarge
+    or stay fixed relative to the relevant retained inequalities.}
+\end{figure}
+
+Here is the full update for deleting row 1 using $x_6$ with column $-e_1$.
+Start from the ordered basis $B=(2,5,1)$:
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ &0&1&$-1$&$2/3$&0&1&6\\
+    $x_5$ &0&0&$-3/2$&$1/2$&1&$3/2$&3\\
+    $x_1$ &1&0&1&$-1/3$&0&$-1$&2\\\midrule
+    $q$ &0&0&1&$1/3$&0&$-1$&$z_0=18$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_6$. Ratios are $6/1$ and $3/(3/2)=2$, so $x_5$ leaves.
+\begin{center}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ &0&1&0&$1/3$&$-2/3$&0&4\\
+    $x_6$ &0&0&$-1$&$1/3$&$2/3$&1&2\\
+    $x_1$ &1&0&0&0&$2/3$&0&4\\\midrule
+    $q$ &0&0&0&$2/3$&$2/3$&0&$z_0=20$\\\bottomrule
+  \end{tabular}
+\end{center}
+The auxiliary $x_6=2$ is precisely the violation $2(4)+4-10=2$
+of the deleted inequality. Discarding $x_3,x_6$ gives the reduced solution
+$(x_1,x_2,x_4,x_5)=(4,4,0,0)$.
+The remaining-row multipliers $(2/3,2/3)$ have value
+$24(2/3)+6(2/3)=20$.
+
+Deleting a row can also cause unboundedness: in $\max x_1$ subject to
+$x_1\leq1$, $x_1\geq0$, removal of $x_1\leq1$ leaves the improving ray
+$x_1=\theta$, $\theta\geq0$.
+
+\section{Lagrange multipliers and active constraints}\label{sec:lagrange}
+Write all inequalities in the same orientation:
+\[
+  \max c^Tx,\qquad g_i(x)=a_i^Tx-b_i\leq0\ (i\in I),\qquad
+  h_j(x)=a_j^Tx-b_j=0\ (j\in E).
+\]
+Here $x\in\R^n$ is otherwise unrestricted. Include variable bounds explicitly
+among the inequalities: $x_k\geq0$ means $g(x)=-x_k\leq0$.
+An inequality is \emph{active} at $\hat x$ if $g_i(\hat x)=0$.
+Denote these indices by $\mathcal A(\hat x)$.
+
+\subsection{Feasible directions and outward normals}
+For a feasible point $\hat x$, a direction $d$ allows sufficiently small
+positive steps $\hat x+\alpha d$ exactly when
+\[
+  a_i^Td\leq0\quad(i\in\mathcal A(\hat x)),\qquad
+  a_j^Td=0\quad(j\in E).
+\]
+Inactive rows impose no restriction on a sufficiently small step: each has
+a strictly positive slack. Because there are finitely many rows, one
+positive step bound can be chosen for all of them.
+Optimality is equivalent to $c^Td\leq0$ for every such direction.
+
+If the objective normal can be represented as
+\begin{equation}\label{eq:normal-representation}
+  c=\sum_{i\in I}\lambda_i a_i+\sum_{j\in E}\nu_j a_j,\qquad
+  \lambda_i\geq0,\quad
+  \lambda_i=0\text{ for }i\notin\mathcal A(\hat x),
+\end{equation}
+then its product with every feasible direction is nonpositive.
+Equality normals can have coefficients of either sign; inequality normals
+must point outward with nonnegative weights.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[font=\small]
+    \begin{scope}[x=0.55cm,y=0.5cm]
+      \draw[model region] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+      \draw[model axis] (-0.3,0)--(5.5,0) node[right] {$x_1$};
+      \draw[model axis] (0,-0.3)--(0,9.5) node[above] {$x_2$};
+      \node[model point] at (2,6) {};
+      \draw[model flow] (2,6)--(3,4) node[right] {$d_1$};
+      \draw[model flow] (2,6)--(0.6,7.4);
+      \node[above] at (1.1,7.6) {$d_2$};
+      \node[above] at (2,10.6) {feasible edge directions};
+    \end{scope}
+    \begin{scope}[shift={(7,0)},x=0.9cm,y=0.9cm]
+      \fill[modelblue!10] (0,0)--(5,2.5)--(5,5)--cycle;
+      \draw[model axis] (-0.3,0)--(5.7,0);
+      \draw[model axis] (0,-0.3)--(0,5.7);
+      \draw[modelblue,thick,-{Stealth}] (0,0)--(2,1) node[below right] {$a_1=(2,1)$};
+      \draw[modelblue,thick,-{Stealth}] (0,0)--(3,3) node[above left] {$a_2=(3,3)$};
+      \draw[modelorange,very thick,-{Stealth}] (0,0)--(3,2) node[right] {$c=(3,2)$};
+      \draw[dashed] (2,1)--(3,2)--(1,1);
+      \node[above] at (2.5,5.2) {normal cone at $(2,6)$};
+      \node[below] at (2.5,-0.5) {$c=a_1+\tfrac13 a_2$};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{For the production optimum, $c$ lies between the active outward
+    normals. Its products with both feasible edge directions are negative.
+    The right panel is a space of normals, not another feasible region.}
+\end{figure}
+
+\subsection{The Lagrangian and the four KKT conditions}
+It is convenient to minimize the negative objective:
+\begin{equation}\label{eq:lagrangian}
+  L(x,\lambda,\nu)=-c^Tx+\sum_{i\in I}\lambda_i g_i(x)
+  +\sum_{j\in E}\nu_j h_j(x).
+\end{equation}
+Then the Karush--Kuhn--Tucker (KKT) conditions are
+\begin{center}
+  \begin{tabular}{ll}\toprule
+    Condition & Formula\\\midrule
+    Primal feasibility & $g_i(\hat x)\leq0,\quad h_j(\hat x)=0$\\
+    Multiplier signs & $\lambda_i\geq0,\quad \nu_j\in\R$\\
+    Complementarity & $\lambda_i g_i(\hat x)=0$\\
+    Stationarity & $-c+\sum_i\lambda_i a_i+\sum_j\nu_j a_j=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+For this linear program, these conditions are necessary and sufficient for
+a feasible point to be optimal.
+
+For sufficiency, compare any feasible $x$ with $\hat x$:
+\[
+  c^T(x-\hat x)=\sum_i\lambda_i a_i^T(x-\hat x)
+  +\sum_j\nu_j a_j^T(x-\hat x)\leq0.
+\]
+Equalities contribute zero; positive inequality multipliers have active rows,
+so their contributions are nonpositive.
+For necessity, apply linear-programming strong duality to an optimal feasible
+point, including its bound inequalities. An optimal dual vector exists.
+The primal--dual gap is a sum of nonnegative multiplier--slack products;
+zero gap gives complementarity, and the dual equations give stationarity.
+No independence of active inequality normals is required.
+
+For a nonlinear problem, replace $c$ and $a_i$ by the appropriate gradients.
+For a differentiable concave maximization objective with convex inequalities
+and affine equalities, KKT conditions still suffice globally.
+Necessity generally requires a constraint qualification, such as Slater's
+condition (with the usual domain assumptions); convexity alone is insufficient.
+For example, $\max x$ subject to $x^2\leq0$ has the unique optimum $x=0$,
+but stationarity would demand $-1+\lambda(2x)=0$, which is impossible there.
+
+\subsection{A complete mixed-sign multiplier certificate}\label{sec:kkt-example}
+Consider the question:
+\begin{quote}\selectlanguage{polish}
+  Czy $\hat x=[0,\ 17/4,\ 0,\ 23/4]^T$ jest RO?
+\end{quote}
+\selectlanguage{english}
+The model is
+\begin{equation}\label{eq:kkt-model}
+  \begin{aligned}
+    \max\quad&x_1+3x_2-2x_3+x_4\\
+    \text{subject to}\quad&3x_1+2x_2+x_3+x_4\leq20,\\
+    &2x_1+x_2+x_4=10,\\
+    &5x_1-2x_2+x_3+2x_4\geq3,\qquad x\geq0.
+  \end{aligned}
+\end{equation}
+Orient the third row as $3-5x_1+2x_2-x_3-2x_4\leq0$.
+Assign $\lambda_1$ to row 1, $\nu$ to the equality, $\lambda_3$ to the
+oriented row 3, and $\mu_k$ to the bound $-x_k\leq0$.
+At $\hat x$ the row values are $57/4$, 10, and 3.
+\begin{center}
+  \begin{tabular}{c|c|c|c}\toprule
+    Constraint & Nonnegative slack & Active? & Multiplier\\\midrule
+    Row 1 ($\leq20$) & $23/4$ & No & $\lambda_1=0$\\
+    Equality row & 0 & Yes & $\nu=2$ (free)\\
+    Row 3 ($\geq3$) & 0 & Yes & $\lambda_3=1/2$\\
+    $x_1\geq0$ & 0 & Yes & $\mu_1=1/2$\\
+    $x_2\geq0$ & $17/4$ & No & $\mu_2=0$\\
+    $x_3\geq0$ & 0 & Yes & $\mu_3=3/2$\\
+    $x_4\geq0$ & $23/4$ & No & $\mu_4=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Inactive-row multipliers vanish by complementarity.
+Stationarity in coordinates 2 and 4 gives
+\[
+  -3+\nu+2\lambda_3=0,\qquad -1+\nu-2\lambda_3=0.
+\]
+Hence $\nu=2$ and $\lambda_3=1/2$. The remaining coordinates give
+\[
+  -1+2\nu-5\lambda_3-\mu_1=0,\qquad
+  2-\lambda_3-\mu_3=0,
+\]
+so $\mu_1=1/2$ and $\mu_3=3/2$. All inequality multipliers are nonnegative.
+Equivalently, the full normal identity is
+\[
+  \begin{pmatrix}1\\3\\-2\\1\end{pmatrix}
+  =2\begin{pmatrix}2\\1\\0\\1\end{pmatrix}
+  +\frac12\begin{pmatrix}-5\\2\\-1\\-2\end{pmatrix}
+  -\frac12 e_1-\frac32 e_3.
+\]
+For any feasible $x$ this yields the explicit upper bound
+\[
+  c^Tx
+  =2(2x_1+x_2+x_4)
+  +\frac12(-5x_1+2x_2-x_3-2x_4)
+  -\frac12x_1-\frac32x_3
+  \leq20-\frac32=\frac{37}{2}.
+\]
+The candidate attains $37/2$, so it is optimal.
+It is also unique: equality in this bound forces $x_1=x_3=0$ and the
+third row tight. Together with $x_2+x_4=10$ these give
+$x_2=17/4$, $x_4=23/4$.
+
+\begin{figure}[H]\centering
+  \begin{tikzpicture}[x=1.35cm,y=0.28cm,font=\small]
+    \draw[model axis] (-0.2,0)--(5.8,0) node[right] {$x_2$};
+    \draw[model axis] (0,-0.3)--(0,10.8) node[above] {$x_4$};
+    \draw[gray,thick] (0,10)--(5,5);
+    \draw[modelblue,very thick] (0,10)--(4.25,5.75);
+    \node[model point] at (4.25,5.75) {};
+    \node[above right] at (4.25,5.75) {$(17/4,23/4)$};
+    \draw[model flow] (1.2,8)--(3.4,5.8);
+    \node[below,align=center] at (2.5,-1.4)
+    {$x_1=x_3=0$ slice; $x_4=10-x_2$\\feasible: $0\leq x_2\leq17/4$};
+    \node[above] at (2.3,11.5) {objective $10+2x_2$ increases to the endpoint};
+  \end{tikzpicture}
+  \caption{The two zero bound coordinates reveal a one-dimensional slice.
+    The multiplier certificate proves optimality in all four dimensions.}
+\end{figure}
+
+\section{Connecting multipliers, prices, and reduced costs}\label{sec:connections}
+For $\max c^Tx$ with $Gx\leq b$, $x\geq0$, include bounds $-x\leq0$ in
+the Lagrangian. Stationarity reads
+\[
+  -c+G^Ty-\mu=0,\qquad y\geq0,\quad\mu\geq0.
+\]
+Thus $\mu=G^Ty-c$ is the vector of decision-variable indicators.
+Complementarity is simultaneously $y_i(b_i-G_{i:}x)=0$ and $\mu_jx_j=0$.
+For standard equalities, use free $y$ and the same
+$\mu=A^Ty-c=q$. These are the same optimality conditions expressed through
+a tableau, a dual problem, and a Lagrangian.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.1cm}}
+    \toprule
+    Quantity & Algebra & Interpretation\\\midrule
+    RHS multiplier & $y=A_B^{-T}c_B$ & Local value of relaxing an RHS\\
+    Decision indicator & $q_j=a_j^Ty-c_j$ & Marginal loss from a nonbasic activity\\
+    Bound multiplier & $\mu_j=q_j$ & Nonnegative weight on $-x_j\leq0$\\
+    Active-row multiplier & $\lambda_i\geq0$ & Weight of its outward normal\\\bottomrule
+  \end{tabular}
+\end{center}
+A tight row need not have a positive price. Prices can be nonunique,
+especially at degeneracy. For fixed $A,c$, the maximum value
+$V(b)=\min_{A^Ty\geq c}b^Ty$ is concave in $b$ on the region of finite
+feasible optima: it is a pointwise infimum of affine functions.
+An old optimal $y$ gives the global upper bound
+\[
+  V(b+\delta b)\leq V(b)+y^T\delta b
+\]
+whenever the changed primal is feasible with a finite optimum.
+Equality holds when the same certifying basis remains primal feasible.
+At a kink, the bound remains valid even though one global derivative need
+not exist. For fixed feasible set, the maximum value as a function of $c$ is
+convex, because it is a supremum of linear functions $c^Tx$.
+These curvature statements use \emph{maximization}; minimization reverses them.
+
+\section{MATLAB checks and a study checklist}\label{sec:matlab}
+The matching base MATLAB script is
+\href{../../matlab/exercises/lecture_05_checks.m}{\texttt{matlab/exercises/lecture\_05\_checks.m}}.
+From the repository root:
+\begin{lstlisting}
+run('matlab/exercises/lecture_05_checks.m')
+\end{lstlisting}
+The basic calculations use linear solves:
+\begin{lstlisting}
+AB = A(:, B);
+T = AB \ A;
+basic = AB \ b;
+y = AB' \ c(B);
+q = A' * y - c;
+value = c(B)' * basic;
+\end{lstlisting}
+The script checks the same exact inputs as the hand solutions with absolute
+tolerance $10^{-10}$. It verifies selected pivots and optimality certificates,
+and enumerates all nonsingular bases in these small examples to compare
+finite optima. Enumeration is a cross-check for the supplied models, not a
+general solver or a test for every kind of unboundedness.
+No Optimization Toolbox is required.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{7.2cm}l}\toprule
+    Hand result & Expected value\\\midrule
+    Main example, second RHS change & $-50/3\leq t\leq22$\\
+    Main example, decision-cost ranges & $c_1'\geq-3/2,\ c_2'\geq2,\ c_3'\leq2/5$\\
+    Small model, new objective $(3,4,2)$ & $x=(8/3,10/3,0),\ z=64/3$\\
+    Small model, RHS $(3,4)$ & $x=(3,0,0),\ z=6$\\
+    Small model, added column & $x_1=16,\ x_6=10,\ z=42$\\
+    Small model, added inequality & $x=(10/3,0,8/3),\ z=28/3$\\
+    Small model, delete $x_1$ & $(x_2,x_3)=(0,6),\ z=6$\\
+    Production, remove first row & $x=(4,4),\ z=20$\\
+    Mixed-sign KKT certificate & $\hat x=(0,17/4,0,23/4),\ z=37/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\subsection{Common mistakes}
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{6.3cm}>{\raggedright\arraybackslash}p{6.8cm}}\toprule
+    Mistake & Correction\\\midrule
+    Confusing a new coefficient with its change & Use $b_r'=b_r+t$ or $c_k'=c_k+t$\\
+    Claiming unchanged basis means unchanged point & RHS changes move the basic vector\\
+    Combining individual intervals independently & Test the complete vectors together\\
+    Reading every slack or artificial as $+e_r$ & Check the original column and its sign\\
+    Appending a raw constraint to a final tableau & Eliminate the old basic columns first\\
+    Calling every basic artificial infeasible & Its optimal value must be strictly positive\\
+    Treating a slack row as globally redundant & Deleting it can enlarge the feasible set\\
+    Using positive multipliers on a $\geq$ normal & Flip the row to $\leq$ first\\
+    Ignoring bound normals in stationarity & Include $-x_k\leq0$\\
+    Claiming convexity alone guarantees KKT necessity & Check a constraint qualification\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\subsection{Questions to test understanding}
+\begin{enumerate}[leftmargin=*]
+  \item In \eqref{eq:main-lp}, what happens when $b_2'=40$?\\
+        \emph{Answer:} the old basic slack is $-3$, so that basis fails. The new
+        optimum is $(31/5,58/5,0)$, value $143/5$, second slack 6.
+  \item What changes when $c_1'=-2$?\\
+        \emph{Answer:} $t=-1<-1/2$. The old point is feasible, but its $q_4=-1/5$.
+        Entering $x_4$ has a positive step and improves the new objective.
+  \item For \eqref{eq:small-lp}, change both $b$ to $(3,4)$ and costs to
+        $(4,-1,1)$. Why is the value not $12+(-6)+12$?\\
+        \emph{Answer:} the basis passes both tests; its new point is $(3,0,0)$ and
+        value 12. The separate first-order changes miss the cross term $-6$.
+  \item What if a new variable has $a=0$, $\gamma=1$?\\
+        \emph{Answer:} $q_w=-1$, $u=0$. The original point plus $w=\theta$ is a
+        feasible improving ray, so the extended maximum is unbounded.
+  \item Can a tight constraint be deleted without changing the optimum?\\
+        \emph{Answer:} yes. For example, duplicate $x_1\leq1$ in $\max x_1$,
+        $x_1\geq0$; deleting either copy leaves the other bound.
+  \item Why do positive $\mu_1,\mu_3$ prove uniqueness in the KKT example?\\
+        \emph{Answer:} any optimizer must satisfy $x_1=x_3=0$ by zero dual gap.
+        The positive third-row multiplier forces that row tight; with the equality,
+        these determine $x_2,x_4$ uniquely.
+\end{enumerate}
+
+\clearpage
+\section{Sources and editorial remarks}\label{sec:sources}
+{\small
+  The primary source is E. Pawelec, Wydział MiNI PW,
+  \texttt{s4\_w5.pdf}, in the external historical lecture folder.
+  It has 10 PDF pages containing printed slides 1--38, with the last slide a
+  closing graphic. The metadata creation date is 2019-11-03; this does not
+  establish the delivery date. The folder is labelled 2020.
+  Alignment with the current lecturer, syllabus, exercises, and labs is unconfirmed.
+
+  \begin{center}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{8.4cm}}\toprule
+      Historical coverage & Corresponding development here\\\midrule
+      Slides 1--8: standard form, tools, analysis types & Sections \ref{sec:basis} and \ref{sec:methods}\\
+      Slides 9--14: one-parameter ranges & Sections \ref{sec:rhs}--\ref{sec:cost}; Polish exercise prompts retained\\
+      Slides 15--19: vector changes & Section \ref{sec:vector}; unfinished objective calculation completed\\
+      Slides 20--22: new column & Section \ref{sec:new-variable}\\
+      Slides 23--27: new row & Section \ref{sec:new-constraint}; unfinished dual pivot completed\\
+      Slide 28: remove a variable & Section \ref{sec:delete-variable}; feasibility phase made explicit\\
+      Slides 29--33: remove a row & Section \ref{sec:delete-constraint}; useful production figures redrawn in TikZ\\
+      Slides 34--37: Lagrange multipliers & Section \ref{sec:lagrange}; candidate question retained and fully certified\\\bottomrule
+    \end{tabular}
+  \end{center}
+  Added material includes the basic-value and indicator plots, complete piecewise
+  value function with proofs, data-space regions, simultaneous-change
+  counterexample and cross term, structural certificates, feasible-direction
+  and normal-cone diagrams, uniqueness proof, study questions, and MATLAB checks.
+
+  Qualifications correct overly broad shortcuts: simultaneous changes are not
+  inherently unpredictable; a failed basis indicator test is not always a failed
+  point-optimality test; positive artificial value, not basis membership, is an
+  infeasibility certificate; general nonlinear convex KKT necessity needs regularity.
+  The structural example with a negative new-column component is treated as an
+  algebraic LP update, without inventing a physical production interpretation.
+
+  Two official supplementary references were consulted to cross-check terminology
+  and hypotheses, with maximization signs adapted consistently:
+  \begin{itemize}[leftmargin=*]
+    \item \href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/370982a2d3b22e090aa7a8d573bb5604_MIT6_251JF09_lec12.pdf}
+          {MIT OCW 6.251J/15.081J, Fall 2009, Lecture 12: Sensitivity analysis},
+          PDF pp.\ 2--6: basis tests, one-parameter updates, vector interpretation,
+          new columns and rows. See Sections \ref{sec:rhs}--\ref{sec:new-constraint}.
+    \item \href{https://www.seas.ucla.edu/~vandenbe/ee236b/lectures/duality.pdf}
+          {L. Vandenberghe, UCLA ECE236B, Winter 2026, Chapter 5: Duality},
+          sections on Slater's qualification, optimality conditions, and sensitivity.
+          See Sections \ref{sec:lagrange}--\ref{sec:connections}.
+  \end{itemize}
+  These are supplements, not evidence of current course coverage. External
+  download locations and status are recorded in the paired source inventory.
+
+  Verification: the hand tableaus, endpoints, structural updates, and KKT identity
+  were checked independently with exact rational arithmetic. All Lecture 5 MATLAB assertions passed in the user's normal terminal on
+  2026-10-04, with reported version 26.2.0.3386108 (R2026b).
+  The agent's launcher still exited silently; this is user-supplied execution
+  evidence. The paired verification log records the exact command and output.
+}
+\end{document}

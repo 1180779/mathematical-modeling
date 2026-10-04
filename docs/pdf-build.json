@@ -4,6 +4,7 @@
     "notes/lectures/02-linear-programming.tex": "a3bdf587da3c9811d4be6d72cd989b87dc427b84764da92feaa6b51465c9d1a3",
     "notes/lectures/03-simplex-method.tex": "f141728c6903b976e60f9d9525750dc29d227cd6e8941d41f8c147aa3cc97150",
     "notes/lectures/04-degeneracy-and-duality.tex": "5e7d5adb01d087bf22bea87d8190cc5c666a7c1e2195101ef45ff53e869a0944",
+    "notes/lectures/05-sensitivity-and-lagrange-multipliers.tex": "de9013b289e94550ae00922d331b8fe68e171427c0688ddaaaf4a4b06665a87b",
     "notes/matlab-review/01-arrays-and-linear-systems.tex": "a315f338be427d4acc5eeb4be8180b5771f57a48fa1b7095cbc49b1fad9ae57b",
     "templates/modeling-notes.sty": "512d33d653c236bceed0755871e4df3bd18c67d880226daf48afa93748003dc0"
   },
@@ -12,6 +13,7 @@
     "output/lectures/02-linear-programming.pdf": "82bccbf6abb344808e725413d2ecbf6e9780efe3647750fcf5fed3a40fd035b6",
     "output/lectures/03-simplex-method.pdf": "51533727c87094e488fbf9f4a551d32ff1cefcede532598339b747bec83da6ac",
     "output/lectures/04-degeneracy-and-duality.pdf": "c124f999bda7f88dbda0f1eda0baf1556e708452ad205245458436206030a66b",
+    "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "ae3763b176323280ef0d65ea60e07911ed5e7c61c4ecf3505b6eb6c1a3b2d02d",
     "output/matlab-review/01-arrays-and-linear-systems.pdf": "edddc40884ce01f6131e8d81ea427769a0aecfa4f953ef3c13b7e039bd6d8c5d"
   }
 }

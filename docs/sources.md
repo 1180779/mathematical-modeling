@@ -5,7 +5,7 @@ English | [Polski](sources.pl.md)
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
-2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–4 have been reviewed
+2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–5 have been reviewed
 for these notes; alignment with the current lecturer, syllabus, exercises, and labs
 is unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
@@ -56,6 +56,17 @@ Current syllabus, exercise sheets, and lab instructions have not yet been suppli
   statement of strong duality, certifying bases, and dual degeneracy limitations.
   Creation metadata: 2019-10-27, not an established delivery date. All MATLAB assertions
   passed on R2026b.
+- Lecture 5: `s4_w5.pdf`, PDF pp. 1–10, printed slides 1–38 (38 closes the lecture).
+  Full coverage: single RHS/cost ranges, vector changes, variable and constraint
+  additions/deletions, and Lagrange multipliers. All pages were reviewed;
+  sensitivity formulas and the final certificate were also inspected enlarged.
+  Useful constraint-removal drawings were redrawn in TikZ, with added basic-value,
+  indicator, value-function, data-region, and normal-cone diagrams.
+  Open questions were completed with hand solutions, full tableaus, proofs, and MATLAB.
+  Qualifications cover joint changes, degeneracy, RHS column signs, artificial
+  cleanup, and constraint qualifications for nonlinear KKT necessity.
+  Metadata creation: 2019-11-03; not an established delivery date.
+  All MATLAB assertions passed in the user's normal terminal on R2026b.
 - The notes distinguish added hand proofs and derivations from slide content.
   Qualifications cover revenue versus profit, exact versus minimum demand,
   integer versus continuous cutting counts, strict convex combinations,
@@ -111,6 +122,22 @@ download attempts on 2026-10-04 failed at DNS resolution. Intended files:
 
 The external `../sources/README.md` and `../sources/README.pl.md` record URLs and
 retry commands. These materials do not establish current course coverage.
+
+Additional Lecture 5 cross-checks:
+
+- [MIT OCW Lecture 12: Sensitivity analysis](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/370982a2d3b22e090aa7a8d573bb5604_MIT6_251JF09_lec12.pdf),
+  PDF pp. 2–6: local basis tests, parameter changes, new columns and rows.
+- [L. Vandenberghe, UCLA ECE236B, Winter 2026: Duality](https://www.seas.ucla.edu/~vandenbe/ee236b/lectures/duality.pdf),
+  sections on Slater's qualification, optimality conditions, and sensitivity.
+
+Read through the web tool. **Not downloaded:** both shell attempts on 2026-10-04
+failed at DNS resolution. Intended external files:
+
+- `../sources/mit/mit-6-251j-2009-lecture-12-sensitivity.pdf`
+- `../sources/ucla/ece236b-2026-duality.pdf`
+
+The paired external READMEs record the URLs and retry commands.
+These supplementary references do not establish current course coverage.
 
 ## MATLAB refresher documentation
 

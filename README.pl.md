@@ -33,6 +33,10 @@ Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem je
   reguła Blanda i perturbacja leksykograficzna, złożoność, konstrukcja zadania dualnego,
   certyfikaty optymalności, komplementarność i rozwiązanie dualną metodą sympleks.
 
+- [Wykład 5: Analiza wrażliwości i mnożniki Lagrange’a](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
+  ([PDF](output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)): zakresy zmian danych,
+  ceny dualne, ponowna optymalizacja po zmianach struktury, tablice i certyfikaty KKT.
+
 Odnośniki do PDF-ów wskazują commitowane kopie do czytania w `output/`.
 
 ## Struktura
@@ -143,6 +147,18 @@ certyfikaty dualne, komplementarność, zmiany prawej strony oraz dualną metod�
 Wszystkie asercje przeszły w zwykłym terminalu użytkownika w R2026b. Analiza statyczna
 i niezależne obliczenia na dokładnych ułamkach również przeszły; zobacz
 [rejestr weryfikacji](docs/matlab-verification.pl.md).
+
+## Sprawdzenia wykładu 5 w MATLAB-ie
+
+```matlab
+run('matlab/exercises/lecture_05_checks.m')
+```
+
+Uruchom z katalogu głównego repozytorium. Skrypt podstawowego MATLAB-a sprawdza
+zakresy wrażliwości, łączne zmiany, dodawanie i usuwanie zmiennych oraz ograniczeń,
+wybrane wymiany i certyfikat KKT. Wszystkie asercje przeszły w zwykłym terminalu
+użytkownika w R2026b. Pomyślnie zakończyły się również analiza statyczna i niezależne
+obliczenia na dokładnych ułamkach; zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
 ## Sprawdzenia Git
 

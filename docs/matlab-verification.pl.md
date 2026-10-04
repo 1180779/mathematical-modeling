@@ -129,3 +129,48 @@ dwie wymiany leksykograficzne z dodatnimi krokami w zadaniu zaburzonym. Pełne
 wyliczenie baz potwierdziło osiem różnych wierzchołków z maksimum 125.
 Sprawdzono również zakres zmiany prawej strony, parę o mieszanych znakach oraz
 parametryzację odcinka optimów. Wyniki są zgodne z rozwiązaniami ręcznymi.
+
+## Sprawdzenia wykładu 5 w dniu 2026-10-04
+
+Skrypt `matlab/exercises/lecture_05_checks.m` wymaga tylko podstawowego MATLAB-a.
+Sprawdza zakresy zmian i ich końce, funkcję wartości, łączne zmiany prawej strony
+i kosztów z wyrazem mieszanym, wymiany po dodaniu kolumny i wiersza, usuwanie
+zmiennych i ograniczeń oraz jednoznaczny certyfikat KKT. Dla małych zadań o skończonym
+optimum enumeracja baz porównuje wyniki. Promienie i sprzeczne wiersze mają
+osobne certyfikaty; enumeracja nie jest ogólnym testem nieograniczoności.
+
+```sh
+matlab -batch "disp(version); run('matlab/exercises/lecture_05_checks.m')"
+```
+
+**Wykonanie w MATLAB-ie: pomyślne.** Użytkownik uruchomił polecenie w zwykłym
+terminalu z katalogu głównego repozytorium i przekazał dokładnie poniższy wynik.
+MATLAB podał wersję 26.2.0.3386108 (R2026b). Wszystkie asercje przeszły.
+
+```text
+26.2.0.3386108 (R2026b)
+Sensitivity: RHS change [-50/3, 22]; cost endpoints = -3/2, 2, 2/5
+Simultaneous RHS changes: separately feasible, combined basic slack = -9
+Vector updates: new-cost value = 64/3; new-RHS value = 6; joint value = 12
+Added column: x1 = 16, x6 = 10, value = 42
+Added row: x = (10/3, 0, 8/3), value = 28/3
+Deletions: x1 removal gives 6; production row 3 gives 18, row 1 gives 20
+KKT: multiplier signs, stationarity, complementarity; unique maximum = 37/2
+All Lecture 5 numerical assertions passed.
+```
+
+Próba agenta w sandboxie zakończyła się kodem 1 bez wyjścia; przyczyna startu
+pozostaje nieustalona. Zapis dotyczy wykonania przez użytkownika.
+
+**Analiza statyczna: pomyślna.** Zainstalowany analizator R2026b nie zgłosił uwag:
+
+```sh
+/usr/local/MATLAB/R2026b/bin/glnxa64/mlint -id matlab/exercises/lecture_05_checks.m
+```
+
+**Niezależna weryfikacja matematyczna: pomyślna.** Tymczasowe obliczenia w Pythonie
+na ułamkach z biblioteki standardowej odtworzyły tablice, zakresy, końce przedziałów,
+zmiany strukturalne i certyfikat KKT. Pełna enumeracja małych baz potwierdziła
+wartości skończonych optimów, obie gałęzie funkcji wartości i brak dopuszczalnych
+baz w sprzecznych przykładach. Dowody ręczne oddzielnie uzasadniają sprzeczność
+i nieograniczoność tam, gdzie sama enumeracja by nie wystarczyła.

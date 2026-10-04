@@ -33,6 +33,10 @@ Lecture notes are developed from the historical sources, with current course ali
   Bland and lexicographic perturbation, complexity, dual construction,
   optimality certificates, complementarity, and a dual-simplex solve.
 
+- [Lecture 5: Sensitivity analysis and Lagrange multipliers](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
+  ([PDF](output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)): data ranges,
+  shadow prices, structural reoptimization, complete tableaus, and KKT certificates.
+
 PDF links point to the committed reading copies in `output/`.
 
 ## Layout
@@ -139,6 +143,18 @@ run('matlab/exercises/lecture_04_checks.m')
 Run from the repository root. The base MATLAB script checks cycling, both
 anti-cycling paths, the Klee–Minty example, dual certificates, complementarity,
 RHS changes, and dual simplex. All assertions passed in the user's normal terminal
+on R2026b. Static analysis and independent exact rational calculations also passed;
+see the [verification record](docs/matlab-verification.md).
+
+## Lecture 5 MATLAB checks
+
+```matlab
+run('matlab/exercises/lecture_05_checks.m')
+```
+
+Run from the repository root. The base MATLAB script checks sensitivity ranges,
+joint changes, variable and constraint additions/deletions, selected pivots,
+and the KKT certificate. All assertions passed in the user’s normal terminal
 on R2026b. Static analysis and independent exact rational calculations also passed;
 see the [verification record](docs/matlab-verification.md).
 

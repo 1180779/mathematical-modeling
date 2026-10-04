@@ -127,3 +127,49 @@ pivots with positive steps in the perturbed problem. Exhaustive basis enumeratio
 confirmed eight distinct cube vertices with maximum 125. The RHS interval,
 mixed-sign feasible pair, and optimal-segment parametrization were checked too.
 The results agree with the hand derivations.
+
+## Lecture 5 checks on 2026-10-04
+
+The script `matlab/exercises/lecture_05_checks.m` uses base MATLAB only.
+It checks parameter ranges and endpoints, the value function, joint RHS/cost
+changes including the cross term, new-column and new-row pivots, variable and
+constraint deletions, and the unique KKT certificate. Basis enumeration compares
+the finite optima of the small models. Rays and contradictory rows have separate
+certificates; enumeration is not a general unboundedness test.
+
+```sh
+matlab -batch "disp(version); run('matlab/exercises/lecture_05_checks.m')"
+```
+
+**MATLAB execution: passed.** The user ran the command in a normal terminal
+from the repository root and supplied the exact output below.
+MATLAB reported version 26.2.0.3386108 (R2026b). All assertions passed.
+
+```text
+26.2.0.3386108 (R2026b)
+Sensitivity: RHS change [-50/3, 22]; cost endpoints = -3/2, 2, 2/5
+Simultaneous RHS changes: separately feasible, combined basic slack = -9
+Vector updates: new-cost value = 64/3; new-RHS value = 6; joint value = 12
+Added column: x1 = 16, x6 = 10, value = 42
+Added row: x = (10/3, 0, 8/3), value = 28/3
+Deletions: x1 removal gives 6; production row 3 gives 18, row 1 gives 20
+KKT: multiplier signs, stationarity, complementarity; unique maximum = 37/2
+All Lecture 5 numerical assertions passed.
+```
+
+The agent's sandbox attempt exited with code 1 and no output; the startup cause
+remains unresolved. The execution evidence above is user-supplied.
+
+**Static analysis: passed.** The installed R2026b analyzer reported no diagnostics:
+
+```sh
+/usr/local/MATLAB/R2026b/bin/glnxa64/mlint -id matlab/exercises/lecture_05_checks.m
+```
+
+**Independent mathematical verification: passed.** Temporary Python calculations
+using standard-library rational arithmetic recomputed the tableaus, ranges,
+endpoints, structural updates, and KKT certificate. Exhaustive small-basis
+enumeration confirmed finite optimal values, both value-function branches,
+and absence of feasible bases in the contradictory examples. Hand certificates
+separately prove infeasibility and unboundedness where enumeration alone would
+not establish the outcome.
