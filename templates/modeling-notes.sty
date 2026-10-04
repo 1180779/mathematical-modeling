@@ -1,0 +1,36 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{templates/modeling-notes}[2026/10/04 Mathematical modeling note style]
+% Adapted from AZ_lectures/Lecture_5May.tex and egzamin_AZ.tex.
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[polish,english]{babel}
+\RequirePackage{lmodern}
+\RequirePackage[a4paper,margin=2.4cm]{geometry}
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{mathtools}
+\RequirePackage{enumitem}
+\RequirePackage{booktabs}
+\RequirePackage{array}
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+\RequirePackage{float}
+\RequirePackage{xcolor}
+\RequirePackage{listings}
+\RequirePackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,
+  urlcolor=blue!50!black,citecolor=blue!50!black}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\eps}{\varepsilon}
+\lstset{language=Matlab,basicstyle=\ttfamily\small,
+  breaklines=true,columns=fullflexible,keepspaces=true,
+  showstringspaces=false,frame=single}
