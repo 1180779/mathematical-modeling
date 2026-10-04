@@ -13,8 +13,9 @@ wyodrębniony styl. Pochodzenie opisuje [wykaz źródeł](sources.pl.md).
 
 W razie potrzeby skopiuj `templates/lecture.tex` lub `templates/exercise.tex` do
 `notes/`. Używaj opisowych nazw ASCII, np. `01-topic.tex`, oraz stałych prefiksów
-etykiet `sec:`, `def:`, `thm:`, `eq:` i `fig:`. Kompiluj z katalogu głównego
-repozytorium zgodnie z [README](../README.pl.md). Wyniki zapisuj w `build/`.
+etykiet `sec:`, `def:`, `thm:`, `eq:` i `fig:`. Uruchamiaj `./build.sh` z katalogu głównego repozytorium zgodnie z
+[README](../README.pl.md). Pliki pośrednie pozostają w ignorowanym `build/`;
+kopie PDF w `output/`, pogrupowane jak `notes/`, commituj razem ze źródłami.
 
 ## Notatki z wykładów
 

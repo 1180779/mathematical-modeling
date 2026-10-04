@@ -1,5 +1,5 @@
-# Generated LaTeX files
-build/
+# Intermediate LaTeX build tree (PDF deliverables live in output/)
+/build/
 *.aux
 *.log
 *.out
@@ -14,8 +14,12 @@ build/
 # MATLAB autosaves and generated output
 *.asv
 matlab/output/
-# Local configuration
+# IntelliJ project metadata
 .idea/
+*.iml
+*.ipr
+*.iws
+# Other local configuration
 .vscode/
 .DS_Store
 .env

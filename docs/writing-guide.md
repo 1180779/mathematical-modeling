@@ -13,8 +13,9 @@ See the [source inventory](sources.md) for provenance.
 
 Copy `templates/lecture.tex` or `templates/exercise.tex` into `notes/` as needed.
 Use descriptive ASCII filenames such as `01-topic.tex` and stable label prefixes
-`sec:`, `def:`, `thm:`, `eq:`, and `fig:`. Build from the repository root as
-shown in the [README](../README.md). Keep generated output in `build/`.
+`sec:`, `def:`, `thm:`, `eq:`, and `fig:`. Run `./build.sh` from the repository root as shown in the
+[README](../README.md). Intermediate files stay in ignored `build/`; commit the
+PDF copies in `output/`, grouped like `notes/`, alongside their sources.
 
 ## Lecture notes
 

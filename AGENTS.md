@@ -11,7 +11,7 @@
 - Historical 2020 lectures are reference material, not confirmed current syllabus. Mark unknown course alignment explicitly.
 - Do not invent lecture dates, task sources, MATLAB versions, solver output, or verification results.
 - For worked tasks, provide assumptions and a hand derivation, link the actual MATLAB script, and compare the same inputs and tolerances.
-- Build changed LaTeX documents from the repository root into `build/`. Run relevant MATLAB scripts when MATLAB is available; otherwise report them as unverified.
+- Run `./build.sh` to build LaTeX notes into ignored `build/` and refresh the PDF-only `output/` tree matching `notes/`. Commit PDF copies alongside their sources. Run relevant MATLAB scripts when MATLAB is available; otherwise report them as unverified.
 - Record lasting decisions under `docs/decisions/` with problem, decision/proposal, alternatives, and consequences/acceptance criteria.
 - Preserve old decision rationale. Supersede it with a linked new record when a choice changes.
 - Keep source PDFs outside this repository unless explicitly needed; inventory them in `docs/sources.md`.

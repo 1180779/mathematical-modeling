@@ -17,14 +17,14 @@ Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem je
 ## Notatki z wykładów
 
 - [Wykład 1: Modelowanie problemów optymalizacji](notes/lectures/01-optimization-modeling.tex)
-  ([PDF](build/01-optimization-modeling.pdf)): zmienne, ograniczenia, funkcje celu,
+  ([PDF](output/lectures/01-optimization-modeling.pdf)): zmienne, ograniczenia, funkcje celu,
   klasyfikacja i historyczny zakres powtórki MATLAB-a.
 
 - [Wykład 2: Programowanie liniowe—modele i geometria](notes/lectures/02-linear-programming.tex)
-  ([PDF](build/02-linear-programming.pdf)): przykłady modeli, postać standardowa,
+  ([PDF](output/lectures/02-linear-programming.pdf)): przykłady modeli, postać standardowa,
   kierunki recesji, optymalne wierzchołki i bazowe rozwiązania dopuszczalne.
 
-Odnośniki do PDF-ów wskazują lokalne wyniki kompilacji, które nie są commitowane.
+Odnośniki do PDF-ów wskazują commitowane kopie do czytania w `output/`.
 
 ## Struktura
 
@@ -39,38 +39,54 @@ Odnośniki do PDF-ów wskazują lokalne wyniki kompilacji, które nie są commit
 | `matlab/labs/` | Skrypty i funkcje laboratoryjne |
 | `templates/` | Wspólny styl LaTeX i dokumenty startowe |
 | `docs/` | Dwujęzyczne przewodniki, decyzje, wykaz źródeł i słownik |
-| `build/` | Wygenerowane PDF-y i pliki pomocnicze; ignorowane przez Git |
+| `build/` | PDF-y kompilacji i pliki pośrednie, pogrupowane jak `notes/`; ignorowane przez Git |
+| `output/` | Commitowane kopie PDF, pogrupowane jak `notes/`; wyłącznie PDF-y |
+| `build.sh` | Kompilacja wszystkich notatek i odświeżanie kopii PDF |
 
 Stosuj zgodne nazwy tematów dla rozwiązania ćwiczenia i jego skryptu MATLAB;
 powiąż skrypt z rozwiązaniem. Utrzymuj jedną wykonywalną implementację zadania.
 
-## Kompilacja szablonu
+## Kompilacja notatek
 
-Zainstaluj dystrybucję TeX z pdfLaTeX-em, latexmk i pakietami wymienionymi w
-`templates/modeling-notes.sty`. Z katalogu głównego repozytorium:
-
-```sh
-mkdir -p build
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/lecture.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exercise.tex
-```
-
-Skopiuj szablon do odpowiedniego katalogu notatek. Zachowaj ścieżki względem
-katalogu głównego repozytorium i kompiluj z niego tym samym poleceniem,
-podając nową ścieżkę pliku. Oba skrypty sprawdzono w MATLAB 26.2.0.3386108 (R2026b) 2026-10-04
-w zwykłym terminalu użytkownika; w sandboxie launcher nadal kończy się przed wykonaniem kodu.
-
-Skompiluj oba PDF-y wykładów z katalogu głównego repozytorium:
+Zainstaluj Bash, dystrybucję TeX z pdfLaTeX-em, latexmk i pakietami wymienionymi
+w `templates/modeling-notes.sty`. Z katalogu głównego repozytorium uruchom:
 
 ```sh
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/01-optimization-modeling.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
+./build.sh
 ```
+
+Skrypt wykrywa wszystkie dokumenty `.tex` w `notes/`. Kompiluje je w odpowiednich
+podkatalogach ignorowanego `build/`, a dopiero po pomyślnej kompilacji wszystkich
+dokumentów kopiuje wyłącznie PDF-y do `output/`. Przykład:
+
+```text
+notes/lectures/02-linear-programming.tex
+  -> build/lectures/02-linear-programming.pdf (plus intermediate files)
+  -> output/lectures/02-linear-programming.pdf
+```
+
+`output/` ma także kategorie `exercises/`, `labs/` i `matlab-review/`.
+Skrypt tworzy puste katalogi bez plików zastępczych.
+Po udanej kompilacji istniejące kopie PDF są nadpisywane. Po zmianie nazwy lub
+usunięciu notatki usuń również jej nieaktualny PDF z `output/`.
+Skrypt można też wywołać ścieżką bezwzględną z innego katalogu.
+Commituj zaktualizowane PDF-y razem z odpowiednimi zmianami notatek.
+Pliki IntelliJ `.idea/`, `*.iml`, `*.ipr` i `*.iws` są ignorowane.
+
+Aby obejrzeć pusty szablon bez eksportowania go do `output/`:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates templates/lecture.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates templates/exercise.tex
+```
+
+Przed opracowaniem materiału skopiuj szablon do odpowiedniego katalogu `notes/`;
+zachowaj ścieżki względem katalogu głównego repozytorium i uruchom `./build.sh`.
 
 ## Powtórka MATLAB-a
 
 [Powtórka 1: Tablice, indeksowanie i układy liniowe](notes/matlab-review/01-arrays-and-linear-systems.tex)
-([PDF](build/01-arrays-and-linear-systems.pdf)) zawiera obliczenia ręczne i
+([PDF](output/matlab-review/01-arrays-and-linear-systems.pdf)) zawiera obliczenia ręczne i
 odpowiadający im skrypt dotyczący wymiarów, indeksowania, operatorów, backslash,
 uchwytów do funkcji, pętli i wykresów.
 
@@ -78,10 +94,10 @@ uchwytów do funkcji, pętli i wykresów.
 run('matlab/review/arrays_and_linear_systems.m')
 ```
 
-Wykres trafia do ignorowanego `matlab/output/`. Skompiluj PDF powtórki poleceniem:
+Wykres trafia do ignorowanego `matlab/output/`. Odśwież PDF-y notatek poleceniem:
 
 ```sh
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/matlab-review/01-arrays-and-linear-systems.tex
+./build.sh
 ```
 
 ## Sprawdzenia MATLAB z wykładu 2

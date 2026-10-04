@@ -17,14 +17,14 @@ Lecture notes are developed from the historical sources, with current course ali
 ## Lecture notes
 
 - [Lecture 1: Modeling optimization problems](notes/lectures/01-optimization-modeling.tex)
-  ([PDF](build/01-optimization-modeling.pdf)): variables, constraints, objectives,
+  ([PDF](output/lectures/01-optimization-modeling.pdf)): variables, constraints, objectives,
   classifications, and the historical MATLAB refresher scope.
 
 - [Lecture 2: Linear programming—models and geometry](notes/lectures/02-linear-programming.tex)
-  ([PDF](build/02-linear-programming.pdf)): modeling examples, standard form,
+  ([PDF](output/lectures/02-linear-programming.pdf)): modeling examples, standard form,
   recession directions, optimal vertices, and basic feasible solutions.
 
-PDF links refer to local build output, which is not committed.
+PDF links point to the committed reading copies in `output/`.
 
 ## Layout
 
@@ -39,38 +39,54 @@ PDF links refer to local build output, which is not committed.
 | `matlab/labs/` | Lab scripts and functions |
 | `templates/` | Shared LaTeX style and starter documents |
 | `docs/` | Bilingual guides, decisions, source inventory, and glossary |
-| `build/` | Generated PDFs and auxiliary files; ignored by Git |
+| `build/` | Compilation PDFs and intermediate files, grouped like `notes/`; ignored by Git |
+| `output/` | Committed PDF copies, grouped like `notes/`; PDFs only |
+| `build.sh` | Build all study notes and refresh their PDF copies |
 
 Use matching topic names for a worked exercise and its MATLAB script; link the
 script from the solution. Keep one executable implementation per task.
 
-## Build a template
+## Build notes
 
-Install a TeX distribution with pdfLaTeX, latexmk, and the packages listed in
-`templates/modeling-notes.sty`. From the repository root:
-
-```sh
-mkdir -p build
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/lecture.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exercise.tex
-```
-
-Copy a template into the appropriate notes directory. Retain its repository-root
-paths and build it from the repository root using the same command with the new
-file path. Both scripts were verified in MATLAB 26.2.0.3386108 (R2026b) on 2026-10-04
-in the user's normal terminal; the sandbox launcher still exits before execution.
-
-Build both lecture PDFs from the repository root:
+Install Bash, a TeX distribution with pdfLaTeX, latexmk, and the packages listed
+in `templates/modeling-notes.sty`. From the repository root, run:
 
 ```sh
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/01-optimization-modeling.tex
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
+./build.sh
 ```
+
+The script discovers every `.tex` document under `notes/`. It compiles into
+matching directories under ignored `build/`, then copies only PDFs to `output/`
+after all documents build successfully. For example:
+
+```text
+notes/lectures/02-linear-programming.tex
+  -> build/lectures/02-linear-programming.pdf (plus intermediate files)
+  -> output/lectures/02-linear-programming.pdf
+```
+
+`output/` also has `exercises/`, `labs/`, and `matlab-review/` categories.
+Empty directories are created by the script; they contain no placeholder files.
+Existing PDF copies are overwritten after a successful build. If you rename or
+remove a note, remove its obsolete PDF from `output/` too.
+The script can also be invoked by its absolute path from another directory.
+Commit updated PDFs alongside the corresponding note changes.
+IntelliJ's `.idea/`, `*.iml`, `*.ipr`, and `*.iws` files are ignored.
+
+To preview an empty template without exporting it to `output/`:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates templates/lecture.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates templates/exercise.tex
+```
+
+Copy a template into the appropriate `notes/` directory before developing it;
+retain its repository-root paths and run `./build.sh`.
 
 ## MATLAB refresher
 
 [Refresher 1: Arrays, indexing, and linear systems](notes/matlab-review/01-arrays-and-linear-systems.tex)
-([PDF](build/01-arrays-and-linear-systems.pdf)) contains hand calculations and a
+([PDF](output/matlab-review/01-arrays-and-linear-systems.pdf)) contains hand calculations and a
 matching script covering dimensions, indexing, operators, backslash, function
 handles, loops, and plotting.
 
@@ -78,10 +94,10 @@ handles, loops, and plotting.
 run('matlab/review/arrays_and_linear_systems.m')
 ```
 
-The plot is written to ignored `matlab/output/`. Build the refresher PDF with:
+The plot is written to ignored `matlab/output/`. Refresh the study PDFs with:
 
 ```sh
-latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/matlab-review/01-arrays-and-linear-systems.tex
+./build.sh
 ```
 
 ## Lecture 2 MATLAB checks
