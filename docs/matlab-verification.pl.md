@@ -83,3 +83,49 @@ a nie wykonanie skryptu MATLAB. Skrypt niezależnie oblicza każdą bazę i por�
 aktualizacje tablic z kolejnym rozwiązaniem układu liniowego. Dokładnie sprawdzono
 też wiersze wskaźników z łączną karą dużego M przy M = 10, uzyskując to samo
 optimum zadania równościowego z zerowymi zmiennymi sztucznymi.
+
+## Sprawdzenia wykładu 4 w dniu 2026-10-04
+
+Skrypt `matlab/exercises/lecture_04_checks.m` wymaga tylko podstawowego MATLAB-a.
+Sprawdza cały cykl, regułę Blanda i ścieżkę leksykograficzną, wszystkie osiem
+wierzchołków przykładu Klee–Minty'ego, parę o mieszanych znakach, ceny zasobów
+produkcji i zakres zmian prawej strony, komplementarność, odcinek optimów,
+jeden krok dualnej metody sympleks, błędny wybór wymiany i certyfikat sprzecznego wiersza.
+
+```sh
+matlab -batch "disp(version); run('matlab/exercises/lecture_04_checks.m')"
+```
+
+**Wykonanie w MATLAB-ie: pomyślne.** Użytkownik uruchomił polecenie w zwykłym
+terminalu z katalogu głównego repozytorium i przekazał poniższy wynik.
+MATLAB podał wersję 26.2.0.3386108 (R2026b). Wszystkie asercje przeszły;
+nie było to wykonanie przez agenta w sandboxie.
+
+```text
+26.2.0.3386108 (R2026b)
+Cycling: six zero steps return to the initial basis
+Anti-cycling: Bland = 6 pivots, lexicographic = 2, optimum = 5/4
+Klee-Minty: 8 vertices, 7 pivots, maximum = 125
+Production: dual y = (1, 1/3, 0), value = 18; RHS interval [-2, 2]
+Complementarity: candidate and optimal segment have minimum = 8
+Dual simplex: one pivot, minimum = 5, dual y = (0, 1/2)
+Infeasibility: h*A >= 0 and h*b = -1 certify the contradictory row
+All Lecture 4 numerical assertions passed.
+```
+
+Próba agenta w sandboxie zakończyła się kodem 1 bez wyjścia. Przyczyna startu
+pozostaje nieustalona; poprawne wykonanie w zwykłym terminalu potwierdza skrypt.
+
+**Analiza statyczna: pomyślna.** Zainstalowany analizator R2026b nie zgłosił uwag:
+
+```sh
+/usr/local/MATLAB/R2026b/bin/glnxa64/mlint -id matlab/exercises/lecture_04_checks.m
+```
+
+**Niezależna weryfikacja matematyczna: pomyślna.** Tymczasowe obliczenia w Pythonie
+na dokładnych ułamkach z biblioteki standardowej odtworzyły wszystkie rozwiązane
+ścieżki, wiersze wskaźników i certyfikaty. Dokładna mała perturbacja dała te same
+dwie wymiany leksykograficzne z dodatnimi krokami w zadaniu zaburzonym. Pełne
+wyliczenie baz potwierdziło osiem różnych wierzchołków z maksimum 125.
+Sprawdzono również zakres zmiany prawej strony, parę o mieszanych znakach oraz
+parametryzację odcinka optimów. Wyniki są zgodne z rozwiązaniami ręcznymi.

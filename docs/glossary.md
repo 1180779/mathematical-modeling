@@ -61,3 +61,20 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | cykl; zapętlenie | cycling | Repeated basis / Powtórzona baza | Possible with degenerate pivots / Możliwe przy zdegenerowanych wymianach |
 | reguła Blanda | Bland's rule | Smallest original indices / Najmniejsze oryginalne indeksy | Anti-cycling pivot selection / Wybór wymian zapobiegający cyklom |
 | ograniczenie nadmiarowe | redundant constraint | Dependent equality / Zależne równanie | Removal preserves feasible set / Usunięcie zachowuje zbiór dopuszczalny |
+| zadanie prymalne; zadanie pierwotne | primal problem | P; ZP | Original member of a dual pair / Pierwotny element pary dualnej |
+| zadanie dualne | dual problem | D; ZD | Bound problem / Zadanie wyznaczające ograniczenie wartości |
+| słaba dualność | weak duality | cᵀx ≤ bᵀy (max primal) | Any feasible pair / Dowolna para dopuszczalna |
+| silna dualność | strong duality | z* = w* | Existence and equality of finite optima / Istnienie i równość skończonych optimów |
+| luka dualności | duality gap | bᵀy − cᵀx (max primal) | Nonnegative for feasible pairs / Nieujemna dla par dopuszczalnych |
+| zasada komplementarności | complementary slackness | y_i s_i = x_j t_j = 0 | Feasible optimal primal–dual pair / Dopuszczalna optymalna para prymalna–dualna |
+| cena dualna; cena zasobu | dual price; resource price | y_i | RHS marginal value within a valid basis range / Krańcowa wartość prawej strony w zakresie ważności bazy |
+| rozwiązanie bazowe dualnie dopuszczalne | dual feasible basic solution | BRDD; q ≥ 0 | Primal coordinates may be negative / Współrzędne prymalne mogą być ujemne |
+| dualna metoda sympleks | dual simplex method | q ≥ 0 | Repairs primal feasibility / Przywraca dopuszczalność prymalną |
+| metoda perturbacji | perturbation method | b(ε) | Symbolic RHS changes / Symboliczne zmiany prawej strony |
+| porządek leksykograficzny | lexicographic order | L_i | First differing coordinate decides / Decyduje pierwsza różna współrzędna |
+| reguła leksykograficzna | lexicographic pivot rule | lex min L_i | Anti-cycling ratio test / Test ilorazów zapobiegający cyklom |
+| krok zerowy; martwy krok | zero-length step; stalled pivot | θ* = 0 | Same point, different basis / Ten sam punkt, inna baza |
+| złożoność pesymistyczna | worst-case complexity | input bit length / długość bitowa danych | Requires algorithm and cost model / Wymaga algorytmu i modelu kosztu |
+| metoda punktu wewnętrznego | interior-point method | — | Interior iterates / Iteracje wewnątrz zbioru |
+| certyfikat sprzeczności | infeasibility certificate | hᵀA ≥ 0, hᵀb < 0 | Contradicts Ax = b, x ≥ 0 / Zaprzecza Ax = b, x ≥ 0 |
+| ściana optymalna | optimal face | cᵀx = z* | All optimizers in a polyhedron / Wszystkie optima w zbiorze wielościennym |

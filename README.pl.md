@@ -28,6 +28,11 @@ Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem je
   ([PDF](output/lectures/03-simplex-method.pdf)): równania kanoniczne, ceny zredukowane,
   pełne tablice sympleksowe, degeneracja, promienie dopuszczalne, inicjalizacja dwufazowa i duże M.
 
+- [Wykład 4: Degeneracja, dualność i dualna metoda sympleks](notes/lectures/04-degeneracy-and-duality.tex)
+  ([PDF](output/lectures/04-degeneracy-and-duality.pdf)): pełny przykład cyklu,
+  reguła Blanda i perturbacja leksykograficzna, złożoność, konstrukcja zadania dualnego,
+  certyfikaty optymalności, komplementarność i rozwiązanie dualną metodą sympleks.
+
 Odnośniki do PDF-ów wskazują commitowane kopie do czytania w `output/`.
 
 ## Struktura
@@ -125,6 +130,19 @@ sprawdza oba przykłady sympleksowe, oba warianty startu dwufazowego i dodane ko
 Wszystkie asercje przeszły w zwykłym terminalu użytkownika. Analiza statyczna
 oraz niezależne obliczenia na dokładnych ułamkach także zakończyły się pomyślnie;
 zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
+
+## Sprawdzenia MATLAB-a do wykładu 4
+
+```matlab
+run('matlab/exercises/lecture_04_checks.m')
+```
+
+Uruchom z katalogu głównego repozytorium. Skrypt wymaga tylko podstawowego MATLAB-a
+i sprawdza cykl, obie ścieżki zapobiegające cyklom, przykład Klee–Minty'ego,
+certyfikaty dualne, komplementarność, zmiany prawej strony oraz dualną metodę sympleks.
+Wszystkie asercje przeszły w zwykłym terminalu użytkownika w R2026b. Analiza statyczna
+i niezależne obliczenia na dokładnych ułamkach również przeszły; zobacz
+[rejestr weryfikacji](docs/matlab-verification.pl.md).
 
 ## Sprawdzenia Git
 

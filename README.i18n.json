@@ -8,8 +8,8 @@
     "pl": "689a9de9b8f02ebf23456784315f04e32092737ea34a9a7d19f63eb25a996d49"
   },
   "/mathematical-modeling/lecture-notes": {
-    "en": "e726caa49f69398f27f4963d25a56d0242b82d8c755a967ec03bcf27f05aeeb2",
-    "pl": "e5ef8eae33a7291e20d8b62785bf9b569d6d902040b9529cc40dd63f2010d959"
+    "en": "2e3443b04c78c38f0c388a3908eeff5b2de4b978a1b4061adddc2be655e731ec",
+    "pl": "9c5966426b3a8cc851c217063057261e48011818d55c98b1e307ebb069710f54"
   },
   "/mathematical-modeling/layout": {
     "en": "516b5d40a533bb2f139dab09e2603fd5a58d71d9e253cf0d2575883ea1e8466c",
@@ -30,6 +30,10 @@
   "/mathematical-modeling/lecture-3-matlab-checks": {
     "en": "a9edfcf3de948ae14e2041cb3176b44fc12a73a631fb480afa31dfff43e7b703",
     "pl": "b62fc7f36060174ce61ecaa43c6a4f4cbe0f273c8bbfe11f1e4fe51706cddb56"
+  },
+  "/mathematical-modeling/lecture-4-matlab-checks": {
+    "en": "997bc2a4cf29dcebd9952449edc811db90cab0c6faf2e81611fcccc90d8afcea",
+    "pl": "6402f7464f4beb14aa21b22a55a8db79f38e348463091ee872e4bc4748130f04"
   },
   "/mathematical-modeling/git-checks": {
     "en": "ef3bc86b413d8630e77e4f67a7b03f9a116823355bd3de6491fa11a3bd80994b",

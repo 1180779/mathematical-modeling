@@ -81,3 +81,49 @@ hand results, not execution of the MATLAB script. The script independently
 recomputes each basis and compares its pivot updates with the next linear solve.
 The combined Big M indicator rows were also checked exactly at M = 10, giving
 the same equality-problem optimum with zero artificial variables.
+
+## Lecture 4 checks on 2026-10-04
+
+`matlab/exercises/lecture_04_checks.m` needs base MATLAB only. It checks the complete
+cycle, Bland and lexicographic paths, all eight Klee–Minty vertices, the mixed-sign
+pair, production resource prices and RHS interval, complementarity and the optimal
+segment, the one-pivot dual-simplex solve, a wrong pivot choice, and the contradictory
+row certificate.
+
+```sh
+matlab -batch "disp(version); run('matlab/exercises/lecture_04_checks.m')"
+```
+
+**MATLAB execution: passed.** The user ran the command in a normal terminal from
+the repository root and supplied the output below. MATLAB reported version
+26.2.0.3386108 (R2026b). All assertions passed; this was not an agent-executed
+run inside the sandbox.
+
+```text
+26.2.0.3386108 (R2026b)
+Cycling: six zero steps return to the initial basis
+Anti-cycling: Bland = 6 pivots, lexicographic = 2, optimum = 5/4
+Klee-Minty: 8 vertices, 7 pivots, maximum = 125
+Production: dual y = (1, 1/3, 0), value = 18; RHS interval [-2, 2]
+Complementarity: candidate and optimal segment have minimum = 8
+Dual simplex: one pivot, minimum = 5, dual y = (0, 1/2)
+Infeasibility: h*A >= 0 and h*b = -1 certify the contradictory row
+All Lecture 4 numerical assertions passed.
+```
+
+The agent's sandbox attempt exited with code 1 and no output. The startup cause
+remains unresolved; the successful normal-terminal run verifies the script.
+
+**Static analysis: passed.** The installed R2026b analyzer reported no diagnostics:
+
+```sh
+/usr/local/MATLAB/R2026b/bin/glnxa64/mlint -id matlab/exercises/lecture_04_checks.m
+```
+
+**Independent mathematical verification: passed.** Temporary Python calculations
+using standard-library rational arithmetic recomputed every worked path, indicator
+row, and certificate. An exact small perturbation produced the same two lexicographic
+pivots with positive steps in the perturbed problem. Exhaustive basis enumeration
+confirmed eight distinct cube vertices with maximum 125. The RHS interval,
+mixed-sign feasible pair, and optimal-segment parametrization were checked too.
+The results agree with the hand derivations.

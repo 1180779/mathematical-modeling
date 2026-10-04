@@ -1,0 +1,1211 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\usepackage{needspace}
+\hypersetup{pdftitle={Lecture 4 -- Degeneracy, duality, and dual simplex}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Lecture 4: Degeneracy, Duality, and Dual Simplex}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+\clearpage
+
+\section{A common notation for both simplex methods}\label{sec:notation}
+Consider the standard maximization problem
+\[
+  \max c^Tx,\qquad Ax=b,\qquad x\geq0,
+  \qquad A\in\R^{m\times n},\quad \operatorname{rank}A=m.
+\]
+An ordered basis $B=(j_1,\ldots,j_m)$ selects a nonsingular $A_B$; $N$
+contains the nonbasic indices. Define
+\begin{equation}\label{eq:canonical}
+  \bar A=A_B^{-1}A,\qquad \bar b=A_B^{-1}b,\qquad
+  q=\bar A^Tc_B-c,\qquad z_0=c_B^T\bar b.
+\end{equation}
+The basic solution has $x_N=0$ and $x_B=\bar b$. Its equations and objective are
+\begin{equation}\label{eq:dictionary}
+  x_B=\bar b-\bar A_Nx_N,\qquad
+  z(x_N)=z_0-\sum_{j\in N}q_jx_j.
+\end{equation}
+Throughout these notes, $q_j=z_j-c_j$ is an \emph{optimality indicator}.
+The more usual reduced cost is $\rho_j=-q_j$; never mix their signs.
+Row $r$ corresponds to variable $x_{j_r}$, not necessarily $x_r$.
+
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    Condition & Meaning & Simplex role\\\midrule
+    $\bar b\geq0$ & Primal feasible basic solution & Primal method preserves it\\
+    $q\geq0$ & Dual feasible basis & Dual method preserves it\\
+    Both conditions & Optimal primal and dual pair & Stop with a certificate\\
+    $\bar b_i=0$ for some $i$ & Degenerate feasible basis & Zero steps may occur\\\bottomrule
+  \end{tabular}
+\end{center}
+A primal pivot chooses $k\in N$ with $q_k<0$. For $u=\bar A_{:k}$,
+$x_k=\theta$ gives $x_B=\bar b-\theta u$ and objective change $-q_k\theta$.
+If some $u_i>0$, the largest feasible step is
+\[
+  \theta^*=\min_{i:u_i>0}\frac{\bar b_i}{u_i}.
+\]
+If $u\leq0$, the objective is unbounded above along this feasible ray.
+Both methods use the same Gauss--Jordan pivot operation. If $p=\bar a_{rk}\ne0$,
+\begin{align*}
+  \bar a'_{rj}&=\bar a_{rj}/p,& \bar b'_r&=\bar b_r/p,\\
+  \bar a'_{ij}&=\bar a_{ij}-\bar a_{ik}\bar a_{rj}/p,
+  &\bar b'_i&=\bar b_i-\bar a_{ik}\bar b_r/p\quad(i\ne r),\\
+  q'_j&=q_j-q_k\bar a_{rj}/p,& z'_0&=z_0-q_k\bar b_r/p.
+\end{align*}
+
+\section{Degeneracy: changing a basis without changing the point}\label{sec:degeneracy}
+A basic feasible solution is degenerate when at least one \emph{basic}
+coordinate is zero. Having nonbasic zeros is normal and says nothing about
+degeneracy. Two mechanisms deserve separate attention.
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{5.3cm}>{\raggedright\arraybackslash}p{6cm}}\toprule
+    Ratio test & Next point & Objective for $q_k<0$\\\midrule
+    $\theta^*=0$ & Same full vector $x$; a different basis & No change\\
+    $\theta^*>0$, unique minimum & A different point & Strict improvement\\
+    $\theta^*>0$, tied minimum & A different, degenerate point: another basic variable also reaches zero & Strict improvement\\\bottomrule
+  \end{tabular}
+\end{center}
+For a tied positive ratio, $\bar b_i-\theta^*u_i=0$ for every tied row.
+Only one variable leaves the basis; the others become zero basic variables.
+Thus degeneracy may be reached by a strictly improving step.
+A zero step need not prove that the current point is suboptimal: a degenerate
+optimal point can have a basis with some negative indicators.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,align=center,minimum width=3.5cm,minimum height=1cm}]
+    \node[box] (b1) at (0,0) {Basis $B$\\one basic zero};
+    \node[box] (b2) at (5.8,0) {Basis $B'$\\one basic zero};
+    \node[model point,label=below:{same feasible point $x$}] (x) at (2.9,-1.5) {};
+    \draw[model flow] (b1)--node[above] {$\theta^*=0$} (b2);
+    \draw[dashed,modelblue] (b1)--(x);
+    \draw[dashed,modelblue] (b2)--(x);
+    \node at (2.9,1) {Basis exchange $\ne$ geometric movement};
+  \end{tikzpicture}
+  \caption{A degenerate pivot can change the equations used to describe a vertex
+    without moving away from that vertex.}
+\end{figure}
+There are finitely many bases. If every pivot strictly improves the objective,
+no basis can recur. Zero steps remove this argument. With deterministic choices,
+a return to the same ordered basis repeats the same tableau and can initiate
+an endless cycle. Repeated points alone do not establish a cycle: several
+successive bases can describe the same point before the algorithm escapes.
+
+\subsection{A six-pivot cycling example}\label{sec:cycling}
+Consider seven nonnegative variables and the problem
+\begin{equation}\label{eq:beale}
+  \begin{aligned}
+    \max\quad &\tfrac34x_4-20x_5+\tfrac12x_6-6x_7,\\
+    &x_1+\tfrac14x_4-8x_5-x_6+9x_7=0,\\
+    &x_2+\tfrac12x_4-12x_5-\tfrac12x_6+3x_7=0,\\
+    &x_3+x_6=1,\qquad x_1,\ldots,x_7\geq0.
+  \end{aligned}
+\end{equation}
+Start at $B=(1,2,3)$, so $x=(0,0,1,0,0,0,0)^T$ and $z_0=0$.
+Use Dantzig's entering rule (most negative $q_j$) and resolve a tied ratio
+by taking the first row in the current tableau. The successive tableaus below
+show the complete cycle. The bottom row is $q^T$ with $z_0$ on the right;
+basic columns are unit columns.
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(1,2,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0\\
+    $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(4,2,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_4$ & 4 & 0 & 0 & 1 & -32 & -4 & 36 & 0\\
+    $x_2$ & -2 & 1 & 0 & 0 & 4 & $3/2$ & -15 & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 3 & 0 & 0 & 0 & -4 & $-7/2$ & 33 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(4,5,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_4$ & -12 & 8 & 0 & 1 & 0 & 8 & -84 & 0\\
+    $x_5$ & $-1/2$ & $1/4$ & 0 & 0 & 1 & $3/8$ & $-15/4$ & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 1 & 1 & 0 & 0 & 0 & -2 & 18 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(6,5,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_6$ & $-3/2$ & 1 & 0 & $1/8$ & 0 & 1 & $-21/2$ & 0\\
+    $x_5$ & $1/16$ & $-1/8$ & 0 & $-3/64$ & 1 & 0 & $3/16$ & 0\\
+    $x_3$ & $3/2$ & -1 & 1 & $-1/8$ & 0 & 0 & $21/2$ & 1\\
+    \midrule
+    $q^T$ & -2 & 3 & 0 & $1/4$ & 0 & 0 & -3 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(6,7,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_6$ & 2 & -6 & 0 & $-5/2$ & 56 & 1 & 0 & 0\\
+    $x_7$ & $1/3$ & $-2/3$ & 0 & $-1/4$ & $16/3$ & 0 & 1 & 0\\
+    $x_3$ & -2 & 6 & 1 & $5/2$ & -56 & 0 & 0 & 1\\
+    \midrule
+    $q^T$ & -1 & 1 & 0 & $-1/2$ & 16 & 0 & 0 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(1,7,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_1$ & 1 & -3 & 0 & $-5/4$ & 28 & $1/2$ & 0 & 0\\
+    $x_7$ & 0 & $1/3$ & 0 & $1/6$ & -4 & $-1/6$ & 1 & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 0 & -2 & 0 & $-7/4$ & 44 & $1/2$ & 0 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(1,2,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0\\
+    $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Every step has length zero. The first entry is $x_4$, with ratios $0/(1/4)$
+and $0/(1/2)$; choosing row 1 makes $x_1$ leave. At the fourth tableau,
+$q_1=-2$ and $q_7=-3$, so Dantzig's rule chooses $x_7$.
+After six pivots, both the basis and the full tableau are back at their start.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,minimum width=2.3cm,minimum height=.7cm}]
+    \node[box] (a) at (0,0) {$(1,2,3)$};
+    \node[box] (b) at (4,0) {$(4,2,3)$};
+    \node[box] (c) at (8,0) {$(4,5,3)$};
+    \node[box] (d) at (8,-1.6) {$(6,5,3)$};
+    \node[box] (e) at (4,-1.6) {$(6,7,3)$};
+    \node[box] (f) at (0,-1.6) {$(1,7,3)$};
+    \draw[model flow] (a)--node[above] {$4\gets1$} (b);
+    \draw[model flow] (b)--node[above] {$5\gets2$} (c);
+    \draw[model flow] (c)--node[right] {$6\gets4$} (d);
+    \draw[model flow] (d)--node[below] {$7\gets5$} (e);
+    \draw[model flow] (e)--node[below] {$1\gets6$} (f);
+    \draw[model flow] (f)--node[left] {$2\gets7$} (a);
+    \node at (4,-2.8) {Every pivot: $\theta^*=0$, $x=(0,0,1,0,0,0,0)^T$, $z_0=0$};
+  \end{tikzpicture}
+  \caption{A cycle in the space of bases. Labels mean ``entering index $\gets$
+    leaving index''; there is no corresponding tour of distinct vertices.}
+\end{figure}
+
+\subsection{Bland's rule and its complete path}\label{sec:bland}
+Bland's anti-cycling rule changes \emph{both} choices:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+  \item Choose the smallest original nonbasic index $k$ with $q_k<0$.
+  \item Apply the ordinary minimum-ratio test; among ties, choose the smallest
+        original index $j_r$ of the basic variable that would leave.
+\end{enumerate}
+In exact arithmetic this rule prevents cycling and yields finite termination
+of primal simplex. The claim is not a promise about speed or floating-point
+roundoff. A rule changing only the entering choice is not the full Bland rule.
+
+\begin{center}
+  \begin{tabular}{clcccl}\toprule
+    Step & Ordered basis & Enter & Leave & $\theta^*$ & $z_0$\\\midrule
+    0 & $(1,2,3)$ & 4 & 1 & 0 & 0\\
+    1 & $(4,2,3)$ & 5 & 2 & 0 & 0\\
+    2 & $(4,5,3)$ & 6 & 4 & 0 & 0\\
+    3 & $(6,5,3)$ & 1 & 5 & 0 & 0\\
+    4 & $(6,1,3)$ & 2 & 3 & $1/2$ & 0\\
+    5 & $(6,1,2)$ & 4 & 2 & 1 & $1/2$\\
+    6 & $(6,1,4)$ & --- & --- & --- & $5/4$\\\bottomrule
+  \end{tabular}
+\end{center}
+At step 3, Bland chooses $x_1$ rather than $x_7$, breaking the previous cycle.
+For that column the only positive transformed coefficient is $1/16$ in the
+$x_5$ row, so $x_5$ leaves at zero step. The remaining pivots move to
+\[
+  x^*=(3/4,0,0,1,0,1,0)^T,\qquad z^*=5/4.
+\]
+The final indicators are $q=(0,3/2,5/4,0,2,0,21/2)^T\geq0$.
+Equation~\eqref{eq:dictionary} therefore gives the exact certificate
+\begin{equation}\label{eq:beale-certificate}
+  z=\tfrac54-\tfrac32x_2-\tfrac54x_3-2x_5-\tfrac{21}{2}x_7\leq\tfrac54.
+\end{equation}
+All four nonbasic indicators are strictly positive. Equality forces their
+variables to zero, after which the basis equations fix the remaining variables;
+the optimum is unique.
+\paragraph{Practice prompt.}
+\foreignlanguage{polish}{Rozwiązać przykład Beale, stosując regułę Bland'a.}
+The path above supplies a hand solution; the MATLAB companion checks its choices,
+steps, and certificate.
+
+\Needspace{14\baselineskip}
+\section{Perturbation and lexicographic tie-breaking}\label{sec:perturbation}
+Degeneracy also has a column-space interpretation. For a fixed basis,
+\[
+  b=\sum_{i=1}^m a_{j_i}\bar b_i.
+\]
+A feasible basis writes $b$ as a nonnegative combination of its columns.
+A degenerate basis places $b$ on the boundary of that simplicial cone: at least
+one coefficient is zero. A small symbolic perturbation can place it in the
+interior of a nearby cone.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},scale=1.05]
+    \fill[modelblue!10] (0,0)--(4.2,0)--(3,3)--cycle;
+    \draw[model axis] (0,0)--(4.8,0) node[right] {first coordinate};
+    \draw[model axis] (0,0)--(0,3.5) node[above] {second coordinate};
+    \draw[model flow] (0,0)--(4.2,0) node[below] {$a_{j_1}$};
+    \draw[model flow] (0,0)--(3,3) node[above] {$a_{j_2}$};
+    \draw[modelorange,thick,-{Stealth}] (0,0)--(2.5,0);
+    \node[model point,label=below:{$b$: boundary}] at (2.5,0) {};
+    \draw[modelorange,thick,-{Stealth}] (2.5,.05)--(2.7,.8);
+    \node[model point,label=right:{$b(\varepsilon)$: positive coefficients}] at (2.7,.8) {};
+  \end{tikzpicture}
+  \caption{A two-dimensional illustration in the space of right-hand sides.
+    The decision vector and the right-hand-side vector belong to different spaces.}
+\end{figure}
+
+\subsection{Symbolic infinitesimals}\label{sec:lex}
+Relabel columns so the initial feasible basis is $B_0=(1,\ldots,m)$.
+Consider the formal perturbation
+\begin{equation}\label{eq:perturb}
+  b(\varepsilon)=b+\sum_{j=1}^n\varepsilon^j a_j,
+  \qquad 0<\varepsilon\ll1.
+\end{equation}
+Here $\varepsilon^2$ is much smaller than $\varepsilon$, and so on.
+At the initial basis, the first $m$ transformed columns are the identity.
+Consequently each zero basic coordinate gets a positive leading perturbation,
+so this basis stays feasible for sufficiently small positive $\varepsilon$.
+Without an initial ordering or a perturbation adapted to $B_0$, feasibility
+of the starting basis must be checked; arbitrary RHS noise is not this rule.
+
+For any basis,
+\[
+  \bar b_i(\varepsilon)=\bar b_i+\sum_{j=1}^n\varepsilon^j\bar a_{ij}.
+\]
+Every such polynomial is nonzero as a polynomial: a basic unit column supplies
+a nonzero coefficient. There are finitely many bases and rows, hence only
+finitely many positive roots. Choose $\varepsilon$ below their smallest positive
+root, if there is one. Then no basic coordinate equals zero in the perturbed
+problem. Feasible pivots with $q_k<0$ strictly improve its objective and cannot
+cycle. This is an exact-arithmetic argument, not a recommended numerical choice
+of a tiny floating-point constant.
+
+When $\bar a_{ik}>0$, compare the coefficient tuples
+\begin{equation}\label{eq:lex-tuple}
+  L_i=\left(\frac{\bar b_i}{\bar a_{ik}},
+  \frac{\bar a_{i1}}{\bar a_{ik}},\ldots,
+  \frac{\bar a_{in}}{\bar a_{ik}}\right)
+\end{equation}
+\emph{lexicographically}: compare the first coordinate, then the first coordinate
+where the tuples differ. Choose the smallest tuple. This implements the
+perturbed ratio test without assigning a numerical value to $\varepsilon$.
+Distinct normalized rows cannot coincide, since $\bar A$ has full row rank.
+An equivalent shorter perturbation uses
+$b+A_{B_0}(\varepsilon,\ldots,\varepsilon^m)^T$ and keeps the transformed
+$B_0$ columns as its tie-break coefficients.
+
+\Needspace{6\baselineskip}
+\paragraph{First tie in the cycling example.}
+For $k=4$, the ordinary ratio is zero in both first rows. Their tuples begin
+\[
+  L_1=(0,4,0,0,\ldots),\qquad L_2=(0,0,2,0,\ldots).
+\]
+Since $0<4$ in the first differing position, row 2 wins: $x_2$ leaves.
+This gives the following two noninitial tableaus.
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(1,4,3)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_1$ & 1 & $-1/2$ & 0 & 0 & -2 & $-3/4$ & $15/2$ & 0\\
+    $x_4$ & 0 & 2 & 0 & 1 & -24 & -1 & 6 & 0\\
+    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 0 & $3/2$ & 0 & 0 & 2 & $-5/4$ & $21/2$ & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{8\baselineskip}
+\noindent\textbf{Basis $B=(1,4,6)$.}
+\begin{center}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
+    $x_1$ & 1 & $-1/2$ & $3/4$ & 0 & -2 & 0 & $15/2$ & $3/4$\\
+    $x_4$ & 0 & 2 & 1 & 1 & -24 & 0 & 6 & 1\\
+    $x_6$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    $q^T$ & 0 & $3/2$ & $5/4$ & 0 & 2 & 0 & $21/2$ & $5/4$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+After this zero step, $x_6$ enters. The only positive coefficient in that
+column is 1 in the $x_3$ row, so $x_3$ leaves with step 1. The optimizer is
+again $(3/4,0,0,1,0,1,0)^T$ and $z=5/4$.
+The perturbed objectives strictly improve even when the unperturbed step is
+zero. As $\varepsilon\to0$, an optimal certifying basis of the perturbed
+problem gives a feasible limit with unchanged nonnegative indicators, hence an
+optimum of the original problem.
+
+\begin{center}
+  \begin{tabular}{llll}\toprule
+    Rule on this example & Pivots & Behavior & Optimum\\\midrule
+    Dantzig + first-row ties & 6, then repeat & Cycles at the start & Not reached\\
+    Full Bland & 6 & Four zero steps, two moves & $5/4$\\
+    Dantzig + lexicographic ties & 2 & One zero step, one move & $5/4$\\\bottomrule
+  \end{tabular}
+\end{center}
+The counts compare this particular example, not universal relative performance.
+
+\Needspace{23\baselineskip}
+\section{Complexity and the route to an optimum}\label{sec:complexity}
+Avoiding cycles establishes termination, but does not establish a polynomial
+number of pivots. A family of distorted cubes exposes the difference.
+For $p=5$, the three-dimensional member is
+\[
+  \begin{aligned}
+    \max\quad &4x_1+2x_2+x_3,\\
+    &x_1\leq5,\\
+    &4x_1+x_2\leq25,\\
+    &8x_1+4x_2+x_3\leq125,\qquad x\geq0.
+  \end{aligned}
+\]
+Starting at the origin, Dantzig's rule visits all eight vertices:
+\begin{center}
+  \begin{tabular}{clrr}\toprule
+    Step & $(x_1,x_2,x_3)$ & $4x_1+2x_2+x_3$ & Entering index next\\\midrule
+    0 & $(0,0,0)$ & 0 & 1\\
+    1 & $(5,0,0)$ & 20 & 2\\
+    2 & $(5,5,0)$ & 30 & 4\\
+    3 & $(0,25,0)$ & 50 & 3\\
+    4 & $(0,25,25)$ & 75 & 1\\
+    5 & $(5,5,65)$ & 95 & 5\\
+    6 & $(5,0,85)$ & 105 & 4\\
+    7 & $(0,0,125)$ & 125 & ---\\\bottomrule
+  \end{tabular}
+\end{center}
+Indices 4--6 are the slack variables. The last constraint yields
+\[
+  4x_1+2x_2+x_3\leq125-4x_1-2x_2\leq125,
+\]
+with equality only at $(0,0,125)$.
+The analogous $n$-variable family maximizes
+$\sum_{j=1}^n2^{n-j}x_j$, with rows
+\[
+  x_i+\sum_{j<i}2^{i-j+1}x_j\leq p^i,\quad i=1,\ldots,n,
+  \qquad x\geq0.
+\]
+For the usual choice $p=5$, this rule can require $2^n-1$ pivots. This is a
+worst-case statement about a specified pivot rule and family. It does not say
+that every simplex rule follows this path, or that simplex is slow on every LP.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=.8cm,y=.13cm,every node/.style={font=\small}]
+    \filldraw[model region] (0,0)--(5,0)--(5,5)--(0,25)--cycle;
+    \draw[model axis] (0,0)--(6,0) node[right] {$x_1$};
+    \draw[model axis] (0,0)--(0,29) node[above] {$x_2$};
+    \draw[modelorange,very thick,-{Stealth}] (0,0)--(5,0);
+    \draw[modelorange,very thick,-{Stealth}] (5,0)--(5,5);
+    \draw[modelorange,very thick,-{Stealth}] (5,5)--(0,25);
+    \foreach \x/\y in {0/0,5/0,5/5,0/25} \node[model point] at (\x,\y) {};
+    \node[below left] at (0,0) {$(0,0)$};
+    \node[below] at (5,0) {$(5,0)$};
+    \node[right] at (5,5) {$(5,5)$};
+    \node[left] at (0,25) {$(0,25)$};
+    \node[align=left] at (10,14) {Two-dimensional member\\$\max(2x_1+x_2)$\\$x_1\leq5$, $4x_1+x_2\leq25$};
+  \end{tikzpicture}
+  \caption{The distorted square already makes Dantzig's rule visit every vertex.
+    The higher-dimensional family extends this long edge-following route.}
+\end{figure}
+For rational input, polynomial-time complexity is measured against the
+\emph{bit length} of all input coefficients, not just $m+n$.
+Ellipsoid and suitable interior-point algorithms have polynomial-time guarantees.
+Simplex is widely effective in practice, but no universal ``average linear in
+$m+n$'' bound follows without a stated probability model and analysis.
+Floating-point conditioning and sparse linear algebra also affect real runtime.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \foreach \shift in {0,6.4} {
+        \begin{scope}[xshift=\shift cm]
+          \filldraw[model region] (0,0)--(3,0)--(3,1)--(1.2,3)--(0,2.5)--cycle;
+          \node[model point,label=above:{$x^*$}] at (1.2,3) {};
+        \end{scope}
+      }
+    \draw[modelorange,very thick,-{Stealth}] (0,0)--(3,0)--(3,1)--(1.2,3);
+    \node at (1.5,-.5) {Simplex: basis exchanges};
+    \draw[modelorange,very thick,-{Stealth}] (7.1,.6)--(7.7,1.25)--(7.9,2.05)--(7.65,2.65);
+    \foreach \x/\y in {7.1/.6,7.7/1.25,7.9/2.05,7.65/2.65}
+    \fill[modelorange] (\x,\y) circle (1.6pt);
+    \node at (7.9,-.5) {Interior-point: interior iterates};
+  \end{tikzpicture}
+  \caption{Schematic algorithmic routes, not computed iterates. An interior-point
+    method approaches an optimal face; that face need not be a single vertex.
+    Crossover can subsequently select a basic solution.}
+\end{figure}
+
+\section{Constructing the dual problem}\label{sec:dual-rules}
+\subsection{Bounds from weighted constraints}
+For the inequality-form primal
+\begin{equation}\label{eq:primal-dual}
+  \text{(P)}\quad\max c^Tx:\ Ax\leq b,\ x\geq0,
+  \qquad
+  \text{(D)}\quad\min b^Ty:\ A^Ty\geq c,\ y\geq0,
+\end{equation}
+think of $y_i$ as the weight or price of resource constraint $i$.
+Nonnegative weights preserve its direction. If $A^Ty\geq c$, each product's
+weighted resource use covers its objective coefficient, so $b^Ty$ bounds the
+value achievable with available resources. Minimizing chooses the tightest bound.
+
+The standard equality-form primal has dual
+\begin{equation}\label{eq:standard-dual}
+  \max c^Tx:\ Ax=b,\ x\geq0
+  \quad\longleftrightarrow\quad
+  \min b^Ty:\ A^Ty\geq c,\ y\in\R^m.
+\end{equation}
+Equality constraints allow weights of either sign. Requiring $y\geq0$ here
+would generally change the dual problem.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,align=center,minimum width=3.4cm,minimum height=.8cm}]
+    \node[box] (pc) at (0,0) {$m$ primal constraints};
+    \node[box] (dv) at (7,0) {$m$ dual variables};
+    \node[box] (pv) at (0,-1.4) {$n$ primal variables};
+    \node[box] (dc) at (7,-1.4) {$n$ dual constraints};
+    \draw[model flow] (pc)--node[above] {one weight per row} (dv);
+    \draw[model flow] (pv)--node[above] {one test per column} (dc);
+    \node at (3.5,-2.4) {$A\ (m\times n)\ \longmapsto\ A^T\ (n\times m)$};
+  \end{tikzpicture}
+  \caption{Dualization interchanges rows and columns, $b$ and $c$, and max and min.
+    The number of constraints changes places with the number of variables.}
+\end{figure}
+
+\subsection{A sign table for mixed forms}
+Write the primal as a \emph{maximization}. Then the dual is a minimization,
+with objective $b^Ty$, and use the following two independent tables.
+\begin{center}
+  \begin{tabular}{ll@{\qquad}ll}\toprule
+    Primal row & Dual variable & Primal variable & Dual column condition\\\midrule
+    $a_i^Tx\leq b_i$ & $y_i\geq0$ & $x_j\geq0$ & $a_j^Ty\geq c_j$\\
+    $a_i^Tx\geq b_i$ & $y_i\leq0$ & $x_j\leq0$ & $a_j^Ty\leq c_j$\\
+    $a_i^Tx=b_i$ & $y_i$ free & $x_j$ free & $a_j^Ty=c_j$\\\bottomrule
+  \end{tabular}
+\end{center}
+Here $a_i^T$ denotes row $i$, while $a_j$ denotes column $j$.
+For a primal \emph{minimization}, reverse the inequality directions in the
+column conditions and the sign directions for inequality-row weights:
+\begin{center}
+  \begin{tabular}{ll@{\qquad}ll}\toprule
+    Primal row & Dual variable & Primal variable & Dual column condition\\\midrule
+    $a_i^Tx\geq b_i$ & $y_i\geq0$ & $x_j\geq0$ & $a_j^Ty\leq c_j$\\
+    $a_i^Tx\leq b_i$ & $y_i\leq0$ & $x_j\leq0$ & $a_j^Ty\geq c_j$\\
+    $a_i^Tx=b_i$ & $y_i$ free & $x_j$ free & $a_j^Ty=c_j$\\\bottomrule
+  \end{tabular}
+\end{center}
+A quick derivation for max is to form
+\[
+  L(x,y)=c^Tx+y^T(b-Ax)=b^Ty+(c-A^Ty)^Tx.
+\]
+The row sign rules ensure $L(x,y)\geq c^Tx$ on primal-feasible $x$.
+The column rules ensure its supremum over the variable domains is $b^Ty$:
+a positive coefficient on a nonnegative variable would otherwise give $+\infty$;
+a free variable requires a zero coefficient. Thus the signs follow from an
+upper-bound construction, rather than memorization alone.
+Dualizing again restores the original problem, up to equivalent sign conventions.
+
+\subsection{Worked mixed-sign example}\label{sec:mixed}
+\[
+  \begin{array}{ll}
+    \text{Primal:}\ \max &8x_1+3x_2-2x_3\\
+    \text{subject to}&x_1-6x_2+x_3\geq2,\\
+    &5x_1+7x_2-2x_3=-4,\\
+    &x_1\leq0,\quad x_2\geq0,\quad x_3\in\R.
+  \end{array}
+\]
+The first row gives $y_1\leq0$; the second makes $y_2$ free. Read one column
+at a time to obtain
+\[
+  \begin{array}{ll}
+    \text{Dual:}\ \min &2y_1-4y_2\\
+    \text{subject to}&y_1+5y_2\leq8,\\
+    &-6y_1+7y_2\geq3,\\
+    &y_1-2y_2=-2,\\
+    &y_1\leq0,\quad y_2\in\R.
+  \end{array}
+\]
+As a check, $y=(0,1)$ is dual feasible. The primal point $x=(0,0,2)$
+is feasible and gives $c^Tx=-4=b^Ty$. Equal feasible values certify that
+both points are optimal, as the next section proves.
+
+\section{Weak duality, strong duality, and possible outcomes}\label{sec:duality}
+\begin{theorem}[Weak duality]
+  For the pair in \eqref{eq:primal-dual}, every primal-feasible $x$ and
+  dual-feasible $y$ satisfy $c^Tx\leq b^Ty$.
+\end{theorem}
+\begin{proof}
+  Using nonnegativity in the two separate comparisons,
+  \[
+    c^Tx\leq x^TA^Ty=y^TAx\leq y^Tb.
+  \]
+\end{proof}
+\begin{corollary}[Equal feasible values certify optimality]
+  If feasible $x,y$ satisfy $c^Tx=b^Ty$, both are optimal.
+\end{corollary}
+\begin{proof}
+  Every feasible primal value is at most $b^Ty=c^Tx$, and every feasible dual
+  value is at least $c^Tx=b^Ty$.
+\end{proof}
+This certificate uses only weak duality. The stronger theorem supplies the
+existence of a matching feasible bound.
+\begin{theorem}[Strong duality for linear programming]\label{thm:strong}
+  If one member of a primal--dual LP pair has a finite optimal value and is
+  feasible, both attain finite optima and those values are equal.
+\end{theorem}
+\begin{proof}[Proof through a certifying simplex basis]
+  Convert the primal to full-row-rank standard form, removing redundant
+  consistent equalities. Two-phase primal simplex with an anti-cycling rule
+  terminates. Feasibility rules out failure in Phase I; a finite maximum rules
+  out an improving unbounded ray. Its final basis has
+  $\bar b\geq0$ and $q\geq0$. Define $y=A_B^{-T}c_B$.
+  Then $A^Ty-c=q\geq0$, so $y$ is feasible for the equality-form dual, and
+  \[
+    b^Ty=c_B^TA_B^{-1}b=c_B^Tx_B=c^Tx.
+  \]
+  Weak duality certifies both optima. The equivalent transformations recover a
+  dual certificate for the original form. Applying the same argument with the
+  roles exchanged proves the assertion when the dual optimum is given first.
+\end{proof}
+An arbitrary basis representing a degenerate optimal point need not have
+$q\geq0$. Use a \emph{certifying} optimal basis when extracting $y$ this way.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \draw[model axis] (0,0)--(12,0) node[right] {objective value};
+    \draw[modelblue,very thick] (1.3,-.12)--(1.3,.12);
+    \draw[modelorange,very thick] (10.5,-.12)--(10.5,.12);
+    \draw[black,thick] (6,-.16)--(6,.16);
+    \node[below,align=center] at (1.3,-.15) {$c^Tx$\\feasible lower bound};
+    \node[below,align=center] at (10.5,-.15) {$b^Ty$\\feasible upper bound};
+    \node[above] at (6,.2) {$z^*=w^*$};
+    \draw[model flow] (1.5,.65)--(5.7,.65);
+    \draw[modelorange,thick,-{Stealth}] (10.3,.65)--(6.3,.65);
+    \draw[<->] (1.3,1.25)--node[above] {duality gap $b^Ty-c^Tx\geq0$} (10.5,1.25);
+  \end{tikzpicture}
+  \caption{For a finite maximization LP, feasible primal values bound the optimum
+    from below and feasible dual values bound it from above. Equality closes the gap.}
+\end{figure}
+
+\subsection{The outcome table}\label{sec:outcomes}
+``Unbounded'' below means \emph{feasible with an unbounded objective}, not an
+unbounded feasible set. The dual's unbounded direction is toward $-\infty$.
+\begin{center}
+  \begin{tabular}{lccc}\toprule
+    Primal $\backslash$ dual & Finite optimum & Unbounded below & Infeasible\\\midrule
+    Finite optimum & Possible; equal values & Impossible & Impossible\\
+    Unbounded above & Impossible & Impossible & Possible\\
+    Infeasible & Impossible & Possible & Possible\\\bottomrule
+  \end{tabular}
+\end{center}
+An improving primal ray contradicts any finite feasible dual upper bound.
+So primal unboundedness implies dual infeasibility. The converse does not
+follow: both problems can be infeasible.
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{5.1cm}>{\raggedright\arraybackslash}p{6cm}}\toprule
+    Case & Primal & Dual\\\midrule
+    Finite / finite & $\max x$, $0\leq x\leq1$ & $\min y$, $y\geq1$\\
+    Unbounded / infeasible & $\max x$, $0x\leq1$, $x\geq0$ & $\min y$, $0y\geq1$, $y\geq0$\\
+    Infeasible / unbounded & $\max0x$, $x\leq-1$, $x\geq0$ & $\min(-y)$, $y\geq0$\\
+    Infeasible / infeasible & $\max x$, $0x\leq-1$, $x\geq0$ & $\min(-y)$, $0y\geq1$, $y\geq0$\\\bottomrule
+  \end{tabular}
+\end{center}
+The zero rows make the last examples deliberately simple; no full-rank
+standard-form assumption is needed to state these duality outcomes.
+
+\section{Reading a dual certificate from an optimal tableau}\label{sec:production}
+Return to the production model
+\[
+  \max(3x_1+2x_2),\qquad
+  \begin{cases}
+    2x_1+x_2\leq10,   \\
+    3x_1+3x_2\leq24,  \\
+    \tfrac32x_1\leq6, \\
+    x_1,x_2\geq0.
+  \end{cases}
+\]
+Introduce slacks $x_3,x_4,x_5$ in that row order. The final primal tableau is
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6\\
+    $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3\\
+    $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2\\\midrule
+    $q^T$ & 0 & 0 & 1 & $1/3$ & 0 & 18\\\bottomrule
+  \end{tabular}
+\end{center}
+Its basis is $B=(2,5,1)$; $c_B=(2,0,3)^T$. Solve $A_B^Ty=c_B$, rather than
+forming an explicit inverse:
+\[
+  A_B=\begin{pmatrix}1&0&2\\3&0&3\\0&1&3/2\end{pmatrix},\qquad
+  \begin{cases}
+    y_1+3y_2=2, \\ y_3=0,\\2y_1+3y_2+\tfrac32y_3=3.
+  \end{cases}
+\]
+Thus $y=(1,1/3,0)^T$. It is feasible for the dual
+\[
+  \min(10y_1+24y_2+6y_3),\quad
+  2y_1+3y_2+\tfrac32y_3\geq3,\quad y_1+3y_2\geq2,\quad y\geq0,
+\]
+and $b^Ty=10+8=18=c^Tx^*$ for $x^*=(2,6)^T$.
+
+More generally, for $[A\mid I]x=b$, $c_{\rm std}=(c,0)$,
+\begin{equation}\label{eq:indicator-prices}
+  q_{1:n}=A^Ty-c,\qquad q_{n+1:n+m}=y.
+\end{equation}
+The indicators under the primal slack columns are the dual variables. The
+indicators under the original columns are the dual constraint surpluses.
+This reading rule depends on the actual $+I$ slack convention; do not carry it
+unchanged to surplus columns or rows multiplied by $-1$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \begin{scope}[x=.95cm,y=.43cm]
+      \filldraw[model region] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+      \draw[model axis] (0,0)--(5,0) node[right] {$x_1$};
+      \draw[model axis] (0,0)--(0,9) node[above] {$x_2$};
+      \draw[model objective] (0,9)--(5,1.5);
+      \node[model point,label=right:{$(2,6)$}] at (2,6) {};
+      \node at (2,-1.4) {Primal: $\max(3x_1+2x_2)$};
+    \end{scope}
+    \begin{scope}[xshift=7cm,x=1.9cm,y=1.9cm]
+      \filldraw[model region] (0,1)--(1,1/3)--(2,0)--(2.3,0)--(2.3,1.8)--(0,1.8)--cycle;
+      \draw[model axis] (0,0)--(2.6,0) node[right] {$y_1$};
+      \draw[model axis] (0,0)--(0,2) node[above] {$y_2$};
+      \draw[model objective] (0,.75)--(1.8,0);
+      \node[model point,label=below left:{$(1,1/3)$}] at (1,1/3) {};
+      \node at (1.1,-.32) {Dual slice: $y_3=0$};
+      \node[align=center] at (1.1,1.35) {feasible region\\continues upward/right};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{The primal optimum and the dual certificate both have objective 18.
+    The right drawing is the explicitly stated slice $y_3=0$, not a projection of
+    the complete three-dimensional dual region. Dashed lines are objective level sets.}
+\end{figure}
+
+\subsection{Resource prices and their range of validity}\label{sec:prices}
+The identity
+\[
+  3x_1+2x_2=(2x_1+x_2)+\tfrac13(3x_1+3x_2)
+\]
+prices the first two resources at $1$ and $1/3$ PLN per resource unit; the third
+has price zero at this basis. For a change $b\mapsto b+\delta$, with $A,c$
+fixed, the same basis remains optimal whenever $A_B^{-1}(b+\delta)\geq0$.
+In that range,
+\[
+  z^*(b+\delta)=18+y^T\delta.
+\]
+This equality has a feasibility condition, not global validity for arbitrary
+resource changes. For example, changing only the first RHS by $t$ gives
+\[
+  (x_2,x_5,x_1)=(6-t,\ 3-\tfrac32t,\ 2+t).
+\]
+The basis stays feasible exactly for $-2\leq t\leq2$, and revenue is $18+t$.
+\begin{center}
+  \begin{tabular}{crrrr}\toprule
+    $t$ & $x_1$ & $x_2$ & Third slack & Revenue (PLN)\\\midrule
+    $-2$ & 0 & 8 & 6 & 16\\
+    0 & 2 & 6 & 3 & 18\\
+    2 & 4 & 4 & 0 & 20\\\bottomrule
+  \end{tabular}
+\end{center}
+At the endpoints the basis becomes degenerate; outside this interval, recompute
+the optimum. A zero price and a tight constraint can coexist at degeneracy.
+
+\section{Complementary slackness}\label{sec:complementarity}
+For the max/min pair \eqref{eq:primal-dual}, take feasible $x,y$ and set
+\[
+  s=b-Ax\geq0,\qquad t=A^Ty-c\geq0.
+\]
+Their duality gap splits into nonnegative products:
+\begin{equation}\label{eq:gap}
+  b^Ty-c^Tx=y^T(b-Ax)+x^T(A^Ty-c)=y^Ts+x^Tt.
+\end{equation}
+\begin{theorem}[Complementary slackness]
+  A primal-feasible $x$ and dual-feasible $y$ are both optimal if and only if
+  \[
+    y_is_i=0\quad(i=1,\ldots,m),\qquad x_jt_j=0\quad(j=1,\ldots,n).
+  \]
+\end{theorem}
+\begin{proof}
+  For optimal feasible points, strong duality gives zero gap. Since every summand
+  in \eqref{eq:gap} is nonnegative, each product must vanish. Conversely, vanishing
+  products give equal feasible objectives; weak duality certifies optimality.
+\end{proof}
+The points do \emph{not} need to be basic. Feasibility is essential: zero products
+alone cannot certify an inadmissible point.
+\begin{center}
+  \begin{tabular}{ll}\toprule
+    Positive quantity & Forced zero quantity\\\midrule
+    Primal slack $s_i>0$ & Corresponding price $y_i=0$\\
+    Price $y_i>0$ & Corresponding slack $s_i=0$\\
+    Primal variable $x_j>0$ & Dual surplus $t_j=0$\\
+    Dual surplus $t_j>0$ & Primal variable $x_j=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+These are implications, not equivalences. Both members of a complementary pair
+can equal zero. In the production example, $s=(0,0,3)$, $y=(1,1/3,0)$,
+$x=(2,6)$, and $t=(0,0)$, so every product vanishes.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,minimum width=2.4cm,minimum height=.8cm}]
+    \node[box] (y) at (0,0) {price $y_i$};
+    \node[box] (s) at (4.8,0) {resource slack $s_i$};
+    \node[box] (x) at (0,-1.5) {quantity $x_j$};
+    \node[box] (t) at (4.8,-1.5) {dual surplus $t_j$};
+    \draw[modelblue,thick] (y)--node[above] {$y_is_i=0$} (s);
+    \draw[modelblue,thick] (x)--node[above] {$x_jt_j=0$} (t);
+    \node[align=left] at (9, -.75) {All four quantities $\geq0$\\Each pair: at least one zero\\Both zeros are allowed};
+  \end{tikzpicture}
+  \caption{Complementarity pairs each resource with its price, and each decision
+    variable with the gap in its dual constraint.}
+\end{figure}
+
+\subsection{Certifying a supplied candidate without running simplex}\label{sec:candidate}
+\paragraph{Task statement.}
+\foreignlanguage{polish}{Sprawdzić, czy $x=[2,1,1,0,0]^T$ jest rozwiązaniem
+optymalnym.}
+Consider
+\[
+  \begin{aligned}
+    \min\quad &x_1+4x_2+2x_3+2x_4+8x_5,\\
+    &x_1+2x_2+x_4\geq4,\\
+    &x_2+x_3-x_4\geq2,\\
+    &x_2+x_5\geq1,\qquad x_1,\ldots,x_5\geq0.
+  \end{aligned}
+\]
+For a min problem $Ax\geq b$, the dual is
+\[
+  \max b^Ty,\quad A^Ty\leq c,\quad y\geq0.
+\]
+Writing it explicitly gives
+\[
+  \begin{aligned}
+    \max\quad &4y_1+2y_2+y_3,\\
+    &y_1\leq1,\qquad 2y_1+y_2+y_3\leq4,\qquad y_2\leq2,\\
+    &y_1-y_2\leq2,\qquad y_3\leq8,\qquad y_1,y_2,y_3\geq0.
+  \end{aligned}
+\]
+The candidate is nonnegative and has $Ax=(4,2,1)^T=b$. Since its first three
+coordinates are positive, complementary slackness forces their dual constraints
+to be tight:
+\[
+  y_1=1,\quad 2y_1+y_2+y_3=4,\quad y_2=2.
+\]
+Hence $y=(1,2,0)^T$. The remaining inequalities give $-1\leq2$ and $0\leq8$,
+so it is dual feasible. The min-form gap uses $s=Ax-b$ and $t=c-A^Ty$:
+\[
+  c^Tx-b^Ty=y^Ts+x^Tt.
+\]
+\begin{center}
+  \begin{tabular}{crrr}\toprule
+    $j$ & $x_j$ & $t_j=c_j-a_j^Ty$ & $x_jt_j$\\\midrule
+    1 & 2 & 0 & 0\\
+    2 & 1 & 0 & 0\\
+    3 & 1 & 0 & 0\\
+    4 & 0 & 3 & 0\\
+    5 & 0 & 8 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+All three primal surpluses are zero, so $y_is_i=0$ also holds. The objectives
+match: $c^Tx=2+4+2=8=4+4=b^Ty$. Thus both candidates are optimal.
+Moreover, positive dual surpluses force $x_4=x_5=0$, and $y_1,y_2>0$ force the
+first two primal rows tight. Every primal optimum therefore has
+\begin{equation}\label{eq:optimal-segment}
+  x(t)=(4-2t,\ t,\ 2-t,\ 0,\ 0)^T,\qquad 1\leq t\leq2.
+\end{equation}
+The supplied candidate is the endpoint $t=1$, not the only optimizer.
+The third row gives $t\geq1$; nonnegativity gives $t\leq2$.
+The dual certificate is unique: any dual optimum must be complementary to the
+supplied candidate, whose first three positive coordinates force $y=(1,2,0)$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \draw[model axis] (0,0)--(9,0) node[right] {$t=x_2$};
+    \draw[modelblue,very thick] (2,0)--(7,0);
+    \node[model point,label=below:{$t=1$: $(2,1,1,0,0)$}] at (2,0) {};
+    \node[model point,label=below:{$t=2$: $(0,2,0,0,0)$}] at (7,0) {};
+    \node[above,align=center] at (4.5,.5) {Entire segment optimal\\$c^Tx(t)=8$};
+  \end{tikzpicture}
+  \caption{The parameter line represents a one-dimensional optimal face in the
+    five-dimensional decision space. Interior points of this segment are also optimal.}
+\end{figure}
+
+\section{The dual simplex method}\label{sec:dual-simplex}
+For the standard max problem, a \emph{dual feasible basis} satisfies $q\geq0$;
+its basic solution may have negative coordinates. The associated
+$y=A_B^{-T}c_B$ satisfies $A^Ty\geq c$, and $b^Ty=z_0$, even if the primal
+basic vector is infeasible. A negative $z_0$ or $\bar b$ is not by itself an error.
+If also $\bar b\geq0$, primal and dual feasibility and equal values certify
+optimality.
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    Feature & Primal simplex & Dual simplex\\\midrule
+    Maintained condition & $\bar b\geq0$ & $q\geq0$\\
+    Condition to repair & Some $q_k<0$ & Some $\bar b_r<0$\\
+    First selection & Entering column & Leaving row\\
+    Eligible pivot sign & $\bar a_{rk}>0$ & $\bar a_{rk}<0$\\
+    Objective $z_0$ for max & Nondecreasing feasible value & Nonincreasing dual upper bound\\
+    Failure certificate & Improving primal ray & Contradictory primal row\\\bottomrule
+  \end{tabular}
+\end{center}
+The dual method is particularly convenient after changing $b$: indicators
+depend on $A,c,B$, so they are unchanged, while $\bar b$ may lose nonnegativity.
+It also naturally starts some min problems with nonnegative cost coefficients.
+
+\subsection{The reversed ratio test}\label{sec:dual-ratio}
+Choose a row $r$ with $\bar b_r<0$, for instance the most negative RHS.
+Its equation is
+\[
+  x_{j_r}+\sum_{j\in N}\bar a_{rj}x_j=\bar b_r<0.
+\]
+If every nonbasic coefficient in that row is nonnegative, the left side cannot
+be negative for any nonnegative vector. The primal is infeasible.
+Otherwise a pivot can use a column with $\bar a_{rk}<0$.
+Define $\alpha=q_k/(-\bar a_{rk})\geq0$. The new indicators are
+\[
+  q'_j=q_j+\alpha\bar a_{rj}.
+\]
+For $\bar a_{rj}\geq0$, nonnegativity is automatic. For negative coefficients,
+we require $\alpha\leq q_j/(-\bar a_{rj})$. Therefore choose
+\begin{equation}\label{eq:dual-ratio}
+  k\in\operatorname*{arg\,min}_{j:\bar a_{rj}<0}
+  \frac{q_j}{-\bar a_{rj}}
+  \quad\Longleftrightarrow\quad
+  k\in\operatorname*{arg\,max}_{j:\bar a_{rj}<0}
+  \frac{q_j}{\bar a_{rj}}.
+\end{equation}
+This preserves dual feasibility. Since basic columns are unit columns, eligible
+columns are automatically nonbasic. The new entering basic value
+$\bar b_r/\bar a_{rk}$ is positive, but other basic values may still be negative.
+Continue until all are nonnegative.
+
+The objective update is
+\[
+  z'_0=z_0+\alpha\bar b_r\leq z_0.
+\]
+For a maximization problem this decreases a feasible \emph{dual upper bound},
+not a feasible primal objective. If $q_k=0$, the dual step is degenerate and
+this bound need not strictly decrease.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1.1cm,y=.8cm,every node/.style={font=\small}]
+    \draw[model axis] (0,0)--(4.8,0) node[right] {$\alpha$};
+    \draw[model axis] (0,0)--(0,4.5) node[above] {indicator};
+    \draw[modelblue,thick] (0,2)--(4,0);
+    \node[modelblue,above] at (3.4,.55) {$q_1+\alpha v_1$};
+    \draw[modelorange,thick] (0,3)--(1.5,0);
+    \node[modelorange,above right] at (.35,2.3) {$q_2+\alpha v_2$};
+    \draw[black,thick] (0,1)--(4,3);
+    \node[right] at (4,3) {$q_3+\alpha v_3$};
+    \draw[dashed] (1.5,0)--(1.5,3.5);
+    \node[below,align=center] at (1.5,0) {$\alpha^*=3/2$\\column 2 enters};
+  \end{tikzpicture}
+  \caption{Added illustration: $q=(2,3,1)$ and pivot-row coefficients
+    $v=(-1/2,-2,1/2)$. The first indicator to reach zero limits the dual step:
+    $\min(2/(1/2),3/2)=3/2$. The positive-coefficient column imposes no upper limit.}
+\end{figure}
+
+\subsection{Algorithm and infeasibility certificate}\label{sec:dual-algorithm}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+  \item Start with a nonsingular basis having $q\geq0$.
+  \item If $\bar b\geq0$, return the optimal primal basic vector and its dual certificate.
+  \item Choose a row $r$ with negative RHS.
+  \item If that row has no negative nonbasic coefficient, certify infeasibility.
+  \item Otherwise use \eqref{eq:dual-ratio} and pivot on its negative element.
+  \item Recompute or update the tableau and return to step 2.
+\end{enumerate}
+A smallest-column tie break makes a worked path reproducible, but the simple
+``most negative RHS'' rule alone is not an anti-cycling theorem. General dual
+simplex needs a proven anti-cycling variant when degeneracy can occur.
+
+To express failure without a tableau, put $h=A_B^{-T}e_r$. Then the
+contradictory row satisfies
+\[
+  h^TA=\bar A_{r:}\geq0,\qquad h^Tb=\bar b_r<0.
+\]
+Any $x\geq0$ with $Ax=b$ would give
+$h^Tb=h^TAx\geq0$, a contradiction. This is an explicit infeasibility
+certificate. Starting at any dual-feasible $y$, the ray $y+\lambda h$ remains
+dual feasible and its objective tends to $-\infty$.
+
+For example, $x_1+x_2=-1$, $x\geq0$, $\max0$ has the dual-feasible basis
+$B=(1)$ with $q=(0,0)$ and RHS $-1$. Its row has no negative coefficient.
+The certificate is $h=1$, and the dual $\min(-y)$, $y\geq0$ is unbounded below.
+This single row simultaneously explains the two outcomes.
+
+\section{A complete dual-simplex solve}\label{sec:dual-example}
+Consider
+\[
+  \begin{aligned}
+    \min\quad &x_1+x_2+x_3,\\
+    &x_1+2x_2+x_3\geq2,\\
+    &2x_1+x_2-x_3\geq10,\qquad x_1,x_2,x_3\geq0.
+  \end{aligned}
+\]
+For a general min problem $\min c^Tx$, $Ax\geq b$, $x\geq0$ with $c\geq0$,
+negate the objective and rows and add surplus variables:
+\[
+  \max(-c^Tx),\qquad -Ax+s=-b,\qquad x,s\geq0.
+\]
+The surplus basis is $I$, with $x=0$, $s=-b$ and indicators $(c,0)\geq0$.
+It is dual feasible regardless of the signs of $b$, and primal feasible only
+when $-b\geq0$. Thus no artificial variables are needed for this start.
+
+Here $x_4,x_5$ denote the nonnegative surpluses of the original inequalities:
+\[
+  -x_1-2x_2-x_3+x_4=-2,\qquad
+  -2x_1-x_2+x_3+x_5=-10.
+\]
+The start $B=(4,5)$ is primal infeasible but dual feasible:
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_4$ & $-1$ & $-2$ & $-1$ & 1 & 0 & $-2$\\
+    $x_5$ & $-2$ & $-1$ & 1 & 0 & 1 & $-10$\\\midrule
+    $q^T$ & 1 & 1 & 1 & 0 & 0 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+The most negative RHS is in row 2, so $x_5$ leaves. Only columns 1 and 2
+have negative entries there:
+\begin{center}
+  \begin{tabular}{crrr}\toprule
+    Column & $q_j$ & $\bar a_{2j}$ & $q_j/(-\bar a_{2j})$\\\midrule
+    1 & 1 & $-2$ & $1/2$\\
+    2 & 1 & $-1$ & 1\\\bottomrule
+  \end{tabular}
+\end{center}
+Choose $x_1$ to enter, and pivot on $-2$. Divide row 2 by $-2$, add that
+normalized row to row 1, and subtract it from the indicator row:
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_4$ & 0 & $-3/2$ & $-3/2$ & 1 & $-1/2$ & 3\\
+    $x_1$ & 1 & $1/2$ & $-1/2$ & 0 & $-1/2$ & 5\\\midrule
+    $q^T$ & 0 & $1/2$ & $3/2$ & 0 & $1/2$ & $-5$\\\bottomrule
+  \end{tabular}
+\end{center}
+Both RHS entries are now nonnegative and all indicators remain nonnegative.
+Thus $(x_1,x_2,x_3)=(5,0,0)$, surpluses $(3,0)$, and the \emph{original
+  minimum} is 5. The transformed maximum is $-5$.
+
+The original min-form dual is
+\[
+  \max(2y_1+10y_2),\quad
+  y_1+2y_2\leq1,\quad2y_1+y_2\leq1,\quad y_1-y_2\leq1,\quad y\geq0.
+\]
+It has certificate $y=(0,1/2)$, objective 5, and column slacks $(0,1/2,3/2)$.
+Equivalently, solve $A_B^Ty=c_B$ for the transformed max to get the same
+nonnegative $y$: its surplus columns form $+I$ after row negation.
+The original primal inequalities directly imply the bound
+\begin{equation}\label{eq:dual-example-certificate}
+  x_1+x_2+x_3
+  =5+\tfrac12x_2+\tfrac32x_3+\tfrac12x_5\geq5.
+\end{equation}
+Equality forces $x_2=x_3=x_5=0$, then $x_1=5$; the optimum is unique.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,align=center,minimum width=4.8cm,minimum height=1.2cm}]
+    \node[box] (before) at (0,0) {$B=(4,5)$\\$\bar b=(-2,-10)$, $q\geq0$\\dual bound $0$ for the max};
+    \node[box] (after) at (7,0) {$B=(4,1)$\\$\bar b=(3,5)$, $q\geq0$\\dual bound $-5$: attained};
+    \draw[model flow] (before)--node[above] {pivot $-2$} (after);
+    \node[align=center] at (3.5,-1.5) {Original min: lower bound rises from $0$ to $5$\\Primal feasibility is repaired in one pivot};
+  \end{tikzpicture}
+  \caption{Dual simplex keeps a valid dual certificate throughout. The starting
+    basic vector is not an admissible solution of the original minimization problem.}
+\end{figure}
+
+\section{MATLAB checks and study questions}\label{sec:matlab}
+The companion uses base MATLAB and the same matrices as the hand examples:
+\begin{lstlisting}
+run('matlab/exercises/lecture_04_checks.m')
+\end{lstlisting}
+Basis computations use linear solves, not an explicit inverse:
+\begin{lstlisting}
+AB = A(:, B);
+Abar = AB \ A;
+bbar = AB \ b;
+y = AB' \ c(B);
+q = A' * y - c;
+x = zeros(size(A, 2), 1);
+x(B) = bbar;
+\end{lstlisting}
+The assertions check specified small examples, not a general-purpose LP solver.
+They compare known paths, feasible points, certificates, and sign conditions
+with absolute tolerance $10^{-10}$. Lexicographic comparisons use the same
+tolerance for these moderate-size examples; this is not exact symbolic arithmetic
+or a universal anti-cycling guarantee for ill-conditioned data.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{9cm}}\toprule
+    Check & Expected hand result\\\midrule
+    Cycling example & Six zero steps; starting basis repeats\\
+    Bland / lexicographic paths & Six / two pivots; both attain $5/4$\\
+    Three-dimensional distorted cube & Eight vertices, seven pivots, maximum 125\\
+    Production dual and RHS changes & $y=(1,1/3,0)$; $18+t$ for $-2\leq t\leq2$\\
+    Complementary-slackness candidate & Value 8; entire optimal segment $1\leq t\leq2$\\
+    Dual-simplex solve & One pivot; minimum 5; $y=(0,1/2)$\\
+    Contradictory tableau row & $h^TA\geq0$, $h^Tb<0$: infeasible\\\bottomrule
+  \end{tabular}
+\end{center}
+\subsection{Common mistakes}
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{6cm}>{\raggedright\arraybackslash}p{8.6cm}}\toprule
+    Mistake & Repair\\\midrule
+    Calling every zero coordinate degenerate & Check the basic coordinates\\
+    Equating degeneracy with cycling & Distinguish a zero step from a repeated basis\\
+    Using the max sign table for a min primal & Reverse the appropriate signs, or negate the objective first\\
+    Treating a tight row as a positive-price guarantee & Complementarity gives implications; both quantities can be zero\\
+    Checking only equality of objective values & Verify feasibility on both sides\\
+    Reading all indicator rows as resource prices & Identify the actual original slack columns and row signs\\
+    Using the primal ratio test in dual simplex & Choose a negative RHS row first, then minimize $q_j/(-\bar a_{rj})$\\
+    Reporting transformed value $-5$ as the minimum & Undo objective negation: the minimum is 5\\\bottomrule
+  \end{tabular}
+\end{center}
+\Needspace{20\baselineskip}
+\subsection{Questions with answers for checking}
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+  \item In the cycling example's fourth tableau, why do Dantzig and Bland choose
+        different entering variables?
+  \item Why does the perturbation rule select row 2 in the first ratio tie?
+  \item For $\max2x$, $x=3$, $x\geq0$, construct the dual and its optimum.
+  \item Does a zero resource price prove a resource is unused?
+  \item Derive every optimal primal point for the complementary-slackness task.
+  \item In the dual-simplex example, what happens if column 2 is chosen at the
+        first pivot instead of column 1?
+\end{enumerate}
+\paragraph{Answers.}
+(1) Dantzig chooses $q_7=-3$, while Bland chooses the smaller eligible index 1
+with $q_1=-2$.
+(2) The normalized tuples start $(0,4,0,\ldots)$ and $(0,0,2,\ldots)$.
+(3) $\min3y$, $y\geq2$, $y$ free; optimum $y=2$, value 6.
+(4) No: $y_i=0$ permits either zero or positive slack.
+(5) Equation~\eqref{eq:optimal-segment} follows from $x_4=x_5=0$ and tight
+first two rows; all its points have value 8.
+(6) Its ratio 1 exceeds the allowed $1/2$; the updated $q_1=1-2=-1$ loses
+dual feasibility. An arbitrary negative pivot is insufficient.
+
+\clearpage
+\section{Sources and editorial remarks}\label{sec:sources}
+\begingroup\small
+\noindent\textbf{Primary source:} E. Pawelec, \texttt{s4\_w4.pdf},
+PDF pages 1--12, printed slides 1--47 (slide 47 is the closing slide).\\
+\textbf{Source date:} The folder is labelled 2020; PDF creation metadata is
+2019-10-27, not an established delivery date.\\
+\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Editorial scope:} Complete mathematical lecture content, reorganized
+in English, with hand proofs, worked paths, certificates, study questions, and
+editable TikZ illustrations. All source pages were reviewed; dense cycling,
+perturbation, and final pivot tableaus were also inspected at enlarged scale.
+
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    PDF pages & Printed slides & Developed material\\\midrule
+    1 & 1--4 & Section~\ref{sec:notation}: standard form and pivot equations\\
+    2 & 5--8 & Section~\ref{sec:degeneracy}: degeneracy and full cycling tableaus\\
+    3--4 & 9--14 & Sections~\ref{sec:perturbation}, \ref{sec:bland}: perturbation and Bland\\
+    4--5 & 15--18 & Section~\ref{sec:complexity}: complexity and geometric routes\\
+    5--6 & 19--23 & Section~\ref{sec:dual-rules}: dual construction and mixed signs\\
+    6--7 & 24--28 & Section~\ref{sec:duality}: weak/strong duality and outcomes\\
+    7--8 & 29--31 & Section~\ref{sec:production}: extracting the production dual\\
+    8--9 & 32--36 & Section~\ref{sec:complementarity}: optimality via complementarity\\
+    10--11 & 37--44 & Section~\ref{sec:dual-simplex}: dual simplex and its ratio rule\\
+    12 & 45--46 & Section~\ref{sec:dual-example}: initialization and complete solve\\\bottomrule
+  \end{tabular}
+\end{center}
+The Polish practice prompt in Section~\ref{sec:bland} is from slide 14.
+The candidate task in Section~\ref{sec:candidate} preserves the mathematical
+question on slide 34 with spelling normalized; its data are from slides 34--36.
+The full Bland path, the $p=5$ three-dimensional vertex list, mixed-example
+feasible pair, resource-price interval, optimal segment, and explicit row
+infeasibility certificate are added derivations. Drawings explain the source
+ideas in the current style; the ratio-indicator graph uses added data.
+
+\paragraph{Qualifications.}
+Section~\ref{sec:degeneracy} distinguishes zero steps from positive tied steps,
+and allows a negative-indicator basis at a degenerate optimal point.
+Section~\ref{sec:perturbation} makes the initial feasibility requirement explicit.
+Section~\ref{sec:complexity} attaches the distorted-cube route to its pivot rule
+and does not adopt slide 16's unspecified average-complexity expression.
+Section~\ref{sec:duality} distinguishes the equal-value certificate on slide 25
+from strong duality's existence statement. A certifying basis is needed to
+extract dual multipliers from an optimal point. Complementarity applies to
+feasible points, including nonbasic ones. Section~\ref{sec:dual-algorithm}
+qualifies termination under dual degeneracy.
+
+\paragraph{Supplementary mathematical checks.}
+MIT OCW 15.081J/6.251J, Fall 2009:
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/2ef2f1dd7045b5f29e5faea299fb0798_MIT6_251JF09_lec06.pdf}{Lecture 6, The Simplex Method II},
+PDF pp.~5--8, for symbolic perturbation and anti-cycling;
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/496d9a385fd1d7e1aa82837d91adb23e_MIT6_251JF09_lec08.pdf}{Lecture 8, Duality Theory I},
+PDF pp.~2--5, for dual signs, the strong-duality basis proof, and complementarity;
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/b93d1665d7a8f05ea626b8f04c7ad66c_MIT6_251JF09_lec09.pdf}{Lecture 9, Duality Theory II},
+PDF pp.~4--5, for dual-simplex invariants and the ratio test.
+Titles here follow the PDF interiors, which differ from some catalogue labels.
+These references were consulted through the web tool; shell downloads failed
+at DNS resolution. Intended storage is outside this repository, under
+\texttt{../sources/mit/}; the paired source inventory records URLs and status.
+They do not establish current course coverage.
+
+\paragraph{Verification.}
+Exact rational calculations independently recomputed the cycling, Bland,
+lexicographic, distorted-cube, and dual-simplex paths and their certificates.
+The installed R2026b static analyzer reported no diagnostics. On 2026-10-04,
+the user ran the MATLAB companion in a normal terminal; all numerical assertions
+passed and MATLAB reported version 26.2.0.3386108 (R2026b). The supplied output
+agrees with Section~\ref{sec:matlab}. Execution evidence is recorded in
+\path{docs/matlab-verification.md}; Polish terms are in \path{docs/glossary.md}.
+\endgroup
+\end{document}

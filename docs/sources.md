@@ -5,7 +5,7 @@ English | [Polski](sources.pl.md)
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
-2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–3 have been reviewed
+2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–4 have been reviewed
 for these notes; alignment with the current lecturer, syllabus, exercises, and labs
 is unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
@@ -45,6 +45,17 @@ Current syllabus, exercise sheets, and lab instructions have not yet been suppli
   artificial cleanup, and show why finite penalties or augmented rays alone
   do not certify original infeasibility. The PDF creation metadata is 2019-10-17;
   this is not an established lecture delivery date.
+- Lecture 4: `s4_w4.pdf`, PDF pages 1–12, printed slides 1–47 (47 closes the lecture).
+  Complete mathematical content: degeneracy, all Beale cycling tableaus, perturbation,
+  Bland's rule, complexity, dual construction, weak/strong duality, possible outcomes,
+  complementary slackness, and the complete dual-simplex example. All pages were
+  reviewed; dense tableaus and formulas were also inspected enlarged. Added derivations
+  include the full Bland path, eight Klee–Minty vertices at p = 5, an RHS validity
+  interval, and the candidate problem's entire optimal segment. Qualifications cover
+  perturbation-start feasibility, pivot-rule-dependent complexity, the existence
+  statement of strong duality, certifying bases, and dual degeneracy limitations.
+  Creation metadata: 2019-10-27, not an established delivery date. All MATLAB assertions
+  passed on R2026b.
 - The notes distinguish added hand proofs and derivations from slide content.
   Qualifications cover revenue versus profit, exact versus minimum demand,
   integer versus continuous cutting counts, strict convex combinations,
@@ -81,6 +92,25 @@ Both were consulted through the web tool. Intended external files are
 DNS resolution; neither file is stored locally. The external paired README
 records both official URLs and retry commands. These sources do not establish
 current course coverage.
+
+Additional Lecture 4 cross-checks (titles follow the PDF interiors):
+
+- [MIT OCW Lecture 6: The Simplex Method II](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/2ef2f1dd7045b5f29e5faea299fb0798_MIT6_251JF09_lec06.pdf),
+  PDF pp. 5–8: symbolic perturbation and anti-cycling rules.
+- [MIT OCW Lecture 8: Duality Theory I](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/496d9a385fd1d7e1aa82837d91adb23e_MIT6_251JF09_lec08.pdf),
+  PDF pp. 2–5: dual signs, the strong-duality basis proof, and complementarity.
+- [MIT OCW Lecture 9: Duality Theory II](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/b93d1665d7a8f05ea626b8f04c7ad66c_MIT6_251JF09_lec09.pdf),
+  PDF pp. 4–5: dual-simplex invariants and ratio test.
+
+These sources were read through the web tool. **Not downloaded:** all three shell
+download attempts on 2026-10-04 failed at DNS resolution. Intended files:
+
+- `../sources/mit/mit-6-251j-2009-lecture-06-simplex-anticycling.pdf`
+- `../sources/mit/mit-6-251j-2009-lecture-08-duality.pdf`
+- `../sources/mit/mit-6-251j-2009-lecture-09-dual-simplex.pdf`
+
+The external `../sources/README.md` and `../sources/README.pl.md` record URLs and
+retry commands. These materials do not establish current course coverage.
 
 ## MATLAB refresher documentation
 

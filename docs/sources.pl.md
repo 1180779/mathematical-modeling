@@ -5,7 +5,7 @@
 ## Dawne wykłady
 
 Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
-wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–3 zostały
+wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–4 zostały
 przejrzane przy opracowaniu notatek; zgodność z obecnym prowadzącym, programem,
 ćwiczeniami i laboratoriami jest niepotwierdzona.
 Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały pozostają poza nim.
@@ -45,6 +45,17 @@ Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcz
   usuwanie zerowych bazowych zmiennych sztucznych i pokazują, dlaczego skończone
   kary lub same promienie zadania rozszerzonego nie dowodzą sprzeczności oryginału.
   Metadane utworzenia PDF-u wskazują 2019-10-17; nie jest to ustalona data wykładu.
+- Wykład 4: `s4_w4.pdf`, strony PDF 1–12, slajdy numerowane 1–47 (47 zamyka wykład).
+  Pełna treść matematyczna: degeneracja, wszystkie tablice cyklu Beale'a, perturbacja,
+  reguła Blanda, złożoność, konstrukcja zadania dualnego, słaba i silna dualność,
+  dopuszczalne pary wyników, komplementarność oraz pełny przykład dualnej metody sympleks.
+  Przejrzano wszystkie strony, a gęste tablice i wzory również w powiększeniu.
+  Dodano pełną ścieżkę Blanda, osiem wierzchołków Klee–Minty'ego przy p = 5,
+  zakres zmiany prawej strony i cały odcinek optimów zadania z kandydatem.
+  Doprecyzowano dopuszczalność startu perturbacji, zależność złożoności od reguły,
+  twierdzenie o istnieniu w silnej dualności, bazę z certyfikatem oraz ograniczenia
+  prostej reguły dualnej przy degeneracji. Metadane utworzenia: 2019-10-27;
+  nie jest to ustalona data wykładu. MATLAB: wszystkie asercje przeszły w R2026b.
 - Notatki odróżniają dodane dowody i wyprowadzenia ręczne od treści slajdów.
   Doprecyzowania obejmują przychód i zysk, dokładny i minimalny popyt,
   całkowitoliczbowe i ciągłe liczby cięć, ścisłe kombinacje wypukłe,
@@ -81,6 +92,25 @@ Oba źródła przeczytano przez narzędzie web. Planowane pliki zewnętrzne to
 rozwiązywania nazwy DNS w powłoce; żadnego z tych plików nie zapisano lokalnie.
 Zewnętrzny dwujęzyczny README zawiera oba oficjalne URL-e i polecenia ponowienia
 pobrania. Źródła te nie potwierdzają obecnego zakresu przedmiotu.
+
+Dodatkowe sprawdzenia do wykładu 4 (tytuły według wnętrza PDF-ów):
+
+- [MIT OCW Lecture 6: The Simplex Method II](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/2ef2f1dd7045b5f29e5faea299fb0798_MIT6_251JF09_lec06.pdf),
+  strony PDF 5–8: perturbacja symboliczna i reguły zapobiegające cyklom.
+- [MIT OCW Lecture 8: Duality Theory I](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/496d9a385fd1d7e1aa82837d91adb23e_MIT6_251JF09_lec08.pdf),
+  strony PDF 2–5: znaki zadań dualnych, dowód silnej dualności przez bazę i komplementarność.
+- [MIT OCW Lecture 9: Duality Theory II](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/b93d1665d7a8f05ea626b8f04c7ad66c_MIT6_251JF09_lec09.pdf),
+  strony PDF 4–5: zachowywane warunki i test ilorazów dualnej metody sympleks.
+
+Źródła przeczytano przez narzędzie web. **Nie pobrano:** wszystkie trzy próby
+pobrania w powłoce 2026-10-04 zakończyły się błędem DNS. Planowane pliki:
+
+- `../sources/mit/mit-6-251j-2009-lecture-06-simplex-anticycling.pdf`
+- `../sources/mit/mit-6-251j-2009-lecture-08-duality.pdf`
+- `../sources/mit/mit-6-251j-2009-lecture-09-dual-simplex.pdf`
+
+Zewnętrzne pliki `../sources/README.md` i `../sources/README.pl.md` zawierają
+URL-e i polecenia ponowienia pobrania. Materiały nie ustalają obecnego zakresu kursu.
 
 ## Dokumentacja do powtórki MATLAB-a
 

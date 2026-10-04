@@ -28,6 +28,11 @@ Lecture notes are developed from the historical sources, with current course ali
   ([PDF](output/lectures/03-simplex-method.pdf)): canonical equations, reduced costs,
   full simplex tableaus, degeneracy, feasible rays, two-phase initialization, and Big M.
 
+- [Lecture 4: Degeneracy, duality, and dual simplex](notes/lectures/04-degeneracy-and-duality.tex)
+  ([PDF](output/lectures/04-degeneracy-and-duality.pdf)): complete cycling example,
+  Bland and lexicographic perturbation, complexity, dual construction,
+  optimality certificates, complementarity, and a dual-simplex solve.
+
 PDF links point to the committed reading copies in `output/`.
 
 ## Layout
@@ -124,6 +129,18 @@ Run from the repository root. The base MATLAB script checks both simplex example
 both two-phase starts, and the added counterexamples. All assertions passed in the
 user's normal terminal. Static analysis and independent exact rational calculations
 also passed; see the [verification record](docs/matlab-verification.md).
+
+## Lecture 4 MATLAB checks
+
+```matlab
+run('matlab/exercises/lecture_04_checks.m')
+```
+
+Run from the repository root. The base MATLAB script checks cycling, both
+anti-cycling paths, the Klee–Minty example, dual certificates, complementarity,
+RHS changes, and dual simplex. All assertions passed in the user's normal terminal
+on R2026b. Static analysis and independent exact rational calculations also passed;
+see the [verification record](docs/matlab-verification.md).
 
 ## Git checks
 
