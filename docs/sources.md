@@ -5,7 +5,7 @@ English | [Polski](sources.pl.md)
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
-2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1 and 2 have been reviewed
+2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–3 have been reviewed
 for these notes; alignment with the current lecturer, syllabus, exercises, and labs
 is unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
@@ -36,6 +36,15 @@ Current syllabus, exercise sheets, and lab instructions have not yet been suppli
 - Lecture 2: `s4_w2.pdf`, PDF pages 1–11, printed slides 1–44; LP models,
   standard form, geometry, and bases. Regression formulas and the cabinet sketch
   were also inspected visually.
+- Lecture 3: `s4_w3.pdf`, PDF pages 1–12, printed slides 1–46; the complete
+  simplex derivation, basic-solution candidates, both worked simplex examples,
+  two-phase initialization with both supplied starts, and Big M. Slides 39–44
+  were inspected visually to confirm variable domains and artificial columns.
+  Added qualifications distinguish optimal points from certifying bases at
+  degeneracy, require an actual move for alternative optima, explain zero-basic
+  artificial cleanup, and show why finite penalties or augmented rays alone
+  do not certify original infeasibility. The PDF creation metadata is 2019-10-17;
+  this is not an established lecture delivery date.
 - The notes distinguish added hand proofs and derivations from slide content.
   Qualifications cover revenue versus profit, exact versus minimum demand,
   integer versus continuous cutting counts, strict convex combinations,
@@ -56,6 +65,22 @@ Intended local path from this repository:
 `../sources/mit/mit-6-251j-2009-lecture-10-polyhedral-representation.pdf`.
 **Not downloaded:** shell DNS resolution failed on 2026-10-04.
 The external `../sources/README.md` records the official URL and retry command.
+
+Additional simplex cross-checks for Lecture 3:
+
+- [MIT OCW 15.081J/6.251J, Lecture 5 (Fall 2009)](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/4fdf1a06497288c24593f7eedef7576e_MIT6_251JF09_lec05.pdf),
+  PDF p. 2 and pp. 5–6: the nondegeneracy qualification of the reduced-cost test,
+  degenerate steps, and the anti-cycling rule.
+- [Lecture 7](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/12b1c7e885991696c294953b2497739c_MIT6_251JF09_lec07.pdf),
+  PDF pp. 2–4: artificial-variable cleanup, redundant rows, and Phase II initialization.
+
+Both were consulted through the web tool. Intended external files are
+`../sources/mit/mit-6-251j-2009-lecture-05-simplex.pdf` and
+`../sources/mit/mit-6-251j-2009-lecture-07-simplex-initialization.pdf`.
+**Not downloaded:** the Lecture 5 download attempt on 2026-10-04 failed at shell
+DNS resolution; neither file is stored locally. The external paired README
+records both official URLs and retry commands. These sources do not establish
+current course coverage.
 
 ## MATLAB refresher documentation
 

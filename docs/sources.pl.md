@@ -5,7 +5,7 @@
 ## Dawne wykłady
 
 Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
-wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1 i 2 zostały
+wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–3 zostały
 przejrzane przy opracowaniu notatek; zgodność z obecnym prowadzącym, programem,
 ćwiczeniami i laboratoriami jest niepotwierdzona.
 Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały pozostają poza nim.
@@ -36,6 +36,15 @@ Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcz
 - Wykład 2: `s4_w2.pdf`, strony PDF 1–11, slajdy numerowane 1–44; modele PL,
   postać standardowa, geometria i bazy. Wzory regresji oraz szkic szafki
   sprawdzono również wizualnie.
+- Wykład 3: `s4_w3.pdf`, strony PDF 1–12, slajdy numerowane 1–46; pełne
+  wyprowadzenie metody sympleks, kandydaci na rozwiązania bazowe, oba rozwiązane
+  przykłady sympleksowe, inicjalizacja dwufazowa w obu podanych wariantach i duże M.
+  Slajdy 39–44 sprawdzono wizualnie, potwierdzając dziedziny zmiennych i kolumny sztuczne.
+  Dodane doprecyzowania odróżniają punkty optymalne od baz z certyfikatem przy
+  degeneracji, wymagają faktycznego kroku dla alternatywnych optimów, objaśniają
+  usuwanie zerowych bazowych zmiennych sztucznych i pokazują, dlaczego skończone
+  kary lub same promienie zadania rozszerzonego nie dowodzą sprzeczności oryginału.
+  Metadane utworzenia PDF-u wskazują 2019-10-17; nie jest to ustalona data wykładu.
 - Notatki odróżniają dodane dowody i wyprowadzenia ręczne od treści slajdów.
   Doprecyzowania obejmują przychód i zysk, dokładny i minimalny popyt,
   całkowitoliczbowe i ciągłe liczby cięć, ścisłe kombinacje wypukłe,
@@ -56,6 +65,22 @@ Planowana ścieżka lokalna względem repozytorium:
 `../sources/mit/mit-6-251j-2009-lecture-10-polyhedral-representation.pdf`.
 **Nie pobrano:** rozwiązywanie nazwy DNS w powłoce nie powiodło się 2026-10-04.
 Zewnętrzny plik `../sources/README.md` zawiera oficjalny URL i polecenie ponowienia pobrania.
+
+Dodatkowe sprawdzenia metody sympleks do wykładu 3:
+
+- [MIT OCW 15.081J/6.251J, Lecture 5 (Fall 2009)](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/4fdf1a06497288c24593f7eedef7576e_MIT6_251JF09_lec05.pdf),
+  strona PDF 2 oraz strony 5–6: warunek braku degeneracji przy teście cen zredukowanych,
+  kroki zdegenerowane i reguła zapobiegająca cyklom.
+- [Lecture 7](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/12b1c7e885991696c294953b2497739c_MIT6_251JF09_lec07.pdf),
+  strony PDF 2–4: usuwanie zmiennych sztucznych, wiersze nadmiarowe i inicjalizacja fazy II.
+
+Oba źródła przeczytano przez narzędzie web. Planowane pliki zewnętrzne to
+`../sources/mit/mit-6-251j-2009-lecture-05-simplex.pdf` i
+`../sources/mit/mit-6-251j-2009-lecture-07-simplex-initialization.pdf`.
+**Nie pobrano:** próba pobrania Lecture 5 w dniu 2026-10-04 zakończyła się błędem
+rozwiązywania nazwy DNS w powłoce; żadnego z tych plików nie zapisano lokalnie.
+Zewnętrzny dwujęzyczny README zawiera oba oficjalne URL-e i polecenia ponowienia
+pobrania. Źródła te nie potwierdzają obecnego zakresu przedmiotu.
 
 ## Dokumentacja do powtórki MATLAB-a
 

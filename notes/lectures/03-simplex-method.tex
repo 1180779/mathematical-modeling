@@ -1,0 +1,1033 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\usepackage{needspace}
+\hypersetup{pdftitle={Lecture 3 -- The simplex method}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Lecture 3: The Simplex Method}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+
+\section{The problem and its possible outcomes}\label{sec:problem}
+The primal simplex method solves a linear program by maintaining a feasible
+basis and exchanging one basic variable at a time. For a maximization problem,
+use the standard form
+\begin{equation}\label{eq:standard}
+  \max c^Tx,\qquad Ax=b,\qquad x\geq0,
+  \quad A\in\R^{m\times n},\ b\in\R^m,\ c,x\in\R^n.
+\end{equation}
+Unless explicitly discussing redundant rows, assume $\operatorname{rank}A=m$
+and $m\leq n$. If $m=n$, the nonsingular system has a single candidate
+$x=A^{-1}b$: check its nonnegativity directly. The interesting basis exchanges
+occur when $m<n$. Minimization can be handled by maximizing the negative
+objective and reversing the sign of the final value.
+
+There are three main outcomes. An infeasible problem has no point satisfying
+all constraints. A feasible problem with objective unbounded above has no finite
+maximum. Otherwise the maximum is finite and attained; in standard form at
+least one optimal solution is a basic feasible solution. The optimal solution
+may be unique or there may be infinitely many: the segment between two distinct
+optimal points is also optimal.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,align=center,inner sep=6pt}]
+    \node[box] (lp) at (0,0) {Linear program};
+    \node[box] (empty) at (-4,-1.3) {Infeasible\\$\Omega=\varnothing$};
+    \node[box] (feasible) at (2,-1.3) {Feasible\\$\Omega\ne\varnothing$};
+    \node[box] (finite) at (0,-2.7) {Finite maximum\\attained};
+    \node[box] (unbounded) at (4.2,-2.7) {Unbounded objective\\$\sup c^Tx=+\infty$};
+    \node[box] (one) at (-1.7,-4) {Unique optimizer};
+    \node[box] (many) at (1.7,-4) {Infinitely many\\optimizers};
+    \foreach \a/\b in {lp/empty,lp/feasible,feasible/finite,feasible/unbounded,finite/one,finite/many}
+    \draw[model flow] (\a)--(\b);
+  \end{tikzpicture}
+  \caption{Classify feasibility first, then objective behavior. An unbounded
+    feasible set can still have a finite maximum.}
+  \label{fig:outcomes}
+\end{figure}
+For example, $\max(-x)$ over $x\geq0$ has an unbounded feasible set but the
+unique optimizer $x=0$. Unboundedness of the set and of the objective are
+separate questions.
+
+\section{Bases, basic solutions, and degeneracy}\label{sec:bases}
+Let $B=(j_1,\ldots,j_m)$ be an ordered list of indices whose columns form the
+nonsingular matrix $A_B=[a_{j_1}\ \cdots\ a_{j_m}]$. Let $N$ contain the
+remaining indices, and partition variables and objective coefficients in the
+same order. Then
+\[
+  A_Bx_B+A_Nx_N=b,
+  \qquad x_B=A_B^{-1}b-A_B^{-1}A_Nx_N.
+\]
+The basic solution associated with $B$ sets $x_N=0$ and solves
+$A_Bx_B=b$. It is a \emph{basic feasible solution} (BFS, Polish BRD) exactly
+when $x_B\geq0$. A feasible basic solution is \emph{degenerate} when at least
+one basic coordinate is zero. A nonbasic zero does not establish degeneracy.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      block/.style={draw=modelblue,fill=modelblue!8,minimum height=1.05cm,align=center}]
+    \node[block,minimum width=2.6cm] (ab) at (0,0) {$A_B$\\$m\times m$};
+    \node[block,minimum width=3.4cm,fill=white] (an) at (3,0) {$A_N$\\$m\times(n-m)$};
+    \node at (-1.9,0) {$A=$};
+    \node[block,minimum width=2.6cm] (xb) at (0,-1.9) {$x_B=A_B^{-1}b$};
+    \node[block,minimum width=3.4cm,fill=white] (xn) at (3,-1.9) {$x_N=0$};
+    \draw[model flow] (ab)--(xb);
+    \draw[model flow] (an)--(xn);
+    \node at (0,-2.8) {Check $x_B\geq0$};
+    \node at (3,-2.8) {Set nonbasic variables to zero};
+  \end{tikzpicture}
+  \caption{A basis selects independent columns. The partition is conceptual:
+    the original variable numbering need not change.}
+  \label{fig:partition}
+\end{figure}
+A BFS is a vertex of $\{x:Ax=b,x\geq0\}$, and conversely every vertex admits a
+feasible basis. Different bases can represent the same degenerate vertex.
+There are at most $\binom{n}{m}$ bases, but some column subsets are singular,
+some basic solutions are infeasible, and some solutions coincide. This is an
+upper bound, not an exact count of vertices.
+
+\subsection{Classifying three candidate solutions}
+Consider
+\begin{equation}\label{eq:classification}
+  \begin{aligned}
+    2x_1+x_2+3x_3+x_6&=8,\\
+    x_1+2x_3+x_5+x_6&=5,\\
+    3x_1+x_3+x_4+2x_6&=4.
+  \end{aligned}
+\end{equation}
+Here $A$ has full row rank because columns $(2,5,4)$ form $I_3$.
+Solving the indicated three-column systems gives:
+\begin{center}
+  \begin{tabular}{llll}\toprule
+    Candidate $x^T$ & Ordered basis $B$ & Basic values $x_B^T$ & Classification\\\midrule
+    $(0,8,0,4,5,0)$ & $(2,5,4)$ & $(8,5,4)$ & Nondegenerate BFS\\
+    $(0,\frac12,\frac52,\frac32,0,0)$ & $(2,3,4)$ & $(\frac12,\frac52,\frac32)$ & Nondegenerate BFS\\
+    $(0,0,0,-12,-3,8)$ & $(4,5,6)$ & $(-12,-3,8)$ & Basic, infeasible\\\bottomrule
+  \end{tabular}
+\end{center}
+For the second candidate, $2x_3=5$, then $x_2+3x_3=8$ and $x_3+x_4=4$.
+For the third, $x_6=8$, $x_5=5-8=-3$, and $x_4=4-16=-12$.
+Each listed basis is nonsingular. Checking $Ax=b$ alone cannot establish
+feasibility; conversely, counting nonzero entries alone cannot establish that
+an arbitrary solution is basic without checking column independence.
+
+\section{Canonical equations and reduced costs}\label{sec:canonical}
+For a chosen feasible basis, define
+\begin{equation}\label{eq:transformed}
+  \bar A=A_B^{-1}A,\qquad \bar b=A_B^{-1}b\geq0.
+\end{equation}
+The basic columns of $\bar A$ form the identity. The resulting canonical
+equations are
+\[
+  x_B+\bar A_Nx_N=\bar b.
+\]
+This is canonical \emph{relative to the basis}: any nonsingular basis produces
+identity columns after transformation, but only a feasible basis gives
+$\bar b\geq0$. In numerical code solve systems with $A_B$ rather than computing
+its inverse explicitly.
+
+Substitute the canonical equations into the objective:
+\begin{align}
+  c^Tx&=c_B^Tx_B+c_N^Tx_N\notag\\
+  &=c_B^T\bar b+(c_N^T-c_B^T\bar A_N)x_N\notag\\
+  &=z_0-\sum_{j\in N}q_jx_j,\qquad
+  z_0=c_B^T\bar b,\quad q_j=c_B^T\bar a_j-c_j.\label{eq:reduced}
+\end{align}
+The indicators $q_j=z_j-c_j$ use the \emph{maximization} sign convention.
+Another common convention calls $\rho_j=c_j-z_j=-q_j$ the reduced cost.
+For every basic column, $q_j=0$.
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    Indicator & Equivalent reduced cost & Effect of increasing $x_j$\\\midrule
+    $q_j<0$ & $\rho_j>0$ & Objective increases if a positive step is feasible\\
+    $q_j=0$ & $\rho_j=0$ & Objective stays constant along this direction\\
+    $q_j>0$ & $\rho_j<0$ & Objective decreases\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\begin{proposition}[Optimality certificate]\label{prop:certificate}
+  If the basis is feasible and $q_j\geq0$ for every nonbasic index, then its
+  basic solution is globally optimal.
+\end{proposition}
+\begin{proof}
+  Every feasible point obeys the same transformed equations. Since its
+  nonbasic coordinates are nonnegative, Equation~\eqref{eq:reduced} gives
+  $c^Tx\leq z_0$. The current BFS attains $z_0$.
+\end{proof}
+For a nondegenerate BFS the condition is also necessary: if $q_k<0$, all
+basic coordinates are positive, so a sufficiently small positive step in
+$x_k$ preserves nonnegativity and strictly improves the objective.
+At a degenerate BFS that step can be blocked at zero. For example,
+$\max x_2$ subject to $x_1+x_2=0$, $x\geq0$ has just one feasible point,
+$(0,0)$. For $B=(1)$, $q_2=-1$, yet the point is optimal. Changing to
+$B=(2)$ gives $q_1=1$ and a certificate. Optimality of a point and the sign
+certificate of a particular basis must be distinguished.
+
+If all nonbasic $q_j>0$, equality in the certificate forces $x_N=0$ and hence
+$x_B=\bar b$: the optimizer is unique. This is sufficient, not necessary.
+If some nonbasic $q_k=0$, a \emph{positive feasible step} in that direction
+produces distinct optimal points. A zero indicator by itself is insufficient:
+$\max0$ with $x_1+x_2=0$, $x\geq0$ has $q_2=0$ and still only one feasible point.
+
+\section{One simplex step}\label{sec:pivot}
+\subsection{Entering variable and feasible direction}
+Choose a nonbasic $k$ with $q_k<0$. Dantzig's rule chooses a most negative
+indicator; any negative indicator is eligible. Hold other nonbasic coordinates
+at zero and increase $x_k=\theta\geq0$. With $u=\bar a_k$,
+\begin{equation}\label{eq:direction}
+  x_B(\theta)=\bar b-\theta u,\qquad
+  d_B=-u,\quad d_k=1,\quad d_j=0\ (j\in N\setminus\{k\}).
+\end{equation}
+Then $Ad=0$ and $c^Td=-q_k>0$. The equations remain satisfied along
+$x(\theta)=x^{(B)}+\theta d$; nonnegativity determines the allowed step.
+
+\subsection{Ratio test and leaving variable}
+If $u_i>0$, basic coordinate $x_{j_i}$ decreases and requires
+$\theta\leq\bar b_i/u_i$. If $u_i\leq0$, it places no upper bound on the step.
+Thus
+\begin{equation}\label{eq:ratio}
+  \theta^*=\min_{i:u_i>0}\frac{\bar b_i}{u_i}.
+\end{equation}
+Choose a minimizing row $r$ and remove its basic variable $x_{j_r}$.
+The pivot element is $p=\bar a_{rk}>0$. Replace $j_r$ by $k$ in the ordered
+basis; $x_k=\theta^*$ and the leaving variable becomes nonbasic and zero.
+The objective gain is $-q_k\theta^*$. A tie may leave another zero basic
+coordinate, making the new BFS degenerate.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=0.85cm,y=0.42cm,every node/.style={font=\small}]
+    \draw[model axis] (0,0)--(5.5,0) node[right] {$\theta$};
+    \draw[model axis] (0,0)--(0,8.6) node[above] {basic value};
+    \draw[modelblue,thick] (0,6)--(4,0) node[below] {$6/(3/2)=4$};
+    \draw[modelorange,thick] (0,8)--(4,4);
+    \draw[black!60,thick] (0,3)--(4,5);
+    \draw[dashed] (4,0)--(4,7.8);
+    \node[left] at (0,6) {$6$};
+    \node[left] at (0,8) {$8$};
+    \node[left] at (0,3) {$3$};
+    \node[right] at (4,4) {$8-\theta$};
+    \node[right] at (4,5) {$3+\theta/2$};
+    \node[model point] at (4,0) {};
+    \node[align=left] at (10,6.5) {Only decreasing coordinates\\limit the step.\\First zero determines the exit.};
+  \end{tikzpicture}
+  \caption{Illustrative ratio test: the bounds are $4$ and $8$; the increasing
+    coordinate gives no bound. The maximum feasible step is $\theta^*=4$.}
+  \label{fig:ratio}
+\end{figure}
+
+\subsection{When there is no leaving variable}
+If $u\leq0$, the minimum in Equation~\eqref{eq:ratio} has no candidates.
+Then $d\geq0$, so $x^{(B)}+\theta d$ is feasible for all $\theta\geq0$, and
+$c^Tx(\theta)=z_0-\theta q_k\to+\infty$. This is a certificate of an
+unbounded objective. It requires \emph{both} a negative indicator and a
+column with no positive entry. The same column with $q_k=0$ instead gives
+constant objective along a feasible ray.
+
+\subsection{Tableau update by row operations}\label{sec:row-operations}
+Write a tableau as the constraint rows $[\bar A\mid\bar b]$, followed by
+$[q^T\mid z_0]$. The last row expresses
+$z+\sum_jq_jx_j=z_0$. For a pivot in row $r$, column $k$, use old coefficients
+on the right-hand sides of all update formulas:
+\begin{align*}
+  \bar a'_{rj}&=\bar a_{rj}/p,& \bar b'_r&=\bar b_r/p,\\
+  \bar a'_{ij}&=\bar a_{ij}-\bar a_{ik}\bar a_{rj}/p,&
+  \bar b'_i&=\bar b_i-\bar a_{ik}\bar b_r/p\quad(i\ne r),\\
+  q'_j&=q_j-q_k\bar a_{rj}/p,& z'_0&=z_0-q_k\bar b_r/p.
+\end{align*}
+Equivalently: divide the pivot row by $p$, then subtract suitable multiples of
+that normalized row from the other constraint rows and the indicator row.
+Column $k$ becomes a unit column, while the unchanged basic columns stay unit
+columns. The nonzero pivot also guarantees that the replacement basis is
+nonsingular. Row numbers are \emph{not} variable indices: row $r$ is labelled
+$x_{j_r}$ before the pivot and $x_k$ afterwards.
+
+\section{The algorithm and degenerate steps}\label{sec:algorithm}
+\begin{enumerate}[leftmargin=*]
+  \item Start from a feasible basis and form $\bar A$, $\bar b$, $q$, and $z_0$.
+  \item If all nonbasic indicators are nonnegative, return the current optimum.
+  \item Select a nonbasic column $k$ with $q_k<0$.
+  \item If $\bar a_k\leq0$, return an improving feasible ray and unboundedness.
+  \item Apply the ratio test to positive entries of $\bar a_k$; choose a leaving row.
+  \item Pivot, update the basis and objective row, and return to step 2.
+\end{enumerate}
+Without degeneracy each pivot strictly increases the objective, so no basis
+can repeat; the finite number of bases implies termination. With degeneracy,
+$\theta^*=0$ can change the basis without moving the point or increasing the
+objective. Some pivot rules may cycle.
+
+\textbf{Bland's rule} prevents cycling in exact arithmetic: choose the eligible
+entering variable with the smallest \emph{original variable index}; among
+minimum-ratio ties choose the leaving basic variable with the smallest original
+index. Choosing only the topmost row in a tie is not this rule. Dantzig's rule
+with arbitrary tie breaking has no general finite-termination guarantee.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=3cm,y=3cm,every node/.style={font=\small}]
+    \filldraw[model region] (0,0)--(1,0)--(0,1)--cycle;
+    \draw[model axis] (-0.08,0)--(1.45,0) node[right] {$x_1$};
+    \draw[model axis] (0,-0.08)--(0,1.25) node[above] {$x_2$};
+    \draw[modelorange,dashed] (1,-0.13)--(1,0.85);
+    \node[model point] (v) at (1,0) {};
+    \node[above right,align=left] at (1.04,0.16)
+    {Same point $(1,0)$\\$B=(1,4,5)$\\$B'=(1,3,5)$};
+    \node[above,rotate=-45] at (0.53,0.47) {$x_1+x_2=1$};
+    \node[right] at (1,0.8) {$x_1=1$};
+    \node[below,align=center] at (0.5,-0.23)
+    {$x_3=1-x_1-x_2,\quad x_4=1-x_1,\quad x_5=1-x_2$};
+  \end{tikzpicture}
+  \caption{Degeneracy for $x_1+x_2\leq1$, $x_1\leq1$, $x_2\leq1$, $x\geq0$.
+    At $(1,0)$ three boundary conditions meet. Both indicated bases give
+    $x=(1,0,0,0,1)$; exchanging the zero slack changes the basis only.}
+  \label{fig:degeneracy}
+\end{figure}
+Floating-point implementations also require scale-aware feasibility and
+indicator tolerances. A theoretical zero may appear as a tiny signed number;
+exact-arithmetic pivot logic cannot simply be applied without numerical care.
+
+\clearpage
+\section{Worked example: production planning}\label{sec:production}
+\begin{quote}
+  \foreignlanguage{polish}{Rozwiązać podstawową metodą sympleks.}
+\end{quote}
+Solve by the basic simplex method:
+\[
+  \max(3x_1+2x_2),\qquad
+  2x_1+x_2\leq10,\quad 3x_1+3x_2\leq24,\quad
+  \tfrac32x_1\leq6,\quad x_1,x_2\geq0.
+\]
+Production is continuous; selling prices are 3 and 2 PLN per item, so the
+objective is revenue. The three resource limits are in kg. Add slacks
+$x_3,x_4,x_5$ in that order and use
+\[
+  A=\begin{bmatrix}2&1&1&0&0\\3&3&0&1&0\\3/2&0&0&0&1\end{bmatrix},
+  \quad b=\begin{bmatrix}10\\24\\6\end{bmatrix},\quad
+  c=\begin{bmatrix}3\\2\\0\\0\\0\end{bmatrix}.
+\]
+Throughout the following tableaus the bottom row is $q=z-c$, with the current
+objective value in the rightmost cell. Constraint rows are labelled by their
+basic variables; all unlisted variables are zero at the current BFS.
+
+\subsection{Start: the slack basis}
+The ordered basis is $B=(3,4,5)$.
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_3$ & 2 & 1 & 1 & 0 & 0 & 10\\
+    $x_4$ & 3 & 3 & 0 & 1 & 0 & 24\\
+    $x_5$ & $\boxed{3/2}$ & 0 & 0 & 0 & 1 & 6\\\midrule
+    $q$ & $-3$ & $-2$ & 0 & 0 & 0 & $z_0=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Dantzig's rule selects $x_1$, because $-3<-2$. Ratios are
+$10/2=5$, $24/3=8$, and $6/(3/2)=4$. Hence $x_5$ leaves,
+$\theta^*=4$, and revenue increases by $3\cdot4=12$.
+
+\subsection{First pivot}
+The ordered basis is $B=(3,4,1)$.
+Divide the third row by $3/2$, then eliminate column $x_1$ from the first two
+rows and the indicator row. For example, $R_1\leftarrow R_1-2R_3$ gives
+$x_2+x_3-\frac43x_5=2$.
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_3$ & 0 & $\boxed{1}$ & 1 & 0 & $-4/3$ & 2\\
+    $x_4$ & 0 & 3 & 0 & 1 & $-2$ & 12\\
+    $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4\\\midrule
+    $q$ & 0 & $-2$ & 0 & 0 & 2 & $z_0=12$\\\bottomrule
+  \end{tabular}
+\end{center}
+The production point is $(4,0)$. Enter $x_2$: its positive-column ratios
+are $2/1=2$ and $12/3=4$, while the third row has coefficient zero and is
+excluded. Thus $x_3$ leaves and revenue gains $2\cdot2=4$.
+
+\Needspace{13\baselineskip}
+\subsection{Second pivot}
+The ordered basis is $B=(2,4,1)$.
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_2$ & 0 & 1 & 1 & 0 & $-4/3$ & 2\\
+    $x_4$ & 0 & 0 & $-3$ & 1 & $\boxed{2}$ & 6\\
+    $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4\\\midrule
+    $q$ & 0 & 0 & 2 & 0 & $-2/3$ & $z_0=16$\\\bottomrule
+  \end{tabular}
+\end{center}
+At $(4,2)$, enter $x_5$. A slack can enter the basis just like any other
+nonbasic variable. Its column is $(-4/3,2,2/3)^T$, so only rows 2 and 3
+limit the step. Their ratios are $6/2=3$ and $4/(2/3)=6$. The first row's
+negative coefficient means $x_2$ increases, not that its ratio should be tested.
+Thus $x_4$ leaves with step 3 and revenue gain $(2/3)\cdot3=2$.
+
+\subsection{Third pivot and certificate}
+The ordered basis is $B=(2,5,1)$.
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6\\
+    $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3\\
+    $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2\\\midrule
+    $q$ & 0 & 0 & 1 & $1/3$ & 0 & $z_0=18$\\\bottomrule
+  \end{tabular}
+\end{center}
+All indicators are nonnegative. Therefore
+\[
+  x^*=(2,6,0,0,3)^T,\qquad z^*=18\text{ PLN}.
+\]
+The first two resources are exhausted, while 3 kg of resource 3 remain.
+The objective identity is an explicit certificate:
+\begin{equation}\label{eq:production-certificate}
+  3x_1+2x_2=18-x_3-\tfrac13x_4\leq18.
+\end{equation}
+Both nonbasic indicators are strictly positive, so this optimizer is unique.
+The same upper bound follows by adding the first resource constraint to
+one third of the second.
+
+\begin{figure}[H]
+  \centering
+  \begin{minipage}[c]{0.52\linewidth}
+    \centering
+    \begin{tikzpicture}[x=0.75cm,y=0.48cm,every node/.style={font=\small}]
+      \filldraw[model region] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+      \draw[model axis] (-0.2,0)--(5.5,0) node[right] {$x_1$};
+      \draw[model axis] (0,-0.3)--(0,9) node[above] {$x_2$};
+      \draw[model flow,very thick] (0,0)--(4,0)--(4,2)--(2,6);
+      \draw[model objective] (0.7,7.95)--(4.5,2.25);
+      \foreach \p in {(0,0),(4,0),(4,2),(2,6)} \node[model point] at \p {};
+      \node[below left] at (0,0) {$z=0$};
+      \node[below] at (4,0) {$z=12$};
+      \node[right] at (4,2) {$z=16$};
+      \node[above right] at (2,6) {$z=18$};
+      \node[left] at (0,8) {$8$};
+      \node[right,align=left] at (5,7)
+      {$x_1$ enters\\then $x_2$\\then slack $x_5$};
+    \end{tikzpicture}
+  \end{minipage}\hfill
+  \begin{minipage}[c]{0.46\linewidth}
+    \centering
+    \begin{tabular}{ccrr}\toprule
+      In & Out & Step & Revenue\\\midrule
+      $x_1$ & $x_5$ & 4 & 12\\
+      $x_2$ & $x_3$ & 2 & 16\\
+      $x_5$ & $x_4$ & 3 & 18\\\bottomrule
+    \end{tabular}
+    \par\smallskip
+    {\small Revenue in PLN.}
+  \end{minipage}
+  \caption{The tableau sequence follows three edges of the production polygon.
+    The final dashed line is $3x_1+2x_2=18$. Each nondegenerate pivot moves
+    to a distinct adjacent vertex. The table summarizes the entering and
+    leaving variables, steps, and resulting revenue.}
+  \label{fig:production-path}
+\end{figure}
+
+\section{Worked example: an unbounded objective}\label{sec:unbounded}
+Consider
+\[
+  \max(3x_1+x_2-3x_3-x_4),\quad
+  \begin{cases}
+    x_1+2x_2-x_3-x_4\leq4,    \\
+    2x_1-2x_2+3x_3-3x_4\leq9, \\
+    x_1,x_2,x_3,x_4\geq0.
+  \end{cases}
+\]
+Add slacks $x_5,x_6$. The initial basis is $(5,6)$ and the tableau is
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_5$ & $\boxed{1}$ & 2 & $-1$ & $-1$ & 1 & 0 & 4\\
+    $x_6$ & 2 & $-2$ & 3 & $-3$ & 0 & 1 & 9\\\midrule
+    $q$ & $-3$ & $-1$ & 3 & 1 & 0 & 0 & $z_0=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_1$. The ratios $4$ and $9/2$ select the first row, so $x_5$ leaves.
+After subtracting twice the first row from the second:
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & 1 & 2 & $-1$ & $-1$ & 1 & 0 & 4\\
+    $x_6$ & 0 & $-6$ & 5 & $-1$ & $-2$ & 1 & 1\\\midrule
+    $q$ & 0 & 5 & 0 & $-2$ & 3 & 0 & $z_0=12$\\\bottomrule
+  \end{tabular}
+\end{center}
+Now $q_4=-2$ and the $x_4$ column is $(-1,-1)^T$. There is no positive
+entry and hence no leaving row. Set $x_4=\theta$, keeping $x_2=x_3=x_5=0$.
+The equations give
+\begin{equation}\label{eq:unbounded-ray}
+  x(\theta)=(4+\theta,0,0,\theta,0,1+\theta)^T,
+  \quad d=(1,0,0,1,0,1)^T,\quad \theta\geq0.
+\end{equation}
+Check directly: $Ad=0$, $d\geq0$, and $c^Td=2$. The original constraint
+left-hand sides are $4$ and $8-\theta\leq9$, while the objective is
+$12+2\theta\to+\infty$. Thus unboundedness comes with a verifiable feasible
+ray, rather than just a failed ratio test.
+
+This direction also spans an \emph{extreme ray} of the standard-form recession
+cone $\{v:Av=0,v\geq0\}$. To see this, suppose $d=r+s$ with $r,s$ in that
+cone. Since $d_2=d_3=d_5=0$, nonnegativity forces the same coordinates of
+$r,s$ to be zero. The homogeneous equations then give $r_1=r_4$ and
+$r_6=r_4$, so $r=r_4d$; the same holds for $s$. The decomposition can only
+use parallel nonnegative multiples of $d$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\small}]
+    \fill[modelblue!10] (0,0)--(4,0)--(7,3)--(7,4)--(0,4)--cycle;
+    \draw[model axis] (0,0)--(7.8,0) node[right] {$x_1$};
+    \draw[model axis] (0,0)--(0,4.5) node[above] {$x_4$};
+    \draw[modelblue] (4,0)--(7.3,3.3);
+    \draw[model flow,very thick] (4,0)--(6.7,2.7);
+    \node[model point] at (4,0) {};
+    \node[below] at (4,0) {$(4,0)$};
+    \node[above left,align=center] at (5.5,1.5)
+    {$(4+\theta,\theta)$\\$z=12+2\theta$};
+    \node[left] at (0,3) {$3$};
+    \node[right] at (7.1,3.8) {feasible slice};
+  \end{tikzpicture}
+  \caption{Slice $x_2=x_3=0$ in the original four-variable problem. The shaded
+    feasible region continues upward and to the right; the arrow lies on
+    $x_1-x_4=4$ and gives increasing objective.}
+  \label{fig:unbounded-ray}
+\end{figure}
+
+\Needspace{18\baselineskip}
+\section{Finding an initial feasible basis}\label{sec:initialization}
+A simplex step preserves feasibility; it cannot repair an infeasible starting
+basis. Before using the primal algorithm, convert the constraints to equalities
+and establish a BFS.
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.35\linewidth}}\toprule
+    Constraint or situation & Equality form & Initial basis implication\\\midrule
+    $a^Tx\leq b$, $b\geq0$ & $a^Tx+s=b$, $s\geq0$ & Slack column $+1$ can start basic with $s=b$.\\
+    $a^Tx\geq b$, $b\geq0$ & $a^Tx-s=b$, $s\geq0$ & Surplus column $-1$ alone gives $s=-b$; generally add an artificial column.\\
+    $a^Tx=b$ & Equality already present & Reuse a feasible basis if available; otherwise add an artificial column.\\
+    Equality with $b<0$ & Multiply the entire row by $-1$ & Normalize RHS before introducing a positive artificial column.\\
+    Inequality with $b<0$ & Multiply by $-1$ and reverse inequality & Then choose slack or surplus for the new direction.\\\bottomrule
+  \end{tabular}
+\end{center}
+Slacks and surplus variables describe the original constraint. Artificial
+variables are temporary additions used to find feasibility; they must be zero
+in a solution of the original problem.
+
+For $Ax\leq b$, $b\geq0$, slacks give the immediate basis $x=0$, $s=b$.
+More generally, identity columns already present in an equality system can form
+an initial basis when their RHS values are nonnegative. An identity block with
+a negative basic value is not a feasible basis. Zero RHS values are allowed but
+produce degeneracy.
+
+\subsection{Phase I: a feasibility problem}\label{sec:phase-one}
+After normalizing equality rows to $b\geq0$, a universally available augmented
+system is
+\[
+  Ax+a=b,\qquad x\geq0,\quad a\geq0,
+\]
+where each row has an artificial variable. It has the BFS $x=0$, $a=b$.
+If some usable basic columns already exist, add artificials only to the rows
+that need them. Phase I solves
+\begin{equation}\label{eq:phase-one}
+  \min w=\sum_i a_i\quad\text{or, equivalently,}\quad\max(-w).
+\end{equation}
+Always build its indicator row from its actual basic objective coefficients;
+the artificial variables may already be basic and cannot be treated as if their
+objective contribution were absent.
+
+\begin{proposition}[Phase I test]
+  The original equality/nonnegativity system is feasible if and only if the
+  Phase I optimum is $w^*=0$.
+\end{proposition}
+\begin{proof}
+  A feasible original $x$ gives an augmented feasible point $(x,0)$ with $w=0$.
+  Since $w\geq0$, this is the minimum. Conversely, $w^*=0$ and $a_i\geq0$
+  force every artificial variable to vanish, so $Ax=b$, $x\geq0$.
+\end{proof}
+Phase I is feasible by construction and its objective is bounded below by zero,
+so it has a finite attained minimum. A positive \emph{intermediate} $w$ says
+nothing about infeasibility; only a positive \emph{optimal} $w^*$ does.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},
+      box/.style={draw=modelblue,rounded corners,align=center,inner sep=6pt}]
+    \node[box] (start) at (0,0) {Normalize RHS; add needed artificials\\solve Phase I};
+    \node[box] (no) at (-3.5,-1.7) {$w^*>0$\\original problem infeasible};
+    \node[box] (yes) at (3,-1.7) {$w^*=0$\\original problem feasible};
+    \node[box] (clean) at (3,-3.2) {Remove zero basic artificials\\and any redundant rows};
+    \node[box] (two) at (3,-4.6) {Delete artificial columns\\recompute original objective; Phase II};
+    \draw[model flow] (start)--(no);
+    \draw[model flow] (start)--(yes);
+    \draw[model flow] (yes)--(clean);
+    \draw[model flow] (clean)--(two);
+  \end{tikzpicture}
+  \caption{Two-phase initialization. Phase I establishes feasibility;
+    Phase II optimizes the original objective.}
+  \label{fig:phase-flow}
+\end{figure}
+
+\subsection{Removing artificial variables from a zero optimum}
+At $w^*=0$, a zero artificial variable may remain \emph{basic}. Removing its
+column immediately would leave an incomplete basis. Inspect its transformed
+row restricted to original nonbasic columns:
+\begin{itemize}[leftmargin=*]
+  \item If a coefficient is nonzero, pivot that original variable into the row.
+        The RHS is zero, so the point stays unchanged. For this cleanup exchange
+        the coefficient may be positive or negative: this is a basis repair at
+        zero, not an objective-improving positive-step ratio test.
+  \item If every original coefficient in that row is zero, its original
+        equality is $0=0$ after transformation. Delete that redundant row and its
+        artificial basic variable.
+\end{itemize}
+Under the full-row-rank assumption on the original $A$, such a redundant row
+cannot occur; it matters when dependent rows have been retained. For instance,
+$x_1=1$ and $2x_1=2$ reduce to one independent equality. In contrast,
+$x_1=1$ and $2x_1=3$ are inconsistent, not a redundant pair.
+After cleanup, delete artificial columns and recompute $q$ and $z_0$ using the
+\emph{original} objective and the retained basis. Phase I indicators cannot
+certify optimality for Phase II.
+
+\subsection{A small infeasible example}
+For $x\geq2$ and $x\leq1$, introduce surplus $s$, slack $t$, and artificials:
+\[
+  x-s+a_1=2,\qquad x+t+a_2=1,\qquad x,s,t,a_1,a_2\geq0.
+\]
+Subtracting the second equation from the first gives
+$a_1=1+s+t+a_2$. Therefore $w=a_1+a_2\geq1$. The augmented point
+$(x,s,t,a_1,a_2)=(1,0,0,1,0)$ attains $w=1$, so $w^*=1>0$ and the
+original problem is infeasible. This proves the Phase I result without relying
+on a numerical solver status.
+
+\clearpage
+\section{Worked example: two different Phase I starts}\label{sec:two-phase}
+Solve
+\begin{equation}\label{eq:two-phase-original}
+  \max(-x_1-2x_2-3x_3-4x_4),\qquad
+  \begin{cases}
+    x_1+x_2+x_3+x_4=1,     \\
+    x_1+x_3-3x_4=\tfrac12, \\
+    x_1,x_2,x_3,x_4\geq0.
+  \end{cases}
+\end{equation}
+The coefficient matrix has rank 2, but its original columns do not provide an
+immediate feasible identity basis. Compare an all-artificial start with a start
+that reuses the existing column $a_2=(1,0)^T$.
+
+\subsection{Start A: two artificial variables}
+Introduce artificial variables $x_5,x_6$ and maximize $-x_5-x_6$ in Phase I:
+\[
+  x_1+x_2+x_3+x_4+x_5=1,\qquad
+  x_1+x_3-3x_4+x_6=\tfrac12.
+\]
+The basis $(5,6)$ gives $x_5=1$, $x_6=1/2$, and $w=3/2$.
+Use the Phase I coefficients $c^{\mathrm I}=(0,0,0,0,-1,-1)^T$:
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_5$ & 1 & 1 & 1 & 1 & 1 & 0 & 1\\
+    $x_6$ & $\boxed{1}$ & 0 & 1 & $-3$ & 0 & 1 & $1/2$\\\midrule
+    $q^{\mathrm I}$ & $-2$ & $-1$ & $-2$ & 2 & 0 & 0 & $z_{\mathrm I}=-3/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+The most negative indicators tie for $x_1$ and $x_3$; select $x_1$ by smaller
+index. Ratios $1$ and $1/2$ select row 2, so $x_6$ leaves.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_5$ & 0 & 1 & 0 & $\boxed{4}$ & 1 & $-1$ & $1/2$\\
+    $x_1$ & 1 & 0 & 1 & $-3$ & 0 & 1 & $1/2$\\\midrule
+    $q^{\mathrm I}$ & 0 & $-1$ & 0 & $-4$ & 0 & 2 & $z_{\mathrm I}=-1/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+Now $x_4$ enters and only row 1 has a positive coefficient. The step is
+$(1/2)/4=1/8$, and $x_5$ leaves. The Phase I objective increases by
+$4\cdot(1/8)=1/2$ to zero.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & 0 & $1/4$ & 0 & 1 & $1/4$ & $-1/4$ & $1/8$\\
+    $x_1$ & 1 & $3/4$ & 1 & 0 & $3/4$ & $1/4$ & $7/8$\\\midrule
+    $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & 1 & $z_{\mathrm I}=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Both artificials are nonbasic and zero. Delete columns 5 and 6; retain
+$B=(4,1)$. Recompute the objective using $c^{\mathrm{II}}=(-1,-2,-3,-4)^T$:
+\begin{center}
+  \begin{tabular}{crrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\\midrule
+    $x_4$ & 0 & $1/4$ & 0 & 1 & $1/8$\\
+    $x_1$ & 1 & $3/4$ & 1 & 0 & $7/8$\\\midrule
+    $q^{\mathrm{II}}$ & 0 & $1/4$ & 2 & 0 & $z_{\mathrm{II}}=-11/8$\\\bottomrule
+  \end{tabular}
+\end{center}
+All Phase II indicators are nonnegative, so this start has already reached the
+original optimum. Phase I happened to find a basis optimal for Phase II;
+this is not guaranteed in general.
+
+\subsection{Start B: reuse an original basic column}
+Keep $x_2$ basic in row 1 and introduce only $x_5=a$ in row 2:
+\[
+  x_1+x_2+x_3+x_4=1,\qquad x_1+x_3-3x_4+x_5=\tfrac12.
+\]
+Start with $B=(2,5)$ and maximize $-x_5$.
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_2$ & 1 & 1 & 1 & 1 & 0 & 1\\
+    $x_5$ & $\boxed{1}$ & 0 & 1 & $-3$ & 1 & $1/2$\\\midrule
+    $q^{\mathrm I}$ & $-1$ & 0 & $-1$ & 3 & 0 & $z_{\mathrm I}=-1/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_1$ and remove $x_5$ after step $1/2$:
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_2$ & 0 & 1 & 0 & 4 & $-1$ & $1/2$\\
+    $x_1$ & 1 & 0 & 1 & $-3$ & 1 & $1/2$\\\midrule
+    $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & $z_{\mathrm I}=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Delete column 5. The feasible original point is $(1/2,1/2,0,0)^T$, but
+recomputing its \emph{original} objective gives
+\begin{center}
+  \begin{tabular}{crrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\\midrule
+    $x_2$ & 0 & 1 & 0 & $\boxed{4}$ & $1/2$\\
+    $x_1$ & 1 & 0 & 1 & $-3$ & $1/2$\\\midrule
+    $q^{\mathrm{II}}$ & 0 & 0 & 2 & $-1$ & $z_{\mathrm{II}}=-3/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+The negative indicator for $x_4$ requires a Phase II pivot. Enter $x_4$,
+remove $x_2$, and take step $1/8$. Dividing row 1 by 4 and adding three
+copies to row 2 produces exactly the final Phase II tableau from Start A.
+Therefore both starts yield
+\begin{equation}\label{eq:two-phase-result}
+  x^*=(7/8,0,0,1/8)^T,\qquad z^*=-11/8.
+\end{equation}
+Its indicator identity gives a full hand certificate:
+\begin{equation}\label{eq:two-phase-certificate}
+  -x_1-2x_2-3x_3-4x_4=-\tfrac{11}{8}-\tfrac14x_2-2x_3
+  \leq-\tfrac{11}{8}.
+\end{equation}
+The two nonbasic indicators are positive, so the optimum is unique.
+
+\subsection{Geometry of the feasible equality system}
+Eliminate $x_1,x_2$ from Equation~\eqref{eq:two-phase-original}:
+\[
+  x_1=\tfrac12-x_3+3x_4,\qquad x_2=\tfrac12-4x_4.
+\]
+Nonnegativity gives
+$0\leq x_4\leq1/8$ and $0\leq x_3\leq1/2+3x_4$.
+These two coordinates parameterize the whole feasible set, and
+\[
+  z=-\tfrac32+x_4-2x_3.
+\]
+The maximum is at the largest allowed $x_4$ and smallest allowed $x_3$.
+This independent calculation confirms the tableau result.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=24cm,y=4cm,every node/.style={font=\small}]
+    \filldraw[model region] (0,0)--(0.125,0)--(0.125,0.875)--(0,0.5)--cycle;
+    \draw[model axis] (-0.005,0)--(0.18,0) node[right] {$x_4$};
+    \draw[model axis] (0,-0.04)--(0,1.04) node[above] {$x_3$};
+    \draw[model flow,very thick] (0,0)--(0.125,0);
+    \node[model point] at (0,0) {};
+    \node[model point] at (0.125,0) {};
+    \node[below left,align=right] at (0,0)
+    {Start B after Phase I\\$z=-3/2$};
+    \node[below right,align=left] at (0.125,0)
+    {Both starts finish here\\$z=-11/8$};
+    \node[left] at (0,0.5) {$1/2$};
+    \node[right] at (0.125,0.875) {$(1/8,7/8)$};
+    \node[above,rotate=27] at (0.065,0.695) {$x_3=1/2+3x_4$};
+    \node[right,align=left] at (0.18,0.55)
+    {Start A reaches the optimum\\during Phase I.\\Start B needs the shown\\Phase II edge move.};
+  \end{tikzpicture}
+  \caption{The four-variable equality system is a quadrilateral in coordinates
+    $(x_4,x_3)$. Its lower edge has increasing objective toward the unique optimum.}
+  \label{fig:two-phase-geometry}
+\end{figure}
+\begin{center}
+  \begin{tabular}{lrrl}\toprule
+    Initialization & Artificial variables & Phase I pivots & Phase II pivots\\\midrule
+    Start A & 2 & 2 & 0\\
+    Start B & 1 & 1 & 1\\\bottomrule
+  \end{tabular}
+\end{center}
+Reusing an existing basis column saves an artificial variable here. It does not
+imply that every such reuse minimizes the total number of simplex pivots.
+
+\section{The Big M method and its limitations}\label{sec:big-m}
+After normalizing the RHS and introducing needed artificials, the maximization
+penalty formulation is
+\begin{equation}\label{eq:big-m}
+  \max\bigl(c^Tx-M\textstyle\sum_i a_i\bigr),\qquad
+  Ax+a=b,\quad x,a\geq0.
+\end{equation}
+Here the displayed form adds one artificial per row; a mixed starting basis
+can use fewer. Positive artificial values are penalized, but $M$ must dominate
+the competing original objective for the intended feasibility priority.
+A rigorous symbolic interpretation compares objective expressions
+lexicographically: first minimize $\sum a_i$, then optimize $c^Tx$ among
+points with the minimum artificial sum. This recovers the two-phase priority.
+When comparing $\alpha M+\beta$ symbolically, compare $\alpha$ first and then
+$\beta$; an arbitrary large floating-point constant is not the same operation.
+
+\subsection{A symbolic Big M calculation for the equality example}
+Apply the penalty to Equation~\eqref{eq:two-phase-original}, using the same two
+artificial columns as Start A. The combined coefficient vector is
+$c^M=(-1,-2,-3,-4,-M,-M)^T$. Its initial basis $(5,6)$ gives
+\[
+  q^M=(1-2M,\ 2-M,\ 3-2M,\ 4+2M,\ 0,\ 0)^T,
+  \qquad z_M=-3M/2.
+\]
+For symbolic dominant $M$, $x_1$ enters and $x_6$ leaves after step $1/2$.
+The constraint rows are exactly the first transformed rows of Start A;
+only their objective coefficients differ. Recompute with the combined
+objective at $B=(5,1)$:
+\[
+  q^M=(0,\ 2-M,\ 2,\ 7-4M,\ 0,\ 2M-1)^T,
+  \qquad z_M=-(M+1)/2.
+\]
+Now $x_4$ enters and $x_5$ leaves after step $1/8$. At $B=(4,1)$,
+\[
+  q^M=(0,\ 1/4,\ 2,\ 0,\ M-7/4,\ M+3/4)^T,
+  \qquad z_M=-11/8.
+\]
+Both artificials are zero and every indicator is nonnegative for dominant $M$.
+This certifies the same original optimum $(7/8,0,0,1/8)^T$ as the two-phase
+method. For this \emph{specific} problem, the same Dantzig pivot sequence and
+strict nonbasic indicator certificate also work with any finite $M>7/4$.
+For example $M=10$ gives penalty-objective values $-15$, $-11/2$, and $-11/8$.
+The threshold depends on the data; it is not a rule for other LPs.
+
+\subsection{A hand counterexample to an insufficient penalty}
+The original problem $\max(-Kx)$ subject to $x=1$, $x\geq0$ is feasible,
+with unique value $-K$. Its augmented problem is
+\[
+  \max(-Kx-Ma),\qquad x+a=1,\quad x,a\geq0,
+  \qquad K>M>0.
+\]
+Substitute $a=1-x$:
+\[
+  -Kx-M(1-x)=-M+(M-K)x,\qquad 0\leq x\leq1.
+\]
+The maximum is at $x=0,a=1$, with value $-M>-K$. A positive artificial
+variable at this penalized optimum does \emph{not} prove the original system
+infeasible. For $K=100$, $M=10$, the penalized optimum is $-10$ while the
+original feasible point has value $-100$.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=4cm,y=0.035cm,every node/.style={font=\small}]
+    \draw[model axis] (0,0)--(1.4,0) node[right] {$x$};
+    \draw[model axis] (0,-110)--(0,8) node[above] {penalized objective};
+    \draw[modelorange,very thick] (0,-10)--(1,-100);
+    \node[model point] at (0,-10) {};
+    \node[model point] at (1,-100) {};
+    \node[right,align=left] at (0.16,-10) {$a=1$, value $-10$\\penalized optimum};
+    \node[right,align=left] at (1,-100) {$a=0$, value $-100$\\original feasible point};
+    \draw[dashed,black!40] (1,0)--(1,-100);
+    \node[above] at (1,0) {$1$};
+  \end{tikzpicture}
+  \caption{With $K=100$ and $M=10$, the penalty rewards keeping an artificial
+    variable because avoiding the original cost is more valuable.}
+  \label{fig:big-m}
+\end{figure}
+
+\subsection{What a penalized solve can certify}
+A \emph{finite optimal} augmented solution with $a=0$ certifies an original
+optimum even for finite $M$: every original feasible point also belongs to the
+augmented system and has the same objective there. In contrast, interpreting
+positive artificials requires a justified feasibility priority.
+
+An unbounded penalized problem with a positive artificial variable on a ray
+also does not alone prove original infeasibility. For example,
+$x_1-x_2+a=1$ and objective $x_1-Ma$ admit the augmented ray
+$(x_1,x_2,a)=(\theta,\theta,1)$ with increasing objective. The original
+$a=0$ system is nevertheless feasible and unbounded, using
+$(x_1,x_2)=(1+\theta,\theta)$.
+To certify original unboundedness, establish an original feasible point and
+an improving ray whose artificial components are zero.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.22\linewidth}>{\raggedright\arraybackslash}p{0.33\linewidth}>{\raggedright\arraybackslash}p{0.35\linewidth}}\toprule
+    Aspect & Two-phase method & Big M method\\\midrule
+    Feasibility priority & Separate minimization of artificial sum & Dominant symbolic penalty or justified numerical $M$\\
+    Objective rows & Recompute the original row after Phase I & Original and penalty coefficients share a row\\
+    Infeasibility test & $w^*>0$ at Phase I optimum & Positive artificials require a valid dominance argument\\
+    Numerical issue & Ordinary feasibility/optimality tolerances & Large coefficients can also amplify scaling and cancellation problems\\\bottomrule
+  \end{tabular}
+\end{center}
+For hand calculations, both formulations explain artificial variables. For a
+transparent numerical demonstration, two separate phases avoid inventing a
+penalty size. A simplex tableau is a teaching representation; efficient solvers
+usually maintain basis factorizations instead of repeatedly forming full inverses.
+
+\section{Checking the hand calculations in MATLAB}\label{sec:matlab}
+The companion script is
+\href{../../matlab/exercises/lecture_03_checks.m}{\texttt{matlab/exercises/lecture\_03\_checks.m}}.
+Run it from the repository root:
+\begin{lstlisting}
+run('matlab/exercises/lecture_03_checks.m')
+\end{lstlisting}
+It uses base MATLAB linear solves and assertions, without Optimization Toolbox.
+It checks the stated bases and pivot choices rather than implementing a general
+purpose LP solver. The same matrices and objective coefficients are used in the
+hand calculations and the script.
+
+\Needspace{10\baselineskip}
+A basis calculation is just two linear solves:
+\begin{lstlisting}
+AB = A(:, B);
+Abar = AB \ A;
+bbar = AB \ b;
+q = Abar' * c(B) - c;
+x = zeros(size(A, 2), 1);
+x(B) = bbar;
+value = c' * x;
+\end{lstlisting}
+Here $B$ is an ordered row vector of indices; $b,c,x,q$ are column vectors.
+The ratio test deliberately discards zero and negative column coefficients:
+\begin{lstlisting}
+u = Abar(:, entering);
+rows = find(u > tol);
+if isempty(rows)
+    direction = zeros(size(A, 2), 1);
+    direction(B) = -u;
+    direction(entering) = 1;
+else
+    ratios = bbar(rows) ./ u(rows);
+    step = min(ratios);
+end
+\end{lstlisting}
+This fragment illustrates the algebra; the companion script additionally checks
+entering indicators, leaving choices, feasibility, tableau row operations, and
+agreement with the next independently recomputed basis. It uses an absolute
+tolerance $10^{-10}$ appropriate for these small, modestly scaled inputs.
+A generic solver needs scale-aware tolerances and a strategy for ill-conditioned
+bases. Exact fractions in the notes are not rounded numerical results.
+
+\begin{center}
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.38\linewidth}>{\raggedright\arraybackslash}p{0.27\linewidth}}\toprule
+    Check & Expected result & Interpretation\\\midrule
+    Production basis sequence & Revenue $0,12,16,18$ PLN & Three improving pivots\\
+    Production final point & $(2,6,0,0,3)^T$ & Slacks in kg\\
+    Unbounded example & $Ad=0$, $d\geq0$, $c^Td=2$ & Objective $12+2\theta$\\
+    Two-phase Start A & $w:3/2,1/2,0$ & Two feasibility pivots\\
+    Two-phase Start B & $w:1/2,0$ & One feasibility pivot\\
+    Original equality problem & $(7/8,0,0,1/8)^T$, $z=-11/8$ & Same optimum\\
+    Infeasible inequalities & $w^*=1$ & Infeasible\\
+    Big M equality solve & $M=10$, $z=-11/8$, $a=0$ & Original optimum\\
+    Finite penalty example & $x=0,a=1$, value $-10$ & $M=10<K=100$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+\Needspace{20\baselineskip}
+\section{Study questions and common mistakes}\label{sec:review}
+Before doing another tableau, check these distinctions:
+\begin{center}
+  \small
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.35\linewidth}>{\raggedright\arraybackslash}p{0.57\linewidth}}\toprule
+    Mistake & Correct check\\\midrule
+    Every basic solution is feasible & Verify both $Ax=b$ and $x\geq0$.\\
+    A zero variable always means degeneracy & Only a zero \emph{basic} coordinate establishes degeneracy.\\
+    An unbounded set means an unbounded LP & Exhibit a feasible ray with \emph{positive} objective slope.\\
+    Test every ratio in the entering column & Include only strictly positive coefficients.\\
+    A zero indicator proves another optimum & Verify a positive feasible step or otherwise establish a distinct optimal point.\\
+    A simplex pivot always moves the point & A zero step can change only the basis.\\
+    A positive Phase I value proves infeasibility & Complete Phase I to its optimum first.\\
+    Delete all artificial columns immediately & First replace zero basic artificials or remove redundant rows.\\
+    Reuse Phase I indicators in Phase II & Recompute with the original objective coefficients.\\
+    Any large $M$ is enough & Justify dominance; positive artificial values alone do not certify infeasibility.\\\bottomrule
+  \end{tabular}
+\end{center}
+\begin{enumerate}[leftmargin=*,itemsep=0pt,topsep=4pt]
+  \item In the production example, compute the initial pivot if $x_2$ enters
+        first. How does its vertex path differ from Dantzig's path?
+  \item Starting at the final production basis, explain why increasing either
+        nonbasic slack cannot improve revenue.
+  \item In the unbounded example, verify the entire ray in the original
+        inequalities, without using the transformed tableau.
+  \item In Start B of the two-phase example, derive $q_4^{\mathrm{II}}=-1$
+        directly from $c_B^T\bar a_4-c_4$.
+  \item For the finite penalty counterexample, characterize all optimizers
+        when $M<K$, $M=K$, and $M>K$.
+\end{enumerate}
+\paragraph{Answers for checking.}
+(1) Ratios $10$ and $8$ give step 8, so $x_4$ leaves and the point is $(0,8)$;
+then $x_1$ enters with step 2 and $x_3$ leaves, reaching $(2,6)$.
+(2) Equation~\eqref{eq:production-certificate} subtracts $x_3+x_4/3$ from 18.
+(3) The two left-hand sides are $4$ and $8-\theta$.
+(4) $(-2)4+(-1)(-3)-(-4)=-1$.
+(5) Respectively $(x,a)=(0,1)$, the whole segment $x+a=1$ with $x,a\geq0$,
+and $(x,a)=(1,0)$.
+
+\clearpage
+\section{Sources and editorial remarks}\label{sec:sources}
+\noindent\textbf{Primary source:} E. Pawelec, \texttt{s4\_w3.pdf},
+PDF pages 1--12, printed slides 1--46.\\
+\textbf{Source date:} Stored in the folder labelled 2020; PDF metadata records
+creation on 2019-10-17, which does not establish the delivery date.\\
+\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Editorial scope:} The complete mathematical content is reorganized in
+English. The worked tableaus retain the supplied data and both Phase I starts.
+Proofs, counterexamples, study questions, redrawn figures, and the MATLAB
+companion are additional explanations.
+
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    PDF pages & Printed slides & Material in these notes\\\midrule
+    1 & 1--4 & Section~\ref{sec:problem}; geometric interpretation\\
+    2--3 & 5--12 & Sections~\ref{sec:bases}--\ref{sec:canonical}; candidate solutions\\
+    4--6 & 13--23 & Sections~\ref{sec:canonical}--\ref{sec:algorithm}; simplex derivation\\
+    6--7 & 24--28 & Section~\ref{sec:production}; full production tableaus\\
+    8 & 29--31 & Section~\ref{sec:unbounded}; unbounded example\\
+    8--9 & 32--36 & Section~\ref{sec:initialization}; initialization and two phases\\
+    10 & 37--38 & Section~\ref{sec:big-m}; penalty method\\
+    10--11 & 39--44 & Section~\ref{sec:two-phase}; two initialization variants\\
+    12 & 45--46 & Section~\ref{sec:row-operations}; pivot formulas\\\bottomrule
+  \end{tabular}
+\end{center}
+The Polish prompt in Section~\ref{sec:production} is from slide 24.
+Candidate vectors in Section~\ref{sec:bases} are from slides 8 and 12.
+The unbounded ray is fully derived here from the example and question on
+slides 29--31. All figures are editable explanatory TikZ redrawings; the ratio
+test sketch, degeneracy example, and finite-penalty graph use added illustrative
+data. The equations and tableaus on slides 39--44 were inspected visually to
+confirm nonnegativity of all four original variables and both artificial-variable
+conventions.
+
+\paragraph{Qualifications of the mathematical claims.}
+Section~\ref{sec:canonical} distinguishes a sufficient indicator certificate
+from necessity for a nondegenerate BFS, qualifying the equivalence stated on
+slide 14. It also requires an actual positive feasible step to infer a distinct
+optimizer from a zero indicator. Section~\ref{sec:initialization} explains
+zero-basic-artificial cleanup and redundant rows explicitly.
+Section~\ref{sec:big-m} qualifies the classification on slide 38:
+an insufficient finite penalty and an augmented ray carrying positive artificial
+values do not by themselves establish original infeasibility.
+
+\paragraph{Supplementary checks.}
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/4fdf1a06497288c24593f7eedef7576e_MIT6_251JF09_lec05.pdf}{MIT OCW 15.081J/6.251J, Lecture 5 (Fall 2009)},
+PDF p.~2 and pp.~5--6, was consulted for the nondegeneracy qualification and
+anti-cycling rule.
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/12b1c7e885991696c294953b2497739c_MIT6_251JF09_lec07.pdf}{Lecture 7},
+PDF pp.~2--4, was consulted for removal of zero basic artificials and the
+transition to Phase II. These are supplementary references, not evidence of
+current course coverage; the source inventory records external storage status.
+
+\paragraph{Verification.}
+All displayed worked-example tableaus were independently recomputed using
+exact rational Gauss--Jordan elimination, with constraint residuals checked
+exactly. Their objective and indicator rows agree with the hand derivations.
+The installed R2026b static code analyzer checked the MATLAB companion with
+no diagnostics. The companion has not yet been executed successfully in MATLAB:
+on 2026-10-04 the agent's launcher again exited with code 1 and no diagnostic
+before displaying its version. This does not change the earlier user-confirmed
+MATLAB results for Lecture 2. The expected checks in Section~\ref{sec:matlab}
+are not presented as MATLAB execution evidence.
+Polish terminology is maintained in \texttt{docs/glossary.md}; detailed execution
+status is in \texttt{docs/matlab-verification.md}.
+\end{document}

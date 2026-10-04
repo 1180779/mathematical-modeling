@@ -24,6 +24,10 @@ Lecture notes are developed from the historical sources, with current course ali
   ([PDF](output/lectures/02-linear-programming.pdf)): modeling examples, standard form,
   recession directions, optimal vertices, and basic feasible solutions.
 
+- [Lecture 3: The simplex method](notes/lectures/03-simplex-method.tex)
+  ([PDF](output/lectures/03-simplex-method.pdf)): canonical equations, reduced costs,
+  full simplex tableaus, degeneracy, feasible rays, two-phase initialization, and Big M.
+
 PDF links point to the committed reading copies in `output/`.
 
 ## Layout
@@ -109,6 +113,17 @@ run('matlab/exercises/lecture_02_checks.m')
 
 Run from the repository root. The script checks the hand examples using base
 MATLAB; no Optimization Toolbox is required. Both scripts passed, including plot export; see the [verification record](docs/matlab-verification.md).
+
+## Lecture 3 MATLAB checks
+
+```matlab
+run('matlab/exercises/lecture_03_checks.m')
+```
+
+Run from the repository root. The base MATLAB script checks both simplex examples,
+both two-phase starts, and the added counterexamples. Static code analysis passed;
+MATLAB execution is pending. Exact rational calculations independently confirm the
+hand results; see the [verification record](docs/matlab-verification.md).
 
 ## Git checks
 

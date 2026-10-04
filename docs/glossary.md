@@ -46,3 +46,18 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | operacje elementowe | element-wise operations | .*, ./, .^ | Operations on corresponding entries / Operacje na odpowiadających elementach |
 | uchwyt do funkcji | function handle | @ | Callable reference / Odwołanie do funkcji |
 | reszta układu równań | linear-system residual | Ax − b | Equation mismatch / Niedopasowanie równań |
+| postać kanoniczna względem bazy | canonical form relative to a basis | Ā_B = I, b̄ ≥ 0 | Feasible basis equations / Równania bazy dopuszczalnej |
+| współczynniki wymiany | transformed constraint coefficients | Ā = A_B⁻¹A | Simplex tableau / Tablica sympleksowa |
+| cena zredukowana | reduced cost | ρ_j = c_j − c_BᵀA_B⁻¹a_j | Positive improves a maximization objective / Dodatnia poprawia funkcję maksymalizowaną |
+| wskaźnik optymalności | optimality indicator | q_j = z_j − c_j = −ρ_j | Nonnegative indicators certify max optimum / Nieujemne wskaźniki potwierdzają optimum maksymalizacji |
+| zmienna wprowadzana do bazy | entering variable | x_k | Nonbasic variable selected for a pivot / Zmienna niebazowa wybrana do wymiany |
+| zmienna wyprowadzana z bazy | leaving variable | x_{j_r} | Basic variable reaching zero / Zmienna bazowa osiągająca zero |
+| element główny; element pivot | pivot element | Ā_rk | Nonzero entry used for a basis exchange / Niezerowy element wymiany bazy |
+| test ilorazów; kryterium wyjścia | ratio test | θ* = min_{u_i > 0} b̄_i/u_i | Largest feasible simplex step / Największy dopuszczalny krok sympleksowy |
+| tablica sympleksowa | simplex tableau | [Ā, b̄; qᵀ, z₀] | Constraint and objective rows / Wiersze ograniczeń i funkcji celu |
+| zmienna sztuczna | artificial variable | a_i ≥ 0 | Temporary feasibility aid; must vanish / Tymczasowa pomoc w znalezieniu dopuszczalności; musi zniknąć |
+| metoda dwufazowa | two-phase method | Phase I / Phase II | Establish feasibility, then optimize / Najpierw dopuszczalność, potem optymalizacja |
+| metoda dużego M; metoda kar | Big M method; penalty method | cᵀx − MΣa_i | Maximization penalty for artificials / Kara za zmienne sztuczne przy maksymalizacji |
+| cykl; zapętlenie | cycling | Repeated basis / Powtórzona baza | Possible with degenerate pivots / Możliwe przy zdegenerowanych wymianach |
+| reguła Blanda | Bland's rule | Smallest original indices / Najmniejsze oryginalne indeksy | Anti-cycling pivot selection / Wybór wymian zapobiegający cyklom |
+| ograniczenie nadmiarowe | redundant constraint | Dependent equality / Zależne równanie | Removal preserves feasible set / Usunięcie zachowuje zbiór dopuszczalny |

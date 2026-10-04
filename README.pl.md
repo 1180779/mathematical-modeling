@@ -24,6 +24,10 @@ Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem je
   ([PDF](output/lectures/02-linear-programming.pdf)): przykłady modeli, postać standardowa,
   kierunki recesji, optymalne wierzchołki i bazowe rozwiązania dopuszczalne.
 
+- [Wykład 3: Metoda sympleks](notes/lectures/03-simplex-method.tex)
+  ([PDF](output/lectures/03-simplex-method.pdf)): równania kanoniczne, ceny zredukowane,
+  pełne tablice sympleksowe, degeneracja, promienie dopuszczalne, inicjalizacja dwufazowa i duże M.
+
 Odnośniki do PDF-ów wskazują commitowane kopie do czytania w `output/`.
 
 ## Struktura
@@ -109,6 +113,18 @@ run('matlab/exercises/lecture_02_checks.m')
 
 Uruchom z katalogu głównego repozytorium. Skrypt sprawdza przykłady ręczne za pomocą
 podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Oba skrypty przeszły sprawdzenia, łącznie z eksportem wykresu; zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
+
+## Sprawdzenia MATLAB z wykładu 3
+
+```matlab
+run('matlab/exercises/lecture_03_checks.m')
+```
+
+Uruchom z katalogu głównego repozytorium. Skrypt korzystający z podstawowego MATLAB-a
+sprawdza oba przykłady sympleksowe, oba warianty startu dwufazowego i dodane kontrprzykłady.
+Statyczna analiza kodu zakończyła się pomyślnie; wykonanie w MATLAB-ie jest oczekujące.
+Niezależne obliczenia na dokładnych ułamkach potwierdzają wyniki ręczne;
+zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
 ## Sprawdzenia Git
 

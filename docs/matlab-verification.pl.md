@@ -32,3 +32,39 @@ Początkowa próba ujawniła błędne nazwy skryptów z łącznikami lub począt
 Poprawiono je przed udanym wykonaniem. Launcher agenta nadal kończy się kodem 1
 bez komunikatu, nawet po zalogowaniu użytkownika; przyczyna pozostaje nieustalona.
 Wyniki z normalnego terminalu potwierdzają działanie skryptów i instalacji MATLAB-a.
+
+## Sprawdzenia wykładu 3 w dniu 2026-10-04
+
+Nowy skrypt `matlab/exercises/lecture_03_checks.m` obejmuje kandydatów na
+rozwiązania bazowe, trzy kroki ścieżki produkcji i alternatywny start, promień
+nieograniczoności, oba warianty startu dwufazowego, zdegenerowane kroki zerowe,
+sprzeczność, poprawne rozwiązanie metodą dużego M i kontrprzykład ze skończoną karą.
+Wystarcza podstawowy MATLAB.
+
+```sh
+matlab -batch "run('matlab/exercises/lecture_03_checks.m')"
+```
+
+**Wykonanie w MATLAB-ie: oczekujące.** Agent uruchomił to polecenie w sandboxie;
+proces zakończył się kodem 1 bez wyjścia. Wcześniejsza próba samego odczytu wersji
+w tej turze zachowała się tak samo. Nie dostarczono pomyślnego wyjścia z terminala
+dla wykładu 3. Powyższe udane uruchomienia wykładu 2 i powtórki pozostają ważne.
+
+**Analiza statyczna: pomyślna.** Zainstalowany analizator R2026b zakończył pracę
+bez komunikatów diagnostycznych:
+
+```sh
+/usr/local/MATLAB/R2026b/bin/glnxa64/mlint -id matlab/exercises/lecture_03_checks.m
+```
+
+**Niezależna weryfikacja matematyczna: pomyślna.** Tymczasowe obliczenia w Pythonie
+na dokładnych ułamkach z biblioteki standardowej odtworzyły wszystkie rozwiązane
+tablice metodą eliminacji Gaussa–Jordana i sprawdziły dokładnie reszty równań.
+Pełne wyliczenie baz dało pięć wierzchołków produkcji z maksimum 18 oraz cztery
+bazy dopuszczalne przykładu równościowego z jedynym optimum −11/8. Potwierdziło
+też optimum fazy I równe 1 w przykładzie sprzecznym i optimum kary −10 z dodatnią
+zmienną sztuczną przy K = 100, M = 10. Sprawdzenia te potwierdzają wyniki ręczne,
+a nie wykonanie skryptu MATLAB. Skrypt niezależnie oblicza każdą bazę i porównuje
+aktualizacje tablic z kolejnym rozwiązaniem układu liniowego. Dokładnie sprawdzono
+też wiersze wskaźników z łączną karą dużego M przy M = 10, uzyskując to samo
+optimum zadania równościowego z zerowymi zmiennymi sztucznymi.
