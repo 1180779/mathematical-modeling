@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+"""Require short commit-message lines and a separate title and body."""
+
+from pathlib import Path
+import subprocess
+import sys
+
+message = subprocess.run(
+    ["git", "stripspace", "--strip-comments"],
+    input=Path(sys.argv[1]).read_bytes(),
+    stdout=subprocess.PIPE,
+    check=True,
+).stdout.decode("utf-8").splitlines()
+
+errors = []
+for number, line in enumerate(message, 1):
+    if len(line) > 72:
+        errors.append(f"Line {number} has {len(line)} characters (maximum: 72).")
+if len(message) > 1 and message[1]:
+    errors.append("Insert a blank line between the title and description.")
+
+if errors:
+    print("Commit message rejected:", file=sys.stderr)
+    for error in errors:
+        print(f"  {error}", file=sys.stderr)
+    sys.exit(1)

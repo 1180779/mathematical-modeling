@@ -61,3 +61,6 @@ Follow the [language policy](language-policy.md). Add new terminology to the
 [glossary](glossary.md). Change both languages of paired repository documents
 together. For lasting choices, record rationale and genuine alternatives in the
 [decision log](decisions/README.md); routine corrections belong in Git history.
+
+Commit messages use at most 72 characters per line. Separate the title from an
+optional description with a blank line; the shared `commit-msg` hook checks this.

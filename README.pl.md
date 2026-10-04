@@ -109,6 +109,18 @@ run('matlab/exercises/lecture_02_checks.m')
 Uruchom z katalogu głównego repozytorium. Skrypt sprawdza przykłady ręczne za pomocą
 podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Oba skrypty przeszły sprawdzenia, łącznie z eksportem wykresu; zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
+## Sprawdzenia Git
+
+Włącz wspólne hooki repozytorium w każdym klonie (wymagany Python 3):
+
+```sh
+git config --local core.hooksPath .githooks
+```
+
+Hook `commit-msg` ogranicza każdy wiersz komunikatu do 72 znaków Unicode i
+wymaga pustego wiersza między tytułem a opisem. Sam tytuł jest poprawny.
+Komentarze edytora Git są pomijane przy sprawdzaniu.
+
 ## Sposób pracy
 
 Porównaj dawne materiały z aktualnym wykładem lub zadaniem, zanim uznasz je za

@@ -109,6 +109,18 @@ run('matlab/exercises/lecture_02_checks.m')
 Run from the repository root. The script checks the hand examples using base
 MATLAB; no Optimization Toolbox is required. Both scripts passed, including plot export; see the [verification record](docs/matlab-verification.md).
 
+## Git checks
+
+Enable the repository's shared hooks in each clone (Python 3 is required):
+
+```sh
+git config --local core.hooksPath .githooks
+```
+
+The `commit-msg` hook limits every message line to 72 Unicode characters and
+requires a blank line between the title and description. A title-only message
+is valid. Git editor comments are excluded from the check.
+
 ## Study workflow
 
 Compare historical material with the current lecture or task before treating it

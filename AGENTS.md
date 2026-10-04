@@ -15,3 +15,4 @@
 - Record lasting decisions under `docs/decisions/` with problem, decision/proposal, alternatives, and consequences/acceptance criteria.
 - Preserve old decision rationale. Supersede it with a linked new record when a choice changes.
 - Keep source PDFs outside this repository unless explicitly needed; inventory them in `docs/sources.md`.
+- Commit messages have at most 72 characters per line and a blank line between title and body. Enable shared hooks with `git config --local core.hooksPath .githooks`.

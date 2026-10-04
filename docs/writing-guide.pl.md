@@ -62,3 +62,6 @@ Stosuj [politykę językową](language-policy.pl.md). Dodawaj nowe terminy do
 [słownika](glossary.md). Zmieniaj obie wersje dokumentów repozytorium razem.
 Dla trwałych wyborów zapisuj uzasadnienie i rzeczywiste alternatywy w
 [rejestrze decyzji](decisions/README.pl.md); zwykłe poprawki należą do historii Git.
+
+Komunikaty commitów mają najwyżej 72 znaki w wierszu. Oddziel tytuł od opcjonalnego
+opisu pustym wierszem; wspólny hook `commit-msg` sprawdza tę zasadę.
