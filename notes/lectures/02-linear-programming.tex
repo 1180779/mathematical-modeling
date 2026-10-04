@@ -65,21 +65,39 @@ $V_5$ & 0 & 8 & 16\\\bottomrule
 For $V_4$, subtract $x_1+x_2=8$ from $2x_1+x_2=10$ to obtain $x_1=2$,
 then $x_2=6$. These give resource slacks $(0,0,3)^T$ kg.
 
-\begin{center}
-\setlength{\unitlength}{5mm}
-\begin{picture}(14,12)(-2,-2)
-\put(0,0){\vector(1,0){11}}\put(0,0){\vector(0,1){10}}
-\put(11,-0.7){$x_1$}\put(-1,9.5){$x_2$}
-\put(0,0){\line(1,0){4}}\put(4,0){\line(0,1){2}}
-\put(4,2){\line(-1,2){2}}\put(2,6){\line(-1,1){2}}
-\put(0,8){\line(0,-1){8}}
-\put(0,9){\line(2,-3){6}}
-\put(2,6){\circle*{0.25}}\put(2.3,6.2){$(2,6)$}
-\put(1,2){$\Omega$}\put(4.2,2){$(4,2)$}
-\put(-1.5,8){$8$}\put(4,-0.8){$4$}
-\put(6.2,0.7){$3x_1+2x_2=18$}
-\end{picture}
-\end{center}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.05cm,y=.65cm,font=\small]
+\fill[modelblue!12] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+\begin{scope}
+\clip (0,0) rectangle (5.5,10.3);
+\draw[modelblue!75] (0,10)--(5,0);
+\draw[modelblue!75,dashed] (0,8)--(8,0);
+\draw[modelblue!75,dotted,thick] (4,0)--(4,10.3);
+\draw[model objective,opacity=.55] (0,6)--(4,0);
+\draw[model objective] (0,9)--(6,0);
+\end{scope}
+\draw[modelblue,very thick] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+\draw[model axis] (0,0)--(5.8,0) node[right] {$x_1$};
+\draw[model axis] (0,0)--(0,10.8) node[above] {$x_2$};
+\foreach \x in {2,4} {\draw (\x,.1)--(\x,-.1) node[below] {\x};}
+\foreach \y in {2,6,8,10} {\draw (.07,\y)--(-.07,\y) node[left] {\y};}
+\node at (1.2,2.8) {$\Omega$};
+\node[model point,label=below left:{$V_1$}] at (0,0) {};
+\node[model point,label=above right:{$V_2$}] at (4,0) {};
+\node[model point,label=right:{$V_3=(4,2)$}] at (4,2) {};
+\node[model point,fill=modelorange,label=above right:{$V_4=(2,6)$}] at (2,6) {};
+\node[model point,label=above right:{$V_5$}] at (0,8) {};
+\draw[model flow,draw=modelorange] (3.7,6.2)--(4.6,7.55)
+ node[above,align=center] {increasing\\revenue};
+\node[modelorange,anchor=west] at (3.6,4.3) {$z=18$};
+\node[modelorange] at (2.2,1.5) {$z=12$};
+\end{tikzpicture}
+\caption{Production constraints bound the shaded feasible polygon. The solid,
+dashed, and dotted resource boundaries are $2x_1+x_2=10$, $x_1+x_2=8$, and
+$x_1=4$. Orange lines are levels of $z=3x_1+2x_2$; the last feasible contact
+is $V_4$, where the first two resources are exhausted.}\label{fig:production}
+\end{figure}
 The objective level lines have slope $-3/2$. Moving them toward increasing
 revenue brings the last feasible contact to $(2,6)$.
 
@@ -121,6 +139,33 @@ available without capacity limits, feasibility is equivalent to
 $\sum_i a_i\geq\sum_j b_j$. Necessity follows by summing constraints;
 sufficiency follows by allocating supplies successively to remaining demands.
 With restricted routes, the total-supply test alone is insufficient.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\small]
+\node[draw=modelblue,rounded corners,fill=modelblue!8,minimum width=2cm]
+ (s1) at (0,1) {Supplier 1};
+\node[draw=modelblue,rounded corners,fill=modelblue!8,minimum width=2cm]
+ (s2) at (0,-1) {Supplier 2};
+\foreach \j/\y in {1/2,2/0,3/-2} {
+ \node[draw=modelblue,rounded corners,fill=modelblue!8,minimum width=2cm]
+ (c\j) at (7,\y) {Customer \j};
+ \node[right] at (8.2,\y) {$b_{\j}$};
+}
+\node[left] at (-1.2,1) {$a_1$};
+\node[left] at (-1.2,-1) {$a_2$};
+\foreach \i in {1,2} {\foreach \j in {1,2,3} {
+ \draw[model flow,opacity=.45] (s\i.east)--(c\j.west);
+}}
+\draw[model flow,draw=modelorange] (s1.east)--(c1.west)
+ node[midway,above,sloped,text=modelorange] {$x_{11}$ units; $c_{11}$ per unit};
+\node[align=center] at (3.5,-2.65) {Outgoing total $\leq a_i$; incoming total $\geq b_j$};
+\end{tikzpicture}
+\caption{A two-supplier, three-customer transportation network. Each arrow
+represents a decision $x_{ij}$; supply and demand constraints sum the flows at
+the corresponding node. The displayed network allows every route.}\label{fig:transport}
+\end{figure}
+
 If all supply must be shipped and every demand met exactly, use equalities and
 balanced totals instead. These are different modeling requirements.
 
@@ -140,6 +185,32 @@ per observation and minimize $\sum_i r_i$ under $-r_i\leq e_i\leq r_i$.
 Least squares minimizes $\sum_i e_i^2$, a quadratic objective rather than
 a linear one.
 The three error criteria need not produce the same fitted line.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.6cm,y=.75cm,font=\small]
+\fill[modelblue!12] (0,.4)--(4,4.4)--(4,5.6)--(0,1.6)--cycle;
+\draw[modelblue,dashed] (0,.4)--(4,4.4);
+\draw[modelblue,dashed] (0,1.6)--(4,5.6);
+\draw[modelblue,thick] (0,1)--(4,5);
+\draw[model axis] (0,0)--(4.5,0) node[right] {$t$};
+\draw[model axis] (0,0)--(0,6) node[above] {$y$};
+\foreach \x/\y in {.5/1.8,1.5/2,2.5/4.1,3.5/4.2} {
+ \draw[modelorange,thick] (\x,{\x+1})--(\x,\y);
+ \node[model point,fill=modelorange] at (\x,\y) {};
+}
+\draw[{Stealth[length=1.5mm]}-{Stealth[length=1.5mm]},modelorange]
+ (2.5,3.5)--(2.5,4.1) node[midway,right] {$r$};
+\node[anchor=west] at (4,5) {$at+b$};
+\node[anchor=west] at (4,5.6) {$at+b+r$};
+\node[anchor=west] at (4,4.4) {$at+b-r$};
+\end{tikzpicture}
+\caption{The minimax regression constraints place all observations inside a
+vertical error band. Here the illustrative line is $y=t+1$ and $r=0.6$;
+one observation reaches the upper boundary. Residuals measure vertical distance
+at fixed $t_i$, rather than perpendicular distance to the line.}\label{fig:regression}
+\end{figure}
+
 
 \section{Cutting stock and integer decisions}\label{sec:cutting}
 Stock has length $L$. Required pieces have lengths $\ell_i$ and demand $b_i$.
@@ -168,6 +239,37 @@ Long pieces & 0 & 1 & 2\\
 Offcut (m) & 0.3 & 0.6 & 0.2\\\bottomrule
 \end{tabular}
 \end{center}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=2cm,y=1cm,font=\small]
+\foreach \row/\name in {0/1,-1/2,-2/3} {
+ \node[left] at (0,\row+.2) {Pattern \name};
+}
+\foreach \k in {0,...,6} {
+ \filldraw[fill=modelblue!25,draw=white] ({.7*\k},0) rectangle ({.7*(\k+1)},.4);
+}
+\filldraw[fill=modelorange!25,draw=white] (4.9,0) rectangle (5.2,.4);
+\foreach \k in {0,...,2} {
+ \filldraw[fill=modelblue!25,draw=white] ({.7*\k},-1) rectangle ({.7*(\k+1)},-.6);
+}
+\filldraw[fill=modelblue!60,draw=white] (2.1,-1) rectangle (4.6,-.6);
+\filldraw[fill=modelorange!25,draw=white] (4.6,-1) rectangle (5.2,-.6);
+\foreach \k in {0,1} {
+ \filldraw[fill=modelblue!60,draw=white] ({2.5*\k},-2) rectangle ({2.5*(\k+1)},-1.6);
+}
+\filldraw[fill=modelorange!25,draw=white] (5,-2) rectangle (5.2,-1.6);
+\foreach \row in {0,-1,-2} {\draw (0,\row) rectangle (5.2,\row+.4);}
+\draw[|<->|] (0,.85)--(5.2,.85) node[midway,above] {5.2 m stock};
+\node[right] at (5.3,.2) {0.3 m};
+\node[right] at (5.3,-.8) {0.6 m};
+\node[right] at (5.3,-1.8) {0.2 m};
+\node[align=center] at (2.6,-2.55) {Light blue: 0.7 m; dark blue: 2.5 m; orange: offcut};
+\end{tikzpicture}
+\caption{The three permitted cutting patterns drawn to the same length scale.
+Pattern 2 leaves the largest offcut; the optimal plan uses 200 boards of
+pattern 1 and 400 of pattern 3.}\label{fig:cutting-patterns}
+\end{figure}
+
 We optimize over these supplied patterns; they are not an enumeration of all
 length-feasible cuts. For instance, six short pieces and no long ones would be
 a feasible but nonmaximal cut. Assume the listed patterns are the permitted ones,
@@ -209,6 +311,42 @@ The sketch shows three horizontal members and two vertical members. Interpret
 the marked dimensions as cut lengths: three 0.8 m and two 0.3 m pieces per cabinet.
 This assumes zero kerf and ignores board thickness and joint allowances; the
 sketch does not specify those details. It gives demands 21 long and 14 short pieces.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\small]
+\begin{scope}[x=4.5cm,y=4.5cm]
+\draw[modelblue,very thick] (0,0) rectangle (.8,.3);
+\draw[modelblue,very thick] (0,.15)--(.8,.15);
+\draw[|<->|] (0,-.12)--(.8,-.12) node[midway,below] {0.8 m};
+\draw[|<->|] (-.1,0)--(-.1,.3) node[midway,left] {0.3 m};
+\node[align=center] at (.4,.52) {One cabinet: three horizontal\\and two vertical members};
+\end{scope}
+\begin{scope}[shift={(5,0)},x=2.5cm,y=1cm]
+\node at (1,.9) {2 m board patterns};
+\foreach \row/\nlong/\nshort in {0/2/1,-.75/1/4,-1.5/0/6} {
+ \foreach \k in {1,...,\nlong} {
+  \ifnum\nlong>0
+   \filldraw[fill=modelblue!60,draw=white] ({.8*(\k-1)},\row)
+    rectangle ({.8*\k},\row+.35);
+  \fi
+ }
+ \foreach \k in {1,...,\nshort} {
+  \filldraw[fill=modelblue!25,draw=white] ({.8*\nlong+.3*(\k-1)},\row)
+   rectangle ({.8*\nlong+.3*\k},\row+.35);
+ }
+ \filldraw[fill=modelorange!25,draw=white] ({.8*\nlong+.3*\nshort},\row)
+  rectangle (2,\row+.35);
+ \draw (0,\row) rectangle (2,\row+.35);
+ \node[right] at (2.1,\row+.17) {$(\nlong,\nshort)$};
+}
+\end{scope}
+\end{tikzpicture}
+\caption{The cabinet interpretation and its maximal board patterns.
+Lengths refer to the stated idealized cut lengths, with zero kerf and no joint
+allowances. The plan $10(2,1)+1(1,4)=(21,14)$ supplies seven cabinets.}
+\label{fig:cabinet}
+\end{figure}
 
 Writing patterns as (long pieces, short pieces), the maximal patterns are
 $(2,1)$, $(1,4)$, and $(0,6)$. Let their counts be $u,v,w\in\{0,1,2,\ldots\}$.
@@ -316,6 +454,36 @@ The strict restriction on $\lambda$ matters: taking $\lambda=0$ or $1$ cannot
 force both points to equal $v$. A point in the middle of a feasible edge is not
 a vertex even if it is optimal.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\small]
+\begin{scope}[x=1cm,y=1cm]
+\fill[modelblue!12] (0,0)--(3,0)--(0,3)--cycle;
+\draw[modelblue,thick] (0,3)--(3,0);
+\draw[model axis] (0,0)--(3.5,0) node[right] {$x_1$};
+\draw[model axis] (0,0)--(0,3.5) node[above] {$x_2$};
+\node at (1,1) {$x_1+x_2\leq3$};
+\node[above right] at (1.7,1.7) {$x_1+x_2>3$};
+\node[align=center] at (1.5,-.6) {A boundary separates\\two halfspaces};
+\end{scope}
+\begin{scope}[shift={(6,0)},x=1cm,y=1cm]
+\draw[model region] (0,0)--(3,0)--(0,3)--cycle;
+\draw[model axis] (0,0)--(3.5,0) node[right] {$x_1$};
+\draw[model axis] (0,0)--(0,3.5) node[above] {$x_2$};
+\draw[modelorange,very thick] (.5,2.5)--(2.5,.5);
+\node[model point,label=above right:{$u$}] at (.5,2.5) {};
+\node[model point,label=above right:{$w$}] at (2.5,.5) {};
+\node[model point,fill=modelorange,label=above right:{$m$}] at (1.5,1.5) {};
+\node[model point,label=above left:{$v$}] at (0,0) {};
+\node[align=center] at (1.5,-.85) {$m=\tfrac12u+\tfrac12w$ is not a vertex;\\$v$ is a vertex};
+\end{scope}
+\end{tikzpicture}
+\caption{In two dimensions a hyperplane is a line. Intersecting its closed
+halfspace with $x\geq0$ gives the shaded triangle. Convexity keeps the orange
+segment feasible, while the midpoint fails the extreme-point test.}
+\label{fig:halfspace-vertex}
+\end{figure}
+
 \subsection{Recession directions and extreme rays}
 A nonzero vector $d$ is a recession direction if $x+\alpha d\in P$ for every
 $x\in P$ and $\alpha\geq0$. For a nonempty polyhedron,
@@ -358,6 +526,30 @@ use $x^0=(1,0)^T$ and $d=(1,1)^T$. The objective is $1+\alpha$.
 On the same feasible ray, maximizing $-x_1$ instead has the unique optimum
 $(1,0)$, although the feasible set remains unbounded.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.05cm,y=1.05cm,font=\small]
+\draw[model axis] (0,0)--(5.3,0) node[right] {$x_1$};
+\draw[model axis] (0,0)--(0,4.2) node[above] {$x_2$};
+\draw[modelblue,very thick,-{Stealth}] (1,0)--(4.8,3.8);
+\node[model point,label=below:{$x^0=(1,0)$}] at (1,0) {};
+\node[model point,label=above left:{$(2,1)$}] at (2,1) {};
+\draw[model flow,draw=modelorange] (3,2)--(4,3)
+ node[midway,below right] {$d=(1,1)$};
+\draw[model objective] (2,-.05)--(2,3.6);
+\draw[model objective] (3,-.05)--(3,3.6);
+\node[modelorange,above left] at (2,3.6) {$x_1=2$};
+\node[modelorange,above right] at (3,3.6) {$x_1=3$};
+\node[align=left,anchor=west] at (5.8,2.5)
+ {Same feasible ray:\\[2mm] $\max x_1$: no finite optimum\\[1mm]
+ $\max(-x_1)$: optimum at $x^0$};
+\end{tikzpicture}
+\caption{The feasible ray $x=x^0+\alpha(1,1)$, $\alpha\geq0$, is unbounded.
+For maximizing $x_1$, the orange level lines can move indefinitely to the right.
+Changing the objective to $-x_1$ makes the ray's endpoint uniquely optimal.}
+\label{fig:unbounded-ray}
+\end{figure}
+
 \subsection{Representation by vertices and rays}
 \begin{theorem}[Polyhedral representation, stated without full proof]\label{thm:representation}
 For a nonempty pointed polyhedron $P$, let $v^1,\ldots,v^k$ be its vertices and
@@ -372,6 +564,28 @@ For bounded $P$, the ray sum is absent.
 Standard-form feasible sets are pointed: a line contained in $x\geq0$ would
 force its direction to be zero. Thus the theorem applies when they are nonempty.
 Polyhedra containing lines require an additional lineality term.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1.7cm,y=2cm,font=\small]
+\fill[modelblue!12] (0,0) rectangle (4.1,1);
+\draw[modelblue,thick,-{Stealth}] (0,0)--(4.1,0);
+\draw[modelblue,thick,-{Stealth}] (0,1)--(4.1,1);
+\draw[modelblue,thick] (0,0)--(0,1);
+\node[model point,label=below left:{$v^1=(0,0)$}] at (0,0) {};
+\node[model point,label=above left:{$v^2=(0,1)$}] at (0,1) {};
+\node[model point,label=left:{$q=(0,0.4)$}] at (0,.4) {};
+\draw[model flow,draw=modelorange,very thick] (0,.4)--(2,.4)
+ node[midway,above] {$2d$};
+\node[model point,fill=modelorange,label=right:{$x=(2,0.4)$}] at (2,.4) {};
+\draw[model flow] (2.7,.75)--(3.7,.75) node[midway,above] {$d=(1,0)$};
+\node at (2,-.55) {$x=\underbrace{0.6v^1+0.4v^2}_{q}+2d$};
+\end{tikzpicture}
+\caption{Vertex--ray representation for $P=\{x:x_1\geq0,\ 0\leq x_2\leq1\}$.
+First choose a convex combination on the left edge, then add a nonnegative
+multiple of the horizontal extreme recession direction.}
+\label{fig:vertex-ray-representation}
+\end{figure}
 
 \begin{theorem}[Optimal vertex for the lecture's standard form]\label{thm:vertex}
 Let $P=\{x:Ax=b,\ x\geq0\}\neq\varnothing$. If $c^Tx$ is bounded above on $P$,
@@ -401,6 +615,36 @@ $c^T(\lambda u+(1-\lambda)v)=\lambda z^*+(1-\lambda)z^*=z^*$.
 In $x_1+x_2\leq1$, $x\geq0$, maximizing $x_1+2x_2$ gives $(0,1)$ uniquely;
 maximizing $2x_1+x_2$ gives $(1,0)$ uniquely. Maximizing $2x_1+2x_2$ makes the
 whole edge $x_1+x_2=1$ optimal.
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[font=\small,x=2cm,y=2cm]
+\foreach \shift/\cx/\cy/\title in {0/1/2/{$z=x_1+2x_2$},2.1/2/1/{$z=2x_1+x_2$},4.2/2/2/{$z=2x_1+2x_2$}} {
+ \begin{scope}[shift={(\shift,0)}]
+ \draw[model region] (0,0)--(1,0)--(0,1)--cycle;
+ \draw[model axis] (0,0)--(1.35,0) node[right] {$x_1$};
+ \draw[model axis] (0,0)--(0,1.4) node[above] {$x_2$};
+ \node[below] at (1,0) {$1$};
+ \node[left] at (0,1) {$1$};
+ \begin{scope}
+ \clip (-.08,-.08) rectangle (1.45,1.55);
+ \draw[model objective] (0,{2/\cy})--({2/\cx},0);
+ \end{scope}
+ \draw[model flow,draw=modelorange] (.75,1.05)--({.75+.15*\cx},{1.05+.15*\cy});
+ \node at (.55,-.45) {\title};
+ \end{scope}
+}
+\node[model point,fill=modelorange] at (0,1) {};
+\node[model point,fill=modelorange] at (3.1,0) {};
+\draw[modelorange,very thick] (4.2,1)--(5.2,0);
+\node[model point,fill=modelorange] at (4.2,1) {};
+\node[model point,fill=modelorange] at (5.2,0) {};
+\end{tikzpicture}
+\caption{One feasible triangle, three objectives. The first two have different
+unique optimal vertices. In the third, the supporting objective line coincides
+with the whole sloping edge, so every point on that edge is optimal. Orange
+arrows indicate objective increase.}\label{fig:optimal-edge}
+\end{figure}
+
 The representation above also allows zero-objective recession directions:
 optimal decisions can lie on unbounded optimal rays, not just between vertices.
 
@@ -454,6 +698,29 @@ solutions toward improving objective values. Pivot rules, degeneracy handling,
 and termination arguments require later algorithmic material; Lecture 2 does
 not yet supply a complete simplex implementation.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=.85cm,y=.45cm,font=\small]
+\draw[model region] (0,0)--(4,0)--(4,2)--(2,6)--(0,8)--cycle;
+\draw[model axis] (0,0)--(5.3,0) node[right] {$x_1$};
+\draw[model axis] (0,0)--(0,9.4) node[above] {$x_2$};
+\draw[model flow,draw=modelorange,very thick] (0,.3)--(0,7.7);
+\draw[model flow,draw=modelorange,very thick] (.12,7.88)--(1.88,6.12);
+\node[model point,label=below left:{$(0,0)$}] at (0,0) {};
+\node[model point,label=above right:{$(0,8)$}] at (0,8) {};
+\node[model point,fill=modelorange,label=right:{$(2,6)$}] at (2,6) {};
+\node[anchor=west,align=left] at (6,6.5)
+ {$B=\{3,4,5\}$: $z=0$\\[2mm]
+  $B=\{2,3,5\}$: $z=16$\\[2mm]
+  $B=\{1,2,5\}$: $z=18$};
+\end{tikzpicture}
+\caption{An improving path through adjacent production vertices and their
+bases in coordinates $(x_1,x_2,s_1,s_2,s_3)$. At $(0,8)$ the basic coordinates
+are $(x_2,s_1,s_3)=(8,2,6)$ and the second resource is tight ($s_2=0$).
+The path illustrates basis changes without specifying a pivot rule.}
+\label{fig:basis-path}
+\end{figure}
+
 \section{MATLAB checks}\label{sec:matlab}
 The shared script is \path{matlab/exercises/lecture_02_checks.m}.
 It enumerates production vertices, checks resource slacks and the optimal basis,
@@ -478,6 +745,7 @@ For revision: derive the production certificate without the figure; transform a
 free variable and a $\geq$ constraint; construct an infeasible LP whose equations
 are consistent; and explain why an optimal edge does not contradict the vertex theorem.
 
+\clearpage
 \section{Sources and editorial remarks}\label{sec:sources}
 \noindent\textbf{Primary source:} \texttt{s4\_w2.pdf}, PDF pages 1--11,
 printed slides 1--44.\\
@@ -501,6 +769,11 @@ The main source is \texttt{s4\_w2.pdf}; added proofs and worked solutions are
 editorial explanations based on its models. The regression formula and cabinet
 sketch were inspected visually because PDF text extraction loses their notation.
 Polish vocabulary is maintained in \texttt{docs/glossary.md}.
+The Polish cabinet prompt in Section~\ref{sec:cutting} is from slide 19;
+the English translation and idealized cutting solution are additions.
+Figures~\ref{fig:production}--\ref{fig:basis-path} are redrawn explanations;
+the transportation network, regression band, and strip representation use
+illustrative configurations.
 
 \textbf{Supplementary cross-check:}
 \href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/ab890d20b071105239fe0b9bcf599f57_MIT6_251JF09_lec10.pdf}{MIT OCW, 15.081J/6.251J, Lecture 10 (Fall 2009)},

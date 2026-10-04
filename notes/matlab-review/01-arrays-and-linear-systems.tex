@@ -2,7 +2,7 @@
 \usepackage{templates/modeling-notes}
 \hypersetup{pdftitle={MATLAB review 1 -- Arrays and linear systems}}
 \title{\textbf{MATLAB Review}\\[2mm]\large 1: Arrays, Indexing, and Linear Systems}
-\author{Original refresher examples for mathematical modeling}
+\author{Personal study notes}
 \date{}
 \begin{document}
 \maketitle
@@ -94,7 +94,7 @@ For these small examples $10^{-10}$ is an absolute tolerance. Real problems
 require tolerances chosen with their units, scaling, and numerical conditioning.
 
 \section{Function handles, a loop, and a plot}\label{sec:functions}
-Consider the original refresher example
+Consider the quadratic
 $f(t)=t^2-4t+5=(t-2)^2+1$. Its global minimum is $f(2)=1$.
 \begin{lstlisting}
 f = @(t) t.^2 - 4*t + 5;
@@ -119,7 +119,7 @@ title('f(t) = (t - 2)^2 + 1'); grid on;
 exportgraphics(fig, 'quadratic-review.png', 'Resolution', 150);
 close(fig);
 \end{lstlisting}
-The accompanying script saves its figure to the ignored \path{matlab/output/}
+The accompanying script saves its figure to the \path{matlab/output/}
 directory using the script location to find the repository root.
 A sampled graph illustrates the function; it does not replace a proof or guarantee
 that a minimum lies on the sampled grid.
@@ -136,8 +136,6 @@ The script contains assertions for the hand results above. Before running, predi
 \item Replace the production candidate by $(4,4)^T$. Which resource constraint fails?
 \item Change the quadratic to $t^2-6t+10$. Derive its minimum by hand before plotting.
 \end{enumerate}
-Function files, passing handles to other functions, control flow, and solver calls
-can follow in later refresher notes.
 
 \section{Sources and editorial remarks}\label{sec:sources}
 \begin{itemize}[leftmargin=1.6em]
