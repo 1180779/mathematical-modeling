@@ -18,8 +18,19 @@ shown in the [README](../README.md). Keep generated output in `build/`.
 
 ## Lecture notes
 
-Identify the source, date if known, and whether alignment with the current course
-is confirmed. Define the problem, symbols, domains, assumptions, and units before
+Keep the teaching narrative independent of repository decisions and source history.
+Record sources, dates, current-course alignment, editorial additions, and execution
+evidence in a self-contained final **Sources and editorial remarks** section, or
+in repository documentation. Do not put citation markers, source tags, or forward
+references to this final section in the teaching text. End remarks may point
+backwards to sections, equations, and figures. Keep mathematical assumptions,
+definitions, and limitations beside the results they qualify.
+
+Use diagrams where they explain geometry, processes, or physical arrangements.
+Prefer editable TikZ figures with readable labels and captions that explain the
+mathematics. Introduce them beside the relevant explanation.
+
+ Define the problem, symbols, domains, assumptions, and units before
 using them. Explain the modeling idea, derive equations step by step, state the
 conditions for each result, and distinguish proofs from intuition. Add worked
 examples when material is developed, followed by limitations and common mistakes.
@@ -27,7 +38,7 @@ Do not turn unverified historical coverage into claims about the current syllabu
 
 ## Exercises and MATLAB
 
-Preserve and attribute the task statement. Present assumptions and a hand solution
+Preserve the task statement and attribute it in the final remarks. Present assumptions and a hand solution
 before linking `matlab/exercises/<matching-topic>.m`. Use the same inputs and
 parameters in both solutions. Record expected results, absolute or relative error,
 units, solver settings, tolerances, and reasons for discrepancies when applicable.

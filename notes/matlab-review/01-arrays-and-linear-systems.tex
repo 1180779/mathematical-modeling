@@ -6,14 +6,7 @@
 \date{}
 \begin{document}
 \maketitle
-\noindent\textbf{Purpose:} Revisit the matrix operations needed for Lecture 2.\\
-\textbf{Sources:} Official MathWorks documentation listed at the end;
-Lecture 1's historical refresher scope motivates this topic.\\
-\textbf{Execution status:} Verified on 2026-10-04 in MATLAB
-26.2.0.3386108 (R2026b), based on output supplied by the user from a normal terminal.
-All numerical assertions passed and the plot was exported. The sandbox launcher
-still exits before execution; its cause is unresolved. Hand results below agree
-with the script assertions.
+\noindent\textbf{Purpose:} Revisit the matrix operations needed for Lecture 2.
 \tableofcontents
 
 \section{Rows, columns, and dimensions}\label{sec:arrays}
@@ -136,21 +129,17 @@ From the repository root, run:
 \begin{lstlisting}
 run('matlab/review/arrays_and_linear_systems.m')
 \end{lstlisting}
-The script contains assertions for the hand results above. The user reported a successful run,
-including the assertion-completion message and exported plot. The terminal output
-is recorded in \texttt{docs/matlab-verification.md}.
-Before running, predict the results, then explain any difference.
+The script contains assertions for the hand results above. Before running, predict the results, then explain any difference.
 \begin{enumerate}[leftmargin=1.8em]
 \item Write a column vector with entries 1 through 5 and select its last two entries.
 \item Compute both the matrix square and element-wise square of a $2\times2$ matrix.
 \item Replace the production candidate by $(4,4)^T$. Which resource constraint fails?
 \item Change the quadratic to $t^2-6t+10$. Derive its minimum by hand before plotting.
 \end{enumerate}
-These are newly written practice prompts, not supplied university exercise sheets.
 Function files, passing handles to other functions, control flow, and solver calls
 can follow in later refresher notes.
 
-\section{Documentation and Polish terminology}\label{sec:sources}
+\section{Sources and editorial remarks}\label{sec:sources}
 \begin{itemize}[leftmargin=1.6em]
 \item \href{https://www.mathworks.com/help/matlab/learn_matlab/matrices-and-arrays.html}{MathWorks: Matrices and Arrays}:
 array construction, dimensions, and transpose.
@@ -166,4 +155,14 @@ graphics export.
 Polish terms are maintained in \texttt{docs/glossary.md}: \emph{wektor wierszowy},
 \emph{wektor kolumnowy}, \emph{indeksowanie}, \emph{operacje elementowe},
 \emph{uchwyt do funkcji}, and \emph{reszta uk\l{}adu r\'owna\'n}.
+\paragraph{Provenance and verification.}
+\textbf{Sources:} Official MathWorks documentation listed at the end;
+Lecture 1's historical refresher scope motivates this topic.\\
+\textbf{Execution status:} Verified on 2026-10-04 in MATLAB
+26.2.0.3386108 (R2026b), based on output supplied by the user from a normal terminal.
+All numerical assertions passed and the plot was exported.
+Hand results agree with the script assertions.
+
+The practice prompts in Section~\ref{sec:practice} are original examples.
+Full terminal output is recorded in \texttt{docs/matlab-verification.md}.
 \end{document}

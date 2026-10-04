@@ -3,21 +3,13 @@
 \hypersetup{pdftitle={Lecture 1 -- Modeling optimization problems}}
 \title{\textbf{Mathematical Modeling}\\[2mm]
 \large Lecture 1: Modeling Optimization Problems}
-\author{Study notes based on Ewa Pawelec's historical slides}
+\author{Personal study notes}
 \date{}
 \begin{document}
 \maketitle
-\noindent\textbf{Primary source:} \texttt{s4\_w1.pdf}, PDF pages 1--6.\\
-\textbf{Source context:} Folder labelled 2020; the slides contain a 2019/2020
-schedule. Exact lecture date is not established.\\
-\textbf{Current course alignment:} Unconfirmed.\\
-\textbf{Editorial scope:} English synthesis of the mathematical content.
-Definitions and explanations below expand the brief slides; historical schedules,
-assessment rules, and contact details are not current course instructions.
 \tableofcontents
 
 \section{What mathematical programming means}\label{sec:meaning}
-\textit{Source: PDF page 3.}
 Here, \emph{mathematical programming} means mathematical optimization: selecting
 the best feasible decision according to a specified criterion. The word
 ``programming'' refers to planning; an optimization problem is a mathematical
@@ -34,7 +26,6 @@ instance. A parameter can change between instances without becoming a decision
 variable.
 
 \section{The general constrained problem}\label{sec:general}
-\textit{Source: PDF page 3; definitions and notation expanded.}
 Let $x=(x_1,\ldots,x_n)^T\in\R^n$ be the decision vector. A constrained
 minimization problem is
 \begin{equation}\label{eq:general}
@@ -55,7 +46,7 @@ Feasibility alone does not imply optimality. The optimal decision $x^*$ and its
 objective value $f(x^*)$ are different objects, and multiple decisions may have
 the same value.
 
-\begin{remark}[Minimum versus infimum: added clarification]
+\begin{remark}[Minimum versus infimum]
 A finite lower bound need not be attained in a general optimization problem.
 For example, $\inf_{x>0}x=0$, but no feasible point has value zero.
 A solver's output therefore requires both feasibility and an appropriate
@@ -63,7 +54,6 @@ optimality or attainment argument.
 \end{remark}
 
 \section{From a real question to a mathematical model}\label{sec:workflow}
-\textit{Source: PDF page 3; verification questions added.}
 \begin{enumerate}[leftmargin=1.8em]
 \item \textbf{Choose variables and construct the model.} What can actually be
 controlled? What is given? State each variable's meaning, domain, and unit.
@@ -80,7 +70,7 @@ on data and assumptions.
 \end{enumerate} A correct solution to an inaccurate
 model can still be a poor real-world decision.
 
-\subsection{Units and assumptions: added study checklist}
+\subsection{Units and assumptions}
 In a resource constraint, a coefficient measured in kg/item times a variable
 measured in items produces kg; its right-hand side must also be kg. Price in
 PLN/item times quantity in items produces revenue in PLN.
@@ -92,11 +82,10 @@ unchanging prices. These are claims about the setting, not facts guaranteed by
 an optimization algorithm.
 
 \section{How optimization problems are classified}\label{sec:classification}
-\textit{Source: PDF pages 3--4. Categories are separate axes, not mutually exclusive.}
 \begin{description}[leftmargin=2em,style=nextline]
 \item[Constraints] Unconstrained or constrained optimization.
 \item[Variables over time] Static decisions or decisions evolving over time.
-The slides associate dynamic problems with control and functional optimization;
+Dynamic problems include control and functional optimization;
 this is broader than the algorithmic technique called dynamic programming.
 \item[Number of objectives] Single-objective or multiobjective optimization.
 Several competing criteria require an explicit way to compare trade-offs.
@@ -104,14 +93,13 @@ Several competing criteria require an explicit way to compare trade-offs.
 Smoothness is another distinction; a nonlinear function may be smooth or nonsmooth.
 \item[Allowed values] Continuous, discrete, integer, or binary variables.
 \end{description}
-\textbf{Added clarification:} A linear program has a linear objective, linear
+A linear program has a linear objective, linear
 constraints, and continuous variables. Adding integrality produces an integer
 linear program. Quadratic programming does not automatically mean convexity.
 For $f(x)=\tfrac12x^TQx+c^Tx$ with symmetric $Q$, convexity requires $Q$ to be
 positive semidefinite; a convex optimization problem also needs a convex feasible set.
 
-\section{The historical roadmap}\label{sec:roadmap}
-\textit{Source: PDF pages 4--6; orientation only.}
+\section{Optimization roadmap}\label{sec:roadmap}
 \begin{enumerate}[leftmargin=1.8em]
 \item \textbf{Linear programming}: modeling examples, standard and canonical
 forms, graphical solutions, bases, simplex methods, duality, post-optimal analysis,
@@ -125,21 +113,14 @@ methods, and interior-point methods.
 \end{enumerate}
 The simplex method for linear programming and the Nelder--Mead simplex method
 are different algorithms. Their shared name does not make them interchangeable.
-This roadmap describes the historical material, not a confirmed current syllabus.
 
 % Keep the closing study sections together; avoid a crowded page 3 and sparse page 4.
 \newpage
 \section{MATLAB refresher scope}\label{sec:matlab}
-\textit{Source: PDF page 6.}
-The historical first lab asks students to revisit vectors and matrices,
+Core MATLAB skills include vectors and matrices,
 programming constructs, built-in functions (including numerical methods), scripts,
 function files, parameter passing (including passing functions), and basic plots.
-The later historical labs compare implemented algorithms with Optimization Toolbox.
-
-For this repository, refresher notes belong in \path{notes/matlab-review/}.
-Scripts belong in \mbox{\texttt{matlab/review/}}; lab material uses the dedicated
-lab folders. This lecture records the scope; it does not yet supply a MATLAB tutorial
-or claim execution of any script.
+Optimization Toolbox provides solvers for comparison with implemented algorithms.
 
 \section{Questions for revision}\label{sec:revision}
 \begin{enumerate}[leftmargin=1.8em]
@@ -150,16 +131,25 @@ or claim execution of any script.
 \item What must be checked after an algorithm returns a candidate solution?
 \end{enumerate}
 
-\section{Terminology and source map}\label{sec:sources}
+\section{Sources and editorial remarks}\label{sec:sources}
+\noindent\textbf{Primary source:} \texttt{s4\_w1.pdf}, PDF pages 1--6.\\
+\textbf{Source context:} Folder labelled 2020; the slides contain a 2019/2020
+schedule. Exact lecture date is not established.\\
+\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Editorial scope:} English synthesis of the mathematical content.
+Definitions and explanations expand the brief slides; historical schedules,
+assessment rules, and contact details are not current course instructions.
+
 Polish equivalents are maintained in \texttt{docs/glossary.md}, including
 \emph{zmienna decyzyjna}, \emph{funkcja celu}, \emph{ograniczenie},
 \emph{rozwi\k{a}zanie dopuszczalne}, and \emph{rozwi\k{a}zanie optymalne}.
 \begin{itemize}[leftmargin=1.6em]
 \item \texttt{s4\_w1.pdf}, pp.~1--2: historical administration and bibliography;
 not reproduced as current instructions.
-\item pp.~3--4: mathematical programming, model construction, classification,
-and the start of the course roadmap.
-\item pp.~5--6: remaining roadmap and MATLAB refresher scope.
+\item pp.~3--4: Sections~\ref{sec:meaning}--\ref{sec:classification} and the start of
+Section~\ref{sec:roadmap}.
+\item pp.~5--6: remaining roadmap in Section~\ref{sec:roadmap} and MATLAB scope in
+Section~\ref{sec:matlab}.
 \end{itemize}
 Page numbers refer to PDF pages, each containing up to four slides.
 \end{document}

@@ -3,20 +3,13 @@
 \hypersetup{pdftitle={Lecture 2 -- Linear programming: models and geometry}}
 \title{\textbf{Mathematical Modeling}\\[2mm]
 \large Lecture 2: Linear Programming---Models and Geometry}
-\author{Study notes based on Ewa Pawelec's historical slides}
+\author{Personal study notes}
 \date{}
 \begin{document}
 \maketitle
-\noindent\textbf{Primary source:} \texttt{s4\_w2.pdf}, PDF pages 1--11,
-printed slides 1--44.\\
-\textbf{Source date:} Not established; stored in the folder labelled 2020.\\
-\textbf{Current course alignment:} Unconfirmed.\\
-\textbf{Editorial scope:} Source models and results are reorganized in English.
-Hand derivations, proofs, cautions, and MATLAB checks are added study material.
 \tableofcontents
 
 \section{The linear programming problem}\label{sec:lp}
-\textit{Source: slides 1--6, PDF pp.~1--2.}
 A linear program (LP, Polish abbreviations PL or ZPL) optimizes a linear function
 $c^Tx$ subject to linear equality and inequality constraints, with continuous
 variables. The feasible set $\Omega$ includes every sign and bound restriction.
@@ -34,8 +27,7 @@ Model construction follows Lecture 1: variables, constraints, objective,
 algorithm, verification, and post-optimal analysis.
 
 \section{Production planning: formulation and full hand solution}\label{sec:production}
-\textit{Source: slides 7--9, PDF pp.~2--3; solution expanded.}
-Two products consume three resources. The source data are:
+Two products consume three resources. The data are:
 \begin{center}
 \begin{tabular}{lrrr}\toprule
  & Product 1 & Product 2 & Available\\\midrule
@@ -47,8 +39,8 @@ Selling price (PLN/item) & 3 & 2 & ---\\\bottomrule
 \end{center}
 Let $x_1,x_2$ be production quantities. Assume constant coefficients, additive
 resource usage, and fractional production allowed. Since costs are absent,
-$3x_1+2x_2$ is \emph{revenue}; the slides also call it profit, which would require
-additional assumptions about costs. The model is
+$3x_1+2x_2$ is \emph{revenue}. Computing profit would also require costs.
+The model is
 \begin{equation}\label{eq:production}
 \max (3x_1+2x_2),\qquad
 \begin{cases}
@@ -103,7 +95,6 @@ merely listing a solver output.
 
 \section{Other modeling patterns}\label{sec:models}
 \subsection{Diet problem}
-\textit{Source: slides 10--11, PDF p.~3.}
 Let $x_j$ be the daily quantity of food $j$, $c_j$ its unit price, and $a_{ij}$
 the amount of nutrient $i$ per food unit. Nutrient limits are $b_i,d_i$, while
 food-quantity bounds are $g_j,h_j$. The model is
@@ -114,19 +105,18 @@ g_j\leq x_j\leq h_j,\quad x_j\geq0.
 \]
 Nutrient and food bounds have different units and meanings. Positive food lower
 bounds can enforce minimum variety, but generic bounds do not automatically
-produce a realistic diet. No numerical instance is provided in these slides.
+produce a realistic diet.
 
 \subsection{Transportation problem}
-\textit{Source: slides 12--13, PDF pp.~3--4.}
 Let $x_{ij}$ be the quantity shipped from supplier $i$ to customer $j$;
 $a_i$ is available supply, $b_j$ required demand, and $c_{ij}$ cost per shipped
-unit. The source formulation is
+unit. A formulation with supply limits and minimum demand is
 \[
 \min\sum_{i=1}^m\sum_{j=1}^n c_{ij}x_{ij},\qquad
 \sum_{j=1}^n x_{ij}\leq a_i,\quad
 \sum_{i=1}^m x_{ij}\geq b_j,\quad x_{ij}\geq0.
 \]
-\textbf{Added qualification:} With nonnegative supply/demand and every route
+With nonnegative supply/demand and every route
 available without capacity limits, feasibility is equivalent to
 $\sum_i a_i\geq\sum_j b_j$. Necessity follows by summing constraints;
 sufficiency follows by allocating supplies successively to remaining demands.
@@ -135,7 +125,6 @@ If all supply must be shipped and every demand met exactly, use equalities and
 balanced totals instead. These are different modeling requirements.
 
 \subsection{Regression as a linear program}
-\textit{Source: slide 14, PDF p.~4; formulas checked against the rendered slide.}
 For observed pairs $(t_i,y_i)$, fit $y\approx at+b$, with residuals
 $e_i=y_i-at_i-b$. The $t_i$ are given observations, not decision variables.
 The slope $a$ and intercept $b$ are free real variables.
@@ -148,12 +137,11 @@ at_i+b-r&\leq y_i,\\
 Indeed, the two inequalities are equivalent to $-r\leq e_i\leq r$.
 For the alternative least-absolute-deviation criterion, introduce one $r_i\geq0$
 per observation and minimize $\sum_i r_i$ under $-r_i\leq e_i\leq r_i$.
-The slides mention least squares as a common regression method, but
-$\min\sum_i e_i^2$ is a quadratic problem, not the LP displayed here.
+Least squares minimizes $\sum_i e_i^2$, a quadratic objective rather than
+a linear one.
 The three error criteria need not produce the same fitted line.
 
 \section{Cutting stock and integer decisions}\label{sec:cutting}
-\textit{Source: slides 15--19, PDF pp.~4--5.}
 Stock has length $L$. Required pieces have lengths $\ell_i$ and demand $b_i$.
 A cutting pattern $j$ specifies nonnegative integer piece counts $a_{ij}$,
 satisfying $\sum_i a_{ij}\ell_i\leq L$. Its offcut is
@@ -161,17 +149,15 @@ satisfying $\sum_i a_{ij}\ell_i\leq L$. Its offcut is
 r_j=L-\sum_i a_{ij}\ell_i.
 \]
 Let $x_j$ count how many stock pieces use pattern $j$.
-For exact demand the source gives
-$\min r^Tx$ subject to $Ax=b$, $x\geq0$; its following example uses $Ax\geq b$.
-The latter permits overproduction. Physical counts require integer $x_j$;
+For exact demand, minimize $r^Tx$ subject to $Ax=b$, $x\geq0$.
+For minimum demand, replace $Ax=b$ by $Ax\geq b$, permitting overproduction. Physical counts require integer $x_j$;
 real-valued $x_j$ define an LP relaxation.
 
-The source condition $r_j<\min_i\ell_i$ describes \emph{maximal} patterns:
+The condition $r_j<\min_i\ell_i$ describes \emph{maximal} patterns:
 no additional piece fits. It is not a requirement for every feasible pattern.
 Under exact demand, nonmaximal patterns may be needed to avoid excess pieces.
 
 \subsection{Cabinet example with 5.2 m stock: full hand solution}
-\textit{Source: slide 18; derivation added.}
 At least 200 cabinet sets require 1400 short pieces (0.7 m) and 800 long pieces
 (2.5 m). The three \emph{listed technological patterns} are:
 \begin{center}
@@ -185,7 +171,7 @@ Offcut (m) & 0.3 & 0.6 & 0.2\\\bottomrule
 We optimize over these supplied patterns; they are not an enumeration of all
 length-feasible cuts. For instance, six short pieces and no long ones would be
 a feasible but nonmaximal cut. Assume the listed patterns are the permitted ones,
-ignore saw kerf, and allow surplus pieces as in the source model:
+ignore saw kerf, and allow surplus pieces:
 \[
 \min 0.3x_1+0.6x_2+0.2x_3,\qquad
 7x_1+3x_2\geq1400,\quad x_2+2x_3\geq800,\quad x\geq0.
@@ -211,8 +197,7 @@ can vary; the objectives are not generally equivalent. Account separately for
 unwanted surplus, saw kerf, and stock limits when the real task requires them.
 \end{remark}
 
-\subsection{The 2 m cabinet prompt: an explicitly assumed interpretation}
-\textit{Source: slide 19; solution added under the following assumptions.}
+\subsection{Seven cabinets from 2 m boards}
 The original prompt is:
 \begin{otherlanguage}{polish}
 \begin{quote}
@@ -238,8 +223,7 @@ This construction attains the length lower bound and proves optimality under the
 stated interpretation. It is not a claim about unspecified manufacturing details.
 
 \section{Standard form and equivalent transformations}\label{sec:standard}
-\textit{Source: slides 20--24, PDF pp.~5--6.}
-The lecture's convention is
+We use the convention
 \begin{equation}\label{eq:standard}
 \max c^Tx,\qquad Ax=b,\quad x\geq0,
 \quad A\in\R^{m\times n},\quad b\in\R^m,\quad c\in\R^n.
@@ -264,8 +248,7 @@ Substitution may add a constant to the objective; retain it when reporting the
 original objective value. Free-variable splitting is not unique: adding the same
 positive number to $x_j^+$ and $x_j^-$ leaves $x_j$ unchanged.
 
-\subsection{The source conversion example}
-\textit{Source: slide 24.}
+\subsection{A four-variable conversion example}
 The original problem is
 \[
 \min 2x_1-x_2+5x_3-2x_4,\qquad
@@ -294,7 +277,6 @@ Conversely, any feasible $y$ recovers a feasible original point by $x_2=p-q$.
 The transformed objective is the negative of the original one.
 
 \subsection{Linear equations alone do not decide LP feasibility}
-\textit{Source: slide 21; qualifications added.}
 The system $Ax=b$ is consistent exactly when
 $\operatorname{rank}(A)=\operatorname{rank}([A\mid b])$.
 If consistent with rank $r$, its solution space has $n-r$ free dimensions:
@@ -302,11 +284,9 @@ uniqueness requires $r=n$. However, an LP also requires $x\geq0$.
 For example, $x=-1$ is a consistent equation with no nonnegative solution.
 A rank test is therefore necessary but insufficient for standard-form feasibility.
 Equivalently, writing $a_j$ for the columns of $A$, feasibility means
-$b=\sum_jx_ja_j$ with $x_j\geq0$: $b$ belongs to their conical hull
-(source slide 34).
+$b=\sum_jx_ja_j$ with $x_j\geq0$: $b$ belongs to their conical hull.
 
 \section{Geometry of feasible sets}\label{sec:geometry}
-\textit{Source: slides 30--35, PDF pp.~8--9. Definitions corrected and expanded.}
 \begin{definition}[Convexity]
 A set $P$ is convex if $\lambda u+(1-\lambda)v\in P$ for any $u,v\in P$ and
 $0\leq\lambda\leq1$.
@@ -315,7 +295,7 @@ For $a\neq0$, $a^Tx=b$ defines a hyperplane, with closed halfspaces
 $a^Tx\leq b$ and $a^Tx\geq b$. A \emph{polyhedron} is the intersection of finitely
 many closed halfspaces; equalities can be represented by two inequalities.
 A bounded polyhedron is a \emph{polytope}. These English terms distinguish what
-the source calls \emph{zbi\'or wielo\'scienny} and, in the bounded case,
+are called in Polish \emph{zbi\'or wielo\'scienny} and, in the bounded case,
 \emph{wielo\'scian}.
 
 \begin{proposition}
@@ -351,8 +331,7 @@ P=\{x:Ax=b,\ x\geq0\}\ \Longrightarrow\
 \]
 A nonempty polyhedron is unbounded exactly when its recession cone has a nonzero
 vector. The forward implication follows from a finite polyhedral representation;
-the reverse follows from the feasible ray. The source states this for arbitrary
-convex sets, which needs qualification: the nonclosed convex set
+the reverse follows from the feasible ray. Closedness matters beyond polyhedra. The nonclosed convex set
 $\{(0,0)\}\cup\{(u,v):u>0,\ 0<v<1\}$ is unbounded but has no nonzero recession
 direction. Any ray from the origin either leaves $0<v<1$ eventually or stays
 on an excluded part of its boundary. The equivalence holds for nonempty closed
@@ -364,7 +343,6 @@ of $d$. A ray is a set of positive multiples, so its generating vector has no
 unique scale. ``Pointed'' means the cone contains no line through zero.
 
 \section{Existence, unboundedness, and the vertex principle}\label{sec:outcomes}
-\textit{Source: slides 25--29 and 35--40, PDF pp.~7--10.}
 For an LP there are three objective outcomes: infeasible; feasible with objective
 unbounded in the improving direction; or feasible with a finite attained optimum.
 The last case may have one or infinitely many optimal decisions.
@@ -375,7 +353,7 @@ If $x^0$ is feasible in standard form and $Ad=0$, $d\geq0$, $c^Td>0$, then
 x^0+\alpha d\in P,\qquad c^T(x^0+\alpha d)=c^Tx^0+\alpha c^Td\to+\infty.
 \]
 Feasibility is an essential assumption: a direction alone does not cure an empty
-feasible set. For the source example $x_1-x_2=1$, $x\geq0$, maximizing $x_1$,
+feasible set. For example, with $x_1-x_2=1$, $x\geq0$, maximizing $x_1$,
 use $x^0=(1,0)^T$ and $d=(1,1)^T$. The objective is $1+\alpha$.
 On the same feasible ray, maximizing $-x_1$ instead has the unique optimum
 $(1,0)$, although the feasible set remains unbounded.
@@ -393,12 +371,7 @@ For bounded $P$, the ray sum is absent.
 \end{theorem}
 Standard-form feasible sets are pointed: a line contained in $x\geq0$ would
 force its direction to be zero. Thus the theorem applies when they are nonempty.
-The source labels its representation result as Carath\'eodory's theorem.
-The vertex--ray representation is usually called a polyhedral representation
-or resolution theorem; Carath\'eodory's convex-hull theorem concerns reducing a
-convex combination to at most $n+1$ points. These are related but distinct results.
-The pointedness hypothesis is checked against the supplementary MIT reference
-in Section~\ref{sec:sources}; polyhedra with lines need a lineality term.
+Polyhedra containing lines require an additional lineality term.
 
 \begin{theorem}[Optimal vertex for the lecture's standard form]\label{thm:vertex}
 Let $P=\{x:Ax=b,\ x\geq0\}\neq\varnothing$. If $c^Tx$ is bounded above on $P$,
@@ -427,12 +400,11 @@ $c^T(\lambda u+(1-\lambda)v)=\lambda z^*+(1-\lambda)z^*=z^*$.
 \end{proof}
 In $x_1+x_2\leq1$, $x\geq0$, maximizing $x_1+2x_2$ gives $(0,1)$ uniquely;
 maximizing $2x_1+x_2$ gives $(1,0)$ uniquely. Maximizing $2x_1+2x_2$ makes the
-whole edge $x_1+x_2=1$ optimal, as in source slides 27--28.
+whole edge $x_1+x_2=1$ optimal.
 The representation above also allows zero-objective recession directions:
 optimal decisions can lie on unbounded optimal rays, not just between vertices.
 
 \section{Bases and basic feasible solutions}\label{sec:bases}
-\textit{Source: slides 41--43, PDF p.~11; characterization and proof expanded.}
 Assume $A\in\R^{m\times n}$ has full row rank $m\leq n$.
 Choose $m$ independent columns indexed by $B$; their square matrix $A_B$ is
 nonsingular. With $N$ the remaining indices, define
@@ -482,22 +454,13 @@ solutions toward improving objective values. Pivot rules, degeneracy handling,
 and termination arguments require later algorithmic material; Lecture 2 does
 not yet supply a complete simplex implementation.
 
-\section{MATLAB checks and execution status}\label{sec:matlab}
+\section{MATLAB checks}\label{sec:matlab}
 The shared script is \path{matlab/exercises/lecture_02_checks.m}.
 It enumerates production vertices, checks resource slacks and the optimal basis,
 verifies the 5.2 m cutting certificate, and enumerates the explicitly assumed
 2 m cabinet problem. It uses base MATLAB operations without Optimization Toolbox.
 The inputs match the hand derivations. Assertions use absolute tolerance
 $10^{-10}$ for these small examples; this is not a universal numerical tolerance.
-
-\textbf{Execution status:} Verified on 2026-10-04 in MATLAB
-26.2.0.3386108 (R2026b), using the user's normal terminal. All assertions passed.
-The reported output matches the hand derivations: production $(2,6)$ with value
-18 PLN; 5.2 m cutting $(200,0,400)$ with offcut 140 m; and 2 m cabinet count 11
-with pattern counts $(10,1,0)$. The script also asserts the production slacks
-$(0,0,3)$ kg. No Optimization Toolbox solver is invoked. The sandbox launcher
-still exits before code execution; this verification is based on the user's
-reported terminal output, recorded in \texttt{docs/matlab-verification.md}.
 
 \section{Common mistakes and revision questions}\label{sec:revision}
 \begin{itemize}[leftmargin=1.6em]
@@ -515,16 +478,23 @@ For revision: derive the production certificate without the figure; transform a
 free variable and a $\geq$ constraint; construct an infeasible LP whose equations
 are consistent; and explain why an optimal edge does not contradict the vertex theorem.
 
-\section{Source map and Polish terminology}\label{sec:sources}
+\section{Sources and editorial remarks}\label{sec:sources}
+\noindent\textbf{Primary source:} \texttt{s4\_w2.pdf}, PDF pages 1--11,
+printed slides 1--44.\\
+\textbf{Source date:} Not established; stored in the folder labelled 2020.\\
+\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Editorial scope:} Source models and results are reorganized in English.
+Hand derivations, proofs, cautions, and MATLAB checks are added study material.
+
 \begin{center}
 \begin{tabular}{lll}\toprule
 PDF pages & Printed slides & Content\\\midrule
-1--2 & 1--8 & General formulation, modeling, production\\
-3--5 & 9--20 & Model examples and standard form\\
-6 & 21--24 & Rank and equivalent transformations\\
-7--8 & 25--32 & LP outcomes, halfspaces, vertices\\
-9--10 & 33--40 & Recession directions and vertex principle\\
-11 & 41--44 & Bases and simplex intuition\\\bottomrule
+1--2 & 1--8 & Sections~\ref{sec:lp}--\ref{sec:production}\\
+3--5 & 9--20 & Sections~\ref{sec:models}--\ref{sec:standard}\\
+6 & 21--24 & Section~\ref{sec:standard}\\
+7--8 & 25--32 & Sections~\ref{sec:geometry}--\ref{sec:outcomes}\\
+9--10 & 33--40 & Sections~\ref{sec:geometry}--\ref{sec:outcomes}\\
+11 & 41--44 & Section~\ref{sec:bases}\\\bottomrule
 \end{tabular}
 \end{center}
 The main source is \texttt{s4\_w2.pdf}; added proofs and worked solutions are
@@ -536,6 +506,22 @@ Polish vocabulary is maintained in \texttt{docs/glossary.md}.
 \href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/ab890d20b071105239fe0b9bcf599f57_MIT6_251JF09_lec10.pdf}{MIT OCW, 15.081J/6.251J, Lecture 10 (Fall 2009)},
 PDF pp.~4 and 6, sections on recession cones, unbounded LPs, and the resolution
 theorem. Used to check hypotheses of the vertex--ray representation;
-this supplement is not current course coverage. Its intended external storage
-location and download status are recorded in \texttt{docs/sources.md}.
+this supplement is not current course coverage. The source inventory records its external storage and download status.
+\paragraph{Numerical verification.}
+Verified in MATLAB R2026b on 2026-10-04, using the user's normal terminal. All assertions passed.
+The reported output matches the hand derivations: production $(2,6)$ with value
+18 PLN; 5.2 m cutting $(200,0,400)$ with offcut 140 m; and 2 m cabinet count 11
+with pattern counts $(10,1,0)$. The script also asserts the production slacks
+$(0,0,3)$ kg. No Optimization Toolbox solver is invoked.
+The supplied terminal output is recorded in \texttt{docs/matlab-verification.md}.
+
+\paragraph{Terminology and hypotheses.}
+In Section~\ref{sec:outcomes}, the pointed vertex--ray result is a polyhedral
+representation (or resolution) theorem. The historical slides call it
+Carath\'eodory's theorem; the convex-hull theorem of that name instead reduces
+a convex combination to at most $n+1$ points. The MIT supplement was used to
+check pointedness. In Section~\ref{sec:geometry}, the recession equivalence
+is stated with closedness; the historical version omits that hypothesis.
+In Section~\ref{sec:production}, selling-price data justify revenue, whereas
+the slides also use the word profit.
 \end{document}

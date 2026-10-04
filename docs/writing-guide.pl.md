@@ -18,8 +18,19 @@ repozytorium zgodnie z [README](../README.pl.md). Wyniki zapisuj w `build/`.
 
 ## Notatki z wykładów
 
-Podawaj źródło, datę, jeśli jest znana, oraz informację, czy zgodność z obecnym
-kursem została potwierdzona. Zdefiniuj problem, symbole, dziedziny, założenia i
+Oddzielaj narrację dydaktyczną od decyzji repozytorium i historii źródeł.
+Źródła, daty, zgodność z obecnym kursem, uzupełnienia redakcyjne i dowody wykonania
+zbieraj w samodzielnej końcowej sekcji **Sources and editorial remarks** albo
+w dokumentacji repozytorium. W treści dydaktycznej nie umieszczaj znaczników
+cytowań, informacji o źródłach ani odnośników do tej końcowej sekcji. Uwagi na
+końcu mogą wskazywać wcześniejsze sekcje, równania i rysunki. Założenia
+matematyczne, definicje i ograniczenia pozostawiaj obok wyników, których dotyczą.
+
+Dodawaj rysunki, gdy pomagają wyjaśnić geometrię, proces lub układ fizyczny.
+Preferuj edytowalne grafiki TikZ z czytelnymi etykietami i podpisami objaśniającymi
+matematykę. Umieszczaj je przy odpowiednim wyjaśnieniu.
+
+ Zdefiniuj problem, symbole, dziedziny, założenia i
 jednostki przed ich użyciem. Wyjaśnij ideę modelowania, wyprowadź równania krok
 po kroku, podaj warunki każdego wyniku i odróżniaj dowody od intuicji. W miarę
 opracowywania materiału dodawaj rozwiązane przykłady, ograniczenia i typowe błędy.
@@ -27,7 +38,7 @@ Nie przedstawiaj niesprawdzonego dawnego zakresu jako obecnego programu zajęć.
 
 ## Ćwiczenia i MATLAB
 
-Zachowuj treść zadania i podawaj źródło. Przedstaw założenia i rozwiązanie ręczne,
+Zachowuj treść zadania, a źródło podawaj w końcowych uwagach. Przedstaw założenia i rozwiązanie ręczne,
 a następnie odnośnik do `matlab/exercises/<matching-topic>.m`. Stosuj te same dane
 i parametry w obu rozwiązaniach. W razie potrzeby zapisuj oczekiwane wyniki,
 błąd bezwzględny lub względny, jednostki, ustawienia solvera, tolerancje oraz
