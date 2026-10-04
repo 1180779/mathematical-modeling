@@ -4,9 +4,10 @@
 
 ## Dawne wykłady
 
-W nadrzędnym katalogu wykładów znajduje się trzynaście PDF-ów. Nazwa ich katalogu
-wskazuje na wykłady z 2020 roku. Treść nie została jeszcze przejrzana; zgodność z
-obecnym prowadzącym, programem, ćwiczeniami i laboratoriami jest niepotwierdzona.
+Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
+wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykład 1 został
+przejrzany przy opracowaniu notatek; zgodność z obecnym prowadzącym, programem,
+ćwiczeniami i laboratoriami jest niepotwierdzona.
 Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały pozostają poza nim.
 
 | Plik | Ścieżka lokalna |

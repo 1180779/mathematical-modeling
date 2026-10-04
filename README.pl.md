@@ -4,7 +4,7 @@
 
 Osobiste repozytorium do nauki modelowania matematycznego: notatki z wykładów,
 ćwiczenia z rozwiązaniami ręcznymi i w MATLAB-ie, powtórka MATLAB-a oraz laboratoria.
-Pierwsza iteracja zawiera strukturę i szablony; notatki z przedmiotu jeszcze nie powstały.
+Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem jest niepotwierdzona.
 
 ## Od czego zacząć
 
@@ -13,6 +13,14 @@ Pierwsza iteracja zawiera strukturę i szablony; notatki z przedmiotu jeszcze ni
 - [Słownik polsko-angielski](docs/glossary.md): wspólne słownictwo.
 - [Wykaz źródeł](docs/sources.pl.md): dawne wykłady i pochodzenie szablonu.
 - [Rejestr decyzji](docs/decisions/README.pl.md): uzasadnienia i oczekujące propozycje.
+
+## Notatki z wykładów
+
+- [Wykład 1: Modelowanie problemów optymalizacji](notes/lectures/01-optimization-modeling.tex)
+  ([PDF](build/01-optimization-modeling.pdf)): zmienne, ograniczenia, funkcje celu,
+  klasyfikacja i historyczny zakres powtórki MATLAB-a.
+
+Odnośniki do PDF-ów wskazują lokalne wyniki kompilacji, które nie są commitowane.
 
 ## Struktura
 

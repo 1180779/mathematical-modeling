@@ -4,9 +4,10 @@ English | [Polski](sources.pl.md)
 
 ## Historical lectures
 
-Thirteen PDFs are available in the parent lecture directory. Their folder labels
-them as 2020 lectures. Content has not yet been reviewed; alignment with the current
-lecturer, syllabus, exercise classes, and labs is unconfirmed. Paths below are
+Thirteen PDFs are available beside this repository. Their folder labels them as
+2020 lectures; lecture 1 contains a 2019/2020 schedule. Lecture 1 has been reviewed
+for these notes; alignment with the current lecturer, syllabus, exercises, and labs
+is unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
 
 | File | Local path |

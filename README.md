@@ -4,7 +4,7 @@ English | [Polski](README.pl.md)
 
 Personal study repository for mathematical modeling: lecture notes, exercises
 with hand and MATLAB solutions, MATLAB revision, and lab work.
-The first iteration provides structure and templates; course notes have not yet been written.
+Lecture notes are developed from the historical sources, with current course alignment unconfirmed.
 
 ## Start here
 
@@ -13,6 +13,14 @@ The first iteration provides structure and templates; course notes have not yet 
 - [Polish–English glossary](docs/glossary.md): shared vocabulary.
 - [Source inventory](docs/sources.md): historical lectures and template provenance.
 - [Decision log](docs/decisions/README.md): rationale and pending proposals.
+
+## Lecture notes
+
+- [Lecture 1: Modeling optimization problems](notes/lectures/01-optimization-modeling.tex)
+  ([PDF](build/01-optimization-modeling.pdf)): variables, constraints, objectives,
+  classifications, and the historical MATLAB refresher scope.
+
+PDF links refer to local build output, which is not committed.
 
 ## Layout
 
