@@ -20,6 +20,10 @@ Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem je
   ([PDF](build/01-optimization-modeling.pdf)): zmienne, ograniczenia, funkcje celu,
   klasyfikacja i historyczny zakres powtórki MATLAB-a.
 
+- [Wykład 2: Programowanie liniowe—modele i geometria](notes/lectures/02-linear-programming.tex)
+  ([PDF](build/02-linear-programming.pdf)): przykłady modeli, postać standardowa,
+  kierunki recesji, optymalne wierzchołki i bazowe rozwiązania dopuszczalne.
+
 Odnośniki do PDF-ów wskazują lokalne wyniki kompilacji, które nie są commitowane.
 
 ## Struktura
@@ -54,7 +58,23 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exe
 Skopiuj szablon do odpowiedniego katalogu notatek. Zachowaj ścieżki względem
 katalogu głównego repozytorium i kompiluj z niego tym samym poleceniem,
 podając nową ścieżkę pliku. Kod będzie sprawdzany w MATLAB-ie po dodaniu skryptów;
-ten szkielet nie zawiera wykonywalnych zadań MATLAB.
+skrypt sprawdzający z wykładu 2 nie został jeszcze uruchomiony w MATLAB-ie.
+
+Skompiluj oba PDF-y wykładów z katalogu głównego repozytorium:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/01-optimization-modeling.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
+```
+
+## Sprawdzenia MATLAB z wykładu 2
+
+```matlab
+run('matlab/exercises/lecture-02-checks.m')
+```
+
+Uruchom z katalogu głównego repozytorium. Skrypt sprawdza przykłady ręczne za pomocą
+podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Wykonanie w MATLAB-ie pozostaje niezweryfikowane.
 
 ## Sposób pracy
 

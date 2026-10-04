@@ -5,7 +5,7 @@ English | [Polski](sources.pl.md)
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
-2020 lectures; lecture 1 contains a 2019/2020 schedule. Lecture 1 has been reviewed
+2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1 and 2 have been reviewed
 for these notes; alignment with the current lecturer, syllabus, exercises, and labs
 is unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
@@ -29,6 +29,33 @@ relative to the repository root. These originals remain outside this repository.
 For each developed topic, cite the filename and page numbers, distinguish supplied
 material from added explanations, and record any comparison with current classes.
 Current syllabus, exercise sheets, and lab instructions have not yet been supplied.
+
+## Developed notes and source qualifications
+
+- Lecture 1: `s4_w1.pdf`, PDF pages 1–6; introduction and historical roadmap.
+- Lecture 2: `s4_w2.pdf`, PDF pages 1–11, printed slides 1–44; LP models,
+  standard form, geometry, and bases. Regression formulas and the cabinet sketch
+  were also inspected visually.
+- The notes distinguish added hand proofs and derivations from slide content.
+  Qualifications cover revenue versus profit, exact versus minimum demand,
+  integer versus continuous cutting counts, strict convex combinations,
+  recession directions for closed convex sets, pointed polyhedral representation,
+  and the hypotheses of the optimal-vertex theorem.
+- The 2 m cabinet solution assumes three 0.8 m members and two 0.3 m members per
+  cabinet, zero kerf, and no joint or thickness allowances; these assumptions
+  go beyond the sketch's explicit manufacturing information.
+
+## Supplementary sources outside the repository
+
+[MIT OCW 15.081J/6.251J, Lecture 10 (Fall 2009)](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/ab890d20b071105239fe0b9bcf599f57_MIT6_251JF09_lec10.pdf),
+PDF pages 4 and 6, was consulted through the web tool to cross-check the recession
+cone and vertex–ray representation hypotheses. It supplements the source lecture;
+it is not evidence of current course coverage.
+
+Intended local path from this repository:
+`../sources/mit/mit-6-251j-2009-lecture-10-polyhedral-representation.pdf`.
+**Not downloaded:** shell DNS resolution failed on 2026-10-04.
+The external `../sources/README.md` records the official URL and retry command.
 
 ## AZ style provenance
 

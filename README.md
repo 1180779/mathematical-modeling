@@ -20,6 +20,10 @@ Lecture notes are developed from the historical sources, with current course ali
   ([PDF](build/01-optimization-modeling.pdf)): variables, constraints, objectives,
   classifications, and the historical MATLAB refresher scope.
 
+- [Lecture 2: Linear programming—models and geometry](notes/lectures/02-linear-programming.tex)
+  ([PDF](build/02-linear-programming.pdf)): modeling examples, standard form,
+  recession directions, optimal vertices, and basic feasible solutions.
+
 PDF links refer to local build output, which is not committed.
 
 ## Layout
@@ -53,8 +57,24 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build templates/exe
 
 Copy a template into the appropriate notes directory. Retain its repository-root
 paths and build it from the repository root using the same command with the new
-file path. MATLAB work will be checked in MATLAB when scripts are added; this
-setup contains no executable MATLAB tasks.
+file path. MATLAB work will be checked in MATLAB when scripts are added; the
+Lecture 2 check script has not yet been run in MATLAB.
+
+Build both lecture PDFs from the repository root:
+
+```sh
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/01-optimization-modeling.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build notes/lectures/02-linear-programming.tex
+```
+
+## Lecture 2 MATLAB checks
+
+```matlab
+run('matlab/exercises/lecture-02-checks.m')
+```
+
+Run from the repository root. The script checks the hand examples using base
+MATLAB; no Optimization Toolbox is required. MATLAB execution remains unverified.
 
 ## Study workflow
 
