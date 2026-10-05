@@ -1,0 +1,42 @@
+{
+  "/integrate-the-current-course-while-preserving-mathematical-depth": {
+    "en": "7cd1a1cf493c43d8eb74998cf865959e9be7180f6310271745ea195cc9a19b00",
+    "pl": "3c9e4c6878a8609c615c235b207981a91ae4721268be7042e628b9ecf82d5a97"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/problem-and-evidence": {
+    "en": "7351ef65853128a330b19f1ab403078b42b624c497943f7221e54ba41c744d73",
+    "pl": "49ee9042034a3d89a6c82e73555e910acf836f535d10ce4168d0a2ea5172be91"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/alternatives-considered": {
+    "en": "9c05bba16412ac297b817d2f4bf43f20fbfa49959c13a5998f15da0b661404ff",
+    "pl": "4ef35182f4a9781ef41d0e3adcc216dfe881ba63717a0ca1e2931c8f947daeff"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/recommended-direction": {
+    "en": "a2479785b3dc35bd0c39f19f5df7717c75f9febaa34209eac72a2800987af683",
+    "pl": "65bda1767caeb0bb241b149b2a673fbb2e7e19cd5b4bd27e99cf02f5a79117df"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/coverage-and-priorities": {
+    "en": "3d8f9ba34c6ad66f1ad662e37f3041fd76c30b03cb19ae2f4fd0a52e9968641d",
+    "pl": "ec28aa31732654babc8e03db093b07f77f07d265e5bea392dd7472dd1664a6eb"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/preserving-and-improving-depth": {
+    "en": "db099532923ec2a9858ecf6a3be5f413787a20525dbfc6b4af2b7754496777ab",
+    "pl": "fce817cd9988fb9996e49a65235c68aea746e253b3a8c0f70232be77388f106e"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/source-discrepancies-and-mathematical-outcomes": {
+    "en": "8a8725b914ce0856baf3bc4d6f55a0e07bd3e1a53ceb759bb557835c8613b080",
+    "pl": "f93bc50738242dbb1f2855eaca23ffe173b2f7d8868baf9f90eb9cf0a5386da8"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/implementation-sequence-and-acceptance-criteria": {
+    "en": "fdcc613ac0a3dd49841f7fccb53d81bc01cf8a8aef4c0473fa2e8f782ef3ea58",
+    "pl": "2526fb2824f4afc05b0d480f91f7541dcc07bdb023c0b87b58d9002262525436"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/assumptions-risks-and-scope": {
+    "en": "a51f8855efbcd7693f4cdf3c86cb6c7de2b5b44c0266865433d536cf11df8fe7",
+    "pl": "85e22ad1e90e7b771472370e8485479aadcc1587bbd641448b49110c8dbefca3"
+  },
+  "/integrate-the-current-course-while-preserving-mathematical-depth/implementation-on-2026-10-05": {
+    "en": "d920e71d5fa59622191b454989e5505c9b806ee860562caa6aa98749bbb238bf",
+    "pl": "60493a0969cca6631ba247033de3031b795eff6128a15014329c8f49a49766df"
+  }
+}

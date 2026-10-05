@@ -1,9 +1,9 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage{templates/modeling-notes}
 \usepackage{needspace}
-\hypersetup{pdftitle={Lecture 3 -- The simplex method}}
+\hypersetup{pdftitle={Chapter 3 -- The simplex method}}
 \title{\textbf{Mathematical Modeling}\\[2mm]
-\large Lecture 3: The Simplex Method}
+\large Chapter 3: The Simplex Method}
 \author{Personal study notes}
 \date{}
 \begin{document}
@@ -970,7 +970,10 @@ and $(x,a)=(1,0)$.
 PDF pages 1--12, printed slides 1--46.\\
 \textbf{Source date:} Stored in the folder labelled 2020; PDF metadata records
 creation on 2019-10-17, which does not establish the delivery date.\\
-\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Current course alignment:} \texttt{ProgMat\_w1.pdf}, pp.~32--39,
+confirms simplex and initialization coverage. Pages~36--39 contain the same
+equality example developed in Section~\ref{sec:two-phase}. Sheet~1, group~1
+requires the methods practiced in \texttt{01-primal-simplex.tex}.\\
 \textbf{Editorial scope:} The complete mathematical content is reorganized in
 English. The worked tableaus retain the supplied data and both Phase I starts.
 Proofs, counterexamples, study questions, redrawn figures, and the MATLAB
@@ -998,6 +1001,17 @@ test sketch, degeneracy example, and finite-penalty graph use added illustrative
 data. The equations and tableaus on slides 39--44 were inspected visually to
 confirm nonnegativity of all four original variables and both artificial-variable
 conventions.
+
+\paragraph{Current-source qualifications.}
+In \texttt{ProgMat\_w1.pdf}, p.~34, an easily usable basic column should
+have a positive entry in its pivot row and zero entries in the other rows;
+the printed indices instead test other entries in a row. Normalize a positive
+column before reading its basic value. The penalty claims on page~35
+require the Big M qualifications in Section~\ref{sec:big-m}. The image-based
+tableaus on pp.~37--39 were checked visually: the all-artificial path already
+developed here has Phase I pivots entering $x_1$ and then $x_4$, and Phase II
+needs no further pivot for that path. This does not imply that Phase II is
+generally unnecessary.
 
 \paragraph{Qualifications of the mathematical claims.}
 Section~\ref{sec:canonical} distinguishes a sufficient indicator certificate

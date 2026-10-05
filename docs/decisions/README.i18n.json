@@ -8,11 +8,15 @@
     "pl": "36839a80f6fd8c45a25b64e14210dc0f358f20cd5b1895b986aaf6cea13bb97f"
   },
   "/decision-log/lifecycle": {
-    "en": "913f067fb073e62b0f07cc20a2a36d73b55c158fc0d6b79cb9a3e194055290eb",
-    "pl": "eaa555c7314a9b2969ae6742c73fccc5d8be4a6027c25bb7d31359664eae58c6"
+    "en": "6fe85d1387b750c766f0cc68d80359d357d4d039ee10a6f5d22f1db0c9d59f55",
+    "pl": "b9269a9c6d42127e3a7208fb55cbb946742a2aa9a7a8066b431b94119f0bd546"
   },
   "/decision-log/format": {
     "en": "6f458a1cfd68fceb186a25848b4f5ea10c1d7398c1980eaab20f1aabbec65659",
     "pl": "2c1cb1490c1a6e29cc1810f7b14795408f7d004b97a93c6ec787166a27c4d1d0"
+  },
+  "/decision-log/current-course-integration": {
+    "en": "7187b2fb0641cd466cb72abb75d3e4b6e138355698552709a30fff24ce2ed78d",
+    "pl": "46ce0791ef86c180f0ec99cb79a8b72406cf17a1291ce5af7d250561d530aeec"
   }
 }

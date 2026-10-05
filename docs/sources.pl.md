@@ -2,12 +2,46 @@
 
 [English](sources.md) | Polski
 
+## Bieżące materiały kursu 2026–27
+
+Użytkownik dostarczył następujące materiały bieżącego kursu. Daty zajęć nie są
+ustalone; data utworzenia PDF-u nie jest datą wykładu ani zaliczenia.
+Ścieżki są względne wobec katalogu głównego repozytorium; oryginały pozostają poza nim.
+
+| Plik | Strony | Ścieżka lokalna |
+| --- | --- | --- |
+| `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
+| `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
+
+Wykład rozwija modelowanie PL aż do sympleksu i inicjalizacji. Rozdziały 01–03
+oraz nowy dodatek ze schematami modelowania włączają jego treść. Zestaw ma 16
+podzadań i dwa starty w 1(f); trzy dokumenty ćwiczeniowe obejmują grupy 1, 2–3
+oraz 4–5. Dualność i sympleks dualny są wymagane przez zestaw, ale te slajdy
+ich nie rozwijają. [Mapa kursu](course-map-2026-27.pl.md) wskazuje miejsca dla stron i zadań.
+Historyczne rozszerzenia pozostają dostępne bez stwierdzania zgodności z bieżącym kursem.
+
+Przejrzano wszystkie strony bieżących źródeł; dane, obie strony zadań i tablice
+inicjalizacji zapisane jako obrazy sprawdzono również wizualnie podczas analiz agentów.
+Wykład na s. 4 podaje cztery szlifierki; s. 6–7 używają trzech i 144 godzin.
+Rozdział 1 parametryzuje zdolność produkcyjną i rozwiązuje oba warianty. Indeksy
+wierszy/kolumn ze s. 34 i bezwarunkowe twierdzenia o dużym M ze s. 35
+są doprecyzowane w rozdziale 3. Start 1(e) narusza równanie; kandydat 2(b) jest
+niedopuszczalny. Mogą to być celowe sprawdziany; zachowujemy je. W wydrukowanej
+postaci 5(a) i 5(c) są nieograniczonymi zadaniami prymalnymi ze sprzecznymi dualnymi;
+pełne certyfikaty i niepowodzenia fazy I zastępują niemożliwe ogólne polecenie
+podania optymalnych rozwiązań dualnych.
+
+Objaśnienia ręczne, dokładne certyfikaty i diagramy są dodatkami do slajdów.
+[Rejestr weryfikacji](matlab-verification.pl.md) odróżnia sprawdzenia matematyczne
+oraz statyczne od rzeczywistego wykonania nowych skryptów MATLAB.
+
 ## Dawne wykłady
 
 Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
 wykłady z 2020 roku; wykład 1 zawiera harmonogram 2019/2020. Wykłady 1–5 zostały
-przejrzane przy opracowaniu notatek; zgodność z obecnym prowadzącym, programem,
-ćwiczeniami i laboratoriami jest niepotwierdzona.
+przejrzane przy opracowaniu notatek. Bieżące pokrycie tematów zapisano w
+[mapie kursu](course-map-2026-27.pl.md); szersza zgodność z programem i laboratoriami
+pozostaje niepotwierdzona.
 Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały pozostają poza nim.
 
 | Plik | Ścieżka lokalna |
@@ -28,15 +62,16 @@ Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały p
 
 Dla każdego opracowywanego tematu podawaj nazwę pliku i numery stron, odróżniaj
 materiały źródłowe od dodanych objaśnień i zapisuj porównanie z obecnymi zajęciami.
-Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcze dostarczone.
+Dostarczono już jeden bieżący wykład i jeden zestaw ćwiczeń. Pełny bieżący
+program i instrukcje laboratoriów pozostają niedostępne.
 
 ## Opracowane notatki i doprecyzowania źródeł
 
-- Wykład 1: `s4_w1.pdf`, strony PDF 1–6; wprowadzenie i dawny plan przedmiotu.
-- Wykład 2: `s4_w2.pdf`, strony PDF 1–11, slajdy numerowane 1–44; modele PL,
+- Rozdział 1: `s4_w1.pdf`, strony PDF 1–6; wprowadzenie i dawny plan przedmiotu.
+- Rozdział 2: `s4_w2.pdf`, strony PDF 1–11, slajdy numerowane 1–44; modele PL,
   postać standardowa, geometria i bazy. Wzory regresji oraz szkic szafki
   sprawdzono również wizualnie.
-- Wykład 3: `s4_w3.pdf`, strony PDF 1–12, slajdy numerowane 1–46; pełne
+- Rozdział 3: `s4_w3.pdf`, strony PDF 1–12, slajdy numerowane 1–46; pełne
   wyprowadzenie metody sympleks, kandydaci na rozwiązania bazowe, oba rozwiązane
   przykłady sympleksowe, inicjalizacja dwufazowa w obu podanych wariantach i duże M.
   Slajdy 39–44 sprawdzono wizualnie, potwierdzając dziedziny zmiennych i kolumny sztuczne.
@@ -45,7 +80,7 @@ Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcz
   usuwanie zerowych bazowych zmiennych sztucznych i pokazują, dlaczego skończone
   kary lub same promienie zadania rozszerzonego nie dowodzą sprzeczności oryginału.
   Metadane utworzenia PDF-u wskazują 2019-10-17; nie jest to ustalona data wykładu.
-- Wykład 4: `s4_w4.pdf`, strony PDF 1–12, slajdy numerowane 1–47 (47 zamyka wykład).
+- Rozdział 4: `s4_w4.pdf`, strony PDF 1–12, slajdy numerowane 1–47 (47 zamyka wykład).
   Pełna treść matematyczna: degeneracja, wszystkie tablice cyklu Beale'a, perturbacja,
   reguła Blanda, złożoność, konstrukcja zadania dualnego, słaba i silna dualność,
   dopuszczalne pary wyników, komplementarność oraz pełny przykład dualnej metody sympleks.
@@ -56,7 +91,7 @@ Aktualny program, listy ćwiczeń i instrukcje laboratoriów nie zostały jeszcz
   twierdzenie o istnieniu w silnej dualności, bazę z certyfikatem oraz ograniczenia
   prostej reguły dualnej przy degeneracji. Metadane utworzenia: 2019-10-27;
   nie jest to ustalona data wykładu. MATLAB: wszystkie asercje przeszły w R2026b.
-- Wykład 5: `s4_w5.pdf`, strony PDF 1–10, slajdy numerowane 1–38 (38 zamyka wykład).
+- Rozdział 5: `s4_w5.pdf`, strony PDF 1–10, slajdy numerowane 1–38 (38 zamyka wykład).
   Całość: zakresy zmian pojedynczej prawej strony i kosztu, zmiany wektorowe,
   dodawanie i usuwanie zmiennych oraz ograniczeń i mnożniki Lagrange’a.
   Przejrzano wszystkie strony; wzory wrażliwości i końcowy certyfikat także w powiększeniu.

@@ -14,7 +14,7 @@ Use `proposed/`, `implemented/`, `rejected/`, and `superseded/` directories.
 Name each pair `YYYY-MM-DD-topic.md` and `YYYY-MM-DD-topic.pl.md`, using the
 first-proposed date. Create a proposal for an unresolved choice; do not invent
 proposals just to populate the backlog. Move both files when status changes,
-update the status, and repair links. No unresolved proposals are recorded yet.
+update the status, and repair links.
 
 An implemented decision describes the policy or structure actually in place.
 A rejected proposal keeps its rationale. When a decision changes, add a new
@@ -39,3 +39,10 @@ This lightweight convention is inspired by
 and its [bilingual policy](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
 It does not adopt their classification folders or archive machinery. Paired
 records have section hash sidecars following the [language policy](../language-policy.md).
+
+## Current-course integration
+
+- [Integrate the current course while preserving mathematical depth](implemented/2026-10-05-current-course-integration.md):
+  implemented conceptual chapters, a current-course map, developed modeling gaps
+  and complete worked solutions for the first supplied sheet. Original alternatives
+  and rationale are retained in the record.

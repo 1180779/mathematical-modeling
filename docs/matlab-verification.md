@@ -173,3 +173,47 @@ enumeration confirmed finite optimal values, both value-function branches,
 and absence of feasible bases in the contradictory examples. Hand certificates
 separately prove infeasibility and unboundedness where enumeration alone would
 not establish the outcome.
+
+## Current-course integration on 2026-10-05
+
+Four new base-MATLAB scripts accompany the revised conceptual notes and all 16
+subproblems of the first supplied sheet (including both starts of 1(f)):
+
+```matlab
+run('matlab/exercises/modeling_patterns_checks.m')
+run('matlab/exercises/sheet_01_primal_simplex.m')
+run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+```
+
+**MATLAB execution: unverified.** An agent version-only launcher attempt,
+`matlab -batch 'disp(version)'`, exited with code 1 and no output. The startup
+issue described above persists. The four new scripts have not been executed
+in MATLAB, and no new runtime release, observed output or numerical error is
+claimed. Earlier successful user runs apply only to their named historical scripts.
+
+**Static analysis: passed.** The installed R2026b standalone `mlint -id` analyzer
+checked each of the four scripts without diagnostics. This does not execute them.
+
+**Independent mathematical verification: passed.** Exact Python `Fraction`
+calculations and independent agent reviews checked all 45 displayed exercise
+tableaus, basis equations, pivot transitions, objective rows and original-domain
+certificates. They also checked optimal sets, supplied starts, both unbounded
+primal problems in group 5, and Phase I minimum artificial sums 3 and 4 for their
+infeasible duals. Independent review corrected task 5(d)'s prose column slack to
+`(4,0,0)`; the final script asserts that value explicitly.
+
+The modeling examples were independently checked in exact rational arithmetic:
+factory values `28704/5` and `32544/5` under capacities 144 and 192; blending
+profit `475000/27`; transportation cost `25919`; storage cost `1883/2`; flow
+cost 9; diet and regression bounds. Each finite result has a hand bound attained
+by a feasible candidate. Enumeration was used as a separate small-instance
+cross-check for factory, blending and transportation, rather than as a general
+unboundedness test. Rays and contradictory dual conditions establish the
+exceptional outcomes separately.
+
+All four scripts compare the same stated inputs with absolute tolerance `1e-10`.
+They use base MATLAB and prescribed calculations, without Optimization Toolbox
+or a general-purpose LP solver. A successful future run must be recorded as a
+new execution event with actual output before the new scripts are called verified
+in MATLAB. The notes' final remarks currently retain this distinction.

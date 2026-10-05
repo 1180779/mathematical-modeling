@@ -1,8 +1,8 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage{templates/modeling-notes}
-\hypersetup{pdftitle={Lecture 2 -- Linear programming: models and geometry}}
+\hypersetup{pdftitle={Chapter 2 -- Linear programming: models and geometry}}
 \title{\textbf{Mathematical Modeling}\\[2mm]
-\large Lecture 2: Linear Programming---Models and Geometry}
+\large Chapter 2: Linear Programming---Models and Geometry}
 \author{Personal study notes}
 \date{}
 \begin{document}
@@ -125,6 +125,19 @@ Nutrient and food bounds have different units and meanings. Positive food lower
 bounds can enforce minimum variety, but generic bounds do not automatically
 produce a realistic diet.
 
+For a hand-checkable instance, buy servings $x,y\geq0$ at prices $2,3$ PLN.
+Two nutrients have contents $(2,1)$ and $(1,2)$ per serving, and each is required
+in amount at least $4$. Thus minimize $2x+3y$ under $2x+y\geq4$,
+$x+2y\geq4$. The intersection is $x=y=4/3$, costing $20/3$ PLN.
+Weighting the two requirements by $1/3$ and $4/3$ gives
+\[
+  2x+3y=\tfrac13(2x+y)+\tfrac43(x+2y)\geq\tfrac{20}{3}.
+\]
+The candidate reaches this lower bound, proving optimality. The inequality
+directions express minimum intake; changing them to upper bounds would describe
+a different requirement. Upper nutrient and serving bounds, when specified,
+must also be checked before accepting a candidate.
+
 \subsection{Transportation problem}
 Let $x_{ij}$ be the quantity shipped from supplier $i$ to customer $j$;
 $a_i$ is available supply, $b_j$ required demand, and $c_{ij}$ cost per shipped
@@ -185,6 +198,23 @@ per observation and minimize $\sum_i r_i$ under $-r_i\leq e_i\leq r_i$.
 Least squares minimizes $\sum_i e_i^2$, a quadratic objective rather than
 a linear one.
 The three error criteria need not produce the same fitted line.
+
+To see this difference by hand, use observations $(0,0),(1,2),(2,0)$,
+indexed here by $i=0,1,2$.
+For every affine line, the residuals satisfy
+\[
+  e_1-\frac{e_0+e_2}{2}=2.
+\]
+If $|e_i|\leq r$, the left side is at most $2r$, so $r\geq1$.
+The constant line $a=0,b=1$ attains $r=1$, establishing the minimax optimum.
+The same identity gives
+$2\leq |e_1|+(|e_0|+|e_2|)/2\leq\sum_i|e_i|$.
+The constant line $a=b=0$ attains total absolute error $2$ and is therefore
+optimal for that criterion. For fixed $a,b$, choose the shared minimax bound
+$r=\max_i|e_i|$; for the sum criterion, choose each $r_i=|e_i|$.
+Enlarging these bounds cannot improve either minimization objective.
+The formulas are LPs because observation
+coordinates are fixed and only $a,b,r$ or $r_i$ are decision variables.
 
 \begin{figure}[H]
   \centering
@@ -378,6 +408,7 @@ consistency; $m<n$ is a common case, not a universal requirement.
     $a^Tx\geq b$ & $a^Tx-s=b$, $s\geq0$ (surplus)\\
     $\ell\leq a^Tx\leq u$ & Two inequalities, transformed separately\\
     $x_j\in\R$ & $x_j=x_j^+-x_j^-$, $x_j^+,x_j^-\geq0$\\
+    $x_j\leq0$ & $x_j=-u_j$, $u_j\geq0$\\
     $x_j\geq\ell_j$ & $x_j=\ell_j+y_j$, $y_j\geq0$\\\bottomrule
   \end{tabular}
 \end{center}
@@ -385,6 +416,15 @@ A finite upper bound becomes $y_j\leq u_j-\ell_j$ after the last substitution.
 Substitution may add a constant to the objective; retain it when reporting the
 original objective value. Free-variable splitting is not unique: adding the same
 positive number to $x_j^+$ and $x_j^-$ leaves $x_j$ unchanged.
+
+Each slack or surplus has a meaning: $s=b-a^Tx$ for an upper bound and
+$s=a^Tx-b$ for a lower bound. Its nonnegativity is exactly the original
+inequality. Conversely, a nonnegative slack satisfying the equality recovers
+that inequality. When multiplying an inequality by $-1$, reverse its direction;
+when multiplying an equality by $-1$, retain equality. Reversing a minimization
+objective to maximize its negative preserves the optimizers and reverses the
+optimal value's sign. These operations require recovering the original objective
+and variable domains before reporting an answer.
 
 \subsection{A four-variable conversion example}
 The original problem is
@@ -750,9 +790,22 @@ are consistent; and explain why an optimal edge does not contradict the vertex t
 \noindent\textbf{Primary source:} \texttt{s4\_w2.pdf}, PDF pages 1--11,
 printed slides 1--44.\\
 \textbf{Source date:} Not established; stored in the folder labelled 2020.\\
-\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Current course alignment:} \texttt{ProgMat\_w1.pdf}, pp.~8--9,
+14--15, 19, and 27--30, confirms topical overlap for resource models, diet,
+transportation, regression, standardization and vertex motivation. The current
+transport example uses exact demand and prohibited routes; it is developed in
+\texttt{02a-linear-modeling-patterns.tex}. Historical cutting-stock material
+and the full geometric proofs are additional study material.\\
 \textbf{Editorial scope:} Source models and results are reorganized in English.
 Hand derivations, proofs, cautions, and MATLAB checks are added study material.
+
+The two-food diet and three-observation regression examples in
+Section~\ref{sec:models} are added hand-checkable illustrations, with their
+own bound certificates. The actual new companion is
+\href{run:matlab/exercises/modeling_patterns_checks.m}{modeling-patterns MATLAB script} at \path{matlab/exercises/modeling_patterns_checks.m},
+using the same data and absolute tolerance $10^{-10}$. Their exact calculations
+were independently checked; MATLAB execution of this new script is unverified.
+The historical script's successful execution below does not verify the new examples.
 
 \begin{center}
   \begin{tabular}{lll}\toprule
@@ -786,7 +839,7 @@ The reported output matches the hand derivations: production $(2,6)$ with value
 18 PLN; 5.2 m cutting $(200,0,400)$ with offcut 140 m; and 2 m cabinet count 11
 with pattern counts $(10,1,0)$. The script also asserts the production slacks
 $(0,0,3)$ kg. No Optimization Toolbox solver is invoked.
-The supplied terminal output is recorded in \texttt{docs/matlab-verification.md}.
+The supplied terminal output is recorded in \path{docs/matlab-verification.md}.
 
 \paragraph{Terminology and hypotheses.}
 In Section~\ref{sec:outcomes}, the pointed vertex--ray result is a polyhedral

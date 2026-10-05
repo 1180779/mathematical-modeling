@@ -4,46 +4,84 @@
 
 Osobiste repozytorium do nauki modelowania matematycznego: notatki z wykładów,
 ćwiczenia z rozwiązaniami ręcznymi i w MATLAB-ie, powtórka MATLAB-a oraz laboratoria.
-Notatki powstają na podstawie dawnych źródeł; zgodność z obecnym kursem jest niepotwierdzona.
+Rozdziały pojęciowe zachowują głębię dawnych notatek i włączają dostarczone
+wykład 1 oraz zestaw 1 z kursu 2026–27. Numery rozdziałów są niezależne od
+numerów bieżących wykładów; przyszła zgodność z kursem pozostaje nieznana.
 
 ## Od czego zacząć
 
+- [Mapa bieżącego kursu](docs/course-map-2026-27.pl.md): strony wykładu, numery zadań, podstawy i wyniki ręczne.
 - [Przewodnik pisania](docs/writing-guide.pl.md): struktura, notacja, źródła i weryfikacja.
 - [Polityka językowa](docs/language-policy.pl.md): angielskie notatki z polską terminologią.
 - [Słownik polsko-angielski](docs/glossary.md): wspólne słownictwo.
-- [Wykaz źródeł](docs/sources.pl.md): dawne wykłady i pochodzenie szablonu.
+- [Wykaz źródeł](docs/sources.pl.md): bieżące materiały, dawne źródła i pochodzenie szablonu.
 - [Rejestr decyzji](docs/decisions/README.pl.md): uzasadnienia i oczekujące propozycje.
 
-## Notatki z wykładów
+## Rozdziały pojęciowe do nauki
 
-- [Wykład 1: Modelowanie problemów optymalizacji](notes/lectures/01-optimization-modeling.tex)
+- [Rozdział 1: Modelowanie problemów optymalizacji](notes/lectures/01-optimization-modeling.tex)
   ([PDF](output/lectures/01-optimization-modeling.pdf)): zmienne, ograniczenia, funkcje celu,
-  klasyfikacja i historyczny zakres powtórki MATLAB-a.
+  klasyfikacja, model pięciu produktów w dwóch wariantach zdolności i dokładne certyfikaty ręczne.
 
-- [Wykład 2: Programowanie liniowe—modele i geometria](notes/lectures/02-linear-programming.tex)
+- [Rozdział 2: Programowanie liniowe—modele i geometria](notes/lectures/02-linear-programming.tex)
   ([PDF](output/lectures/02-linear-programming.pdf)): przykłady modeli, postać standardowa,
   kierunki recesji, optymalne wierzchołki i bazowe rozwiązania dopuszczalne.
 
-- [Wykład 3: Metoda sympleks](notes/lectures/03-simplex-method.tex)
+- [Schematy modelowania: Mieszanie, sieci, cele i wymagania](notes/lectures/02a-linear-modeling-patterns.tex)
+  ([PDF](output/lectures/02a-linear-modeling-patterns.pdf)): pełne przykłady mieszania,
+  transportu z ograniczeniami tras i magazynowania, przepływ o minimalnym koszcie,
+  wybór celu i miękkie ograniczenia, z wyprowadzeniami i certyfikatami ręcznymi.
+
+- [Rozdział 3: Metoda sympleks](notes/lectures/03-simplex-method.tex)
   ([PDF](output/lectures/03-simplex-method.pdf)): równania kanoniczne, ceny zredukowane,
   pełne tablice sympleksowe, degeneracja, promienie dopuszczalne, inicjalizacja dwufazowa i duże M.
 
-- [Wykład 4: Degeneracja, dualność i dualna metoda sympleks](notes/lectures/04-degeneracy-and-duality.tex)
+- [Rozdział 4: Degeneracja, dualność i dualna metoda sympleks](notes/lectures/04-degeneracy-and-duality.tex)
   ([PDF](output/lectures/04-degeneracy-and-duality.pdf)): pełny przykład cyklu,
   reguła Blanda i perturbacja leksykograficzna, złożoność, konstrukcja zadania dualnego,
   certyfikaty optymalności, komplementarność i rozwiązanie dualną metodą sympleks.
 
-- [Wykład 5: Analiza wrażliwości i mnożniki Lagrange’a](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
+- [Rozdział 5: Analiza wrażliwości i mnożniki Lagrange’a](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
   ([PDF](output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)): zakresy zmian danych,
   ceny dualne, ponowna optymalizacja po zmianach struktury, tablice i certyfikaty KKT.
 
 Odnośniki do PDF-ów wskazują commitowane kopie do czytania w `output/`.
 
+## Bieżący zestaw 1 i sprawdzenia modelowania
+
+- [Grupa 1: Sympleks prymalny](notes/exercises/01-primal-simplex.tex)
+  ([PDF](output/exercises/01-primal-simplex.pdf)): wszystkie sześć problemów,
+  oba starty 1(f), pełne tablice, zbiory optimów i promienie wzrostu.
+- [Grupy 2–3: Komplementarność i metoda dwufazowa](notes/exercises/01-complementarity-and-two-phase.tex)
+  ([PDF](output/exercises/01-complementarity-and-two-phase.pdf)): sprawdzanie
+  kandydatów od dopuszczalności, dualne o różnych znakach i pełne ścieżki fazy I/II.
+- [Grupy 4–5: Sympleks dualny i odzyskiwanie rozwiązania prymalnego](notes/exercises/01-dual-simplex-and-recovery.tex)
+  ([PDF](output/exercises/01-dual-simplex-and-recovery.pdf)): wymiany dualne,
+  rozwiązania dualne, odzyskiwanie prymalnych i sprzeczne dualne wydrukowanych 5(a)/5(c).
+
+Zachowano oryginalne polskie polecenia i dane; objaśnienia są po angielsku.
+Sprzeczne zdolności szlifowania z bieżącego wykładu omówiono jawnie.
+Niedopuszczalnych kandydatów sprawdzamy, zamiast poprawiać.
+
+Cztery nowe skrypty podstawowego MATLAB-a można uruchomić z katalogu głównego repozytorium:
+
+```matlab
+run('matlab/exercises/modeling_patterns_checks.m')
+run('matlab/exercises/sheet_01_primal_simplex.m')
+run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+```
+
+Dokładne sprawdzenia wymierne i analiza statyczna MATLAB-a przeszły. Faktyczne
+wykonanie nowych skryptów jest niezweryfikowane: program uruchamiający w sandboxie
+kończy się kodem 1 bez wyjścia. Dawniejsze udane uruchomienia użytkownika poniżej
+obejmują tylko historyczne skrypty. Zobacz [rejestr weryfikacji](docs/matlab-verification.pl.md).
+
 ## Struktura
 
 | Ścieżka | Przeznaczenie |
 | --- | --- |
-| `notes/lectures/` | Angielskie notatki z wykładów w LaTeX-u |
+| `notes/lectures/` | Angielskie rozdziały pojęciowe i dodatek modelowania w LaTeX-u |
 | `notes/exercises/` | Treści ćwiczeń, rozwiązania ręczne i porównania z MATLAB-em |
 | `notes/matlab-review/` | Krótka powtórka MATLAB-a |
 | `notes/labs/` | Objaśnienia laboratoriów i wyniki |
@@ -114,7 +152,7 @@ Wykres trafia do ignorowanego `matlab/output/`. Odśwież PDF-y notatek poleceni
 ./build.sh
 ```
 
-## Sprawdzenia MATLAB z wykładu 2
+## Sprawdzenia MATLAB z rozdziału 2
 
 ```matlab
 run('matlab/exercises/lecture_02_checks.m')
@@ -123,7 +161,7 @@ run('matlab/exercises/lecture_02_checks.m')
 Uruchom z katalogu głównego repozytorium. Skrypt sprawdza przykłady ręczne za pomocą
 podstawowego MATLAB-a; Optimization Toolbox nie jest wymagany. Oba skrypty przeszły sprawdzenia, łącznie z eksportem wykresu; zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
-## Sprawdzenia MATLAB z wykładu 3
+## Sprawdzenia MATLAB z rozdziału 3
 
 ```matlab
 run('matlab/exercises/lecture_03_checks.m')
@@ -135,7 +173,7 @@ Wszystkie asercje przeszły w zwykłym terminalu użytkownika. Analiza statyczna
 oraz niezależne obliczenia na dokładnych ułamkach także zakończyły się pomyślnie;
 zobacz [zapis weryfikacji](docs/matlab-verification.pl.md).
 
-## Sprawdzenia MATLAB-a do wykładu 4
+## Sprawdzenia MATLAB-a do rozdziału 4
 
 ```matlab
 run('matlab/exercises/lecture_04_checks.m')
@@ -148,7 +186,7 @@ Wszystkie asercje przeszły w zwykłym terminalu użytkownika w R2026b. Analiza 
 i niezależne obliczenia na dokładnych ułamkach również przeszły; zobacz
 [rejestr weryfikacji](docs/matlab-verification.pl.md).
 
-## Sprawdzenia wykładu 5 w MATLAB-ie
+## Sprawdzenia rozdziału 5 w MATLAB-ie
 
 ```matlab
 run('matlab/exercises/lecture_05_checks.m')
@@ -227,8 +265,9 @@ Globalna konfiguracja Neovima pozostaje bez zmian.
 
 ## Sposób pracy
 
-Porównaj dawne materiały z aktualnym wykładem lub zadaniem, zanim uznasz je za
-obecny zakres przedmiotu. Napisz objaśnienie matematyczne i rozwiązanie ręczne,
+Korzystaj z mapy kursu, aby odróżniać dostarczony zakres wykładu, wymagania zadań
+i historyczne rozszerzenia; aktualizuj ją wraz z nowymi materiałami.
+Napisz objaśnienie matematyczne i rozwiązanie ręczne,
 a następnie sprawdź te same dane w MATLAB-ie. Zapisuj założenia, jednostki,
 ustawienia solvera i rozbieżności. Dodawaj napotkane polskie terminy do słownika.
 

@@ -1,0 +1,636 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\usepackage{needspace}
+\hypersetup{pdftitle={Sheet 1 -- Primal simplex}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Sheet 1: Primal Simplex, Alternative Optima, and Growth Rays}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+
+\section{The task and the meaning of a simplex step}\label{sec:task}
+\begin{otherlanguage}{polish}
+  Rozwiąż podstawowym algorytmem sympleks. O ile to możliwe wystartuj z punktu
+  $x_0$ Czy są rozwiązania alternatywne? W przypadku nieograniczonej funkcji
+  podaj promień wzrostu.
+\end{otherlanguage}
+All six problems have three original decision variables. They are continuous
+real quantities; no physical units are supplied. Every stated nonnegativity
+condition is part of feasibility. For inequalities of the form $a^Tx\leq b$,
+write $a^Tx+s=b$ with $s=b-a^Tx\geq0$. For $a^Tx\geq b$, write
+$a^Tx-s=b$ with $s=a^Tx-b\geq0$. The different sign records which residual
+is nonnegative. Auxiliary variables have objective coefficient zero and are
+numbered after $x_3$ separately in each problem.
+
+A basis $B$ selects three independent columns of the equality matrix $A$.
+Set all nonbasic variables to zero and solve $A_Bx_B=b$. This produces a
+basic feasible solution only when $x_B\geq0$. A feasible point need not be
+basic, and an inadmissible supplied point cannot start primal simplex.
+The basis order is the order of the rows in each displayed tableau.
+
+\subsection{Why the signs and the ratio test work}\label{sec:step}
+Multiplying the equations by $A_B^{-1}$ gives
+\[
+  x_B+\bar A_Nx_N=\bar b,\qquad
+  \bar A=A_B^{-1}A,\qquad\bar b=A_B^{-1}b.
+\]
+These row operations preserve every solution of the equality system. They
+change its representation, not its decisions. Substitute the basic equations
+into the maximization objective:
+\[
+  z=c^Tx=z_0-q_N^Tx_N,\qquad
+  z_0=c_B^T\bar b,\qquad q_j=c_B^T\bar a_j-c_j.
+\]
+Thus $q_j<0$ means that increasing nonbasic $x_j$ increases the objective.
+The alternative convention $c_j-z_j$ is $-q_j$ and reverses this test.
+The bottom row of each tableau lists $q_j$; its last entry records the current
+objective $z_0$, rather than another equation coefficient. Basic indicators
+are always zero and do not by themselves imply alternative optima.
+
+When $x_k$ enters at value $\theta\geq0$, the basic variables become
+$x_B(\theta)=\bar b-\theta\bar a_k$. A row with $\bar a_{ik}>0$
+limits the step to $\bar b_i/\bar a_{ik}$, because its basic variable decreases.
+A row with a zero or negative coefficient supplies no upper bound.
+The minimum of the positive-coefficient ratios makes one basic variable zero
+and identifies a leaving variable. We choose a most negative nonbasic
+indicator, breaking entering ties by smaller variable index, for the improving
+pivots below. Zero-indicator pivots are used afterwards to exhibit alternatives.
+
+If the pivot is in row $r$, the complete augmented-row update is
+\[
+  R'_r=R_r/\bar a_{rk},\qquad
+  R'_i=R_i-\bar a_{ik}R'_r\quad(i\ne r).
+\]
+This changes the entering column into an identity column. Recomputing $q$
+with the new basic costs gives $z'_0=z_0-q_k\theta$.
+If $q_k<0$ but no row coefficient is positive, there is no leaving variable:
+$\theta$ can grow without bound. The full direction is
+$d_k=1$, $d_B=-\bar a_k$, with all other nonbasic components zero.
+It satisfies $d\geq0$, $Ad=0$ and $c^Td=-q_k>0$.
+Its first three coordinates give a growth ray in the original variables.
+
+For a finite optimum, $q\geq0$ gives the global bound
+$z=z_0-q_N^Tx_N\leq z_0$. To claim another optimizer from a zero indicator,
+we still need a positive feasible step that changes the original point.
+An explicit optimal segment supplies stronger evidence than merely reporting
+a different basis.
+
+\section{Problem 1(a): a unique finite maximum}\label{sec:a}
+\paragraph{Task statement.}
+\[
+  \max(-x_1+x_2+3x_3),\qquad
+  \begin{cases}
+    -4x_1+2x_2-x_3\leq2, \\
+    2x_1-x_2+x_3\leq1,   \\
+    3x_1+x_3\leq5,       \\
+    x_1,x_2,x_3\geq0.
+  \end{cases}
+\]
+Add slacks $x_4,x_5,x_6$ to the three rows. The origin is feasible, and its
+slack basis $B=(4,5,6)$ has basic values $(2,1,5)$.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $-4$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $2$\\
+    $x_5$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
+    $x_6$ & $3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $5$\\
+    \midrule
+    $q$ & $1$ & $-1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_3$, since $q_3=-3$. Only rows $x_5$ and $x_6$ have positive
+entering coefficients; their ratios are $1/1=1$ and $5/1=5$.
+Hence $x_5$ leaves at $\theta=1$. Keep row 2, add it to row 1, and subtract
+it from row 3. The objective increases by $3\cdot1$.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$\\
+    $x_3$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
+    $x_6$ & $1$ & $1$ & $0$ & $0$ & $-1$ & $1$ & $4$\\
+    \midrule
+    $q$ & $7$ & $-4$ & $0$ & $0$ & $3$ & $0$ & $z_0=3$\\\bottomrule
+  \end{tabular}
+\end{center}
+Now enter $x_2$, since $q_2=-4$. The eligible ratios are $3/1=3$ for
+$x_4$ and $4/1=4$ for $x_6$; row $x_3$ has coefficient $-1$ and cannot
+limit the step. With $x_4$ leaving, add row 1 to row 2 and subtract row 1
+from row 3. The original point becomes $(0,3,4)$ and the value becomes 15.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$\\
+    $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$\\
+    $x_6$ & $3$ & $0$ & $0$ & $-1$ & $-2$ & $1$ & $1$\\
+    \midrule
+    $q$ & $-1$ & $0$ & $0$ & $4$ & $7$ & $0$ & $z_0=15$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_1$, whose indicator is $-1$. Its coefficients in the first two
+rows are $-2$ and $0$; only $x_6$ can leave, at $\theta=1/3$.
+Divide row 3 by 3 and add twice the normalized row to row 1.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ & $0$ & $1$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{2}{3}$ & $\tfrac{11}{3}$\\
+    $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$\\
+    $x_1$ & $1$ & $0$ & $0$ & $-\tfrac{1}{3}$ & $-\tfrac{2}{3}$ & $\tfrac{1}{3}$ & $\tfrac{1}{3}$\\
+    \midrule
+    $q$ & $0$ & $0$ & $0$ & $\tfrac{11}{3}$ & $\tfrac{19}{3}$ & $\tfrac{1}{3}$ & $z_0=\tfrac{46}{3}$\\\bottomrule
+  \end{tabular}
+\end{center}
+All indicators are nonnegative. The original optimizer and value are
+\[
+  x^*=\left(\tfrac13,\tfrac{11}{3},4\right),\qquad z^*=\tfrac{46}{3}.
+\]
+The original slacks vanish, so all three resource rows are tight.
+The final objective identity holds for every feasible point:
+\[
+  -x_1+x_2+3x_3
+  =\tfrac{46}{3}-\tfrac{11}{3}x_4-\tfrac{19}{3}x_5-\tfrac13x_6
+  \leq\tfrac{46}{3}.
+\]
+Equality forces $x_4=x_5=x_6=0$. Solving the three tight original rows
+yields the displayed point uniquely. There are no alternative optimizers.
+
+\section{Problem 1(b): an unbounded feasible set with a finite maximum}\label{sec:b}
+\paragraph{Task statement.}
+\[
+  \max(2x_1-x_2+3x_3),\qquad
+  \begin{cases}
+    -3x_1-x_2-2x_3\leq3, \\
+    3x_1+x_3\leq2,       \\
+    -x_2+x_3\leq1,       \\
+    x_1,x_2,x_3\geq0.
+  \end{cases}
+\]
+Add slacks $x_4,x_5,x_6$. The first inequality is automatically satisfied
+by nonnegative original variables, but retaining it gives a harmless basic
+slack. Start at the origin with $B=(4,5,6)$.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $-3$ & $-1$ & $-2$ & $1$ & $0$ & $0$ & $3$\\
+    $x_5$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+    $x_6$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
+    \midrule
+    $q$ & $-2$ & $1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_3$. Ratios are $2/1=2$ for $x_5$ and $1/1=1$ for $x_6$;
+$x_4$ has coefficient $-2$. Thus $x_6$ leaves. Add twice row 3 to row 1
+and subtract row 3 from row 2.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $-3$ & $-3$ & $0$ & $1$ & $0$ & $2$ & $5$\\
+    $x_5$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$\\
+    $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
+    \midrule
+    $q$ & $-2$ & $-2$ & $0$ & $0$ & $0$ & $3$ & $z_0=3$\\\bottomrule
+  \end{tabular}
+\end{center}
+The indicators $q_1=q_2=-2$ tie; choose $x_1$ by smaller index.
+Only the $x_5$ row has a positive coefficient, giving step $1/3$.
+Divide row 2 by 3 and add three copies to row 1; $x_5$ leaves.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $0$ & $-2$ & $0$ & $1$ & $1$ & $1$ & $6$\\
+    $x_1$ & $1$ & $\tfrac{1}{3}$ & $0$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{1}{3}$\\
+    $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
+    \midrule
+    $q$ & $0$ & $-\tfrac{4}{3}$ & $0$ & $0$ & $\tfrac{2}{3}$ & $\tfrac{7}{3}$ & $z_0=\tfrac{11}{3}$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_2$, since $q_2=-4/3$. The only positive coefficient is $1/3$
+in row $x_1$, so the ratio is $(1/3)/(1/3)=1$. Multiply row 2 by 3,
+add twice that normalized row to row 1, and add it to row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $6$ & $0$ & $0$ & $1$ & $3$ & $-1$ & $8$\\
+    $x_2$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$\\
+    $x_3$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+    \midrule
+    $q$ & $4$ & $0$ & $0$ & $0$ & $2$ & $1$ & $z_0=5$\\\bottomrule
+  \end{tabular}
+\end{center}
+The point is $x^*=(0,1,2)$, with maximum $z^*=5$ and slacks $(8,0,0)$.
+For all feasible points the final objective is
+\[
+  2x_1-x_2+3x_3=5-4x_1-2x_5-x_6\leq5.
+\]
+Equality forces $x_1=x_5=x_6=0$. The second row then fixes $x_3=2$,
+and the third fixes $x_2=1$; the optimizer is unique.
+The zero indicator of basic $x_4$ supplies no alternative decision.
+
+The feasible set itself is unbounded: $(0,t,0)$ is feasible for every $t\geq0$.
+Its objective is $-t$, so that ray cannot improve a maximization objective.
+Unboundedness of the feasible set does not imply an unbounded maximum.
+
+\section{Problem 1(c): an entire segment of optimal solutions}\label{sec:c}
+\paragraph{Task statement.}
+\[
+  \max(-4x_1+2x_2+3x_3),\qquad
+  \begin{cases}
+    2x_1-x_2+x_3\leq2,    \\
+    -6x_1+3x_2-2x_3\leq2, \\
+    -7x_1+4x_2-3x_3\leq2, \\
+    x_1,x_2,x_3\geq0.
+  \end{cases}
+\]
+Add slacks $x_4,x_5,x_6$ and start with $B=(4,5,6)$ at the origin.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+    $x_5$ & $-6$ & $3$ & $-2$ & $0$ & $1$ & $0$ & $2$\\
+    $x_6$ & $-7$ & $4$ & $-3$ & $0$ & $0$ & $1$ & $2$\\
+    \midrule
+    $q$ & $4$ & $-2$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_3$. Only row $x_4$ has a positive coefficient; it leaves at
+$\theta=2$. Add twice row 1 to row 2 and three times row 1 to row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_3$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
+    $x_5$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$\\
+    $x_6$ & $-1$ & $1$ & $0$ & $3$ & $0$ & $1$ & $8$\\
+    \midrule
+    $q$ & $10$ & $-5$ & $0$ & $3$ & $0$ & $0$ & $z_0=6$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_2$, since $q_2=-5$. Row $x_3$ has coefficient $-1$.
+The remaining ratios are $6/1=6$ and $8/1=8$, so $x_5$ leaves.
+Add row 2 to row 1 and subtract row 2 from row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$\\
+    $x_2$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$\\
+    $x_6$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
+    \midrule
+    $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$\\\bottomrule
+  \end{tabular}
+\end{center}
+All indicators are nonnegative, so $(0,6,8)$ is optimal with value 36.
+Here $x_1$ is \emph{nonbasic} with $q_1=0$. To test for an actual alternative,
+let it enter: only row $x_6$ has a positive coefficient, so $\theta=2>0$.
+The original point changes and the objective change is $-q_1\theta=0$.
+Add twice row 3 to row 2; $x_6$ leaves.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$\\
+    $x_2$ & $0$ & $1$ & $0$ & $4$ & $-1$ & $2$ & $10$\\
+    $x_1$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
+    \midrule
+    $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$\\\bottomrule
+  \end{tabular}
+\end{center}
+The second endpoint is $(2,10,8)$, also of value 36.
+The global certificate and complete set of optimizers are
+\[
+  -4x_1+2x_2+3x_3=36-13x_4-5x_5\leq36,
+\]
+\begin{equation}\label{eq:c-segment}
+  x(t)=(t,6+2t,8),\qquad0\leq t\leq2.
+\end{equation}
+Indeed, equality forces $x_4=x_5=0$. Their tight original rows give
+$x_3=8$ and $x_2=6+2x_1$. The third slack is $x_6=2-x_1$,
+so nonnegativity gives exactly $0\leq x_1\leq2$.
+This derives every optimizer, including nonbasic interior points of the segment.
+
+\section{Problem 1(d): starting at the supplied point}\label{sec:d}
+\paragraph{Task statement.}
+\[
+  \max(x_1+2x_2+x_3),\qquad
+  \begin{cases}
+    2x_2+x_3\geq4,      \\
+    x_2+x_3\leq10,      \\
+    x_1+2x_2+2x_3\leq8, \\
+    x_1,x_2,x_3\geq0,
+  \end{cases}
+  \qquad x_0=(0,2,0).
+\]
+For the first row subtract the surplus $x_4=2x_2+x_3-4\geq0$;
+for the other rows add slacks $x_5,x_6$. The equality equations are
+\[
+  2x_2+x_3-x_4=4,\qquad x_2+x_3+x_5=10,\qquad
+  x_1+2x_2+2x_3+x_6=8.
+\]
+The supplied point is feasible and its auxiliary values are $(0,8,4)$.
+Choose $B=(2,5,6)$: the columns are independent, and the positive basic
+values are $(2,8,4)$. No artificial variable is needed merely because a
+$\geq$ row occurs. Divide the first equation by 2, subtract the resulting
+row from row 2, and subtract twice it from row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$\\
+    $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$\\
+    $x_6$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
+    \midrule
+    $q$ & $-1$ & $0$ & $0$ & $-1$ & $0$ & $0$ & $z_0=4$\\\bottomrule
+  \end{tabular}
+\end{center}
+The indicators of $x_1$ and surplus $x_4$ tie at $-1$; choose $x_1$.
+Only row $x_6$ has a positive entering coefficient, so $x_6$ leaves at
+$\theta=4$. That row already contains the entering identity column,
+so the constraint coefficients do not change; the basic label and objective do.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$\\
+    $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$\\
+    $x_1$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
+    \midrule
+    $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$\\\bottomrule
+  \end{tabular}
+\end{center}
+The original point $(4,2,0)$ is optimal with value 8. Its objective identity is
+\[
+  x_1+2x_2+x_3=8-x_3-x_6\leq8.
+\]
+To find an alternative, enter nonbasic $x_4$ with $q_4=0$.
+Its coefficient in row $x_2$ is $-1/2$ and does not limit the step.
+Ratios are $8/(1/2)=16$ for $x_5$ and $4/1=4$ for $x_1$.
+Thus $x_1$ leaves. Add half row 3 to row 1 and subtract half row 3 from row 2.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_2$ & $\tfrac{1}{2}$ & $1$ & $1$ & $0$ & $0$ & $\tfrac{1}{2}$ & $4$\\
+    $x_5$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $6$\\
+    $x_4$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
+    \midrule
+    $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$\\\bottomrule
+  \end{tabular}
+\end{center}
+The other endpoint is $(0,4,0)$, still of value 8. For any optimum,
+the certificate forces $x_3=x_6=0$, so $x_1+2x_2=8$.
+The first row requires $x_2\geq2$ and $x_1\geq0$ requires $x_2\leq4$.
+Therefore the complete optimal segment is
+\begin{equation}\label{eq:d-segment}
+  x(t)=(8-2t,t,0),\qquad2\leq t\leq4.
+\end{equation}
+The second row remains slack throughout, since $x_5=10-t>0$.
+
+\section{Problem 1(e): reject the supplied start and exhibit a growth ray}\label{sec:e}
+\paragraph{Task statement.}
+\[
+  \max(2x_1+x_2+x_3),\qquad
+  \begin{cases}
+    2x_1+3x_2-x_3\leq9, \\
+    2x_2+x_3\geq4,      \\
+    x_1=6,              \\
+    x_1,x_2,x_3\geq0,
+  \end{cases}
+  \qquad x_0=(0,0,6).
+\]
+The supplied $x_0$ violates the equality $x_1=6$, although it satisfies the
+two inequalities and nonnegativity. It cannot start primal simplex. Keep the
+equality and find a feasible point for the stated problem: with $x_1=6$
+and $x_2=0$, the inequalities become $x_3\geq3$ and $x_3\geq4$.
+Choose $x_3=4$.
+
+Add first-row slack $x_4$ and subtract second-row surplus $x_5$:
+\[
+  2x_1+3x_2-x_3+x_4=9,\qquad2x_2+x_3-x_5=4,\qquad x_1=6.
+\]
+The feasible augmented point is $(6,0,4,1,0)$.
+The independent columns $B=(4,3,1)$ give basic values $(1,4,6)$.
+Subtract twice the equality row from row 1, then add row 2 to row 1:
+\begin{center}
+  \begin{tabular}{crrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
+    $x_4$ & $0$ & $5$ & $0$ & $1$ & $-1$ & $1$\\
+    $x_3$ & $0$ & $2$ & $1$ & $0$ & $-1$ & $4$\\
+    $x_1$ & $1$ & $0$ & $0$ & $0$ & $0$ & $6$\\
+    \midrule
+    $q$ & $0$ & $1$ & $0$ & $0$ & $-1$ & $z_0=16$\\\bottomrule
+  \end{tabular}
+\end{center}
+Only $q_5=-1$ is negative. Its column is $(-1,-1,0)^T$,
+so increasing $x_5$ \emph{increases} the first two basic values and leaves
+$x_1$ unchanged. There is no positive coefficient and no leaving variable.
+The augmented direction and original growth ray are
+\[
+  d=(0,0,1,1,1),\qquad
+  x(\theta)=(6,0,4)+\theta(0,0,1),\qquad\theta\geq0.
+\]
+For every $\theta\geq0$, the original left sides are
+$8-\theta\leq9$, $4+\theta\geq4$ and $x_1=6$.
+The objective is $16+\theta\to+\infty$.
+Thus the problem is feasible and unbounded above; it has no finite optimum
+whose alternatives could be classified. Rejection of the supplied point
+is different from infeasibility of the problem.
+
+\section{Problem 1(f): two supplied starts, one unbounded problem}\label{sec:f}
+\paragraph{Task statement.}
+\[
+  \max(6x_1+2x_2-3x_3),\qquad
+  \begin{cases}
+    x_1+2x_2-3x_3\leq3,  \\
+    2x_1+5x_2-5x_3\leq7, \\
+    2x_1-3x_2-7x_3\leq8, \\
+    x_1,x_2,x_3\geq0.
+  \end{cases}
+\]
+\begin{otherlanguage}{polish}
+  i) $x_0=(0,1,0)$, ii) $x_0=(3,0,0)$,
+\end{otherlanguage}
+Add slacks $x_4,x_5,x_6$ to the three rows. The different supplied points
+require different initialization, even though the LP itself is identical.
+
+\subsection{Start i: a feasible point that is not basic}\label{sec:f-i}
+At $(0,1,0)$ the original row values are $(2,5,-3)$ and the slacks are
+$(1,2,11)$. All constraints are satisfied. However, $x_2,x_4,x_5,x_6$
+are positive: four positive augmented coordinates cannot fit into a basis of
+three columns, whose nonbasic coordinates must all be zero. No choice of
+basis makes this point a basic solution in this slack formulation.
+
+We can use the supplied point to reach a feasible vertex before performing
+primal simplex. Keep $x_1=x_3=0$ and increase $x_2=1+\tau$.
+The slacks become
+\[
+  x_4=1-2\tau,\qquad x_5=2-5\tau,\qquad x_6=11+3\tau.
+\]
+Feasibility requires $0\leq\tau\leq\min(1/2,2/5)=2/5$.
+At the first boundary, $x_2=7/5$ and the slacks are $(1/5,0,61/5)$.
+The objective rises from 2 to $14/5$. This preliminary move is a feasible
+initialization from a nonbasic point, not a simplex pivot from an existing basis.
+Now $B=(4,2,6)$ is independent and has three positive basic values.
+Divide original row 2 by 5, subtract twice the normalized row from row 1,
+and add three times it to row 3:
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_4$ & $\tfrac{1}{5}$ & $0$ & $-1$ & $1$ & $-\tfrac{2}{5}$ & $0$ & $\tfrac{1}{5}$\\
+    $x_2$ & $\tfrac{2}{5}$ & $1$ & $-1$ & $0$ & $\tfrac{1}{5}$ & $0$ & $\tfrac{7}{5}$\\
+    $x_6$ & $\tfrac{16}{5}$ & $0$ & $-10$ & $0$ & $\tfrac{3}{5}$ & $1$ & $\tfrac{61}{5}$\\
+    \midrule
+    $q$ & $-\tfrac{26}{5}$ & $0$ & $1$ & $0$ & $\tfrac{2}{5}$ & $0$ & $z_0=\tfrac{14}{5}$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_1$ with $q_1=-26/5$. The three eligible ratios are
+\[
+  \frac{1/5}{1/5}=1,\qquad
+  \frac{7/5}{2/5}=\frac72,\qquad
+  \frac{61/5}{16/5}=\frac{61}{16}.
+\]
+Hence $x_4$ leaves at $\theta=1$.
+Multiply row 1 by 5, subtract $(2/5)$ times that normalized row from row 2,
+and subtract $(16/5)$ times it from row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & $1$ & $0$ & $-5$ & $5$ & $-2$ & $0$ & $1$\\
+    $x_2$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
+    $x_6$ & $0$ & $0$ & $6$ & $-16$ & $7$ & $1$ & $9$\\
+    \midrule
+    $q$ & $0$ & $0$ & $-25$ & $26$ & $-10$ & $0$ & $z_0=8$\\\bottomrule
+  \end{tabular}
+\end{center}
+The point is $(1,1,0)$ and the objective is 8. Enter $x_3$ with
+$q_3=-25$. Row $x_1$ has coefficient $-5$; the eligible ratios are
+$1/1=1$ for $x_2$ and $9/6=3/2$ for $x_6$. Thus $x_2$ leaves.
+Add five copies of row 2 to row 1 and subtract six copies from row 3:
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$\\
+    $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
+    $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$\\
+    \midrule
+    $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$\\\bottomrule
+  \end{tabular}
+\end{center}
+This gives $(6,0,1)$, value 33. The negative indicator $q_4=-24$
+means this point is not optimal. The next entering variable is the slack
+$x_4$, whose whole column is nonpositive. The growth ray is derived in
+Section~\ref{sec:f-ray}.
+
+\subsection{Start ii: the supplied point is already basic}\label{sec:f-ii}
+At $(3,0,0)$ the slacks are $(0,1,2)$. Columns $B=(1,5,6)$ form an
+independent basis with positive values $(3,1,2)$.
+Keep original row 1, subtract twice it from rows 2 and 3, and recompute the
+objective using the basic cost of $x_1$:
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & $1$ & $2$ & $-3$ & $1$ & $0$ & $0$ & $3$\\
+    $x_5$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
+    $x_6$ & $0$ & $-7$ & $-1$ & $-2$ & $0$ & $1$ & $2$\\
+    \midrule
+    $q$ & $0$ & $10$ & $-15$ & $6$ & $0$ & $0$ & $z_0=18$\\\bottomrule
+  \end{tabular}
+\end{center}
+Enter $x_3$, whose indicator is $-15$.
+Only row $x_5$ has a positive coefficient; it leaves at $\theta=1$.
+Add three copies of row 2 to row 1 and add row 2 to row 3.
+\begin{center}
+  \begin{tabular}{crrrrrrr}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
+    $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$\\
+    $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
+    $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$\\
+    \midrule
+    $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$\\\bottomrule
+  \end{tabular}
+\end{center}
+The new basis is $(1,3,6)$, exactly the same canonical system reached
+from start i. The original point is $(6,0,1)$ and its objective is 33.
+The two different histories therefore lead to the same unboundedness test.
+
+\subsection{A ray, not a last optimal point}\label{sec:f-ray}
+At the shared final basis, $q_4=-24$ and
+$\bar a_4=(-5,-2,-4)^T$. Increasing nonbasic slack $x_4$ by $\theta$
+increases basic $(x_1,x_3,x_6)$ by $(5,2,4)\theta$.
+No basic value decreases, so no finite ratio test bounds the step.
+The full augmented direction and its original-variable projection are
+\[
+  d=(5,0,2,1,0,4),\qquad
+  x(\theta)=(6,0,1)+\theta(5,0,2),\qquad\theta\geq0.
+\]
+The three original row values on this ray are
+\[
+  3-\theta\leq3,\qquad 7\leq7,\qquad5-4\theta\leq8.
+\]
+Nonnegativity holds for every $\theta\geq0$ and
+\[
+  6x_1(\theta)+2x_2(\theta)-3x_3(\theta)=33+24\theta\longrightarrow+\infty.
+\]
+The negative objective coefficient of $x_3$ does not prevent improvement:
+its increase permits a sufficiently profitable increase in $x_1$.
+A slack can enter a basis just like an original variable; projecting the
+resulting direction explains the change in original decisions.
+There is no finite optimal solution for either start.
+
+\section{What the six outcomes teach}\label{sec:review}
+\begin{center}
+  \begin{tabular}{lll}\toprule
+    Problem & Outcome & Original solution or family\\\midrule
+    1(a) & Unique maximum $46/3$ & $(1/3,11/3,4)$\\
+    1(b) & Unique maximum $5$ & $(0,1,2)$\\
+    1(c) & Maximum $36$, alternatives & $(t,6+2t,8)$, $0\leq t\leq2$\\
+    1(d) & Maximum $8$, alternatives & $(8-2t,t,0)$, $2\leq t\leq4$\\
+    1(e) & Unbounded above & $(6,0,4)+\theta(0,0,1)$\\
+    1(f) & Unbounded above & $(6,0,1)+\theta(5,0,2)$\\\bottomrule
+  \end{tabular}
+\end{center}
+For the two rays, $\theta\geq0$. The growth rate depends on the scaling of
+the direction; the existence of a positive rate is the unboundedness certificate.
+Check domains and all original constraints before choosing a start. Feasibility
+alone does not establish basicness. At a finite optimum use the indicator
+identity to prove a global bound, then derive uniqueness or the entire optimal
+face. For an unbounded problem provide both a feasible base point and a direction;
+a failed ratio test without that interpretation is an incomplete explanation.
+
+\section{Sources and editorial remarks}\label{sec:sources}
+\noindent\textbf{Task source:} K. Junosza-Szaniawski,
+\texttt{../execrices-2026-27/ProgMatc1.pdf}, PDF page 1, task 1(a)--(f).
+The original Polish common instruction, mathematical data, supplied points and
+variable domains are preserved. The stated equality $x_1=6$ in 1(e) is retained;
+the supplied point fails that equality. The wording ``if possible'' permits
+rejecting the start. No undocumented change to the problem is assumed.
+Both source pages were inspected visually to confirm the statements.
+
+\paragraph{Editorial additions and alignment.}
+The hand derivations, explicit basis tests, full tableaus, complete optimal
+segments and growth-ray certificates are added explanations. All tableaus and
+pivot row operations were independently checked using exact rational arithmetic.
+The convention $q=z-c$, slack/surplus meanings, and certificate arguments match
+Chapters 2--4 of the reference notes. These are current supplied exercise tasks;
+their presence establishes task coverage, not a claim about how much was taught
+or explained in a particular class session.
+
+\paragraph{MATLAB comparison.}
+The actual companion is the primal-simplex MATLAB script:
+\begin{center}
+  \href{run:matlab/exercises/sheet_01_primal_simplex.m}{\texttt{matlab/exercises/sheet\_01\_primal\_simplex.m}}
+\end{center}
+Run it from the repository root:
+\begin{lstlisting}
+run('matlab/exercises/sheet_01_primal_simplex.m')
+\end{lstlisting}
+It uses base MATLAB, fixed supplied matrices and the prescribed pivot paths;
+it does not call an optimization solver or select pivots automatically.
+It recomputes each basis with backslash, checks every displayed tableau,
+indicator, point, objective change and row operation, tests the supplied starts,
+and verifies the finite bounds, optimal-segment endpoints and ray equations.
+The absolute tolerance is $10^{-10}$ for these small dimensionless problems.
+Exact hand fractions are compared with floating-point calculations on identical
+inputs. Endpoint and direction identities prove the entire segments/rays;
+additional sample points are numerical checks rather than substitutes for proof.
+
+\textbf{Execution status: not yet verified in MATLAB.}
+No observed MATLAB discrepancy, error bound or release is claimed here.
+Independent exact-arithmetic verification establishes the hand calculations;
+a successful future MATLAB run must be recorded separately before being
+reported as numerical execution evidence.
+\end{document}

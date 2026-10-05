@@ -1,0 +1,690 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Sheet 1 -- Dual simplex and primal recovery}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Sheet 1: Dual Simplex and Primal Recovery\\[1mm]
+\normalsize Tasks 4 and 5(a)--5(d)}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Task statements}\label{sec:statements}
+\begin{otherlanguage}{polish}
+  \noindent\textbf{4.} Rozwiąż algorytmem dualnym. Na tej podstawie podaj rozwiązanie zagadnienie dualnego.
+  \[
+    \begin{aligned}
+      \min\quad &x_1+6x_2+2x_3+3x_4,\\
+      &4x_1+2x_2-x_3+x_4\geq4,\\
+      &x_1+x_2+x_3+x_4\geq5,\\
+      &-2x_1-2x_2-x_3-x_4\geq-8,\\
+      &x_1,x_2,x_3,x_4\geq0.
+    \end{aligned}
+  \]
+  \noindent\textbf{5.}
+  \begin{itemize}[leftmargin=*]
+    \item Podaj postać zadania dualnego ZD
+    \item Rozwiąż ZD dwufazową metodą sympleks i podaj jego znalezione RO oraz optymalną wartość funkcji celu dla ZD
+    \item Na podstawie znalezionego rozwiązania RO dla zadania ZD, oblicz RO dla zadania ZP ( bez rozwiązywania ZP) oraz sprawdź optymalną wartość funkcji w ZP
+    \item Czy zadanie ZD posiada rozwiązania alternatywne? Uzasadnij
+  \end{itemize}
+  \noindent\textbf{(a)}
+  \[
+    \begin{aligned}
+      \min\quad &3x_1+10x_2+2x_3,\\
+      &-x_1+2x_2+x_3\geq2,\\
+      &-x_1+x_2+x_3\geq1,\\
+      &-x_1+2x_2-x_3\geq-3,\\
+      &-x_1+2x_2+x_3\geq1,\\
+      &x_1\leq0,\quad x_2\geq0,\quad x_3\geq0.
+    \end{aligned}
+  \]
+  \noindent\textbf{(b)}
+  \[
+    \begin{aligned}
+      \min\quad &3x_1+10x_2+x_3,\\
+      &-2x_2-2x_3\geq-2,\\
+      &2x_1-x_2\geq1,\\
+      &-2x_1+x_2+x_3\geq-5,\\
+      &2x_1+2x_2+x_3\geq1,\\
+      &x_1\geq0,\quad x_2\in\R,\quad x_3\geq0.
+    \end{aligned}
+  \]
+  \noindent\textbf{(c)}
+  \[
+    \begin{aligned}
+      \min\quad &-x_1+5x_2+8x_3,\\
+      &-x_1-x_2+2x_3\geq-1,\\
+      &-x_1+3x_3\geq5,\\
+      &-x_1+x_2+x_3\geq1,\\
+      &-x_2-2x_3\geq-1,\\
+      &x_1\in\R,\quad x_2\in\R,\quad x_3\geq0.
+    \end{aligned}
+  \]
+  \noindent\textbf{(d)}
+  \[
+    \begin{aligned}
+      \min\quad &x_1-5x_2+8x_3,\\
+      &3x_1+x_2+2x_3\geq1,\\
+      &-x_1+x_3\geq5,\\
+      &-x_1-x_2+x_3\geq1,\\
+      &3x_1-x_2-2x_3\geq-2,\\
+      &x_1\geq0,\quad x_2\in\R,\quad x_3\geq0.
+    \end{aligned}
+  \]
+\end{otherlanguage}
+
+\section{Notation, domains, and the mathematical plan}\label{sec:conventions}
+All decision variables are continuous and obey the displayed sign restrictions.
+The data specify abstract linear programs, with no physical units supplied.
+In particular, a free variable may be negative: it must not acquire an extra
+nonnegativity restriction during conversion or verification.
+
+The prerequisites are standard-form equivalence and bases in
+\href{../lectures/02-linear-programming.pdf}{Chapter 02}, Phase I and reduced costs in
+\href{../lectures/03-simplex-method.pdf}{Chapter 03}, and mixed-domain duality,
+complementarity, and dual simplex in
+\href{../lectures/04-degeneracy-and-duality.pdf}{Chapter 04}.
+We apply these ideas to the complete tasks below.
+
+For any equality-form maximization, use
+\[
+  \max c^Tu,\qquad Mu=d,\quad u\geq0.
+\]
+A nonsingular basis $B$ gives
+\[
+  \bar M=M_B^{-1}M,\quad \bar d=M_B^{-1}d,\quad
+  \lambda=M_B^{-T}c_B,\quad q=M^T\lambda-c.
+\]
+The tableau displays the equations $\bar M u=\bar d$ and the last row
+$q^Tu=z_0-c^Tu$, where $z_0=c_B^T\bar d$. Thus
+\begin{equation}\label{eq:indicator}
+  c^Tu=z_0-\sum_{j\notin B}q_ju_j.
+\end{equation}
+The last RHS is $z_0$, not a basic variable. Nonnegative indicators certify
+an upper bound on the maximum. The original minimum in task 4 is the negative
+of its transformed maximum. Tasks 5 maximize their dual objectives directly.
+
+\subsection{Why the domains determine the dual inequalities}
+Write a primal minimum as $\min c^Tx$, $Ax\geq b$. A nonnegative multiplier
+$y$ gives $y^TAx\geq y^Tb$. To make $c^Tx\geq y^TAx$ hold for every allowed $x$,
+column $j$ must obey
+\[
+  \begin{array}{c|c}
+    \text{Primal domain}&\text{Dual condition}\\\hline
+    x_j\geq0&a_j^Ty\leq c_j\\
+    x_j\leq0&a_j^Ty\geq c_j\\
+    x_j\in\R&a_j^Ty=c_j
+  \end{array}
+\]
+For example, multiplying a nonpositive $x_j$ by $c_j-a_j^Ty\leq0$ gives a
+nonnegative product. A free variable can take either sign, so its coefficient
+must vanish. The resulting dual maximizes $b^Ty$ over $y\geq0$ with these
+column conditions. Negative entries in $b$ do not change multiplier domains.
+
+For a feasible pair, the gap has the decomposition
+\begin{equation}\label{eq:gap}
+  c^Tx-b^Ty=(c-A^Ty)^Tx+y^T(Ax-b)\geq0.
+\end{equation}
+Every term on the right is nonnegative with the appropriate domain convention.
+Optimal pairs make each term zero. This explains complementary slackness,
+rather than treating it as an additional system to memorize.
+
+\subsection{Two different simplex invariants}
+Primal simplex keeps $\bar d\geq0$. It chooses an entering column with $q_k<0$
+and preserves feasibility by the ratio test
+\[
+  \theta=\min_{\bar m_{ik}>0}\frac{\bar d_i}{\bar m_{ik}}.
+\]
+Our Phase I and II paths choose the most negative indicator, breaking ties by
+smaller column index, then the smallest ratio, breaking ties by smaller leaving
+variable index. These choices specify these finite paths; they are not a general
+anti-cycling guarantee.
+
+Dual simplex keeps $q\geq0$. It first selects a negative RHS row $r$.
+Eligible entering columns have $\bar m_{rk}<0$, and
+\[
+  \alpha=\min_{\bar m_{rj}<0}\frac{q_j}{-\bar m_{rj}}
+\]
+preserves nonnegative indicators because $q'_j=q_j+\alpha\bar m_{rj}$.
+We select the most negative RHS and the smaller entering column in a tie.
+The update $z'_0=z_0+\alpha\bar d_r$ lowers the dual upper bound on a maximum.
+It does not describe improvement of an infeasible primal point.
+
+Phase I maximizes minus the sum of nonnegative artificial variables.
+Its optimum is at most zero. A negative optimum certifies infeasibility; zero
+permits Phase II after artificials are removed and the original objective is
+recomputed. All successful paths here remove artificials from the basis, so no
+zero-basic artificial cleanup is needed.
+
+\section{Task 4: a complete dual-simplex solve}\label{sec:task4}
+Put $s_i=(Ax-b)_i\geq0$, negate each row, and maximize the negative cost:
+\[
+  \begin{aligned}
+    \max\quad &-x_1-6x_2-2x_3-3x_4,\\
+    -4x_1-2x_2+x_3-x_4+s_1&=-4,\\
+    -x_1-x_2-x_3-x_4+s_2&=-5,\\
+    2x_1+2x_2+x_3+x_4+s_3&=8.
+  \end{aligned}
+\]
+The surplus basis $B=(s_1,s_2,s_3)$ is nonsingular, with indicators
+$(1,6,2,3,0,0,0)\geq0$. Its negative RHS entries make it primal infeasible,
+but exactly the dual-feasible start we need.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $-4$ & $-2$ & $1$ & $-1$ & $1$ & $0$ & $0$ & $-4$\\
+    $s_2$ & $-1$ & $-1$ & $-1$ & $-1$ & $0$ & $1$ & $0$ & $-5$\\
+    $s_3$ & $2$ & $2$ & $1$ & $1$ & $0$ & $0$ & $1$ & $8$\\
+    \midrule $q^T$ & $1$ & $6$ & $2$ & $3$ & $0$ & $0$ & $0$ & $0$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+The most negative RHS is $-5$: $s_2$ leaves. The eligible columns $x_1,x_2,x_3,x_4$
+have ratios $1,6,2,3$, respectively, so $x_1$ enters on the pivot $-1$.
+Divide row 2 by $-1$, then eliminate column 1 from rows 1 and 3. The new bound
+is $z_0=0+1(-5)=-5$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $0$ & $2$ & $5$ & $3$ & $1$ & $-4$ & $0$ & $16$\\
+    $x_1$ & $1$ & $1$ & $1$ & $1$ & $0$ & $-1$ & $0$ & $5$\\
+    $s_3$ & $0$ & $0$ & $-1$ & $-1$ & $0$ & $2$ & $1$ & $-2$\\
+    \midrule $q^T$ & $0$ & $5$ & $1$ & $2$ & $0$ & $1$ & $0$ & $-5$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Row 3 still has RHS $-2$, so $s_3$ leaves. Only $x_3$ and $x_4$ are eligible;
+their ratios are $1/1=1$ and $2/1=2$. Enter $x_3$ on the pivot $-1$.
+The next bound is $-5+1(-2)=-7$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $0$ & $2$ & $0$ & $-2$ & $1$ & $6$ & $5$ & $6$\\
+    $x_1$ & $1$ & $1$ & $0$ & $0$ & $0$ & $1$ & $1$ & $3$\\
+    $x_3$ & $0$ & $0$ & $1$ & $1$ & $0$ & $-2$ & $-1$ & $2$\\
+    \midrule $q^T$ & $0$ & $5$ & $0$ & $1$ & $0$ & $3$ & $1$ & $-7$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Now both invariants hold: every RHS and indicator is nonnegative. Reading
+nonbasic variables as zero gives
+\[
+  x^*=(3,0,2,0),\quad s^*=(6,0,0),\qquad \min c^Tx=7.
+\]
+The final tableau also gives the exact identity
+\begin{equation}\label{eq:task4-bound}
+  c^Tx=7+5x_2+x_4+3s_2+s_3\geq7.
+\end{equation}
+Equality forces $x_2=x_4=s_2=s_3=0$. The last two tight primal rows then give
+$x_1+x_3=5$ and $2x_1+x_3=8$, so this primal optimizer is unique.
+
+\subsection{Read and verify the dual certificate}
+The original minimum has dual
+\[
+  \begin{aligned}
+    \max\quad &4y_1+5y_2-8y_3,\\
+    4y_1+y_2-2y_3&\leq1,\\
+    2y_1+y_2-2y_3&\leq6,\\
+    -y_1+y_2-y_3&\leq2,\\
+    y_1+y_2-y_3&\leq3,\qquad y\geq0.
+  \end{aligned}
+\]
+For the transformed equations $[-A,I](x,s)=-b$, the basis multiplier satisfies
+$-A^Ty\geq-c$ and $y\geq0$, which are precisely these constraints.
+The last tableau's original surplus indicators give
+\[
+  y^*=(0,3,1),\quad c-A^Ty^*=(0,5,0,1),\quad b^Ty^*=15-8=7.
+\]
+We have primal and dual feasibility, equal values, and
+$y^*\odot s^*=0$, $x^*\odot(c-A^Ty^*)=0$.
+To see dual uniqueness, $s_1=6>0$ forces $y_1=0$ in every dual optimum.
+The positive $x_1$ and $x_3$ force $y_2-2y_3=1$ and $y_2-y_3=2$,
+whose unique solution is $(y_2,y_3)=(3,1)$.
+
+\section{Task 5(a): Phase I proves dual infeasibility}\label{sec:task5a}
+The nonpositive domain of $x_1$ reverses its dual inequality. The dual is
+\[
+  \begin{aligned}
+    \max\quad &2y_1+y_2-3y_3+y_4,\\
+    -y_1-y_2-y_3-y_4&\geq3,\\
+    2y_1+y_2+2y_3+2y_4&\leq10,\\
+    y_1+y_2-y_3+y_4&\leq2,\qquad y\geq0.
+  \end{aligned}
+\]
+Its first condition is impossible because its left side is nonpositive.
+We can also express this contradiction through the requested two-phase procedure.
+Introduce surplus $t_1$ and artificial $a_1$ in row 1, and slacks $s_2,s_3$:
+\[
+  -y_1-y_2-y_3-y_4-t_1+a_1=3.
+\]
+Use $B=(a_1,s_2,s_3)$ and maximize $-a_1$. The other two equations have
+right sides $10$ and $2$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $t_1$ & $s_2$ & $s_3$ & $a_1$ & RHS\\\midrule
+    $a_1$ & $-1$ & $-1$ & $-1$ & $-1$ & $-1$ & $0$ & $0$ & $1$ & $3$\\
+    $s_2$ & $2$ & $1$ & $2$ & $2$ & $0$ & $1$ & $0$ & $0$ & $10$\\
+    $s_3$ & $1$ & $1$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $2$\\
+    \midrule $q^T$ & $1$ & $1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $0$ & $-3$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Every indicator is already nonnegative. Therefore Phase I has optimum $-3$,
+or minimum artificial sum $w=3$. More directly,
+\[
+  a_1=3+y_1+y_2+y_3+y_4+t_1\geq3.
+\]
+A feasible original dual would need $a_1=0$, which is impossible. Stop before
+Phase II: there is no dual optimum and hence no optimal pair to recover.
+
+\subsection{A primal ray explains the same outcome}
+The ray
+\[
+  x(t)=(-2-t,0,0),\qquad t\geq0
+\]
+respects all domains and has primal row values $(2+t,2+t,2+t,2+t)$,
+which dominate $(2,1,-3,1)$. Its objective is $-6-3t\to-\infty$.
+Thus the primal is feasible and unbounded below. This is consistent with the
+dual contradiction: a feasible dual would supply a finite lower bound and
+would forbid such a ray. Neither problem has an optimal solution;
+``alternative optimal dual solutions'' therefore do not exist.
+
+\section{Task 5(b): solve the dual and recover the primal}\label{sec:task5b}
+Because $x_2$ is free, its column gives an equality:
+\[
+  \begin{aligned}
+    \max\quad &-2y_1+y_2-5y_3+y_4,\\
+    2y_2-2y_3+2y_4&\leq3,\\
+    -2y_1-y_2+y_3+2y_4&=10,\\
+    -2y_1+y_3+y_4&\leq1,\qquad y\geq0.
+  \end{aligned}
+\]
+Let $s_1,s_3$ be the slacks of the two dual inequalities, and add $a_2$ to
+its equality. Column order is $(y_1,y_2,y_3,y_4,s_1,s_3,a_2)$.
+Notice that these slacks index dual conditions, not primal resource rows.
+
+\subsection{Phase I: three pivots remove the artificial variable}
+Maximize $-a_2$, starting at $B=(s_1,a_2,s_3)$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $s_1$ & $0$ & $2$ & $-2$ & $2$ & $1$ & $0$ & $0$ & $3$\\
+    $a_2$ & $-2$ & $-1$ & $1$ & $2$ & $0$ & $0$ & $1$ & $10$\\
+    $s_3$ & $-2$ & $0$ & $1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
+    \midrule $q^T$ & $2$ & $1$ & $-1$ & $-2$ & $0$ & $0$ & $0$ & $-10$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+The most negative indicator is $q_4=-2$. Enter $y_4$; the ratios in rows
+1, 2, 3 are $3/2,5,1$. Thus $s_3$ leaves after step $1$, raising the
+Phase I value from $-10$ to $-8$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $s_1$ & $4$ & $2$ & $-4$ & $0$ & $1$ & $-2$ & $0$ & $1$\\
+    $a_2$ & $2$ & $-1$ & $-1$ & $0$ & $0$ & $-2$ & $1$ & $8$\\
+    $y_4$ & $-2$ & $0$ & $1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
+    \midrule $q^T$ & $-2$ & $1$ & $1$ & $0$ & $0$ & $2$ & $0$ & $-8$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Now $y_1$ enters because $q_1=-2$. The ratios are $1/4$ in row 1 and $4$
+in row 2; row 3 has negative coefficient and imposes no upper bound.
+Thus $s_1$ leaves after step $1/4$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $y_1$ & $1$ & $\tfrac{1}{2}$ & $-1$ & $0$ & $\tfrac{1}{4}$ & $-\tfrac{1}{2}$ & $0$ & $\tfrac{1}{4}$\\
+    $a_2$ & $0$ & $-2$ & $1$ & $0$ & $-\tfrac{1}{2}$ & $-1$ & $1$ & $\tfrac{15}{2}$\\
+    $y_4$ & $0$ & $1$ & $-1$ & $1$ & $\tfrac{1}{2}$ & $0$ & $0$ & $\tfrac{3}{2}$\\
+    \midrule $q^T$ & $0$ & $2$ & $-1$ & $0$ & $\tfrac{1}{2}$ & $1$ & $0$ & $-\tfrac{15}{2}$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Finally $y_3$ enters, with indicator $-1$. Only row 2 has a positive
+coefficient, giving step $15/2$. The artificial $a_2$ leaves.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $y_1$ & $1$ & $-\tfrac{3}{2}$ & $0$ & $0$ & $-\tfrac{1}{4}$ & $-\tfrac{3}{2}$ & $1$ & $\tfrac{31}{4}$\\
+    $y_3$ & $0$ & $-2$ & $1$ & $0$ & $-\tfrac{1}{2}$ & $-1$ & $1$ & $\tfrac{15}{2}$\\
+    $y_4$ & $0$ & $-1$ & $0$ & $1$ & $0$ & $-1$ & $1$ & $9$\\
+    \midrule $q^T$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+The Phase I value is zero, with $a_2$ nonbasic and zero. Delete its column;
+retain the nonsingular basis $(y_1,y_3,y_4)$.
+
+\subsection{Phase II and absence of alternative optima}
+Recompute the objective from $(-2,1,-5,1,0,0)$; do not reuse the Phase I row.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & RHS\\\midrule
+    $y_1$ & $1$ & $-\tfrac{3}{2}$ & $0$ & $0$ & $-\tfrac{1}{4}$ & $-\tfrac{3}{2}$ & $\tfrac{31}{4}$\\
+    $y_3$ & $0$ & $-2$ & $1$ & $0$ & $-\tfrac{1}{2}$ & $-1$ & $\tfrac{15}{2}$\\
+    $y_4$ & $0$ & $-1$ & $0$ & $1$ & $0$ & $-1$ & $9$\\
+    \midrule $q^T$ & $0$ & $11$ & $0$ & $0$ & $3$ & $7$ & $-44$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+All indicators are nonnegative, so no Phase II pivot is needed:
+\[
+  y^*=(31/4,0,15/2,9),\qquad b^Ty^*=-44.
+\]
+For every feasible dual, the tableau implies
+\begin{equation}\label{eq:task5b-bound}
+  b^Ty=-44-11y_2-3s_1-7s_3\leq-44.
+\end{equation}
+A distinct optimizer would have to make an actual feasible move keeping the
+objective unchanged. Equality forces $y_2=s_1=s_3=0$; the three basic equations
+then fix $(y_1,y_3,y_4)=(31/4,15/2,9)$. Thus there is no such move and the dual
+optimum is unique. The zero indicators belong only to basic variables; they
+do not alone signal alternative optima.
+
+\subsection{Recover the primal without a primal simplex solve}
+Since $y_1,y_3,y_4>0$, complementary slackness makes primal rows 1, 3, 4 tight:
+\[
+  -2x_2-2x_3=-2,\qquad -2x_1+x_2+x_3=-5,\qquad
+  2x_1+2x_2+x_3=1.
+\]
+The first gives $x_2+x_3=1$. Substitution into the second gives $x_1=3$;
+the third becomes $2x_2+x_3=-5$. Therefore
+\[
+  x^*=(3,-6,7),\quad Ax^*-b=(0,11,0,0),\quad
+  c^Tx^*=9-60+7=-44.
+\]
+The free variable $x_2=-6$ is admissible. Both constrained primal variables are
+nonnegative; the unused row 2 has surplus 11. All dual column slacks are zero.
+Feasibility and equal objectives certify both optima. The three equations above
+are independent, so the primal optimum is unique as well.
+
+\section{Task 5(c): equality domains reveal infeasibility}\label{sec:task5c}
+Both $x_1$ and $x_2$ are free, giving two dual equalities:
+\[
+  \begin{aligned}
+    \max\quad &-y_1+5y_2+y_3-y_4,\\
+    -y_1-y_2-y_3&=-1,\\
+    -y_1+y_3-y_4&=5,\\
+    2y_1+3y_2+y_3-2y_4&\leq8,\qquad y\geq0.
+  \end{aligned}
+\]
+The first equality implies $y_1+y_2+y_3=1$, hence
+$-y_1+y_3-y_4\leq y_3\leq1$. It cannot equal 5.
+
+\subsection{One Phase I pivot makes the contradiction quantitative}
+Normalize the first equality by $-1$, append artificials $a_1,a_2$ to the
+first two rows, and use slack $s_3$ in the third. Maximize $-a_1-a_2$ with
+$B=(a_1,a_2,s_3)$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_3$ & $a_1$ & $a_2$ & RHS\\\midrule
+    $a_1$ & $1$ & $1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$\\
+    $a_2$ & $-1$ & $0$ & $1$ & $-1$ & $0$ & $0$ & $1$ & $5$\\
+    $s_3$ & $2$ & $3$ & $1$ & $-2$ & $1$ & $0$ & $0$ & $8$\\
+    \midrule $q^T$ & $0$ & $-1$ & $-2$ & $1$ & $0$ & $0$ & $0$ & $-6$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Enter $y_3$, whose indicator is $-2$. The ratios are $1,5,8$, so $a_1$ leaves
+on row 1 after step 1.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_3$ & $a_1$ & $a_2$ & RHS\\\midrule
+    $y_3$ & $1$ & $1$ & $1$ & $0$ & $0$ & $1$ & $0$ & $1$\\
+    $a_2$ & $-2$ & $-1$ & $0$ & $-1$ & $0$ & $-1$ & $1$ & $4$\\
+    $s_3$ & $1$ & $2$ & $0$ & $-2$ & $1$ & $-1$ & $0$ & $7$\\
+    \midrule $q^T$ & $2$ & $1$ & $0$ & $1$ & $0$ & $2$ & $0$ & $-4$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+All indicators are nonnegative: Phase I stops at $z_{\mathrm I}=-4$, hence
+$w=a_1+a_2=4$. Indeed its second equation reads
+\[
+  -2y_1-y_2-y_4-a_1+a_2=4,
+\]
+so
+\[
+  a_1+a_2=4+2y_1+y_2+y_4+2a_1\geq4.
+\]
+This supplies a hand certificate of the Phase I optimum and the original
+dual's infeasibility. There is no valid Phase II or recovered optimal primal.
+
+The primal nevertheless has the feasible ray
+\[
+  x(t)=(-5-t,-t,0),\qquad t\geq0.
+\]
+Its row values are $(5+2t,5+t,5,t)$, dominating $(-1,5,1,-1)$,
+and its objective is $5-4t\to-\infty$. Therefore the primal is unbounded below;
+there are no dual optimal alternatives to discuss.
+
+\section{Task 5(d): a feasible dual, two Phase II pivots}\label{sec:task5d}
+Here only $x_2$ is free. The dual is
+\[
+  \begin{aligned}
+    \max\quad &y_1+5y_2+y_3-2y_4,\\
+    3y_1-y_2-y_3+3y_4&\leq1,\\
+    y_1-y_3-y_4&=-5,\\
+    2y_1+y_2+y_3-2y_4&\leq8,\qquad y\geq0.
+  \end{aligned}
+\]
+Normalize the equality to $-y_1+y_3+y_4=5$ before adding artificial $a_2$;
+use slacks $s_1,s_3$. The objective remains the original dual maximum.
+
+\subsection{Phase I}
+Start at $B=(s_1,a_2,s_3)$ and maximize $-a_2$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $s_1$ & $3$ & $-1$ & $-1$ & $3$ & $1$ & $0$ & $0$ & $1$\\
+    $a_2$ & $-1$ & $0$ & $1$ & $1$ & $0$ & $0$ & $1$ & $5$\\
+    $s_3$ & $2$ & $1$ & $1$ & $-2$ & $0$ & $1$ & $0$ & $8$\\
+    \midrule $q^T$ & $1$ & $0$ & $-1$ & $-1$ & $0$ & $0$ & $0$ & $-5$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Indicators $q_3=q_4=-1$ tie; take $y_3$ by its smaller index. Rows 2 and 3
+have ratios 5 and 8; row 1's negative coefficient imposes no upper bound.
+Thus $a_2$ leaves after step 5.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & $a_2$ & RHS\\\midrule
+    $s_1$ & $2$ & $-1$ & $0$ & $4$ & $1$ & $0$ & $1$ & $6$\\
+    $y_3$ & $-1$ & $0$ & $1$ & $1$ & $0$ & $0$ & $1$ & $5$\\
+    $s_3$ & $3$ & $1$ & $0$ & $-3$ & $0$ & $1$ & $-1$ & $3$\\
+    \midrule $q^T$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $1$ & $0$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+The Phase I value is zero. Delete the nonbasic artificial.
+The restored objective coefficients are $(1,5,1,-2,0,0)$.
+
+\subsection{Phase II}
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $2$ & $-1$ & $0$ & $4$ & $1$ & $0$ & $6$\\
+    $y_3$ & $-1$ & $0$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+    $s_3$ & $3$ & $1$ & $0$ & $-3$ & $0$ & $1$ & $3$\\
+    \midrule $q^T$ & $-2$ & $-5$ & $0$ & $3$ & $0$ & $0$ & $5$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Enter $y_2$, with indicator $-5$. Only row 3 has a positive coefficient;
+$s_3$ leaves after step 3 and the objective rises from 5 to 20.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $5$ & $0$ & $0$ & $1$ & $1$ & $1$ & $9$\\
+    $y_3$ & $-1$ & $0$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+    $y_2$ & $3$ & $1$ & $0$ & $-3$ & $0$ & $1$ & $3$\\
+    \midrule $q^T$ & $13$ & $0$ & $0$ & $-12$ & $0$ & $5$ & $20$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+Now enter $y_4$, with indicator $-12$. The eligible ratios in rows 1 and 2
+are 9 and 5, so $y_3$ leaves after step 5. The objective rises by $12\cdot5=60$.
+
+\begin{center}
+  \small
+  \renewcommand{\arraystretch}{1.25}
+  \begin{tabular}{c|rrrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $y_4$ & $s_1$ & $s_3$ & RHS\\\midrule
+    $s_1$ & $6$ & $0$ & $-1$ & $0$ & $1$ & $1$ & $4$\\
+    $y_4$ & $-1$ & $0$ & $1$ & $1$ & $0$ & $0$ & $5$\\
+    $y_2$ & $0$ & $1$ & $3$ & $0$ & $0$ & $1$ & $18$\\
+    \midrule $q^T$ & $1$ & $0$ & $12$ & $0$ & $0$ & $5$ & $80$\\\bottomrule
+  \end{tabular}
+\end{center}
+
+This yields
+\[
+  y^*=(0,18,0,5),\qquad b^Ty^*=90-10=80.
+\]
+The final identity
+\begin{equation}\label{eq:task5d-bound}
+  b^Ty=80-y_1-12y_3-5s_3\leq80
+\end{equation}
+forces $y_1=y_3=s_3=0$ at every optimum. The remaining equations give
+$y_4=5$, $y_2=18$, $s_1=4$. No nonzero feasible displacement can keep the
+objective at 80, so the dual optimum is unique.
+
+\subsection{Primal recovery and the role of the free variable}
+The dual column slacks are
+\[
+  c-A^Ty^*=(4,0,0).
+\]
+Because $x_1\geq0$, complementarity gives $x_1=0$. Positive $y_2,y_4$ make
+primal rows 2 and 4 tight:
+\[
+  -x_1+x_3=5,\qquad3x_1-x_2-2x_3=-2.
+\]
+Hence $x_3=5$, $x_2=-8$. The recovered point is
+\[
+  x^*=(0,-8,5),\qquad Ax^*-b=(1,0,12,0),\qquad
+  c^Tx^*=40+40=80.
+\]
+It obeys the domains, both inactive inequalities have nonnegative surplus,
+and the primal and dual values agree. These equations force the same point
+for every primal optimum, proving its uniqueness without a primal simplex run.
+
+\section{Interpretation and common mistakes}\label{sec:interpretation}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Objective signs:} task 4 negates the primal objective for its
+        dual-simplex tableau; report 7 as the original minimum, not $-7$.
+        Tasks 5 maximize the dual directly, including the valid negative maximum
+        $-44$ in 5(b).
+  \item \textbf{Free and nonpositive domains:} a free primal coordinate creates
+        an equality in the dual. A nonpositive coordinate reverses the column
+        inequality. Bounds on the right side do not determine these signs.
+  \item \textbf{Two-phase transition:} artificials are feasibility devices.
+        Delete their columns at a zero Phase I optimum and recompute the original
+        objective. A negative Phase I maximum forbids Phase II.
+  \item \textbf{Alternative optima:} a zero indicator is useful only with an
+        actual feasible move. In 5(b) and 5(d), every nonbasic indicator is
+        strictly positive, and the basic equations leave no optimal movement.
+  \item \textbf{Primal recovery:} solve the equations forced by a dual optimizer,
+        then verify all remaining inequalities and domains. Complementarity
+        alone does not establish feasibility.
+  \item \textbf{Unboundedness:} give a feasible starting point and an improving
+        ray. An infeasible dual alone would not prove primal unboundedness if
+        primal feasibility had not also been established.
+\end{itemize}
+
+\section{MATLAB comparison}\label{sec:matlab}
+The companion
+\href{run:matlab/exercises/sheet_01_dual_simplex_and_recovery.m}{\texttt{sheet\_01\_dual\_simplex\_and\_recovery.m}}
+uses the same printed matrices, augmented equations, basis orders, and pivot
+rules as the hand solutions. From the repository root, run
+\begin{lstlisting}
+run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+\end{lstlisting}
+It uses base MATLAB linear solves, with absolute tolerance $10^{-10}$ for
+residuals, tableau comparisons, sign tests, and objective values. This tolerance
+is appropriate to these small inputs; it is not a conditioning guarantee for
+arbitrary models. The script checks the specified paths, including objective-row
+recomputation, independently against new basis solves. It checks primal/dual
+feasibility, complementarity, positive nonbasic indicators for uniqueness, and
+feasible rays for the unbounded cases. It does not implement a general LP solver.
+
+\begin{center}
+  \begin{tabular}{llll}\toprule
+    Task & Primal outcome & Dual outcome & Phase I artificial sum\\\midrule
+    4 & Unique minimum $7$ & Unique maximum $7$ & Not used\\
+    5(a) & Unbounded below & Infeasible & $3$\\
+    5(b) & Unique minimum $-44$ & Unique maximum $-44$ & $0$\\
+    5(c) & Unbounded below & Infeasible & $4$\\
+    5(d) & Unique minimum $80$ & Unique maximum $80$ & $0$\\\bottomrule
+  \end{tabular}
+\end{center}
+The table records exact expected hand results, not invented solver output.
+Mathematical, static-analysis, and MATLAB execution evidence is identified
+separately in the final remarks and repository verification record.
+
+\section{Sources and editorial remarks}\label{sec:sources}
+\noindent\textbf{Task source:} \texttt{../execrices-2026-27/ProgMatc1.pdf},
+PDF page 2, tasks 4 and 5(a)--5(d). The Polish instructions and mathematical data
+are preserved in Section~\ref{sec:statements}; layout is retypeset.
+The supplied current-course context is 2026--27. The PDF creation metadata is
+2025, which does not establish the delivery date. No lecture date is claimed.
+
+The hand derivations, complete tableaus, recovery equations, rays, and uniqueness
+arguments are explanatory additions. The generic instruction in task 5 requests
+optimal solutions. Sections~\ref{sec:task5a} and~\ref{sec:task5c} show that the
+printed domains and coefficients instead imply unbounded primal problems and
+infeasible duals. The task statements remain unchanged; their intended variants
+are unknown. Successful Phase II solves are provided for 5(b) and 5(d).
+
+\textbf{Verification status:} hand tableaus and pivot choices were independently
+recomputed using exact rational arithmetic. MATLAB execution is initially
+unverified; a successful static check is not MATLAB execution. The companion's
+actual execution evidence and release, when available, belong in
+\texttt{docs/matlab-verification.md}.
+\end{document}

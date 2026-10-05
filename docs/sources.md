@@ -2,12 +2,45 @@
 
 English | [Polski](sources.pl.md)
 
+## Current course materials 2026–27
+
+The user supplied the following materials for the current course. Delivery dates
+are not established; PDF creation metadata is not a lecture or assessment date.
+Paths are relative to the repository root, and originals stay outside it.
+
+| File | Pages | Local path |
+| --- | --- | --- |
+| `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
+| `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
+
+The lecture develops LP modeling through simplex and initialization. Chapters 01–03
+and the new modeling-patterns supplement integrate its content. The sheet has 16
+subproblems and two starts in 1(f); three exercise documents cover groups 1, 2–3 and
+4–5. Duality and dual simplex are required by the sheet but are not developed in
+these lecture slides. The [course map](course-map-2026-27.md) gives page/task destinations.
+Historical enrichment remains available without a claim of current course coverage.
+
+All current source pages were reviewed; source data, both task pages and image-based
+initialization tableaus were also checked visually during the agent reviews.
+Lecture p. 4 states four grinding machines; pp. 6–7 use three and 144 hours.
+Chapter 1 parameterizes capacity and solves both readings. Page 34's row/column
+indices and p. 35's unconditional Big M claims are qualified in Chapter 3.
+Sheet 1(e)'s start violates its equality; 2(b)'s candidate is infeasible. These may
+be deliberate tests and are preserved. As printed, 5(a) and 5(c) are unbounded
+primal problems with infeasible duals; full certificates and Phase I failures
+replace the impossible generic request for optimal dual solutions.
+
+Hand explanations, exact certificates and diagrams are additions to the slides.
+The [verification record](matlab-verification.md) distinguishes mathematical and
+static checks from actual execution of the new MATLAB companions.
+
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
 2020 lectures; lecture 1 contains a 2019/2020 schedule. Lectures 1–5 have been reviewed
-for these notes; alignment with the current lecturer, syllabus, exercises, and labs
-is unconfirmed. Paths below are
+for these notes. Current topical overlaps are recorded in the
+[course map](course-map-2026-27.md); broader syllabus and lab alignment remain
+unconfirmed. Paths below are
 relative to the repository root. These originals remain outside this repository.
 
 | File | Local path |
@@ -28,15 +61,16 @@ relative to the repository root. These originals remain outside this repository.
 
 For each developed topic, cite the filename and page numbers, distinguish supplied
 material from added explanations, and record any comparison with current classes.
-Current syllabus, exercise sheets, and lab instructions have not yet been supplied.
+One current lecture and one exercise sheet have now been supplied. The full current
+syllabus and lab instructions remain unavailable.
 
 ## Developed notes and source qualifications
 
-- Lecture 1: `s4_w1.pdf`, PDF pages 1–6; introduction and historical roadmap.
-- Lecture 2: `s4_w2.pdf`, PDF pages 1–11, printed slides 1–44; LP models,
+- Chapter 1: `s4_w1.pdf`, PDF pages 1–6; introduction and historical roadmap.
+- Chapter 2: `s4_w2.pdf`, PDF pages 1–11, printed slides 1–44; LP models,
   standard form, geometry, and bases. Regression formulas and the cabinet sketch
   were also inspected visually.
-- Lecture 3: `s4_w3.pdf`, PDF pages 1–12, printed slides 1–46; the complete
+- Chapter 3: `s4_w3.pdf`, PDF pages 1–12, printed slides 1–46; the complete
   simplex derivation, basic-solution candidates, both worked simplex examples,
   two-phase initialization with both supplied starts, and Big M. Slides 39–44
   were inspected visually to confirm variable domains and artificial columns.
@@ -45,7 +79,7 @@ Current syllabus, exercise sheets, and lab instructions have not yet been suppli
   artificial cleanup, and show why finite penalties or augmented rays alone
   do not certify original infeasibility. The PDF creation metadata is 2019-10-17;
   this is not an established lecture delivery date.
-- Lecture 4: `s4_w4.pdf`, PDF pages 1–12, printed slides 1–47 (47 closes the lecture).
+- Chapter 4: `s4_w4.pdf`, PDF pages 1–12, printed slides 1–47 (47 closes the lecture).
   Complete mathematical content: degeneracy, all Beale cycling tableaus, perturbation,
   Bland's rule, complexity, dual construction, weak/strong duality, possible outcomes,
   complementary slackness, and the complete dual-simplex example. All pages were
@@ -56,7 +90,7 @@ Current syllabus, exercise sheets, and lab instructions have not yet been suppli
   statement of strong duality, certifying bases, and dual degeneracy limitations.
   Creation metadata: 2019-10-27, not an established delivery date. All MATLAB assertions
   passed on R2026b.
-- Lecture 5: `s4_w5.pdf`, PDF pp. 1–10, printed slides 1–38 (38 closes the lecture).
+- Chapter 5: `s4_w5.pdf`, PDF pp. 1–10, printed slides 1–38 (38 closes the lecture).
   Full coverage: single RHS/cost ranges, vector changes, variable and constraint
   additions/deletions, and Lagrange multipliers. All pages were reviewed;
   sensitivity formulas and the final certificate were also inspected enlarged.

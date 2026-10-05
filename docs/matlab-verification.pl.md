@@ -174,3 +174,49 @@ zmiany strukturalne i certyfikat KKT. Pełna enumeracja małych baz potwierdził
 wartości skończonych optimów, obie gałęzie funkcji wartości i brak dopuszczalnych
 baz w sprzecznych przykładach. Dowody ręczne oddzielnie uzasadniają sprzeczność
 i nieograniczoność tam, gdzie sama enumeracja by nie wystarczyła.
+
+## Integracja bieżącego kursu w dniu 2026-10-05
+
+Cztery nowe skrypty podstawowego MATLAB-a towarzyszą zmienionym rozdziałom
+pojęciowym i wszystkim 16 podzadaniom pierwszego dostarczonego zestawu
+(w tym obu startom 1(f)):
+
+```matlab
+run('matlab/exercises/modeling_patterns_checks.m')
+run('matlab/exercises/sheet_01_primal_simplex.m')
+run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+```
+
+**Wykonanie MATLAB-a: niezweryfikowane.** Próba agenta uruchomienia samego
+wypisania wersji, `matlab -batch 'disp(version)'`, zakończyła się kodem 1 bez wyjścia.
+Opisany powyżej problem startu nadal występuje. Czterech nowych skryptów nie
+wykonano w MATLAB-ie; nie twierdzimy, że uzyskano nową wersję podczas uruchomienia,
+zaobserwowane wyjście ani błąd numeryczny. Dawniejsze udane uruchomienia użytkownika
+obejmują tylko wymienione skrypty historyczne.
+
+**Analiza statyczna: przeszła.** Zainstalowany samodzielny analizator R2026b
+`mlint -id` sprawdził każdy z czterech skryptów bez uwag. Nie wykonuje to skryptów.
+
+**Niezależna weryfikacja matematyczna: przeszła.** Dokładne obliczenia Python
+`Fraction` i niezależne przeglądy agentów sprawdziły wszystkie 45 przedstawionych
+tablic ćwiczeniowych, równania baz, wymiany, wiersze celu i certyfikaty w pierwotnych
+dziedzinach. Sprawdziły również zbiory optimów, podane starty, oba nieograniczone
+zadania prymalne grupy 5 i minima sumy sztucznych 3 oraz 4 w fazie I ich sprzecznych
+dualnych. Niezależny przegląd poprawił opisowy luz kolumny 5(d) na `(4,0,0)`;
+końcowy skrypt jawnie sprawdza tę wartość.
+
+Przykłady modelowania niezależnie sprawdzono w dokładnej arytmetyce wymiernej:
+wartości fabryki `28704/5` i `32544/5` przy zdolnościach 144 i 192; zysk mieszania
+`475000/27`; koszt transportu `25919`; koszt magazynowania `1883/2`; koszt
+przepływu 9; ograniczenia dla diety i regresji. Każdy skończony wynik ma ręczne
+ograniczenie osiągane przez dopuszczalnego kandydata. Enumerację wykorzystano jako
+osobne sprawdzenie małych przykładów fabryki, mieszania i transportu, a nie ogólny
+test nieograniczoności. Promienie i sprzeczne warunki dualne osobno uzasadniają
+wyniki wyjątkowe.
+
+Wszystkie cztery skrypty porównują te same podane dane z tolerancją bezwzględną
+`1e-10`. Korzystają z podstawowego MATLAB-a i określonych obliczeń, bez Optimization
+Toolbox i ogólnego solvera PL. Przyszłe udane uruchomienie trzeba zapisać jako nowe
+zdarzenie wykonania z faktycznym wyjściem, zanim nowe skrypty zostaną uznane za
+zweryfikowane w MATLAB-ie. Końcowe uwagi notatek obecnie zachowują to rozróżnienie.

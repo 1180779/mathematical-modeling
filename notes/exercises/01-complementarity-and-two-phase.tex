@@ -1,0 +1,455 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Task sheet 1 -- Complementarity and two-phase simplex}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Task Sheet 1: Complementarity and Two-Phase Simplex}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{How to read the certificates and tableaus}\label{sec:notation}
+Feasibility comes before optimality. A proposed point must satisfy every row
+and every variable-domain restriction. Complementary products alone cannot
+certify an inadmissible point.
+
+For a maximization problem, multiply each $\leq$ row by a nonnegative
+weight and each $\geq$ row by a nonpositive weight. Summing produces
+$y^TAx\leq y^Tb$. With $x\geq0$, the column conditions $A^Ty\geq c$
+then give $c^Tx\leq b^Ty$: the dual minimizes a valid upper bound.
+For minimization with $Ax\geq b$, $x\geq0$, nonnegative weights and
+$A^Ty\leq c$ instead give the lower bound $b^Ty\leq c^Tx$.
+If a variable is nonpositive, its column comparison reverses when multiplied
+by that variable. The signs follow from these comparisons, rather than from
+a rule to reverse every symbol indiscriminately.
+
+Once primal and dual points are feasible, equal objective values prove
+optimality. Complementarity helps find the dual point: a strict primal row
+forces its weight to zero, and a nonzero primal coordinate forces its dual
+column inequality to be an equality. For mixed rows, use their nonnegative
+slacks and the corresponding signed weights consistently. These ideas are
+developed in
+\href{../lectures/04-degeneracy-and-duality.pdf}{Degeneracy, duality, and dual
+  simplex}, in the sections on weighted bounds and complementary slackness.
+
+For each simplex calculation below, use a maximization problem $\max d^Tv$
+with $Mv=b$, $v\geq0$. An ordered basis $B$ produces
+\[
+  \bar M=M_B^{-1}M,\qquad \bar b=M_B^{-1}b,
+  \qquad q_j=d_B^T\bar m_j-d_j,\qquad z_0=d_B^T\bar b.
+\]
+Tableau rows mean $\bar Mv=\bar b$ and $z+q^Tv=z_0$.
+A negative $q_k$ offers improvement; increasing $v_k$ by $\theta$ changes
+the basic coordinates to $\bar b-\theta\bar m_k$.
+Only positive entries of $\bar m_k$ limit the step, with
+$\theta^*=\min_{i:\bar m_{ik}>0}\bar b_i/\bar m_{ik}$.
+Choose a most negative $q_k$, breaking entering ties by the smaller column
+index. The displayed paths have no leaving tie.
+The derivations appear in
+\href{../lectures/03-simplex-method.pdf}{The simplex method}, in the sections
+on canonical equations, one simplex step, and initialization.
+
+\section{Task 2: complementary slackness}\label{sec:task-two}
+\begin{otherlanguage}{polish}
+  Korzystając z zasady komplementarności sprawdzić czy podane rozwiązanie jest
+  rozwiązaniem optymalnym. Podać rozwiązanie dualne.
+\end{otherlanguage}
+
+\subsection{Task 2(a): a feasible candidate and a matching upper bound}
+\paragraph{Task statement.}
+\[
+  \max(4x_1+5x_2-8x_3),\qquad
+  \begin{cases}
+    4x_1+x_2-2x_3\leq1, \\
+    2x_1+x_2-2x_3\leq6, \\
+    -x_1+x_2-x_3\leq2,  \\
+    x_1+x_2-x_3\leq3,   \\
+    x_1,x_2,x_3\geq0,
+  \end{cases}
+  \qquad x=(0,3,1).
+\]
+The candidate is nonnegative, and its row values are $(1,1,2,2)^T$.
+The slacks are $(0,5,0,1)^T$, so it is feasible, with value $7$.
+There is one nonnegative dual weight per upper-bound row:
+\[
+  \begin{aligned}
+    \min\quad&y_1+6y_2+2y_3+3y_4,\\
+    4y_1+2y_2-y_3+y_4&\geq4,\\
+    y_1+y_2+y_3+y_4&\geq5,\\
+    -2y_1-2y_2-y_3-y_4&\geq-8,\qquad y\geq0.
+  \end{aligned}
+\]
+Strict primal rows force $y_2=y_4=0$. Since $x_2,x_3>0$, the last
+two dual columns must be tight:
+\[
+  y_1+y_3=5,\qquad -2y_1-y_3=-8.
+\]
+Thus $y=(3,0,2,0)^T$. The remaining column equals $10\geq4$;
+all dual signs hold. Its value is $3+2\cdot2=7$, matching the primal.
+The dual surplus is $(6,0,0)^T$, so all complementary products vanish.
+Both points are optimal.
+
+This also proves uniqueness of the primal optimum. The positive first-column
+surplus forces $x_1=0$; the positive weights $y_1,y_3$ force rows 1 and 3
+to be tight. Solving $x_2-2x_3=1$, $x_2-x_3=2$ gives $(x_2,x_3)=(3,1)$.
+
+\subsection{Task 2(b): reject the supplied point, then solve the dual}
+\paragraph{Task statement.}
+\[
+  \min(6x_1+2x_2-3x_3),\qquad
+  \begin{cases}
+    x_1-x_2-x_3\geq-1, \\
+    -3x_2-2x_3\geq-4,  \\
+    x_1-x_2+x_3\geq4,  \\
+    x_1,x_2,x_3\geq0,
+  \end{cases}
+  \qquad x=(2,0,-2).
+\]
+The supplied point has $x_3=-2<0$ and its third row is $0<4$.
+It is infeasible, hence not optimal. We retain the stated point; replacing
+its sign would answer a different candidate question.
+
+The task also requests a dual solution. Nonnegative weights on the three
+lower-bound rows yield
+\[
+  \begin{aligned}
+    \max\quad&-y_1-4y_2+4y_3,\\
+    y_1+y_3&\leq6,\\
+    -y_1-3y_2-y_3&\leq2,\\
+    -y_1-2y_2+y_3&\leq-3,\qquad y\geq0.
+  \end{aligned}
+\]
+To find a feasible primal witness, the second row gives
+$3x_2+2x_3\leq4$, hence $x_3\leq2$. The third row gives
+$x_1\geq4+x_2-x_3$, and therefore
+\[
+  6x_1+2x_2-3x_3\geq24+8x_2-9x_3\geq6.
+\]
+The point $\hat x=(2,0,2)^T$ attains $6$; its row values are $(0,-4,4)^T$,
+so it is feasible. Its positive first-row surplus forces $y_1=0$.
+Its positive coordinates $\hat x_1,\hat x_3$ force
+\[
+  y_3=6,\qquad -2y_2+y_3=-3,
+\]
+giving $y=(0,9/2,6)^T$. Its second column is $-39/2\leq2$;
+the other columns are tight. The dual value is $-18+24=6$.
+Thus this is an optimal dual solution, and $\hat x$ is the actual primal
+optimum. Equality in the elementary bound above forces $x_2=0$, $x_3=2$,
+and $x_1=2$, proving primal uniqueness.
+
+\subsection{Task 2(c): mixed row signs and an optimal segment}
+\paragraph{Task statement.}
+\[
+  \max(2x_1+x_2-3x_3+x_4),\qquad
+  \begin{cases}
+    -x_1+x_2+x_3+x_4\geq3,    \\
+    2x_1+x_2+2x_3+2x_4\leq10, \\
+    x_1+x_2-x_3+x_4\leq2,     \\
+    x_1,x_2,x_3,x_4\geq0,
+  \end{cases}
+  \qquad x=(0,5/2,1/2,0).
+\]
+The row values are $(3,7/2,2)^T$. The nonnegative slacks, in the
+order ``left minus right'' for row 1 and ``right minus left'' for rows 2--3,
+are $(0,13/2,0)^T$. The candidate is feasible and has value $1$.
+
+For an upper bound, row 1 needs a nonpositive weight, whereas rows 2--3
+need nonnegative weights:
+\[
+  \begin{aligned}
+    \min\quad&3y_1+10y_2+2y_3,\\
+    -y_1+2y_2+y_3&\geq2,\\
+    y_1+y_2+y_3&\geq1,\\
+    y_1+2y_2-y_3&\geq-3,\\
+    y_1+2y_2+y_3&\geq1,\\
+    y_1&\leq0,\qquad y_2,y_3\geq0.
+  \end{aligned}
+\]
+The strict second row forces $y_2=0$. Positive $x_2,x_3$ require
+$y_1+y_3=1$ and $y_1-y_3=-3$, hence $y=(-1,0,2)^T$.
+The four dual column values are $(3,1,-3,1)^T$, so the surplus is
+$(1,0,0,0)^T$. Its value is $-3+4=1$: both points are optimal.
+
+The positive first-column surplus forces every primal optimum to have
+$x_1=0$. Nonzero $y_1,y_3$ force rows 1 and 3 to be tight, giving
+$x_3=1/2$ and $x_2+x_4=5/2$. The second row then equals $7/2+x_4$,
+which remains below $10$ for $0\leq x_4\leq5/2$. Thus the entire optimal set is
+\[
+  x(t)=(0,5/2-t,1/2,t)^T,\qquad 0\leq t\leq5/2.
+\]
+The supplied point is one endpoint, not the unique optimum. A zero dual
+surplus alone would not prove this; the displayed nonzero feasible changes do.
+
+\section{Task 3: dual problems and two-phase simplex}\label{sec:task-three}
+\begin{otherlanguage}{polish}
+  Podaj ZD$(y)$. Rozwiąż metodą 2-fazową.
+\end{otherlanguage}
+Here ZD denotes the dual problem. Artificial variables provide a feasible
+basis for an auxiliary system; they are not allowed to change the final model.
+Phase I maximizes minus their sum, which is never positive. An optimum of
+zero allows their removal and a return to the original objective. A negative
+optimum would prove the original constraints infeasible.
+
+\subsection{Task 3(a): a surplus variable enters during Phase I}
+\paragraph{Task statement.}
+\[
+  \max(-x_1-2x_2+x_3),\qquad
+  \begin{cases}
+    x_1+x_3\leq12,     \\
+    x_1+3x_2+x_3\geq4, \\
+    x_1+2x_2-x_3\geq6, \\
+    x_1,x_2,x_3\geq0.
+  \end{cases}
+\]
+\paragraph{Dual from an upper bound.}
+The first row receives $y_1\geq0$ and the two lower-bound rows receive
+$y_2,y_3\leq0$. The dual is
+\[
+  \begin{aligned}
+    \min\quad&12y_1+4y_2+6y_3,\\
+    y_1+y_2+y_3&\geq-1,\\
+    3y_2+2y_3&\geq-2,\\
+    y_1+y_2-y_3&\geq1,\\
+    y_1&\geq0,\qquad y_2,y_3\leq0.
+  \end{aligned}
+\]
+
+\paragraph{Initialization.}
+Add slack $s_1$, surpluses $s_2,s_3$, and artificials $a_2,a_3$:
+\[
+  \begin{aligned}
+    x_1+x_3+s_1&=12,\\
+    x_1+3x_2+x_3-s_2+a_2&=4,\\
+    x_1+2x_2-x_3-s_3+a_3&=6.
+  \end{aligned}
+\]
+All eight variables are nonnegative. Use column order
+$(x_1,x_2,x_3,s_1,s_2,s_3,a_2,a_3)$, initial basis $B=(4,7,8)$,
+and Phase I objective $w=-a_2-a_3$.
+Surplus columns point in the negative unit direction and cannot supply
+nonnegative initial basic values for positive right-hand sides.
+
+\paragraph{Phase I: initial tableau.}
+Substitution gives $w=-10+2x_1+5x_2-s_2-s_3$; the indicator row must
+already account for both basic artificial variables.
+\[
+  \setlength{\arraycolsep}{3pt}
+  \begin{array}{c|rrrrrrrr|r}
+    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
+    s_1&1&0&1&1&0&0&0&0&12\\
+    a_2&1&3&1&0&-1&0&1&0&4\\
+    a_3&1&2&-1&0&0&-1&0&1&6\\\hline
+    q&-2&-5&0&0&1&1&0&0&-10
+  \end{array}
+\]
+Enter $x_2$. Ratios are $4/3$ and $6/2=3$, so $a_2$ leaves with
+$\theta=4/3$. Divide its row by $3$ and eliminate column $x_2$:
+\[
+  \setlength{\arraycolsep}{3pt}
+  \begin{array}{c|rrrrrrrr|r}
+    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
+    s_1&1&0&1&1&0&0&0&0&12\\
+    x_2&1/3&1&1/3&0&-1/3&0&1/3&0&4/3\\
+    a_3&1/3&0&-5/3&0&2/3&-1&-2/3&1&10/3\\\hline
+    q&-1/3&0&5/3&0&-2/3&1&5/3&0&-10/3
+  \end{array}
+\]
+Now $s_2$ has the most negative indicator. Its only positive entry is $2/3$
+in row $a_3$, so $a_3$ leaves with $\theta=(10/3)/(2/3)=5$.
+There is no rule restricting entry to original decision variables: a surplus
+is a legitimate variable in the equivalent system.
+\[
+  \setlength{\arraycolsep}{3pt}
+  \begin{array}{c|rrrrrrrr|r}
+    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
+    s_1&1&0&1&1&0&0&0&0&12\\
+    x_2&1/2&1&-1/2&0&0&-1/2&0&1/2&3\\
+    s_2&1/2&0&-5/2&0&1&-3/2&-1&3/2&5\\\hline
+    q&0&0&0&0&0&0&1&1&0
+  \end{array}
+\]
+Phase I has value zero and both artificials are nonbasic. Delete their
+columns; the remaining basis $B=(4,2,5)$ already belongs to the original system.
+
+\paragraph{Phase II: restore the original objective.}
+Recompute the indicator row for the original coefficients:
+\[
+  d=(-1,-2,1,0,0,0)^T.
+\]
+\[
+  \begin{array}{c|rrrrrr|r}
+    B&x_1&x_2&x_3&s_1&s_2&s_3&\bar b\\\hline
+    s_1&1&0&1&1&0&0&12\\
+    x_2&1/2&1&-1/2&0&0&-1/2&3\\
+    s_2&1/2&0&-5/2&0&1&-3/2&5\\\hline
+    q&0&0&0&0&0&1&-6
+  \end{array}
+\]
+All indicators are nonnegative, so no Phase II pivot is needed.
+The primal solution is $x^*=(0,3,0)^T$, with slacks/surpluses $(12,5,0)^T$
+and maximum $-6$. Indeed, the original third constraint immediately gives
+$-x_1-2x_2+x_3\leq-6$.
+The dual point $y^*=(0,0,-1)^T$ has the required signs, satisfies every
+column with equality, and has value $-6$.
+
+There are alternative optima: $x(t)=(t,3-t/2,0)^T$ is feasible and has
+value $-6$ for every $0\leq t\leq6$. This can also be read from the zero
+$x_1$ indicator and its positive allowable step from the final basis.
+
+\subsection{Task 3(b): a nonpositive variable and negative right-hand sides}
+\paragraph{Task statement.}
+\[
+  \min(2x_1-2x_2+x_3),\qquad
+  \begin{cases}
+    x_1-x_2+x_3\geq-1,   \\
+    x_1+2x_2+2x_3\geq-4, \\
+    x_1-x_2-x_3\geq4,    \\
+    x_1\geq0,\quad x_2\geq0,\quad x_3\leq0.
+  \end{cases}
+\]
+\paragraph{Dual in the original variables.}
+All lower-bound rows have nonnegative weights. The first two variables are
+nonnegative, so their column comparisons are $\leq$; the nonpositive $x_3$
+requires $\geq$. Explicitly,
+\[
+  \begin{aligned}
+    \max\quad&-y_1-4y_2+4y_3,\\
+    y_1+y_2+y_3&\leq2,\\
+    -y_1+2y_2-y_3&\leq-2,\\
+    y_1+2y_2-y_3&\geq1,\qquad y\geq0.
+  \end{aligned}
+\]
+The last comparison ensures that
+$(y_1+2y_2-y_3)x_3\leq x_3$ because $x_3\leq0$.
+
+\paragraph{Transform and initialize.}
+Set $t=-x_3\geq0$, so the original objective becomes
+$F=2x_1-2x_2-t$. We maximize its negative $z=-F=-2x_1+2x_2+t$.
+Multiply the first two constraint rows by $-1$ to obtain positive
+right-hand sides; their inequality directions reverse:
+\[
+  \begin{aligned}
+    -x_1+x_2+t+s_1&=1,\\
+    -x_1-2x_2+2t+s_2&=4,\\
+    x_1-x_2+t-s_3+a_3&=4.
+  \end{aligned}
+\]
+Here $s_1,s_2$ are slacks of the reversed rows, $s_3$ a surplus, and
+$a_3$ artificial. Use column order $(x_1,x_2,t,s_1,s_2,s_3,a_3)$ and
+initial basis $B=(4,5,7)$. Phase I maximizes $w=-a_3$.
+The two negative original right-hand sides do not require artificials after
+the row reversal; their slack columns provide a feasible start.
+
+\paragraph{Phase I.}
+The initial tableau is
+\[
+  \begin{array}{c|rrrrrrr|r}
+    B&x_1&x_2&t&s_1&s_2&s_3&a_3&\bar b\\\hline
+    s_1&-1&1&1&1&0&0&0&1\\
+    s_2&-1&-2&2&0&1&0&0&4\\
+    a_3&1&-1&1&0&0&-1&1&4\\\hline
+    q&-1&1&-1&0&0&1&0&-4
+  \end{array}
+\]
+Both $x_1$ and $t$ have indicator $-1$; the smaller column index chooses
+$x_1$. Its only positive coefficient is in row $a_3$, so $a_3$ leaves
+with $\theta=4$:
+\[
+  \begin{array}{c|rrrrrrr|r}
+    B&x_1&x_2&t&s_1&s_2&s_3&a_3&\bar b\\\hline
+    s_1&0&0&2&1&0&-1&1&5\\
+    s_2&0&-3&3&0&1&-1&1&8\\
+    x_1&1&-1&1&0&0&-1&1&4\\\hline
+    q&0&0&0&0&0&0&1&0
+  \end{array}
+\]
+The zero Phase I value and nonbasic artificial allow its column to be removed.
+
+\paragraph{Phase II.}
+For the negative original objective use $d=(-2,2,1,0,0,0)^T$:
+\[
+  \begin{array}{c|rrrrrr|r}
+    B&x_1&x_2&t&s_1&s_2&s_3&\bar b\\\hline
+    s_1&0&0&2&1&0&-1&5\\
+    s_2&0&-3&3&0&1&-1&8\\
+    x_1&1&-1&1&0&0&-1&4\\\hline
+    q&0&0&-3&0&0&2&-8
+  \end{array}
+\]
+Enter $t$. The ratios are $5/2$, $8/3$, and $4$, so $s_1$ leaves
+with $\theta=5/2$. Normalize its row and eliminate the $t$ column:
+\[
+  \begin{array}{c|rrrrrr|r}
+    B&x_1&x_2&t&s_1&s_2&s_3&\bar b\\\hline
+    t&0&0&1&1/2&0&-1/2&5/2\\
+    s_2&0&-3&0&-3/2&1&1/2&1/2\\
+    x_1&1&-1&0&-1/2&0&-1/2&3/2\\\hline
+    q&0&0&0&3/2&0&1/2&-1/2
+  \end{array}
+\]
+All indicators are nonnegative, proving the maximum of $z$ is $-1/2$.
+Recover $x_3=-t$ and $F=-z$: the original solution and minimum are
+\[
+  x^*=(3/2,0,-5/2)^T,\qquad F^*=1/2.
+\]
+Its original row values are $(-1,-7/2,4)^T$, with surpluses $(0,1/2,0)^T$.
+The positive second surplus forces $y_2=0$. Nonzero $x_1,x_3$ force
+$y_1+y_3=2$ and $y_1-y_3=1$, yielding $y^*=(3/2,0,1/2)^T$.
+It is dual feasible, including the tight second column, and has value
+$-3/2+2=1/2$.
+
+The final objective row also gives
+$F=1/2+(3/2)s_1+(1/2)s_3$.
+Optimality therefore forces $s_1=s_3=0$. The remaining equations allow
+\[
+  x(\tau)=(3/2+\tau,\tau,-5/2)^T,\qquad \tau\geq0,
+\]
+with $s_2=1/2+3\tau$. This is the entire optimal set, an unbounded ray
+with a finite constant objective. An unbounded feasible set does not imply
+an unbounded objective.
+
+\section{Checks and questions for understanding}\label{sec:checks}
+All results above are exact rational calculations. The companion MATLAB
+script checks the original variable domains, row residuals, primal--dual
+objective equality, complementary products, and every displayed tableau.
+It follows the specified bases and verifies entering choices, ratio tests,
+step lengths, and the original-coordinate recovery; it is a check of these
+hand solutions rather than a general LP solver.
+Its absolute tolerance is $10^{-10}$ for these small, modestly scaled inputs.
+No units are specified by the task statements; objective values are reported
+without invented physical units.
+
+\begin{enumerate}[leftmargin=*]
+  \item Which two independent feasibility tests reject the supplied point in 2(b)?
+  \item Why is $y_1\leq0$ in 2(c), but $y_1\geq0$ in 3(b)?
+  \item Why may a surplus enter the basis in 3(a)?
+  \item Why must the objective row be rebuilt between phases?
+  \item Explain separately the row reversal, variable substitution, and
+        objective negation in 3(b). Which changes the final reported objective sign?
+  \item Use the displayed segment or ray to prove alternatives exist;
+        explain why a zero indicator alone is insufficient.
+\end{enumerate}
+
+\section{Sources and editorial remarks}\label{sec:sources}
+\textbf{Task source:} \texttt{ProgMatc1.pdf}, titled
+\foreignlanguage{polish}{Programowanie Matematyczne zestaw zadań 1},
+PDF page 1, group 2, and PDF page 2, group 3, supplied in the
+\texttt{execrices-2026-27/} materials directory. The Polish instructions,
+coefficients, inequality directions, variable domains, and supplied candidates
+are retained in Sections~\ref{sec:task-two}--\ref{sec:task-three}.
+English explanations, dual derivations, complete tableaus, and descriptions
+of the optimal sets are added study material. No lecture date is inferred.
+
+\paragraph{Numerical verification.}
+The
+\href{run:matlab/exercises/sheet_01_complementarity_and_two_phase.m}
+{companion MATLAB script} can be run from the repository root with
+\begin{lstlisting}
+run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+\end{lstlisting}
+MATLAB execution is not yet verified for this script. The tableau calculations
+and certificates were independently checked with exact rational arithmetic;
+this does not constitute MATLAB execution evidence. Actual execution status,
+release, and output belong in the repository verification record when available.
+\end{document}

@@ -14,7 +14,7 @@ Używaj katalogów `proposed/`, `implemented/`, `rejected/` i `superseded/`.
 Nazywaj pary `YYYY-MM-DD-topic.md` i `YYYY-MM-DD-topic.pl.md`, używając daty
 pierwszej propozycji. Utwórz propozycję dla nierozstrzygniętego wyboru; nie wymyślaj
 propozycji tylko po to, aby zapełnić listę. Przy zmianie statusu przenoś oba pliki,
-aktualizuj status i naprawiaj odnośniki. Nie zapisano jeszcze nierozstrzygniętych propozycji.
+aktualizuj status i naprawiaj odnośniki.
 
 Wdrożona decyzja opisuje faktycznie obowiązującą politykę lub strukturę.
 Odrzucona propozycja zachowuje uzasadnienie. Gdy decyzja się zmienia, dodaj nowy
@@ -39,3 +39,10 @@ Ta uproszczona konwencja jest inspirowana
 i jego [polityką dwujęzyczną](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/i18n/README.md).
 Nie przejmuje katalogów klasyfikacji ani mechanizmu archiwizacji. Pary wpisów
 mają pliki hashy sekcji zgodnie z [polityką językową](../language-policy.pl.md).
+
+## Integracja bieżącego kursu
+
+- [Włączenie bieżącego kursu z zachowaniem głębi matematycznej](implemented/2026-10-05-current-course-integration.pl.md):
+  wdrożone rozdziały pojęciowe, mapa bieżącego kursu, rozwinięte luki modelowania
+  i pełne rozwiązania pierwszego dostarczonego zestawu. Wpis zachowuje pierwotne
+  alternatywy i uzasadnienie.

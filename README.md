@@ -4,46 +4,84 @@ English | [Polski](README.pl.md)
 
 Personal study repository for mathematical modeling: lecture notes, exercises
 with hand and MATLAB solutions, MATLAB revision, and lab work.
-Lecture notes are developed from the historical sources, with current course alignment unconfirmed.
+Conceptual chapters preserve the explanatory depth of the historical notes and
+integrate the supplied 2026–27 lecture 1 and task sheet 1. Chapter numbers are
+independent of current lecture numbers; future course alignment remains unknown.
 
 ## Start here
 
+- [Current course map](docs/course-map-2026-27.md): lecture pages, task IDs, prerequisites and hand outcomes.
 - [Writing guide](docs/writing-guide.md): structure, notation, sources, and verification.
 - [Language policy](docs/language-policy.md): English notes with Polish terminology.
 - [Polish–English glossary](docs/glossary.md): shared vocabulary.
-- [Source inventory](docs/sources.md): historical lectures and template provenance.
+- [Source inventory](docs/sources.md): current materials, historical references and template provenance.
 - [Decision log](docs/decisions/README.md): rationale and pending proposals.
 
-## Lecture notes
+## Conceptual study chapters
 
-- [Lecture 1: Modeling optimization problems](notes/lectures/01-optimization-modeling.tex)
+- [Chapter 1: Modeling optimization problems](notes/lectures/01-optimization-modeling.tex)
   ([PDF](output/lectures/01-optimization-modeling.pdf)): variables, constraints, objectives,
-  classifications, and the historical MATLAB refresher scope.
+  classifications, a five-product model with two capacity readings and exact hand certificates.
 
-- [Lecture 2: Linear programming—models and geometry](notes/lectures/02-linear-programming.tex)
+- [Chapter 2: Linear programming—models and geometry](notes/lectures/02-linear-programming.tex)
   ([PDF](output/lectures/02-linear-programming.pdf)): modeling examples, standard form,
   recession directions, optimal vertices, and basic feasible solutions.
 
-- [Lecture 3: The simplex method](notes/lectures/03-simplex-method.tex)
+- [Modeling patterns: Blending, networks, objectives and goals](notes/lectures/02a-linear-modeling-patterns.tex)
+  ([PDF](output/lectures/02a-linear-modeling-patterns.pdf)): complete blending,
+  restricted transportation and storage examples, min-cost flow, objective choices
+  and soft constraints, with derivations and hand certificates.
+
+- [Chapter 3: The simplex method](notes/lectures/03-simplex-method.tex)
   ([PDF](output/lectures/03-simplex-method.pdf)): canonical equations, reduced costs,
   full simplex tableaus, degeneracy, feasible rays, two-phase initialization, and Big M.
 
-- [Lecture 4: Degeneracy, duality, and dual simplex](notes/lectures/04-degeneracy-and-duality.tex)
+- [Chapter 4: Degeneracy, duality, and dual simplex](notes/lectures/04-degeneracy-and-duality.tex)
   ([PDF](output/lectures/04-degeneracy-and-duality.pdf)): complete cycling example,
   Bland and lexicographic perturbation, complexity, dual construction,
   optimality certificates, complementarity, and a dual-simplex solve.
 
-- [Lecture 5: Sensitivity analysis and Lagrange multipliers](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
+- [Chapter 5: Sensitivity analysis and Lagrange multipliers](notes/lectures/05-sensitivity-and-lagrange-multipliers.tex)
   ([PDF](output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)): data ranges,
   shadow prices, structural reoptimization, complete tableaus, and KKT certificates.
 
 PDF links point to the committed reading copies in `output/`.
 
+## Current sheet 1 and modeling checks
+
+- [Group 1: Primal simplex](notes/exercises/01-primal-simplex.tex)
+  ([PDF](output/exercises/01-primal-simplex.pdf)): all six problems, both 1(f)
+  starts, complete tableaus, optimal sets and growth rays.
+- [Groups 2–3: Complementarity and two-phase methods](notes/exercises/01-complementarity-and-two-phase.tex)
+  ([PDF](output/exercises/01-complementarity-and-two-phase.pdf)): feasibility-first
+  candidate checks, mixed-sign duals and complete Phase I/II paths.
+- [Groups 4–5: Dual simplex and primal recovery](notes/exercises/01-dual-simplex-and-recovery.tex)
+  ([PDF](output/exercises/01-dual-simplex-and-recovery.pdf)): dual pivots,
+  dual solves, primal recovery and the infeasible duals of printed 5(a)/5(c).
+
+Original Polish statements and printed data are preserved; explanations are in
+English. The current lecture's conflicting grinding capacities are treated
+explicitly. Inadmissible supplied candidates are checked rather than repaired.
+
+The four new base-MATLAB companions can be run from the repository root:
+
+```matlab
+run('matlab/exercises/modeling_patterns_checks.m')
+run('matlab/exercises/sheet_01_primal_simplex.m')
+run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+```
+
+Exact rational checks and MATLAB static analysis passed. Actual MATLAB execution
+of these new scripts is unverified: the sandbox launcher exits with code 1 without
+output. Earlier successful user runs below concern historical companions only.
+See the [verification record](docs/matlab-verification.md).
+
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `notes/lectures/` | English lecture notes in LaTeX |
+| `notes/lectures/` | English conceptual chapters and modeling supplement in LaTeX |
 | `notes/exercises/` | Exercise statements, hand solutions, and MATLAB comparisons |
 | `notes/matlab-review/` | Short MATLAB refresher notes |
 | `notes/labs/` | Lab explanations and results |
@@ -114,7 +152,7 @@ The plot is written to ignored `matlab/output/`. Refresh the study PDFs with:
 ./build.sh
 ```
 
-## Lecture 2 MATLAB checks
+## Chapter 2 MATLAB checks
 
 ```matlab
 run('matlab/exercises/lecture_02_checks.m')
@@ -123,7 +161,7 @@ run('matlab/exercises/lecture_02_checks.m')
 Run from the repository root. The script checks the hand examples using base
 MATLAB; no Optimization Toolbox is required. Both scripts passed, including plot export; see the [verification record](docs/matlab-verification.md).
 
-## Lecture 3 MATLAB checks
+## Chapter 3 MATLAB checks
 
 ```matlab
 run('matlab/exercises/lecture_03_checks.m')
@@ -134,7 +172,7 @@ both two-phase starts, and the added counterexamples. All assertions passed in t
 user's normal terminal. Static analysis and independent exact rational calculations
 also passed; see the [verification record](docs/matlab-verification.md).
 
-## Lecture 4 MATLAB checks
+## Chapter 4 MATLAB checks
 
 ```matlab
 run('matlab/exercises/lecture_04_checks.m')
@@ -146,7 +184,7 @@ RHS changes, and dual simplex. All assertions passed in the user's normal termin
 on R2026b. Static analysis and independent exact rational calculations also passed;
 see the [verification record](docs/matlab-verification.md).
 
-## Lecture 5 MATLAB checks
+## Chapter 5 MATLAB checks
 
 ```matlab
 run('matlab/exercises/lecture_05_checks.m')
@@ -225,8 +263,8 @@ Your global Neovim configuration is unchanged.
 
 ## Study workflow
 
-Compare historical material with the current lecture or task before treating it
-as current course coverage. Write the mathematical explanation and hand solution,
+Use the course map to separate supplied lecture coverage, task requirements
+and historical enrichment; update it as new materials arrive. Write the mathematical explanation and hand solution,
 then check the same inputs in MATLAB. Record assumptions, units, solver settings,
 and discrepancies. Add Polish terms to the glossary as they occur.
 

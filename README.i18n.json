@@ -1,19 +1,23 @@
 {
   "/mathematical-modeling": {
-    "en": "39be5e52197d1a2c6c6aa0e56790e8c0f0e4d5cb0d64a45a4017fa71461308a0",
-    "pl": "7dfea075648dac7a61e6bb55821f83fd7be25602303c3a2831ad48a5bfe8658c"
+    "en": "91e6eacef078e63e1499dd2f46781c572965d3a309e1f81564a1edb132835271",
+    "pl": "1aaa7a4287a8bf5ad469df8f6a942d2bc0b54e06686b9a66149e03c2d276117c"
   },
   "/mathematical-modeling/start-here": {
-    "en": "376b205025d1da5146bdb2950ebacbb2c3a064df0ae02ab7b822c7efc1ec4263",
-    "pl": "689a9de9b8f02ebf23456784315f04e32092737ea34a9a7d19f63eb25a996d49"
+    "en": "680bc5779c2c54b2d964180eead17768165b27efe58c44afdb47ce8fdbd1b7a9",
+    "pl": "e95fea4365b421c31ce48cdf3546839f23dfd9c7c34ca9b447907e41e60aa272"
   },
-  "/mathematical-modeling/lecture-notes": {
-    "en": "0172530d72c909a30bb96dd3562f712fa3240eb9ef0b9f70dffe03a89af498b3",
-    "pl": "3c1b7d3baf0fc6addb38a904e456afc988fa943e2a1e945d0fbf9d2d3b590da4"
+  "/mathematical-modeling/conceptual-study-chapters": {
+    "en": "410ac5c1579509f614431cc0aa9c0dcd6b6da66bc4571776039b841c41fbd4a4",
+    "pl": "4dd20b62a9f3c91e8ee838e70d06e5102c3e0b061356921819d58f293f2b0d0f"
+  },
+  "/mathematical-modeling/current-sheet-1-and-modeling-checks": {
+    "en": "70cd51e5eb4be430e0a6dcf48c2268c916fec776a246651c3846ca5fb1d0a029",
+    "pl": "4f2a8646db7dff4269dfe81f4aefdb01f7464ac5622f36f2ea5a70f477269c37"
   },
   "/mathematical-modeling/layout": {
-    "en": "516b5d40a533bb2f139dab09e2603fd5a58d71d9e253cf0d2575883ea1e8466c",
-    "pl": "e3d374df566be01accdf6268ee025735f61125364e934d025437586071780618"
+    "en": "b1fb1d31eb9cfd9404328e297e4d9b0ac82a863ed3e5030046f57a80b232083f",
+    "pl": "207117b1e50442ca5743ab4203403dda17ee56a21ccfff85f1b282246581b75a"
   },
   "/mathematical-modeling/build-notes": {
     "en": "132cd9edb783e5c9d716c83fc96f37f05b94d348573ea2a1c24e923d3e9d0a97",
@@ -23,21 +27,21 @@
     "en": "732be5ed28c9ec90c4050d83d26ae3cfeb5366e42c549b97673185e6893e5833",
     "pl": "e020f5c55e7b46904d269b0529e784d11aba4bc52098b8e997249c51f7c7916c"
   },
-  "/mathematical-modeling/lecture-2-matlab-checks": {
-    "en": "5230dff5831e105b459fef2a1e2bbb830c0a29743856a1ea5dcf6d1ab15df181",
-    "pl": "e70f6c33d00bc93a67522f918a92e2c53291a6d8f75813cac5fba731403a57e9"
+  "/mathematical-modeling/chapter-2-matlab-checks": {
+    "en": "98eee3689565e145890e756d9ef09e55b47b493435ffff041217516ff9aeb23a",
+    "pl": "2640bc96ce2ee4c51881b671ba1d0fac7980e49d6386aa6ab5596ce91e6057da"
   },
-  "/mathematical-modeling/lecture-3-matlab-checks": {
-    "en": "a9edfcf3de948ae14e2041cb3176b44fc12a73a631fb480afa31dfff43e7b703",
-    "pl": "b62fc7f36060174ce61ecaa43c6a4f4cbe0f273c8bbfe11f1e4fe51706cddb56"
+  "/mathematical-modeling/chapter-3-matlab-checks": {
+    "en": "6564af0305c0b25294df121e648563e52bd32fc73433e58ad5a41a809bfcead5",
+    "pl": "010fcd99e4af19762ebecc61f462a96cd1c7b8350f99bdd641c9dec7390d4d14"
   },
-  "/mathematical-modeling/lecture-4-matlab-checks": {
-    "en": "997bc2a4cf29dcebd9952449edc811db90cab0c6faf2e81611fcccc90d8afcea",
-    "pl": "6402f7464f4beb14aa21b22a55a8db79f38e348463091ee872e4bc4748130f04"
+  "/mathematical-modeling/chapter-4-matlab-checks": {
+    "en": "a86216e87dd23a1a6928c3416f759690f7b9dbac80bf3848c6892489afdaa922",
+    "pl": "cd9cede39e9462883145f0720cc1889d5ad896ebfc378271cf2cd4f590b89238"
   },
-  "/mathematical-modeling/lecture-5-matlab-checks": {
-    "en": "77dc1a6da48d530053383f9e781368d841e01bbbd14f406fde52d059c6d83383",
-    "pl": "3ebb4f9517b987c7a79ca6079ffdaf385444bd8f0ace1ca095e77508b69a9c51"
+  "/mathematical-modeling/chapter-5-matlab-checks": {
+    "en": "35c8b376ae68ca8c5fe4642926aea839919f945dbc02bea0c76be1a33396317e",
+    "pl": "0070dacdac8976e4da4ca6ce910a5dfa20adcda178acc25f2f3ccc9738098be1"
   },
   "/mathematical-modeling/git-checks": {
     "en": "ef3bc86b413d8630e77e4f67a7b03f9a116823355bd3de6491fa11a3bd80994b",
@@ -48,7 +52,7 @@
     "pl": "81076e34471ba35f9a676ab6823fcc561addb13712ef3d9eee07a38d98c1fc3f"
   },
   "/mathematical-modeling/study-workflow": {
-    "en": "50879dce13833e6c17530c00c2b052f4cfb9d81351f1f5b475eb4be601cf7b25",
-    "pl": "69adc5bfcacf5698a874d86f8a58c70717b2d7e09461a32bcf2d87b198a1e4fe"
+    "en": "39f8dec51229b6097546e897d5ec64aae1b2cf4377f47aa28d59289da07ca50d",
+    "pl": "297c1877403914b86a3287a937712206f4804a65daaac4e2df7e750173fce937"
   }
 }

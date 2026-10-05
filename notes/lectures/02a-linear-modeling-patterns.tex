@@ -1,0 +1,374 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Modeling patterns -- blending, networks, objectives and goals}}
+\title{\textbf{Mathematical Modeling}\\[2mm]
+\large Modeling Patterns: Blending, Networks, Objectives, and Goals}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+{\small\tableofcontents}
+
+\section{Building an LP from a statement}\label{sec:principles}
+A linear model expresses decisions using fixed coefficients, additive contributions,
+and explicitly stated domains. A useful formulation requires more than recognizing
+a familiar matrix: explain why a capacity is an inequality, a balance is an equality,
+and an auxiliary variable preserves the intended criterion. The examples below
+use continuous nonnegative quantities unless a different domain is stated.
+All solutions are justified by hand bounds before numerical checks.
+
+\section{Blending: a ratio that yields linear constraints}\label{sec:blending}
+\subsection{Decisions, units, and conservation}
+Choose monthly tonnes $x_1,\ldots,x_5\geq0$ of five input oils and tonnes
+$y\geq0$ of finished oil. Assume no refining mass loss, negligible refining cost,
+and a quality measure that is a mass-weighted average. The data are
+\begin{center}
+  \begin{tabular}{lrrrrr}\toprule
+    Input & VEG1 & VEG2 & OIL1 & OIL2 & OIL3\\\midrule
+    Purchase cost (PLN/t) & 110 & 120 & 130 & 110 & 115\\
+    Hardness & $8.8$ & $6.1$ & $2$ & $4.2$ & $5$\\\bottomrule
+  \end{tabular}
+\end{center}
+Finished oil sells for $150$ PLN/t. Vegetable refining capacity is $200$ t/month;
+other-oil capacity is $250$ t/month. Conservation and capacities give
+\[
+  y=\sum_{i=1}^5x_i,\qquad x_1+x_2\leq200,\qquad x_3+x_4+x_5\leq250.
+\]
+The equality asserts that every purchased tonne enters the finished product;
+it would require modification if some input were discarded or mass were lost.
+Revenue minus purchase cost is
+\[
+  \max\ 150y-110x_1-120x_2-130x_3-110x_4-115x_5.
+\]
+
+\subsection{Why multiplying preserves the quality requirement}
+For $y>0$, average hardness is
+\[
+  H=\frac{8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5}{y}.
+\]
+Requiring $3\leq H\leq6$ is equivalent, for positive $y$, to
+\begin{equation}\label{eq:quality}
+  3y\leq8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5\leq6y.
+\end{equation}
+The directions are preserved because the multiplier $y$ is positive. Every
+coefficient is fixed, so these are linear inequalities. Multiplication by an
+expression of unknown sign would need separate cases and would not justify
+this step as written.
+
+If $y=0$, conservation and $x\geq0$ force $x=0$. The average is undefined,
+but the linear inequalities accept this no-production plan. Allowing no production
+is a modeling convention. A delivery requirement $y\geq q>0$ would exclude it;
+silently imposing $y>0$ instead changes the feasible set and its closedness.
+
+As a simple illustration, mix $v$ tonnes of VEG1 and $o$ tonnes of OIL2.
+The upper-quality bound becomes $2.8v\leq1.8o$, or $v/o\leq9/14$ when $o>0$.
+An individual input above hardness $6$ can therefore be part of an acceptable mixture.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=1cm,font=\small]
+    \draw[model axis] (0,0)--(9.3,0) node[right] {hardness};
+    \draw[line width=3pt,modelblue!40] (3,0)--(6,0);
+    \foreach \x/\lab in {3/3,4.2/4.2,6/6,8.8/8.8}
+    \draw (\x,.12)--(\x,-.12) node[below] {$\lab$};
+    \node[above] at (4.2,.15) {OIL2};
+    \node[above] at (8.8,.15) {VEG1};
+    \node[below,align=center] at (4.5,-.6) {Accepted mixture hardness\\lies in the blue interval.};
+  \end{tikzpicture}
+  \caption{Weighted averages interpolate between component qualities.
+    At the upper boundary the VEG1 mass fraction is $9/23$.}\label{fig:hardness}
+\end{figure}
+
+\subsection{Eliminating a variable and proving the optimum}
+Substitute $y=\sum_i x_i$ into profit. The margins become
+$(40,30,20,40,35)$ PLN/t. In the upper-quality inequality, subtract $6y$:
+\[
+  \frac{14}{5}x_1+\frac1{10}x_2-4x_3-\frac95x_4-x_5\leq0.
+\]
+An optimal plan is
+\begin{equation}\label{eq:blend-optimum}
+  x=\left(\frac{4300}{27},\frac{1100}{27},0,250,0\right),\qquad y=450.
+\end{equation}
+Both refining capacities and the upper hardness bound are tight, giving $H=6$;
+the lower bound is satisfied. Its profit is $475000/27$ PLN.
+
+To prove optimality, weight vegetable capacity by $800/27$, other-oil capacity
+by $140/3$, and the upper-quality inequality by $100/27$. All weights are
+nonnegative. The combined left-side coefficients are
+\[
+  (40,30,860/27,40,1160/27),
+\]
+each at least the corresponding margin. Thus every feasible plan satisfies
+\[
+  40x_1+30x_2+20x_3+40x_4+35x_5
+  \leq\frac{800}{27}\,200+\frac{140}{3}\,250=\frac{475000}{27}.
+\]
+Plan~\eqref{eq:blend-optimum} attains the bound. Strict excess coefficients for
+$x_3,x_5$ force them to zero at every optimum; the three tight weighted rows
+then determine the other amounts uniquely. The proof also explains why buying
+the cheapest input independently of mixture quality can miss the optimum.
+
+\section{Transportation with exact demand and unavailable routes}\label{sec:transport}
+Let $x_{ij}\geq0$ be units sent from supplier $i$ to customer $j$. Use a variable
+only for an allowed route $(i,j)\in E$. A prohibited route is absent, or its flow
+is fixed to zero; an infinite cost is a shorthand for prohibition, not a finite
+coefficient to pass to an LP solver.
+\[
+  \min\sum_{(i,j)\in E}c_{ij}x_{ij},\qquad
+  \sum_{j:(i,j)\in E}x_{ij}\leq S_i,\qquad
+  \sum_{i:(i,j)\in E}x_{ij}=D_j.
+\]
+Supplier capacities are upper bounds. Customer demand is exact in this model;
+if oversupply were allowed, the appropriate customer condition could instead
+be a lower bound. Total capacity at least total demand is necessary, but route
+restrictions can make particular customer subsets impossible to serve.
+
+\subsection{A complete small instance and a lower-bound certificate}
+Take $S=(135,56,93)$ and $D=(62,83,39,91)$. Costs per unit are
+\begin{center}
+  \begin{tabular}{lrrrr}\toprule
+    & Customer 1 & Customer 2 & Customer 3 & Customer 4\\\midrule
+    Supplier 1 & 132 & --- & 97 & 103\\
+    Supplier 2 & 85 & 91 & --- & ---\\
+    Supplier 3 & 106 & 89 & 100 & 98\\\bottomrule
+  \end{tabular}
+\end{center}
+The following flow matrix satisfies demands and capacities, with dashes denoting
+unavailable routes:
+\[
+  X=\begin{pmatrix}0&\text{---}&39&87\\56&0&\text{---}&\text{---}\\6&83&0&4\end{pmatrix}.
+\]
+Row totals are $(126,56,93)$; nine units of supplier 1 capacity are unused.
+The cost is $25919$.
+
+Choose customer values $v=(111,94,97,103)$ and supplier charges $u=(0,26,5)$.
+For each allowed route, check $c_{ij}\geq v_j-u_i$. Multiplying by its
+nonnegative flow and summing gives
+\[
+  \sum c_{ij}x_{ij}\geq\sum_j v_jD_j-\sum_i u_i\sum_jx_{ij}
+  \geq\sum_jv_jD_j-\sum_i u_iS_i=25919.
+\]
+The second inequality uses $u\geq0$ and the supplier upper bounds. The proposed
+plan reaches this lower bound. Used routes have equality in the route bound,
+and each supplier with a positive charge uses its full capacity; these facts
+explain the certificate's equality conditions.
+
+\section{Production with storage as a forward-time network}\label{sec:storage}
+\subsection{Why the transportation costs contain time}
+Let $p_{k,d}$ and $p_{k,n}$ be day- and night-shift production in month $k$.
+Let $I_k\geq0$ be stock after meeting month $k$'s demand $D_k$. Assume no
+backlogging, no mass loss, unlimited storage, initially empty stock, and no
+desired final surplus: $I_0=I_4=0$. Conservation gives
+\begin{equation}\label{eq:inventory}
+  I_{k-1}+p_{k,d}+p_{k,n}-D_k=I_k.
+\end{equation}
+The data are
+\begin{center}
+  \begin{tabular}{lrrrr}\toprule
+    Month & January & February & March & April\\\midrule
+    Day capacity & 100 & 150 & 140 & 160\\
+    Night capacity & 50 & 75 & 70 & 80\\
+    Demand & 80 & 200 & 300 & 200\\\bottomrule
+  \end{tabular}
+\end{center}
+Day production costs $1$ PLN/unit, night production $1.5$, and each unit stored
+for one month costs $0.30$. The objective is
+\[
+  \min\sum_{k=1}^4(p_{k,d}+1.5p_{k,n})+0.30\sum_{k=1}^3 I_k,
+\]
+with production between zero and its capacity.
+
+Equivalently, let $x_{k,s,t}$ be production from shift $s$ in month $k$ used
+for demand in month $t$. Only $t\geq k$ is allowed, since later production
+cannot meet earlier demand. If shift $s$ costs $a_s$, that route costs
+$a_s+0.30(t-k)$ per unit. Supplier rows limit production and customer rows
+equal demand. Each unit assigned to a later month crosses $t-k$ storage
+intervals, proving the equivalence of route costs and inventory holding cost.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \foreach \k/\x in {1/0,2/3,3/6,4/9} {
+    \node[draw,rounded corners] (m\k) at (\x,0) {Month $\k$};
+    \draw[model flow] (\x,1.1)--(m\k) node[midway,right] {$p_{\k,d}+p_{\k,n}$};
+    \draw[model flow] (m\k)--(\x,-1.1) node[midway,right] {$D_{\k}$};
+    }
+    \draw[model flow] (m1)--(m2) node[midway,above] {$I_1$};
+    \draw[model flow] (m2)--(m3) node[midway,above] {$I_2$};
+    \draw[model flow] (m3)--(m4) node[midway,above] {$I_3$};
+  \end{tikzpicture}
+  \caption{Stock carries material only forward. Each node's inflow and production
+    equal its demand and outgoing stock.}\label{fig:inventory}
+\end{figure}
+
+\subsection{An optimal schedule without a black-box solve}
+An optimal schedule is
+\begin{center}
+  \begin{tabular}{lrrrr}\toprule
+    Month & January & February & March & April\\\midrule
+    Day production & 100 & 150 & 140 & 160\\
+    Night production & 45 & 75 & 70 & 40\\
+    Closing inventory & 65 & 90 & 0 & 0\\\bottomrule
+  \end{tabular}
+\end{center}
+Check each balance in~\eqref{eq:inventory}. Total demand is $780$, while total
+day capacity is $550$. Any admissible schedule therefore needs at least $230$
+night units and production cost at least $780+0.5\cdot230=895$ PLN.
+
+March demand is $300$, but March capacity is $210$, so $I_2\geq90$.
+Combining February and March balances with their capacities gives
+\[
+  I_1\geq200+300-(225+210)=65.
+\]
+Other inventories are nonnegative. Holding cost is therefore at least
+$0.30(65+90)=46.5$ PLN. The displayed schedule attains both bounds, giving
+the exact optimum $941.5=1883/2$ PLN. Enough total capacity alone would not
+prove feasibility: these prefix-demand arguments also respect time.
+
+\section{Minimum-cost flow and the meaning of signs}\label{sec:flow}
+For a directed graph $(V,E)$ choose flow $f_{uv}\geq0$ on each arc, bounded by
+capacity $C_{uv}$. Let $s_v$ be net supply: positive at a source and negative
+at a demand node. The model is
+\[
+  \min\sum_{(u,v)\in E}p_{uv}f_{uv},\qquad 0\leq f_{uv}\leq C_{uv},\qquad
+  \sum_{u:(u,v)\in E}f_{uv}+s_v=\sum_{w:(v,w)\in E}f_{vw}.
+\]
+Incoming flow plus local production equals outgoing flow. Summing all node
+balances cancels every arc and gives $\sum_v s_v=0$, a necessary condition.
+It is insufficient when capacities or missing routes block deliveries.
+With an incidence matrix having $+1$ at an arc's tail and $-1$ at its head,
+the same convention is $Bf=s$. Reversing the matrix convention also reverses
+the sign of the supply vector; keeping only one of these changes is an error.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \node[circle,draw] (a) at (0,0) {$A$};
+    \node[circle,draw] (b) at (3,1.5) {$B$};
+    \node[circle,draw] (c) at (6,0) {$C$};
+    \draw[model flow] (a)--(b) node[midway,above left] {cost 1; cap 2};
+    \draw[model flow] (b)--(c) node[midway,above right] {cost 1; cap 2};
+    \draw[model flow] (a)--(c) node[midway,below] {cost 5; cap 3};
+    \node[below] at (0,-.5) {$s_A=3$};
+    \node[above] at (3,2) {$s_B=0$};
+    \node[below] at (6,-.5) {$s_C=-3$};
+  \end{tikzpicture}
+  \caption{Three units must reach $C$. The cheap path has a bottleneck of two units.}
+  \label{fig:flow}
+\end{figure}
+Here balances force $f_{AB}=f_{BC}=t$ and $f_{AC}=3-t$, with $0\leq t\leq2$.
+Cost is $2t+5(3-t)=15-3t$, minimized at $t=2$ with value $9$.
+This derivation simultaneously checks conservation, capacities and optimality.
+
+\section{Choosing an objective and comparing several goals}\label{sec:objectives}
+\subsection{Constants, feasibility, and genuine decisions}
+An unavoidable fixed cost $K$ changes profit $r^Tx$ to $r^Tx-K$. It changes
+the reported value but leaves the optimizers unchanged. A startup cost incurred
+only if production occurs is decision-dependent: modeling it normally introduces
+an activation decision, often a binary variable. It cannot be dropped as an
+unavoidable constant.
+
+If the question is simply whether requirements can be met, use an objective
+such as $\min0$ over the original feasible set. Every feasible point then has
+equal objective value. Also, $x_1+x_2\leq2$, $x_1\geq1$, $x_2\geq1$ force
+$(x_1,x_2)=(1,1)$ independently of the objective. Recognizing this singleton
+does not justify dropping sign or inequality constraints in a general model.
+
+\subsection{Weights, thresholds, and max--min reformulation}
+Suppose several affine criteria $f_i(x)$ are to be maximized. Their individual
+optima help reveal trade-offs, but may be incompatible. Three LP formulations are:
+\begin{enumerate}[leftmargin=1.8em]
+  \item \textbf{Weighted sum:} maximize $\sum_i w_i f_i(x)$ with nonnegative
+        weights. Scaling and units are part of the preference specification.
+  \item \textbf{Thresholds:} maximize one criterion subject to $f_i(x)\geq\beta_i$
+        for the others. Thresholds may make the model infeasible.
+  \item \textbf{Worst normalized achievement:} maximize $\min_i g_i(x)$, where
+        the $g_i$ are comparable affine normalized criteria. Introduce a free
+        variable $z$ and maximize $z$ subject to $z\leq g_i(x)$ for every $i$.
+\end{enumerate}
+For fixed $x$, the largest feasible $z$ is exactly $\min_i g_i(x)$, proving
+the last reformulation. Imposing $z\geq0$ without justification could exclude
+valid decisions with negative scores. Positive weights ensure that an attained
+weighted-sum optimum is Pareto efficient: a feasible decision improving one
+criterion and worsening none would strictly improve the weighted sum.
+
+For $0\leq x\leq1$, take $f_1=x$ and $f_2=1-x$. Equal weights make every
+point optimal. A greater weight on $f_1$ selects $x=1$; a greater weight on
+$f_2$ selects $x=0$. A threshold $f_2\geq\beta$, $0\leq\beta\leq1$, gives
+$x^*=1-\beta$ when maximizing $f_1$. The max--min model has
+$z\leq x$, $z\leq1-x$, hence $2z\leq1$; $x=z=1/2$ attains this bound.
+Replacing $f_1$ by $100x$ without adjusting normalization changes these choices.
+
+\section{Soft constraints: solving a deliberately changed model}\label{sec:goals}
+\subsection{What the deviation variables measure}
+Keep inviolable conditions in a hard feasible set. For a relaxable upper target
+$a^Tx\leq b$, use $a^Tx\leq b+u$, $u\geq0$. For a lower target use
+$a^Tx\geq b-v$, $v\geq0$. For an equality target use
+$a^Tx=b+u-v$ with $u,v\geq0$. With positive penalties, minimizing these
+variables gives one-sided violations or, for the equality, $|a^Tx-b|$.
+With a strictly positive weighted-sum penalty, the equality deviations cannot
+both be positive at an optimum: reducing both
+by their minimum preserves the equality and reduces the sum penalty.
+
+Use either a weighted sum of deviations or a variable $z\geq0$ bounding
+all weighted deviations to minimize the largest one. Deviations in tonnes,
+hours and PLN are incomparable without units-aware weights or normalization.
+Conservation laws and domains should stay hard unless changing them has a
+deliberate meaning. If the hard set itself is empty, softening other targets
+cannot restore feasibility.
+
+\subsection{A hand comparison of two relaxation criteria}
+Let $x\geq0$ be hard and request $x\leq1$, $x\geq3$. These targets are
+incompatible. Relax them to
+\[
+  x\leq1+u,\qquad x\geq3-v,\qquad u,v\geq0.
+\]
+Subtracting the inequalities gives $u+v\geq2$. Minimizing $u+v$ has value
+$2$, attained by every $1\leq x\leq3$ with $u=x-1$, $v=3-x$.
+Minimizing $z$ with $u,v\leq z$ gives $2z\geq u+v\geq2$; the unique
+balanced answer is $x=2$, $u=v=z=1$. Weighting violations differently,
+such as minimizing $2u+v$, selects $x=1$, $u=0$, $v=2$ with value $2$.
+Thus the choice of violation measure determines what compromise means.
+
+Phase I in simplex also uses nonnegative artificials, but its purpose is to
+test feasibility of the original hard equations. A positive \emph{minimum}
+artificial sum, equivalently a negative maximum of minus that sum, certifies
+failure of that test. Goal programming instead accepts
+specified violations and reports a solution of a modified problem.
+
+\section{Questions for checking understanding}\label{sec:review}
+\begin{enumerate}[leftmargin=1.8em]
+  \item Why does multiplying a quality ratio by output preserve inequality directions?
+  \item What does the blending model mean at zero production?
+  \item Why should unavailable routes be omitted rather than assigned a huge cost?
+  \item Why is total production capacity insufficient to guarantee on-time delivery?
+  \item How do node-balance signs depend on the incidence-matrix convention?
+  \item What changes when an objective is multiplied by a conversion factor?
+  \item Which requirements can be relaxed without losing the physical meaning of a model?
+\end{enumerate}
+
+\section{Sources and editorial remarks}\label{sec:sources}
+The supplied current-course source is \texttt{ProgMat\_w1.pdf}, 39 PDF pages,
+stored externally in \texttt{../lectures-2026-27/}. Its delivery date is not
+established. This document develops the modeling material in pp.~10--26:
+blending in Section~\ref{sec:blending}, transportation in Section~\ref{sec:transport},
+storage in Section~\ref{sec:storage}, flow in Section~\ref{sec:flow}, objective
+selection in Section~\ref{sec:objectives}, and goals in Section~\ref{sec:goals}.
+The supplied numerical data are retained. Hand optima, weighted bounds, the
+three-node example, normalized-goal example, relaxation example, and diagrams
+are added explanations. Continuous quantities, empty initial/final stock, no
+backlogging and unlimited storage are explicit modeling assumptions.
+
+This conceptual supplement keeps the earlier LP geometry and proofs in
+Chapter~2 intact. The course map records reading routes
+and current task requirements separately from historical enrichment.
+
+\paragraph{Numerical checks.}
+The actual companion is
+\href{run:matlab/exercises/modeling_patterns_checks.m}{modeling-patterns MATLAB script}
+at \path{matlab/exercises/modeling_patterns_checks.m}.
+It checks the same factory, blending, shipment, storage, flow, regression, diet,
+objective and relaxation examples using base MATLAB and absolute tolerance
+$10^{-10}$. Expected values include blending $475000/27$, transportation $25919$,
+storage $1883/2$, and flow $9$. Exact rational calculations independently
+checked the new hand results. MATLAB execution of the new companion is unverified;
+the execution record is \path{docs/matlab-verification.md}.
+\end{document}

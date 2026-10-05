@@ -1,8 +1,8 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage{templates/modeling-notes}
-\hypersetup{pdftitle={Lecture 1 -- Modeling optimization problems}}
+\hypersetup{pdftitle={Chapter 1 -- Modeling optimization problems}}
 \title{\textbf{Mathematical Modeling}\\[2mm]
-\large Lecture 1: Modeling Optimization Problems}
+\large Chapter 1: Modeling Optimization Problems}
 \author{Personal study notes}
 \date{}
 \begin{document}
@@ -24,6 +24,76 @@ A model has three central ingredients:
 Parameters, such as available resources or prices, are fixed data for one model
 instance. A parameter can change between instances without becoming a decision
 variable.
+
+\section{A concrete model: five products and three resources}\label{sec:factory}
+Suppose a factory chooses weekly amounts $x_1,\ldots,x_5$ of five products.
+Treat these amounts as nonnegative real quantities: this is a continuous model
+whose divisibility assumption must be justified for the actual products.
+Machine use and profit per unit are fixed and additive:
+\begin{center}
+  \begin{tabular}{lrrrrr}\toprule
+    Product & 1 & 2 & 3 & 4 & 5\\\midrule
+    Profit (PLN/unit) & 550 & 600 & 350 & 400 & 200\\
+    Grinding (h/unit) & 12 & 20 & 0 & 25 & 15\\
+    Drilling (h/unit) & 10 & 8 & 16 & 0 & 0\\
+    Technician work (h/unit) & 20 & 20 & 20 & 20 & 20\\\bottomrule
+  \end{tabular}
+\end{center}
+Each machine and technician works $6\cdot8=48$ hours per week. Two drilling
+machines supply $96$ machine-hours, and eight technicians supply $384$
+person-hours. Let $G$ denote available grinding hours; three machines give
+$G=144$, whereas four give $G=192$. Assume capacity can be pooled, with no
+additional scheduling, setup, or demand restrictions. Each coefficient times
+$x_j$ is a required number of hours, so the model is
+\begin{equation}\label{eq:factory}
+  \begin{aligned}
+    \max\quad &550x_1+600x_2+350x_3+400x_4+200x_5\\
+    \text{subject to}\quad
+    &12x_1+20x_2+25x_4+15x_5\leq G,\\
+    &10x_1+8x_2+16x_3\leq96,\\
+    &20(x_1+x_2+x_3+x_4+x_5)\leq384,\qquad x\geq0.
+  \end{aligned}
+\end{equation}
+Resource limits give upper bounds, while $x_j\geq0$ prevents negative production.
+The objective counts total profit, using the stated unit profits. Choosing a
+single product by its profit per unit alone ignores the different resources it uses.
+For a general indexed model, let row $i$ represent a resource and column $j$
+a product: $a_{ij}$ has units of resource $i$ per unit of product $j$.
+Then row $i$ is $\sum_j a_{ij}x_j\leq b_i$, or $Ax\leq b$.
+Rows combine consumption of one resource across all products; columns describe
+all resources used by one product.
+
+\subsection{A hand solution with a reason it is optimal}
+For $G=144$ or $192$, consider
+\[
+  x_1=\frac{48}{5},\quad x_4=\frac{G-576/5}{25},\quad x_2=x_3=x_5=0.
+\]
+Grinding and drilling are used exactly; technician work is below $384$ hours.
+To compare this plan with \emph{every} feasible plan, multiply the grinding
+inequality by $16$ and the drilling inequality by $179/5$. Their combined
+left side has coefficients
+\[
+  (550,\ 3032/5,\ 2864/5,\ 400,\ 240),
+\]
+each at least the corresponding profit coefficient. Since $x\geq0$,
+\[
+  550x_1+600x_2+350x_3+400x_4+200x_5
+  \leq16G+\frac{179}{5}\,96.
+\]
+The proposed plan attains this upper bound, so it is optimal. This weighted
+resource argument is an \emph{optimality certificate}: the bound and its
+attainment establish the answer without trusting a solver.
+\begin{center}
+  \begin{tabular}{rrrr}\toprule
+    $G$ (h) & $x_1$ & $x_4$ & Optimal profit (PLN)\\\midrule
+    $144$ & $48/5$ & $144/125$ & $28704/5$\\
+    $192$ & $48/5$ & $384/125$ & $32544/5$\\\bottomrule
+  \end{tabular}
+\end{center}
+The strictly larger bound coefficients for products 2, 3, and 5 force their
+amounts to zero at an optimum; equality in the two resource bounds then fixes
+$x_1$ and $x_4$. Each continuous optimum is unique. Requiring whole products
+would change the model; rounding these quantities does not establish an integer optimum.
 
 \section{The general constrained problem}\label{sec:general}
 Let $x=(x_1,\ldots,x_n)^T\in\R^n$ be the decision vector. A constrained
@@ -135,10 +205,30 @@ Optimization Toolbox provides solvers for comparison with implemented algorithms
 \noindent\textbf{Primary source:} \texttt{s4\_w1.pdf}, PDF pages 1--6.\\
 \textbf{Source context:} Folder labelled 2020; the slides contain a 2019/2020
 schedule. Exact lecture date is not established.\\
-\textbf{Current course alignment:} Unconfirmed.\\
+\textbf{Current course alignment:} The supplied 2026--27 lecture
+\texttt{ProgMat\_w1.pdf}, pp.~2--8, supports the modeling example in
+Section~\ref{sec:factory}; the remaining topics are mapped in the
+\href{../../docs/course-map-2026-27.md}{current-course map}.
+The historical roadmap and MATLAB scope
+are not confirmed current syllabus or assessment instructions.\\
 \textbf{Editorial scope:} English synthesis of the mathematical content.
 Definitions and explanations expand the brief slides; historical schedules,
 assessment rules, and contact details are not current course instructions.
+
+\paragraph{Current production data and verification.}
+\texttt{ProgMat\_w1.pdf}, pp.~2--7, supplies the five-product data.
+Page~4 states four grinding machines, while pp.~6--7 use three and $144$ hours.
+Section~\ref{sec:factory} retains capacity as $G$ and explicitly solves both
+readings. The weighted bound and uniqueness argument are added explanations.
+Page~8 indexes consumption by product first and resource second. The resource-row
+matrix convention in Section~\ref{sec:factory} is its transpose; changing index
+names consistently preserves the resource sums.
+The actual companion is
+\href{run:matlab/exercises/modeling_patterns_checks.m}{modeling-patterns MATLAB script} at \path{matlab/exercises/modeling_patterns_checks.m};
+it checks the same rational data with absolute tolerance $10^{-10}$.
+The new results were checked independently in exact rational arithmetic.
+MATLAB execution of this new script is unverified; execution evidence is maintained
+in \path{docs/matlab-verification.md}.
 
 Polish equivalents are maintained in \texttt{docs/glossary.md}, including
 \emph{zmienna decyzyjna}, \emph{funkcja celu}, \emph{ograniczenie},
@@ -146,7 +236,8 @@ Polish equivalents are maintained in \texttt{docs/glossary.md}, including
 \begin{itemize}[leftmargin=1.6em]
   \item \texttt{s4\_w1.pdf}, pp.~1--2: historical administration and bibliography;
         not reproduced as current instructions.
-  \item pp.~3--4: Sections~\ref{sec:meaning}--\ref{sec:classification} and the start of
+  \item pp.~3--4: Sections~\ref{sec:meaning}, \ref{sec:general}, \ref{sec:workflow},
+        and \ref{sec:classification}, and the start of
         Section~\ref{sec:roadmap}.
   \item pp.~5--6: remaining roadmap in Section~\ref{sec:roadmap} and MATLAB scope in
         Section~\ref{sec:matlab}.

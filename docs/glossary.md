@@ -93,3 +93,11 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | stacjonarność | stationarity | ∇_x L = 0 | Normal balance / Równowaga normalnych |
 | kwalifikacja ograniczeń | constraint qualification | CQ | Regularity for multiplier necessity / Regularność dla konieczności mnożników |
 | warunek Slatera | Slater's condition | strict feasibility / ścisła dopuszczalność | Convex constraint qualification / Kwalifikacja ograniczeń w zadaniu wypukłym |
+| problem mieszania | blending problem | y = Σx_i | Mass balance and quality / Bilans masy i jakość |
+| przepływ o minimalnym koszcie; najtańszy przepływ | minimum-cost flow | Bf = s | Capacitated directed network / Skierowana sieć z przepustowościami |
+| bilans przepływu | flow balance | inflow + supply = outflow | Node conservation / Zachowanie w wierzchołku |
+| zapas magazynowy | inventory | I_k | Material carried forward / Materiał przenoszony na później |
+| programowanie celowe | goal programming | u, v ≥ 0 | Deliberately softened requirements / Celowo zmiękczone wymagania |
+| zmienna odchylenia | deviation variable | u, v | One-sided target violation / Jednostronne naruszenie wymagania |
+| skalaryzacja | scalarization | Σw_i f_i | Combine objectives with stated preferences / Łączenie celów według jawnych preferencji |
+| optimum Pareto | Pareto optimum | — | No feasible improvement without worsening another criterion / Brak dopuszczalnej poprawy bez pogorszenia innego kryterium |

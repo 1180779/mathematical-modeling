@@ -9,6 +9,8 @@
 - Keep teaching text independent of repository decisions and provenance. Put source attribution, editorial context, and execution evidence in final remarks or `docs/`; use only backward pointers from those remarks. Keep essential mathematical assumptions in the teaching text.
 - Add readable TikZ diagrams when they clarify the mathematics.
 - Historical 2020 lectures are reference material, not confirmed current syllabus. Mark unknown course alignment explicitly.
+- Treat `notes/lectures/` as conceptual chapters; their numbers are independent of current lecture and sheet numbers. Maintain current-source reading routes and coverage in `docs/course-map-2026-27.md` and its Polish pair. Preserve derivations, proofs, counterexamples, and essential assumptions when integrating new sources.
+- Preserve supplied problem data even when starts are inadmissible or requested optima do not exist. Check feasibility first and give mathematical outcome certificates; document genuine source contradictions in final remarks or `docs/`.
 - Do not invent lecture dates, task sources, MATLAB versions, solver output, or verification results.
 - For worked tasks, provide assumptions and a hand derivation, link the actual MATLAB script, and compare the same inputs and tolerances.
 - Run `./build.sh` to build LaTeX notes into ignored `build/` and refresh the PDF-only `output/` tree matching `notes/`. Commit PDF copies alongside their sources. Run relevant MATLAB scripts when MATLAB is available; otherwise report them as unverified.
