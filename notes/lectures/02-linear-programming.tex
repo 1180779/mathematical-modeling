@@ -267,36 +267,17 @@ coordinates are fixed and only $a,b,r$ or $r_i$ are decision variables.
 \end{figure}
 
 
-\section{Cutting stock and integer decisions}\label{sec:cutting}
-Stock has length $L$. Required pieces have lengths $\ell_i$ and demand $b_i$.
-A cutting pattern $j$ specifies nonnegative integer piece counts $a_{ij}$,
-satisfying $\sum_i a_{ij}\ell_i\leq L$. Its offcut is
-\[
-  r_j=L-\sum_i a_{ij}\ell_i.
-\]
-Let $x_j$ count how many stock pieces use pattern $j$.
-For exact demand, minimize $r^Tx$ subject to $Ax=b$, $x\geq0$.
-For minimum demand, replace $Ax=b$ by $Ax\geq b$, permitting overproduction. Physical counts require integer $x_j$;
-real-valued $x_j$ define an LP relaxation.
+\section{Cutting boards and integer decisions}\label{sec:cutting}
+We buy long boards and cut them into the shorter pieces required for cabinets.
+The length $L$ is the full length of one board before cutting.
+A \emph{cutting pattern} specifies which pieces to cut from a single board;
+the unused remainder is its \emph{offcut}.
 
-The condition $r_j<\min_i\ell_i$ describes \emph{maximal} patterns:
-no additional piece fits. It is not a requirement for every feasible pattern.
-Under exact demand, nonmaximal patterns may be needed to avoid excess pieces.
-
-\subsection{Cabinet example with 5.2 m stock: full hand solution}
-At least 200 cabinet sets require 1400 short pieces (0.7 m) and 800 long pieces
-(2.5 m). The three \emph{listed technological patterns} are:
-\begin{center}
-  \begin{tabular}{lrrr}\toprule
-    & Pattern 1 & Pattern 2 & Pattern 3\\\midrule
-    Short pieces & 7 & 3 & 0\\
-    Long pieces & 0 & 1 & 2\\
-    Offcut (m) & 0.3 & 0.6 & 0.2\\\bottomrule
-  \end{tabular}
-\end{center}
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[x=2cm,y=1cm,font=\small]
+    \filldraw[fill=gray!12] (0,1.5) rectangle (5.2,1.9);
+    \node[left] at (0,1.7) {Uncut board};
     \foreach \row/\name in {0/1,-1/2,-2/3} {
         \node[left] at (0,\row+.2) {Pattern \name};
       }
@@ -314,21 +295,49 @@ At least 200 cabinet sets require 1400 short pieces (0.7 m) and 800 long pieces
       }
     \filldraw[fill=modelorange!25,draw=white] (5,-2) rectangle (5.2,-1.6);
     \foreach \row in {0,-1,-2} {\draw (0,\row) rectangle (5.2,\row+.4);}
-    \draw[|<->|] (0,.85)--(5.2,.85) node[midway,above] {5.2 m stock};
+    \draw[|<->|] (0,2.35)--(5.2,2.35) node[midway,above] {Full board length $L=5.2$ m};
     \node[right] at (5.3,.2) {0.3 m};
     \node[right] at (5.3,-.8) {0.6 m};
     \node[right] at (5.3,-1.8) {0.2 m};
     \node[align=center] at (2.6,-2.55) {Light blue: 0.7 m; dark blue: 2.5 m; orange: offcut};
   \end{tikzpicture}
-  \caption{The three permitted cutting patterns drawn to the same length scale.
-    Pattern 2 leaves the largest offcut; the optimal plan uses 200 boards of
-    pattern 1 and 400 of pattern 3.}\label{fig:cutting-patterns}
+  \caption{Each pattern cuts one full board into shorter pieces. For example,
+    pattern 2 gives three 0.7 m pieces and one 2.5 m piece, leaving
+    $5.2-3(0.7)-2.5=0.6$ m unused.}\label{fig:cutting-patterns}
 \end{figure}
+
+Let $\ell_i$ be the required piece lengths and $b_i$ their required counts.
+Pattern $j$ produces $a_{ij}$ pieces of length $\ell_i$ per board, with
+nonnegative integer $a_{ij}$ and $\sum_i a_{ij}\ell_i\leq L$. Its offcut is
+\[
+  r_j=L-\sum_i a_{ij}\ell_i.
+\]
+Let $x_j$ count how many boards are cut using pattern $j$, and let $A=(a_{ij})$.
+For exact demand, minimize $r^Tx$ subject to $Ax=b$, $x\geq0$.
+For minimum demand, replace $Ax=b$ by $Ax\geq b$, permitting overproduction. Physical counts require integer $x_j$;
+real-valued $x_j$ define an LP relaxation.
+
+The condition $r_j<\min_i\ell_i$ describes \emph{maximal} patterns:
+no additional piece fits. It is not a requirement for every feasible pattern.
+Under exact demand, nonmaximal patterns may be needed to avoid excess pieces.
+
+\subsection{Cabinet example with 5.2 m boards: full hand solution}
+At least 200 cabinet sets require 1400 short pieces (0.7 m) and 800 long pieces
+(2.5 m). The three permitted cutting patterns are:
+\begin{center}
+  \begin{tabular}{lrrr}\toprule
+    & Pattern 1 & Pattern 2 & Pattern 3\\\midrule
+    Short pieces & 7 & 3 & 0\\
+    Long pieces & 0 & 1 & 2\\
+    Offcut (m) & 0.3 & 0.6 & 0.2\\\bottomrule
+  \end{tabular}
+\end{center}
+
 
 We optimize over these supplied patterns; they are not an enumeration of all
 length-feasible cuts. For instance, six short pieces and no long ones would be
 a feasible but nonmaximal cut. Assume the listed patterns are the permitted ones,
-ignore saw kerf, and allow surplus pieces:
+ignore material lost to the saw (kerf), and allow surplus pieces:
 \[
   \min 0.3x_1+0.6x_2+0.2x_3,\qquad
   7x_1+3x_2\geq1400,\quad x_2+2x_3\geq800,\quad x\geq0.
@@ -345,13 +354,13 @@ Since $0.6-8/35=13/35>0$,
 \]
 Equality requires $x_2=0$ and both demands tight, yielding the stated candidate.
 It is the unique optimum for the supplied continuous model and, being integer,
-also solves its integer version. It uses 600 stock boards.
+also solves its integer version. It uses 600 boards.
 
-\begin{remark}[Offcut versus stock consumption]
+\begin{remark}[Offcut versus number of boards used]
   With exact demand, $r^Tx=L\sum_jx_j-\sum_i\ell_i b_i$, so minimizing offcut
-  and minimizing stock count are equivalent. With minimum demand, produced length
+  and minimizing the number of boards are equivalent. With minimum demand, produced length
   can vary; the objectives are not generally equivalent. Account separately for
-  unwanted surplus, saw kerf, and stock limits when the real task requires them.
+  unwanted surplus, saw kerf, and limits on available boards when the real task requires them.
 \end{remark}
 
 \subsection{Seven cabinets from 2 m boards}
@@ -876,7 +885,7 @@ printed slides 1--44.\\
 14--15, 19, and 27--30, confirms topical overlap for resource models, diet,
 transportation, regression, standardization and vertex motivation. The current
 transport example uses exact demand and prohibited routes; it is developed in
-\texttt{02a-linear-modeling-patterns.tex}. Historical cutting-stock material
+\texttt{02a-linear-modeling-patterns.tex}. Historical board-cutting material
 and the full geometric proofs are additional study material.\\
 \textbf{Editorial scope:} Source models and results are reorganized in English.
 Hand derivations, proofs, cautions, and MATLAB checks are added study material.

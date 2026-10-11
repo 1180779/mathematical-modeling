@@ -37,7 +37,8 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | bazowe rozwiązanie dopuszczalne | basic feasible solution | BFS | Nonnegative basic solution / Nieujemne rozwiązanie bazowe |
 | degeneracja | degeneracy | — | At least one zero basic coordinate / Co najmniej jedna zerowa zmienna bazowa |
 | relaksacja liniowa | LP relaxation | — | Integrality omitted / Pominięte warunki całkowitoliczbowości |
-| odpad | offcut; waste | r_j | Unused stock length / Niewykorzystana długość surowca |
+| wzorzec rozkroju | cutting pattern | a_{ij} | Piece counts cut from one board / Liczby kawałków wycinanych z jednej deski |
+| odpad | offcut; waste | r_j | Unused board length / Niewykorzystana długość deski |
 | rzaz | saw kerf | — | Material removed by cutting / Materiał usunięty podczas cięcia |
 | reszta regresji | regression residual | e_i | Observed minus fitted value / Wartość obserwowana minus dopasowana |
 | wektor wierszowy | row vector | 1 × n | Horizontal array / Tablica pozioma |
