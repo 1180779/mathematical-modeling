@@ -78,6 +78,9 @@ czterech skryptów przeszły. Użytkownik przekazał pomyślne wyjście i potwie
 MATLAB 26.2.0.3386108 (R2026b); skrypt prymalnego sympleksu podał największą
 różnicę tablica/baza `7.11e-15` przy tolerancji bezwzględnej `1e-10`.
 Zobacz [rejestr weryfikacji](docs/matlab-verification.pl.md).
+Przykład diety i jego sprawdzenie zmieniono po tym uruchomieniu. Nowy wynik
+przechodzi dokładne obliczenia i analizę statyczną; wykonanie tej wersji
+w MATLAB-ie oczekuje na weryfikację.
 
 ## Struktura
 

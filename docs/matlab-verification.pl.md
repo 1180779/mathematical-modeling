@@ -269,3 +269,23 @@ błędu. Wcześniejsze niepowodzenie startu w sandboxie pozostaje kontekstem
 historycznym; nie pozostawia już tych czterech skryptów bez weryfikacji.
 Nowe przykłady pojęciowe w [przeglądzie notatek](notes-review.pl.md) nie zmieniają
 skryptów i nie twierdzimy, że zostały przez nie wykonane.
+
+### Zmiana przykładu diety po zapisanym uruchomieniu
+
+Przykład diety w rozdziale 2 wskazuje teraz w tabeli ilości składników
+odżywczych według produktów i używa `A = [2, 1; 1, 3]`: wiersze to składniki,
+kolumny to produkty, a jednostką są gramy na porcję. Wymagania pozostają
+`b = [4; 4]` g dziennie, a ceny `c = [2; 3]` PLN na porcję. Odpowiedni skrypt
+sprawdza teraz porcje `x = [8/5; 4/5]`, dodatnie wagi certyfikatu `[3/5; 4/5]`
+i koszt `28/5` PLN. To zmiana dodanej ilustracji, a nie dostarczonych danych
+kursowych.
+
+**Niezależna weryfikacja matematyczna: przeszła.** Dokładne obliczenia Python
+`Fraction` sprawdziły obie sumy składników, dodatnio ważone ograniczenie dolne,
+jednoznaczność i wszystkie trzy wierzchołki. **Analiza statyczna: przeszła.**
+Samodzielny analizator R2026b `mlint -id` nie zgłosił uwag dla zmienionego skryptu.
+
+**Wykonanie tej wersji w MATLAB-ie: niezweryfikowane.** Agent podjął próbę
+`matlab -batch "run('matlab/exercises/modeling_patterns_checks.m')"`; MATLAB
+zakończył się kodem 1 bez wyjścia. Pomyślny zapis użytkownika powyżej dotyczy
+wcześniejszych współczynników diety. Trzy skrypty zestawu 1 pozostają bez zmian.

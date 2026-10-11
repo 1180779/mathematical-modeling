@@ -266,3 +266,22 @@ for those checks, not a universal error bound. The earlier sandbox-launch failur
 remains historical context; it no longer leaves these four scripts unverified.
 The new conceptual examples in the [notes review](notes-review.md) do not modify
 these scripts and are not claimed to have been executed by them.
+
+### Diet example revision after the recorded run
+
+The Chapter 2 diet illustration now identifies nutrient amounts by food in a
+table and uses `A = [2, 1; 1, 3]`, with nutrient rows and food columns in grams
+per serving. Requirements remain `b = [4; 4]` g per day and prices remain
+`c = [2; 3]` PLN per serving. The matching script now checks servings
+`x = [8/5; 4/5]`, positive certificate weights `[3/5; 4/5]` and cost `28/5` PLN.
+This is a revision of an added illustration, not of supplied course data.
+
+**Independent mathematical verification: passed.** Exact Python `Fraction`
+calculations checked both nutrient totals, the positive weighted lower bound,
+uniqueness and all three vertices. **Static analysis: passed.** The R2026b
+standalone `mlint -id` analyzer reported no diagnostics for the revised script.
+
+**MATLAB execution of this revision: unverified.** The agent attempted
+`matlab -batch "run('matlab/exercises/modeling_patterns_checks.m')"`; MATLAB
+exited with code 1 and no output. The successful user transcript above concerns
+the earlier diet coefficients. The three sheet 1 scripts are unchanged.

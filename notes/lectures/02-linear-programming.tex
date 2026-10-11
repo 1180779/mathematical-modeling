@@ -125,15 +125,38 @@ Nutrient and food bounds have different units and meanings. Positive food lower
 bounds can enforce minimum variety, but generic bounds do not automatically
 produce a realistic diet.
 
-For a hand-checkable instance, buy servings $x,y\geq0$ at prices $2,3$ PLN.
-Two nutrients have contents $(2,1)$ and $(1,2)$ per serving, and each is required
-in amount at least $4$. Thus minimize $2x+3y$ under $2x+y\geq4$,
-$x+2y\geq4$. The intersection is $x=y=4/3$, costing $20/3$ PLN.
-Weighting the two requirements by $1/3$ and $4/3$ gives
+\begin{samepage}
+  For a hand-checkable instance, let $x$ and $y$ be the daily numbers of servings
+  of foods 1 and 2, respectively. Fractional servings are allowed: $x,y\geq0$.
+  The following table gives the price of one serving of each food and the amounts
+  of two nutrients it supplies. At least 4 g of each nutrient is required per day.
+  \begin{center}
+    \begin{tabular}{lrr}\toprule
+      Per serving & Food 1 & Food 2\\\midrule
+      Price (PLN) & 2 & 3\\
+      Nutrient 1 (g) & 2 & 1\\
+      Nutrient 2 (g) & 1 & 3\\\bottomrule
+    \end{tabular}
+  \end{center}
+\end{samepage}
+For example, one serving of food 2 supplies 1 g of nutrient 1 and 3 g of
+nutrient 2. Thus $x$ servings of food 1 and $y$ servings of food 2 supply
+$2x+y$ grams of nutrient 1 and $x+3y$ grams of nutrient 2.
+The resulting model is
 \[
-  2x+3y=\tfrac13(2x+y)+\tfrac43(x+2y)\geq\tfrac{20}{3}.
+  \min_{x,y\geq0} 2x+3y,\qquad 2x+y\geq4,\quad x+3y\geq4.
 \]
-The candidate reaches this lower bound, proving optimality. The inequality
+To find a candidate, set both nutrient requirements to equality.
+Substituting $y=4-2x$ into $x+3y=4$ gives $x=8/5$ and $y=4/5$.
+These nonnegative quantities meet both requirements and cost $28/5$ PLN per day.
+An intersection alone does not prove optimality. Weighting the two requirements
+by $3/5$ and $4/5$ gives, for every feasible pair,
+\[
+  2x+3y=\tfrac35(2x+y)+\tfrac45(x+3y)\geq\tfrac{28}{5}.
+\]
+The candidate reaches this lower bound, proving optimality. Both weights are
+positive, so attaining the bound requires both nutrient constraints to be tight;
+their unique intersection also proves uniqueness. The inequality
 directions express minimum intake; changing them to upper bounds would describe
 a different requirement. Upper nutrient and serving bounds, when specified,
 must also be checked before accepting a candidate.
@@ -863,6 +886,11 @@ own bound certificates. The actual new companion is
 using the same data and absolute tolerance $10^{-10}$. Their exact calculations
 were independently checked. The user supplied successful output on 2026-10-11
 and confirmed MATLAB 26.2.0.3386108 (R2026b); all modeling-pattern assertions passed.
+That run used the earlier diet coefficients. The revised diet result $28/5$
+was checked in exact rational arithmetic, and the updated script passed static
+analysis. MATLAB execution of the revision is unverified: the agent's launcher
+exited without output. Its execution status is recorded in
+\path{docs/matlab-verification.md}.
 This companion covers the diet and regression examples, while the historical
 script's execution below concerns its own examples.
 

@@ -78,6 +78,9 @@ passed. The user supplied successful output and confirmed MATLAB
 26.2.0.3386108 (R2026b); the primal-simplex script reported a largest tableau/basis
 discrepancy of `7.11e-15` against absolute tolerance `1e-10`.
 See the [verification record](docs/matlab-verification.md).
+The diet example and its check were revised after that run. Their new result
+passes exact arithmetic and static analysis; MATLAB execution of this revision
+is pending.
 
 ## Layout
 

@@ -2,7 +2,7 @@
 % Current source: ProgMat_w1.pdf, pp. 2-26; added examples are identified
 % in the notes' final source remarks. These are specified certificate checks,
 % not a general LP solver. Base MATLAB only; absolute tolerance 1e-10.
-% Execution evidence: docs/matlab-verification.md. New execution unverified.
+% Execution evidence: docs/matlab-verification.md. Revised diet run unverified.
 % Run from the repository root:
 %   run('matlab/exercises/modeling_patterns_checks.m')
 clear;
@@ -27,15 +27,17 @@ for k = 1:numel(capacities)
     assert(norm(x .* (A' * weights - c), Inf) <= tol);
 end
 
-%% Two-food diet: minimum intake and a lower-bound certificate.
-A = [2, 1; 1, 2];
+%% Two-food diet: rows are nutrients, columns are foods (grams per serving).
+A = [2, 1; 1, 3];
 b = [4; 4];
 c = [2; 3];
-x = [4/3; 4/3];
-weights = [1/3; 4/3];
+x = [8/5; 4/5];
+weights = [3/5; 4/5];
 assert(all(A * x >= b - tol) && all(x >= 0));
+assert(all(weights > 0) && rank(A) == 2); % Tight constraints fix the optimizer.
+assert(norm(A * x - b, Inf) <= tol);
 assert(norm(A' * weights - c, Inf) <= tol);
-assert(abs(c' * x - 20/3) <= tol);
+assert(abs(c' * x - 28/5) <= tol);
 assert(abs(b' * weights - c' * x) <= tol);
 
 %% Regression: the same observations produce different optimal criteria.
