@@ -334,15 +334,28 @@ exact-arithmetic pivot logic cannot simply be applied without numerical care.
 \clearpage
 \section{Worked example: production planning}\label{sec:production}
 \paragraph{Task statement.}
-Solve by the basic simplex method:
+A producer makes two products using three limited resources. The table gives
+the resource consumption per item, available amounts, and selling prices:
+\begin{center}
+  \begin{tabular}{lrrr}\toprule
+    Quantity & Product 1 & Product 2 & Available\\\midrule
+    Resource 1 (kg/item; availability in kg) & 2 & 1 & 10\\
+    Resource 2 (kg/item; availability in kg) & 3 & 3 & 24\\
+    Resource 3 (kg/item; availability in kg) & $3/2$ & 0 & 6\\
+    Selling price (PLN/item) & 3 & 2 & ---\\\bottomrule
+  \end{tabular}
+\end{center}
+Let $x_1,x_2$ be the quantities produced. Allow fractional quantities, assume
+constant resource consumption per item, and assume all produced items can be
+sold. Find the production plan that maximizes total revenue, using the basic
+simplex method. The model is
 \[
   \max(3x_1+2x_2),\qquad
   2x_1+x_2\leq10,\quad 3x_1+3x_2\leq24,\quad
   \tfrac32x_1\leq6,\quad x_1,x_2\geq0.
 \]
-Production is continuous; selling prices are 3 and 2 PLN per item, so the
-objective is revenue. The three resource limits are in kg. Add slacks
-$x_3,x_4,x_5$ in that order and use
+Add slacks $x_3,x_4,x_5$ in that order, representing unused resources in kg,
+and use
 \[
   A=\begin{bmatrix}2&1&1&0&0\\3&3&0&1&0\\3/2&0&0&0&1\end{bmatrix},
   \quad b=\begin{bmatrix}10\\24\\6\end{bmatrix},\quad
