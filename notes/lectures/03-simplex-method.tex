@@ -287,6 +287,7 @@ columns. The nonzero pivot also guarantees that the replacement basis is
 nonsingular. Row numbers are \emph{not} variable indices: row $r$ is labelled
 $x_{j_r}$ before the pivot and $x_k$ afterwards.
 
+\Needspace{20cm}
 \section{The algorithm and degenerate steps}\label{sec:algorithm}
 \begin{enumerate}[leftmargin=*]
   \item Start from a feasible basis and form $\bar A$, $\bar b$, $q$, and $z_0$.
@@ -296,6 +297,48 @@ $x_{j_r}$ before the pivot and $x_k$ afterwards.
   \item Apply the ratio test to positive entries of $\bar a_k$; choose a leaving row.
   \item Pivot, update the basis and objective row, and return to step 2.
 \end{enumerate}
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \node (before) at (0,0) {
+      \renewcommand{\arraystretch}{1.15}
+      \begin{tabular}{ccccccc}\toprule
+        Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS\\\midrule
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $x_{j_i}$ & $\cdots$ & $\bar a_{ij}$ & $\cdots$ & $\bar a_{ik}$ & $\cdots$ & $\bar b_i$\\
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $\color{modelblue}x_{j_r}$ & $\cdots$ & $\color{modelblue}\bar a_{rj}$ & $\cdots$ & $\boxed{p=\bar a_{rk}}$ & $\cdots$ & $\color{modelblue}\bar b_r$\\
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\\midrule
+        $\color{modelorange}q$ & $\cdots$ & $\color{modelorange}q_j$ & $\cdots$ & $\color{modelorange}q_k$ & $\cdots$ & $\color{modelorange}z_0$\\\bottomrule
+      \end{tabular}
+    };
+    \node[anchor=south] at ($(before.north)+(0,0.3)$)
+    {Before: pivot $p=\bar a_{rk}>0$; $x_k$ enters, $x_{j_r}$ leaves.};
+    \node[anchor=north] (after) at ($(before.south)+(0,-1.5)$) {
+      \renewcommand{\arraystretch}{1.35}
+      \begin{tabular}{ccccccc}\toprule
+        Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS\\\midrule
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $x_{j_i}$ & $\cdots$ & $\bar a_{ij}-\dfrac{\bar a_{ik}\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\bar b_i-\dfrac{\bar a_{ik}\bar b_r}{p}$\\
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $\color{modelblue}x_k$ & $\cdots$ & $\color{modelblue}\dfrac{\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}1$ & $\cdots$ & $\color{modelblue}\dfrac{\bar b_r}{p}$\\
+        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\\midrule
+        $\color{modelorange}q'$ & $\cdots$ & $\color{modelorange}q_j-\dfrac{q_k\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\color{modelorange}z_0-\dfrac{q_k\bar b_r}{p}$\\\bottomrule
+      \end{tabular}
+    };
+    \draw[model flow] ($(before.south)+(-4.8,-0.2)$)--($(after.north)+(-4.8,0.2)$);
+    \node[align=center] at ($(before.south)+(0,-0.75)$)
+    {$R'_r=R_r/p$\\
+      $R'_i=R_i-\bar a_{ik}R'_r\ (i\ne r),\qquad R'_q=R_q-q_kR'_r$};
+  \end{tikzpicture}
+  \caption{A general tableau pivot, with $i\ne r$ and $j\ne k$.
+    Dots represent the remaining rows and columns. Blue marks the pivot row
+    and the resulting unit column; orange marks the objective row $R_q$.
+    The symbols $\bar a_{ij},\bar b_i,q_j,z_0$ denote old values;
+    $R'_r$ is the normalized pivot row.
+    The structural zeros and one are independent of the problem data.}
+  \label{fig:general-tableau-pivot}
+\end{figure}
 Without degeneracy each pivot strictly increases the objective, so no basis
 can repeat; the finite number of bases implies termination. With degeneracy,
 $\theta^*=0$ can change the basis without moving the point or increasing the
