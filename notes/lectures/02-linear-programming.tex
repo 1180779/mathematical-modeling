@@ -855,6 +855,14 @@ Thus an unbounded feasible set can still have a finite optimum.
   \]
   For bounded $P$, the ray sum is absent.
 \end{theorem}
+Geometrically, every feasible point can be reached in two steps. First choose
+a weighted average of the vertices (the corners): the $\lambda_i$ are shares
+that add to 1. Then move along the extreme recession directions (the directions
+of escape): the $\mu_j$ are nonnegative step sizes and need not add to 1.
+Conversely, every point constructed this way remains feasible. If $P$ is
+bounded, averaging its vertices alone fills the whole polyhedron; there are
+no directions of escape to add.
+
 Standard-form feasible sets are pointed: a line contained in $x\geq0$ would
 force its direction to be zero. Thus the theorem applies when they are nonempty.
 Polyhedra containing lines require an additional lineality term.
