@@ -794,15 +794,31 @@ unbounded in the improving direction; or feasible with a finite attained optimum
 The last case may have one or infinitely many optimal decisions.
 
 \subsection{Unbounded feasible set versus unbounded objective}
+A \emph{feasible ray} is a half-line $\{x^0+\alpha d:\alpha\geq0\}$
+contained entirely in $P$: start at the feasible point $x^0$ and move in a
+fixed nonzero direction $d$. Increasing $\alpha$ takes us farther from the
+starting point without violating any constraint.
+
 If $x^0$ is feasible in standard form and $Ad=0$, $d\geq0$, $c^Td>0$, then
 \[
-  x^0+\alpha d\in P,\qquad c^T(x^0+\alpha d)=c^Tx^0+\alpha c^Td\to+\infty.
+  x^0+\alpha d\in P,\qquad
+  c^T(x^0+\alpha d)=c^Tx^0+\alpha c^Td
+  \xrightarrow{\alpha\to+\infty}+\infty.
 \]
+Here $x^0$, $d$, and $c$ stay fixed; $\alpha$ grows without bound.
+The positive number $c^Td$ is the objective gain per unit increase in $\alpha$,
+so continued travel keeps improving a maximization objective.
+
 Feasibility is an essential assumption: a direction alone does not cure an empty
 feasible set. For example, with $x_1-x_2=1$, $x\geq0$, maximizing $x_1$,
 use $x^0=(1,0)^T$ and $d=(1,1)^T$. The objective is $1+\alpha$.
-On the same feasible ray, maximizing $-x_1$ instead has the unique optimum
-$(1,0)$, although the feasible set remains unbounded.
+
+On the same ray, $-x_1=-1-\alpha$ decreases as $\alpha$ grows, so maximizing
+$-x_1$ instead chooses $\alpha=0$, giving the unique optimum $(1,0)$.
+This is also the solution of minimizing $x_1$: making a value smaller makes
+its negative larger. The optimal point is the same, while the optimal values
+have opposite signs: $\min x_1=-\max(-x_1)=1$.
+Thus an unbounded feasible set can still have a finite optimum.
 
 \begin{figure}[H]
   \centering
