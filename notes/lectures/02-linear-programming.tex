@@ -578,8 +578,12 @@ are called in Polish \emph{zbi\'or wielo\'scienny} and, in the bounded case,
 \end{proof}
 
 \begin{definition}[Extreme point]\label{def:vertex}
-  A point $v\in P$ is an extreme point (vertex) if
-  $v=\lambda u+(1-\lambda)w$, $u,w\in P$, $0<\lambda<1$, implies $u=w=v$.
+  A point $v\in P$ is an extreme point (vertex) if it cannot lie strictly
+  between two distinct points of $P$. Equivalently, for every $u,w\in P$
+  and every $0<\lambda<1$,
+  \[
+    v=\lambda u+(1-\lambda)w\quad\Longrightarrow\quad u=w=v.
+  \]
 \end{definition}
 The strict restriction on $\lambda$ matters: taking $\lambda=0$ or $1$ cannot
 force both points to equal $v$. A point in the middle of a feasible edge is not
@@ -613,6 +617,38 @@ a vertex even if it is optimal.
     halfspace with $x\geq0$ gives the shaded triangle. Convexity keeps the orange
     segment feasible, while the midpoint fails the extreme-point test.}
   \label{fig:halfspace-vertex}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \begin{scope}[x={(1cm,0cm)},y={(-.48cm,.42cm)},z={(0cm,1cm)}]
+      \fill[modelblue!8] (0,0,0)--(3,0,0)--(0,3,0)--cycle;
+      \fill[modelblue!18] (3,0,0)--(0,3,0)--(0,0,3)--cycle;
+      \draw[modelblue,thick] (0,0,0)--(3,0,0)--(0,0,3)--(0,3,0)--cycle;
+      \draw[modelblue,thick] (3,0,0)--(0,3,0);
+      \draw[modelblue,dashed] (0,0,0)--(0,0,3);
+      \draw[model axis] (3,0,0)--(3.7,0,0) node[right] {$x_1$};
+      \draw[model axis] (0,3,0)--(0,4,0) node[above left] {$x_2$};
+      \draw[model axis] (0,0,3)--(0,0,3.7) node[above] {$x_3$};
+      \draw[modelorange,very thick] (2,1,0)--(0,1,2);
+      \node[model point,label=below right:{$u$}] at (2,1,0) {};
+      \node[model point,label=above left:{$w$}] at (0,1,2) {};
+      \node[model point,fill=modelorange,label=right:{$m$}] at (1,1,1) {};
+      \node[model point,label=below left:{$v$}] at (0,0,0) {};
+    \end{scope}
+    \node[align=left,anchor=west] at (4.2,1.8)
+    {$P=\{x\in\R^3:x\geq0,\ x_1+x_2+x_3\leq3\}$\\[2mm]
+      $v=(0,0,0)$ is a vertex.\\[2mm]
+      $u=(2,1,0),\quad w=(0,1,2)$\\
+      $m=(1,1,1)=\tfrac12u+\tfrac12w$\\
+      is not a vertex.};
+  \end{tikzpicture}
+  \caption{The same test in three dimensions. The shaded tetrahedron has a
+    triangular face in the plane $x_1+x_2+x_3=3$. Its point $m$ lies strictly
+    between the distinct feasible points $u$ and $w$. The dashed edge is hidden
+    behind that face.}
+  \label{fig:extreme-point-3d}
 \end{figure}
 
 \subsection{Recession directions and extreme rays}
