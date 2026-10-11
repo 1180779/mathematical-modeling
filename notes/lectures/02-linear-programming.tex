@@ -653,30 +653,105 @@ a vertex even if it is optimal.
 \end{figure}
 
 \subsection{Recession directions and extreme rays}
+Imagine starting at a feasible point and walking in a fixed direction. A
+\emph{recession direction} lets you keep going as far as you like without
+leaving the feasible set, whichever feasible point you start from. Merely
+allowing a small step is not enough.
+
 A nonzero vector $d$ is a recession direction if $x+\alpha d\in P$ for every
-$x\in P$ and $\alpha\geq0$. For a nonempty polyhedron,
+$x\in P$ and $\alpha\geq0$; $\alpha$ controls how far we move. Collecting all
+such directions, together with zero, gives the \emph{recession cone}
+$\operatorname{rec}(P)$. For a nonempty polyhedron,
 \[
   P=\{x:Gx\leq h\}\ \Longrightarrow\ \operatorname{rec}(P)=\{d:Gd\leq0\},
 \]
-where the recession cone includes $d=0$. Substitution proves sufficiency;
-if a row had $G_i d>0$, sufficiently large $\alpha$ would violate it, proving
-necessity. Consequently,
+because $G(x+\alpha d)=Gx+\alpha Gd$: every constraint's left side must
+stay constant or decrease as we move. This proves sufficiency; if a row had
+$G_i d>0$, a sufficiently large step would eventually violate its bound,
+proving necessity. Consequently,
 \[
   P=\{x:Ax=b,\ x\geq0\}\ \Longrightarrow\
   \operatorname{rec}(P)=\{d:Ad=0,\ d\geq0\}.
 \]
+$Ad=0$ keeps the equalities unchanged, while $d\geq0$ prevents any coordinate
+from eventually becoming negative.
+
+A ray $\{\alpha d:\alpha\geq0\}$ records a direction rather than a particular
+step length: $d$ and $2d$ generate the same ray. A cone is \emph{pointed} if
+it contains no line through zero, so it never contains both $d$ and $-d$ for
+a nonzero $d$. An \emph{extreme ray} is a direction that cannot be split into
+two allowed directions pointing elsewhere. Formally, for a pointed cone,
+a nonzero $d$ generates an extreme ray if
+\[
+  d=u+v,\quad u,v\text{ in the cone}
+  \quad\Longrightarrow\quad u=\beta d,\ v=\gamma d
+  \text{ for some }\beta,\gamma\geq0.
+\]
+
+For example, the unbounded wedge
+$P=\{x:x_1\geq0,\ 0\leq x_2\leq x_1+1\}$ has recession cone
+$C=\{d:d_1\geq0,\ 0\leq d_2\leq d_1\}$. Its two boundary rays, generated
+by $e_1=(1,0)$ and $e_2=(1,1)$, are extreme. The direction $(2,1)$ also
+allows indefinite travel, but is not extreme: $(2,1)=e_1+e_2$ combines
+two different directions in $C$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=1cm,y=.85cm,font=\small]
+    \begin{scope}
+      \fill[modelblue!12] (0,0)--(4.2,0)--(4.2,5.2)--(0,1)--cycle;
+      \draw[modelblue,thick,-{Stealth}] (0,0)--(4.2,0);
+      \draw[modelblue,thick,-{Stealth}] (0,1)--(4.2,5.2);
+      \draw[modelblue,thick] (0,0)--(0,1);
+      \draw[model axis] (0,0)--(4.7,0) node[right] {$x_1$};
+      \draw[model axis] (0,0)--(0,5.6) node[above] {$x_2$};
+      \node[model point,label=below:{$x^a$}] at (.6,.2) {};
+      \node[model point,label=above left:{$x^b$}] at (.6,1.3) {};
+      \draw[model flow,draw=modelorange,very thick] (.6,.2)--(3.6,3.2)
+      node[midway,below right] {$e_2=(1,1)$};
+      \draw[model flow,draw=modelorange,very thick] (.6,1.3)--(3.6,4.3);
+      \node[align=center] at (2.1,6.3)
+      {$P=\{x:x_1\geq0,\ 0\leq x_2\leq x_1+1\}$};
+      \node[align=center] at (2.1,-.85)
+      {Same direction, different starts;\\both paths continue indefinitely.};
+    \end{scope}
+    \begin{scope}[shift={(7,0)}]
+      \fill[modelblue!12] (0,0)--(4.2,0)--(4.2,4.2)--cycle;
+      \draw[model axis] (0,0)--(4.7,0) node[right] {$d_1$};
+      \draw[model axis] (0,0)--(0,5.6) node[above] {$d_2$};
+      \draw[modelblue,very thick,-{Stealth}] (0,0)--(4.2,0);
+      \draw[modelblue,very thick,-{Stealth}] (0,0)--(4.2,4.2);
+      \node[above] at (3,.15) {$e_1=(1,0)$};
+      \node[above left] at (3,3) {$e_2=(1,1)$};
+      \node[model point] at (1,0) {};
+      \draw[modelblue,dashed,-{Stealth}] (1,0)--(2,1);
+      \draw[model flow,draw=modelorange,very thick] (0,0)--(2,1)
+      node[above right] {$(2,1)$};
+      \node[align=center] at (2.1,6.3)
+      {$C=\operatorname{rec}(P)=\{d:0\leq d_2\leq d_1\}$};
+      \node[align=center] at (2.1,-.85)
+      {Blue boundary rays are extreme;\\orange direction is $e_1+e_2$.};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Left: a recession direction can be followed forever from any
+    feasible starting point. Right: the recession cone contains direction
+    vectors, not starting points. The dashed arrow is a translated copy of
+    $e_2$, showing why $(2,1)$ is not extreme. Shading continues beyond the
+    right edge of each drawing.}
+  \label{fig:recession-cone}
+\end{figure}
+
 A nonempty polyhedron is unbounded exactly when its recession cone has a nonzero
 vector. The forward implication follows from a finite polyhedral representation;
-the reverse follows from the feasible ray. Closedness matters beyond polyhedra. The nonclosed convex set
+the reverse follows from the feasible ray: there is no limit to how far one
+can travel. This concerns the size of the feasible set, not whether an objective
+improves along that path.
+
+Closedness matters beyond polyhedra. The nonclosed convex set
 $\{(0,0)\}\cup\{(u,v):u>0,\ 0<v<1\}$ is unbounded but has no nonzero recession
 direction. Any ray from the origin either leaves $0<v<1$ eventually or stays
 on an excluded part of its boundary. The equivalence holds for nonempty closed
 convex sets, including polyhedra.
-
-For a pointed cone, a nonzero $d$ generates an \emph{extreme ray} if
-$d=u+v$ with $u,v$ in the cone forces both $u$ and $v$ to be nonnegative multiples
-of $d$. A ray is a set of positive multiples, so its generating vector has no
-unique scale. ``Pointed'' means the cone contains no line through zero.
 
 \section{Existence, unboundedness, and the vertex principle}\label{sec:outcomes}
 For an LP there are three objective outcomes: infeasible; feasible with objective
