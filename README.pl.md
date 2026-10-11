@@ -293,6 +293,16 @@ python3 -m unittest discover -s scripts/tests -v
 
 ## Formatowanie LaTeX i TikZ
 
+Projektowy `.latexmkrc` ustawia `TEXINPUTS` na repozytorium i `templates/`,
+zachowując ścieżki wyszukiwania zainstalowanych pakietów TeX. Małe konfiguracje
+w każdym katalogu dokumentów wczytują go, gdy VimTeX/latexmk kompiluje w tym
+katalogu. Dzięki temu `\usepackage{templates/modeling-notes}` działa zarówno
+z katalogu głównego repozytorium, jak i z katalogu notatki, bez globalnej
+instalacji stylu. Do kompilacji projektu używaj tego pliku konfiguracyjnego;
+ogólna konfiguracja ścieżek wyszukiwania TeX Live to `texmf.cnf`. Zobacz
+[podręcznik latexmk](https://tug.ctan.org/support/latexmk/latexmk.pdf) i
+[dokumentację ścieżek wyszukiwania Kpathsea](https://tug.ctan.org/systems/doc/kpathsea/kpathsea.html#Default-expansion).
+
 Stosuj wspólne ustawienia latexindent do plików `.tex`, `.sty` i `.tikz`:
 
 ```sh
@@ -304,13 +314,17 @@ Obecne grafiki TikZ są wewnątrz wykładowych plików `.tex` i podlegają spraw
 Formatowanie zachowuje podziały wierszy oraz dosłowne listingi MATLAB-a.
 Pliki pomocnicze formattera pozostają poza katalogami źródłowymi.
 
-Projektowy `.nvim.lua` konfiguruje Conform z tymi samymi ustawieniami formattera.
+Projektowy `.nvim.lua` konfiguruje Conform z tymi samymi ustawieniami formattera
+i ustawia `TEXINPUTS` dla procesów edytora, w tym wyszukiwania pakietów przez texlab.
 W Neovimie, z katalogu głównego repozytorium:
 
 ```vim
 :luafile .nvim.lua
 ```
 
+Wczytaj konfigurację przed otwarciem bufora TeX. Jeśli texlab lub kompilator
+VimTeX już działa, uruchom go ponownie albo otwórz Neovim ponownie, aby proces
+odziedziczył zaktualizowane środowisko.
 Następnie użyj istniejącego mapowania `<leader>f`. Opcjonalne ustawienie Neovima
 `exrc` może automatycznie wczytać konfigurację projektu po jej zatwierdzeniu.
 `.editorconfig` zapewnia zgodne wcięcia po dwie spacje w buforach TeX/TikZ.

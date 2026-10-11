@@ -288,6 +288,16 @@ python3 -m unittest discover -s scripts/tests -v
 
 ## LaTeX and TikZ formatting
 
+The project `.latexmkrc` sets `TEXINPUTS` to the repository and `templates/`,
+while preserving the installed TeX package search paths. Small forwarding
+configs in each document directory load it when VimTeX/latexmk compiles there.
+Thus `\usepackage{templates/modeling-notes}` works from both the repository
+root and a note directory, without installing the style globally.
+For project builds this is the configuration file to use; TeX Live's general
+search-path configuration is `texmf.cnf`. See the
+[latexmk manual](https://tug.ctan.org/support/latexmk/latexmk.pdf) and
+[Kpathsea search-path documentation](https://tug.ctan.org/systems/doc/kpathsea/kpathsea.html#Default-expansion).
+
 Use the shared latexindent settings for `.tex`, `.sty`, and `.tikz` files:
 
 ```sh
@@ -299,13 +309,16 @@ The current TikZ figures are inline in lecture `.tex` files and are included in
 the check. Formatting preserves line breaks and verbatim MATLAB listings.
 Formatter scratch files stay outside source directories.
 
-The project `.nvim.lua` configures Conform with the same formatter settings.
+The project `.nvim.lua` configures Conform with the same formatter settings
+and sets `TEXINPUTS` for editor subprocesses, including texlab's package lookup.
 In Neovim, from the repository root:
 
 ```vim
 :luafile .nvim.lua
 ```
 
+Load this before opening a TeX buffer. If texlab or a VimTeX compiler is already
+running, restart it or reopen Neovim so it inherits the updated environment.
 Then use your existing `<leader>f` formatting mapping. Neovim's optional `exrc`
 setting can load the project configuration automatically after you trust it.
 `.editorconfig` supplies matching two-space indentation for TeX/TikZ buffers.
