@@ -123,6 +123,75 @@ the same value.
   optimality or attainment argument.
 \end{remark}
 
+\subsection{When a best decision exists}
+If $\Omega$ is nonempty and compact (closed and bounded in $\R^n$), and $f$
+is continuous on $\Omega$, the extreme-value theorem guarantees a minimizer.
+These are sufficient conditions, not necessary ones: $\min_{x\in\R}x^2$ has
+a unique solution although its feasible set is unbounded. Conversely,
+$\inf_{x\geq0}e^{-x}=0$ is finite but unattained, despite a closed feasible
+set and a continuous objective. Closedness alone is not enough.
+For continuous $f$ on a nonempty closed set, another useful sufficient condition
+is \emph{coercivity}: $f(x)\to+\infty$ as $\|x\|\to\infty$ within that set.
+It confines a minimizing search to a compact sublevel set.
+
+\subsection{Local optimality and why convexity matters}\label{sec:local-convex}
+A feasible $x^*$ is a \emph{local minimizer} if some $\delta>0$ satisfies
+$f(x^*)\leq f(x)$ for all feasible $x$ with $\|x-x^*\|<\delta$.
+Locality always refers to feasible neighbours. A global minimizer passes the
+same comparison against the entire feasible set.
+
+A function is \emph{convex} on a convex domain when
+\[
+  f((1-t)u+tv)\leq(1-t)f(u)+tf(v),\qquad 0\leq t\leq1.
+\]
+Its graph lies below each chord. Strict convexity requires strict inequality
+when $u\ne v$ and $0<t<1$; concavity reverses the convexity inequality.
+A convex minimization problem has a convex objective and a convex feasible set; a standard sufficient description uses
+convex inequality functions $g_i$ and affine equality functions $h_j$.
+Nonlinear equalities generally do not define a convex set.
+
+\begin{proposition}
+  Every local minimizer of a convex function on a convex feasible set is global.
+  A strictly convex objective has at most one minimizer on that set.
+\end{proposition}
+\begin{proof}
+  If feasible $v$ had $f(v)<f(x^*)$, then
+  $x_t=(1-t)x^*+tv$ would be feasible and
+  $f(x_t)\leq(1-t)f(x^*)+tf(v)<f(x^*)$ for every $0<t<1$.
+  Small $t$ contradicts local optimality.
+  With strict convexity, the midpoint of two distinct minimizers would have
+  smaller value than either, a contradiction.
+\end{proof}
+Uniqueness does not imply existence. For maximization the corresponding
+condition is a \emph{concave} objective on a convex feasible set.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \begin{scope}[x=1.3cm,y=.8cm]
+      \draw[model axis] (-1.8,0)--(1.9,0) node[right] {$t$};
+      \draw[model axis] (0,-.3)--(0,2.7) node[above] {$f(t)$};
+      \draw[modelblue,thick,domain=-1.5:1.5,samples=60] plot (\x,{\x*\x});
+      \draw[model objective] (-1.2,1.44)--(1.2,1.44);
+      \node[model point] at (0,0) {};
+      \node[above] at (0,1.44) {chord};
+      \node[align=center] at (0,-.9) {$f(t)=t^2$\\unique global minimum};
+    \end{scope}
+    \begin{scope}[shift={(7,1.9)},x=1.2cm,y=.75cm]
+      \draw[model axis] (-1.8,0)--(2.9,0) node[right] {$t$};
+      \draw[model axis] (0,-3.2)--(0,1.2) node[above] {$f(t)$};
+      \draw[modelblue,thick,domain=-1.6:2.65,samples=100]
+      plot (\x,{(\x*\x*\x*\x)/4-(\x*\x*\x)/3-\x*\x});
+      \node[model point,label=below left:{$(-1,-5/12)$}] at (-1,-.41667) {};
+      \node[model point,fill=modelorange,label=below:{$(2,-8/3)$}] at (2,-2.66667) {};
+      \node[align=center] at (.5,-4.2) {Two local minima;\\only $t=2$ is global};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Convexity connects local comparisons to global ones. On the right,
+    $f(t)=t^4/4-t^3/3-t^2$ has derivative $t(t+1)(t-2)$;
+    its two local minima have different values.}\label{fig:local-global}
+\end{figure}
+
 \section{From a real question to a mathematical model}\label{sec:workflow}
 \begin{enumerate}[leftmargin=1.8em]
   \item \textbf{Choose variables and construct the model.} What can actually be
@@ -184,7 +253,7 @@ positive semidefinite; a convex optimization problem also needs a convex feasibl
 The simplex method for linear programming and the Nelder--Mead simplex method
 are different algorithms. Their shared name does not make them interchangeable.
 
-% Keep the closing study sections together; avoid a crowded page 3 and sparse page 4.
+% Start the closing study sections on a fresh page.
 \newpage
 \section{MATLAB refresher scope}\label{sec:matlab}
 Core MATLAB skills include vectors and matrices,
@@ -215,6 +284,14 @@ are not confirmed current syllabus or assessment instructions.\\
 Definitions and explanations expand the brief slides; historical schedules,
 assessment rules, and contact details are not current course instructions.
 
+\paragraph{Additional foundations.}
+The attainment conditions and Section~\ref{sec:local-convex}, including
+Figure~\ref{fig:local-global}, are added foundations, with original examples
+and proofs. Convexity terminology was cross-checked against
+\href{https://web.stanford.edu/~boyd/cvxbook/}{Boyd and Vandenberghe,
+  \emph{Convex Optimization}}, Sections~3.1 and~4.2.
+Their current-course alignment is unknown.
+
 \paragraph{Current production data and verification.}
 \texttt{ProgMat\_w1.pdf}, pp.~2--7, supplies the five-product data.
 Page~4 states four grinding machines, while pp.~6--7 use three and $144$ hours.
@@ -227,8 +304,9 @@ The actual companion is
 \href{run:matlab/exercises/modeling_patterns_checks.m}{modeling-patterns MATLAB script} at \path{matlab/exercises/modeling_patterns_checks.m};
 it checks the same rational data with absolute tolerance $10^{-10}$.
 The new results were checked independently in exact rational arithmetic.
-MATLAB execution of this new script is unverified; execution evidence is maintained
-in \path{docs/matlab-verification.md}.
+The user supplied successful MATLAB output on 2026-10-11 and confirmed version
+26.2.0.3386108 (R2026b); all companion assertions passed.
+Execution evidence is maintained in \path{docs/matlab-verification.md}.
 
 Polish equivalents are maintained in \texttt{docs/glossary.md}, including
 \emph{zmienna decyzyjna}, \emph{funkcja celu}, \emph{ograniczenie},

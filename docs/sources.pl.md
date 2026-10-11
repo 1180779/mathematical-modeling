@@ -174,6 +174,28 @@ Przeczytano przez narzędzie web. **Nie pobrano:** obie próby w powłoce w dniu
 Zewnętrzne README w obu językach zawierają adresy i polecenia ponownego pobrania.
 Źródła uzupełniające nie potwierdzają zakresu obecnego kursu.
 
+## Dodatkowe podstawy sprawdzone 2026-10-11
+
+[Całościowy przegląd notatek](notes-review.pl.md) dodaje siedem objaśniających
+rysunków TikZ i zwięzłe połączenia matematyczne. Te źródła uzupełniające przeczytano
+online narzędziem internetowym; nie utworzono nowych lokalnych kopii PDF-ów.
+Nie ustalają one bieżącego zakresu kursu. Przykłady i rysunki dodane podczas
+przeglądu są własnymi wyprowadzeniami, odrębnymi od dostarczonych danych ćwiczeń.
+
+| Źródło pierwotne | Sprawdzony materiał |
+| --- | --- |
+| [Boyd and Vandenberghe, *Convex Optimization*](https://web.stanford.edu/~boyd/cvxbook/) | Sekcje 3.1 i 4.2: wypukłość i optymalność lokalna/globalna; 5.2.3 i 5.5.3: regularność i KKT; 11.2: bariery i ścieżka centralna |
+| [MIT OCW 6.251J, Lecture 25: *Exact Methods for Discrete Optimization*](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/d0be6aa7393f489a419add7cec874a4c_MIT6_251JF09_lec25.pdf) | Sekcje 2–3: cięcia, ograniczenia z relaksacji PL i metoda podziału i ograniczeń; tytuł katalogowy: Discrete optimization II |
+| [MIT OCW 15.053, *Networks 2: Network flows*](https://ocw.mit.edu/courses/15-053-optimization-methods-in-management-science-spring-2013/687225c151d8cc8254dcb8b07e5f9ce2_MIT15_053S13_lec16.pdf) | PDF s. 30–33: całkowitoliczbowość sieci i założenia dotyczące danych/struktury |
+| [MIT OCW 18.310, *Network flows*](https://ocw.mit.edu/courses/18-310-principles-of-discrete-applied-mathematics-fall-2013/3235079dd74eb61e56f41ea2bb595d64_MIT18_310F13_Ch9.pdf) | PDF s. 2–3: twierdzenie o maksymalnym przepływie/minimalnym przekroju i ograniczenie przepustowości przekroju |
+| [MIT OCW 6.854J, *Linear programming notes*](https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/908fe54d659623efadda2d033b895caf_notes_lp.pdf) | PDF s. 12, twierdzenie 6: alternatywa Farkasa dla dopuszczalności układu równań z nieujemnością |
+
+Wcześniej zinwentaryzowany wykład 6 MIT OCW, *The Simplex Method II*, sprawdzono
+również na s. 2–3 PDF-u w zakresie zrewidowanego sympleksu, reprezentacji rzadkiej
+oraz okresowego ponownego obliczania. Wcześniejszy stan pobrania zewnętrznego
+pozostaje bez zmian. Wzory zrewidowanego sympleksu stosują konsekwentnie przyjętą
+w notatkach konwencję maksymalizacji.
+
 ## Dokumentacja do powtórki MATLAB-a
 
 Powtórka 1 zawiera własne przykłady ręczne oraz poniższe oficjalne źródła MathWorks

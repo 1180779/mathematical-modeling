@@ -84,6 +84,23 @@ Inadmissible candidates may be deliberate checks. Group 5's generic request for
 optimal dual solutions cannot be fulfilled for 5(a) and 5(c) as printed; their
 solutions give the appropriate infeasibility and unboundedness certificates.
 
+## Additional foundations and optional reading
+
+The [notes review and further-study guide](notes-review.md) records the holistic
+review, seven new TikZ figures and remaining directions. Added foundations cover
+attainment and convexity (Chapter 1), integer relaxations (Chapter 2), network
+cuts and integrality plus criterion-space trade-offs (Modeling patterns), revised
+simplex (Chapter 3), Farkas' alternative and numerical certificates (Chapter 4),
+and nonlinear KKT qualifications and a barrier/central-path introduction
+(Chapter 5). Their current-course alignment is unknown; their presence does not
+change the supplied-lecture or sheet requirements above.
+
+The LP explanations remain the canonical prerequisites. Smooth nonlinear
+algorithms, full second-order theory, general integer algorithms, nonsmooth
+methods and optimization under uncertainty are still further-study directions,
+not fully developed chapters. The guide gives prerequisites and concrete next
+steps instead of claiming coverage from the historical roadmap.
+
 ## Verification and maintenance
 
 Each exercise document links its actual matching MATLAB script. The modeling

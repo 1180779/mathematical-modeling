@@ -17,7 +17,8 @@ Three independent agent reviews examined source coverage, teaching depth, and
 repository organization. The user approved the approach on 2026-10-05.
 The conceptual chapters, current-source map, modeling supplement and complete
 worked sheet are now in place. The initial alternatives and rationale are retained
-below; MATLAB execution remains explicitly unverified.
+below. MATLAB execution was unverified at integration time; later successful
+user output is recorded in the [verification log](../../matlab-verification.md).
 
 Source paths are relative to the repository root; page references mean PDF pages.
 

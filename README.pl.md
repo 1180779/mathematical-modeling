@@ -11,6 +11,7 @@ numerów bieżących wykładów; przyszła zgodność z kursem pozostaje nieznan
 ## Od czego zacząć
 
 - [Mapa bieżącego kursu](docs/course-map-2026-27.pl.md): strony wykładu, numery zadań, podstawy i wyniki ręczne.
+- [Przegląd notatek i dalsza nauka](docs/notes-review.pl.md): objaśnienia wizualne, rozszerzone podstawy i dalsze kierunki nauki.
 - [Przewodnik pisania](docs/writing-guide.pl.md): struktura, notacja, źródła i weryfikacja.
 - [Polityka językowa](docs/language-policy.pl.md): angielskie notatki z polską terminologią.
 - [Słownik polsko-angielski](docs/glossary.md): wspólne słownictwo.
@@ -72,10 +73,11 @@ run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
 run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
 ```
 
-Dokładne sprawdzenia wymierne i analiza statyczna MATLAB-a przeszły. Faktyczne
-wykonanie nowych skryptów jest niezweryfikowane: program uruchamiający w sandboxie
-kończy się kodem 1 bez wyjścia. Dawniejsze udane uruchomienia użytkownika poniżej
-obejmują tylko historyczne skrypty. Zobacz [rejestr weryfikacji](docs/matlab-verification.pl.md).
+Dokładne sprawdzenia wymierne, analiza statyczna MATLAB-a i asercje wszystkich
+czterech skryptów przeszły. Użytkownik przekazał pomyślne wyjście i potwierdził
+MATLAB 26.2.0.3386108 (R2026b); skrypt prymalnego sympleksu podał największą
+różnicę tablica/baza `7.11e-15` przy tolerancji bezwzględnej `1e-10`.
+Zobacz [rejestr weryfikacji](docs/matlab-verification.pl.md).
 
 ## Struktura
 

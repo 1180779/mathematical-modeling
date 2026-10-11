@@ -11,6 +11,7 @@ independent of current lecture numbers; future course alignment remains unknown.
 ## Start here
 
 - [Current course map](docs/course-map-2026-27.md): lecture pages, task IDs, prerequisites and hand outcomes.
+- [Notes review and further study](docs/notes-review.md): visual explanations, expanded foundations and remaining study directions.
 - [Writing guide](docs/writing-guide.md): structure, notation, sources, and verification.
 - [Language policy](docs/language-policy.md): English notes with Polish terminology.
 - [Polish–English glossary](docs/glossary.md): shared vocabulary.
@@ -72,9 +73,10 @@ run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
 run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
 ```
 
-Exact rational checks and MATLAB static analysis passed. Actual MATLAB execution
-of these new scripts is unverified: the sandbox launcher exits with code 1 without
-output. Earlier successful user runs below concern historical companions only.
+Exact rational checks, MATLAB static analysis and all four scripts' assertions
+passed. The user supplied successful output and confirmed MATLAB
+26.2.0.3386108 (R2026b); the primal-simplex script reported a largest tableau/basis
+discrepancy of `7.11e-15` against absolute tolerance `1e-10`.
 See the [verification record](docs/matlab-verification.md).
 
 ## Layout

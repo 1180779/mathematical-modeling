@@ -987,6 +987,116 @@ not exist. For fixed feasible set, the maximum value as a function of $c$ is
 convex, because it is a supremum of linear functions $c^Tx$.
 These curvature statements use \emph{maximization}; minimization reverses them.
 
+\section{Beyond LP: what nonlinear KKT conditions establish}\label{sec:nonlinear-kkt}
+For differentiable minimization with $x\in\R^n$,
+\[
+  \min f(x),\qquad g_i(x)\leq0,\qquad h_j(x)=0,
+  \qquad L=f+\sum_i\lambda_i g_i+\sum_j\nu_jh_j,
+\]
+stationarity becomes
+$\nabla f+\sum_i\lambda_i\nabla g_i+\sum_j\nu_j\nabla h_j=0$.
+Feasibility, $\lambda\geq0$ and $\lambda_i g_i=0$ are still required.
+They must be interpreted with the following distinctions.
+\begin{itemize}[leftmargin=*]
+  \item If $f,g_i$ are convex and $h_j$ are affine, every KKT point is a
+        global minimizer. For any feasible $x$, complementarity gives
+        $L(\hat x,\lambda,\nu)=f(\hat x)$ and the signs give
+        $L(x,\lambda,\nu)\leq f(x)$. Convexity and stationarity make
+        $\hat x$ minimize $L$, hence $f(\hat x)\leq f(x)$.
+  \item In this differentiable convex setting with functions defined on
+        $\R^n$, a sufficient Slater condition is a point satisfying all
+        equalities and $g_i(x)<0$ for every inequality. If a minimizer exists,
+        this condition guarantees KKT multipliers. More general domains use
+        relative-interior qualifications; strict feasibility is sufficient,
+        not necessary for every model, particularly LPs.
+  \item In a general smooth problem, a local minimizer admits KKT multipliers
+        under suitable regularity. For example, linear independence of the
+        active inequality gradients together with the equality gradients is
+        the \emph{linear independence constraint qualification} (LICQ).
+        Even with this qualification, a KKT point need not be a minimum.
+\end{itemize}
+
+For a direct counterexample, minimize $f(t)=t^3$ on $[-1,1]$.
+At $t=0$ both bound inequalities are inactive, their multipliers are zero,
+and $f'(0)=0$: all KKT conditions hold. Yet negative nearby $t$ have smaller
+value, so this point is not even a local minimum. The failure is nonconvexity,
+not a missing multiplier. Likewise, $f(t)=-t^2$ has a stationary local maximum
+at zero. First-order stationarity alone does not classify a point.
+
+If functions are twice differentiable, second-order analysis examines
+$\nabla^2_{xx}L$ on appropriate feasible or critical directions, not necessarily
+on all of $\R^n$. For instance, minimize $u^2-v^2$ subject to $v=0$.
+At $(0,0)$ the Hessian is $\operatorname{diag}(2,-2)$, but every nonzero
+tangent direction is $(d,0)$ and has curvature $2d^2>0$; the constrained
+point is the unique global minimum. For unconstrained problems, a
+positive-definite Hessian at a stationary point suffices for a strict local
+minimum; a positive-semidefinite Hessian alone does not, as $t^3$ shows.
+
+\section{A first look at barriers and the central path}\label{sec:barrier}
+Complementarity also explains the link to interior-point methods.
+For the standard maximization LP, minimize $-c^Tx$ and introduce a logarithmic
+barrier with parameter $\tau>0$:
+\[
+  \min_{Ax=b,\ x>0}\left(-c^Tx-\tau\sum_{j=1}^n\log x_j\right).
+\]
+Here $x>0$ means every coordinate is strictly positive; assume such a feasible
+point exists and that the barrier subproblem has a minimizer.
+The logarithm acts on nondimensionalized coordinates. With positive reference
+scales, $\log(x_j/s_j)$ gives the same minimizers by adding a constant.
+The barrier tends to $+\infty$ as a coordinate approaches zero, keeping the
+subproblem's solutions in the interior relative to $Ax=b$.
+
+Using a free equality multiplier $y$, stationarity gives
+\[
+  -c+A^Ty-\tau\begin{pmatrix}1/x_1\\\vdots\\1/x_n\end{pmatrix}=0.
+\]
+Set $q=A^Ty-c$. Then a barrier optimum satisfies
+\begin{equation}\label{eq:central-path}
+  Ax=b,\quad x>0,\qquad q>0,\qquad x_jq_j=\tau\quad(j=1,\ldots,n).
+\end{equation}
+Both primal and dual are feasible and their gap is
+$b^Ty-c^Tx=x^Tq=n\tau$.
+Decreasing $\tau$ therefore approaches zero complementarity gap. The family
+of exact subproblem solutions is the \emph{central path}; actual algorithmic
+iterates need not lie exactly on it.
+
+Consider $\max x_1$ subject to $x_1+x_2=1$, $x\geq0$.
+Here $y=\tau/x_2$ and $y-1=\tau/x_1$; eliminating $y$ gives
+\[
+  x_1(\tau)=\frac{1-2\tau+\sqrt{1+4\tau^2}}2,\qquad x_2=1-x_1.
+\]
+For every $\tau>0$, $1/2<x_1<1$; as $\tau\downarrow0$, $x$ approaches
+the boundary optimum $(1,0)$. The dual slack pair stays positive until the limit.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=6cm,y=4cm,font=\small]
+    \draw[model axis] (0,0)--(1.18,0) node[right] {$x_1$};
+    \draw[model axis] (0,0)--(0,1.2) node[above] {$x_2$};
+    \draw[modelblue,thick] (0,1)--(1,0);
+    \node[model point,label=above left:{$\tau=1$}] at (.618034,.381966) {};
+    \node[model point,label=above right:{$\tau=1/4$}] at (.809017,.190983) {};
+    \node[model point,label=above right:{$\tau=1/10$}] at (.909902,.090098) {};
+    \node[model point,fill=modelorange,label=below:{$x^*=(1,0)$}] at (1,0) {};
+    \draw[model flow,draw=modelorange] (.67,.33)--(.76,.24);
+    \node[align=left,anchor=west] at (1.35,.4)
+    {$x_1+x_2=1$\\$x_jq_j=\tau$\\gap $=2\tau$};
+  \end{tikzpicture}
+  \caption{Computed central-path locations from the explicit formula, rather
+    than solver iterates. The relative interior here is a line segment;
+    decreasing the barrier parameter approaches its optimal endpoint.}
+  \label{fig:central-path}
+\end{figure}
+Strict primal feasibility alone does not guarantee a barrier minimizer.
+For example, adding a variable fixed only by $x_3\geq0$ with zero cost makes
+$-\tau\log x_3$ unbounded below as $x_3\to\infty$.
+Rows forcing a variable to zero also leave this simple barrier with no domain.
+Such cases require reformulation or a more general initialization strategy.
+Primal--dual methods solve perturbed KKT equations using Newton steps, with
+step lengths controlling positivity and residuals. Their convergence and
+complexity require additional analysis; the one-dimensional formula is an
+illustration, not a general implementation.
+
 \section{MATLAB checks and a study checklist}\label{sec:matlab}
 The matching base MATLAB script is
 \href{../../matlab/exercises/lecture_05_checks.m}{\texttt{matlab/exercises/lecture\_05\_checks.m}}.
@@ -1115,6 +1225,15 @@ No Optimization Toolbox is required.
   \end{itemize}
   These are supplements, not evidence of current course coverage. External
   download locations and status are recorded in the paired source inventory.
+
+  Sections~\ref{sec:nonlinear-kkt}--\ref{sec:barrier} are added bridges to
+  nonlinear and interior-point optimization, with unknown current-course
+  alignment. The KKT qualifications and barrier terminology were cross-checked
+  against \href{https://web.stanford.edu/~boyd/cvxbook/}{Boyd and Vandenberghe,
+    \emph{Convex Optimization}}, Sections~5.2.3, 5.5.3 and~11.2.
+  The cubic, equality-constrained curvature and two-variable central-path
+  examples are original derivations; Figure~\ref{fig:central-path} uses their
+  explicit formula. They are not covered by the existing MATLAB companion.
 
   Verification: the hand tableaus, endpoints, structural updates, and KKT identity
   were checked independently with exact rational arithmetic. All Lecture 5 MATLAB assertions passed in the user's normal terminal on

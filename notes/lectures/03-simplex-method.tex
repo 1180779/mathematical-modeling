@@ -865,6 +865,43 @@ transparent numerical demonstration, two separate phases avoid inventing a
 penalty size. A simplex tableau is a teaching representation; efficient solvers
 usually maintain basis factorizations instead of repeatedly forming full inverses.
 
+\section{From a full tableau to revised simplex}\label{sec:revised}
+The algebraic inverse $A_B^{-1}$ explains a basis transformation. An
+implementation can obtain the same information by solving linear systems:
+\[
+  A_Bx_B=b,\qquad A_B^Ty=c_B,\qquad q_j=a_j^Ty-c_j.
+\]
+After selecting an entering $k$ with $q_k<0$, solve $A_Bu=a_k$.
+Apply the same ratio test to $(x_B)_i/u_i$ over rows with $u_i>0$.
+If none exist, the direction certifies unboundedness. This is \emph{revised simplex}:
+it computes the needed quantities without storing the entire transformed
+matrix $A_B^{-1}A$. With identical exact pivot choices, it follows the same
+bases as the tableau method and has the same degeneracy issues.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small,
+      box/.style={draw=modelblue,rounded corners,align=center,text width=3.5cm,inner sep=6pt}]
+    \node[box] (factor) at (0,0) {Factor the current $A_B$\\solve for $x_B$ and $y$};
+    \node[box] (price) at (4.9,0) {Price nonbasic\\columns\\$q_j=a_j^Ty-c_j$};
+    \node[box] (step) at (9.8,0) {Solve $A_Bu=a_k$\\ratio test\\exchange column};
+    \draw[model flow] (factor)--(price);
+    \draw[model flow] (price)--(step);
+    \draw[model flow] (step.south)--(9.8,-1.3)--(0,-1.3)--(factor.south);
+    \node[fill=white] at (4.9,-1.3) {Update or refactor the new basis};
+  \end{tikzpicture}
+  \caption{The revised formulation retains the mathematical basis exchange.
+    Pricing selects an improving column or establishes that all indicators
+    are nonnegative.}\label{fig:revised-simplex}
+\end{figure}
+Sparse factorizations and their updates make this useful for large models;
+periodic refactorization limits accumulated numerical error. Presolve can
+remove fixed variables and redundant rows, but solutions and certificates must
+be mapped back to the original model. A small equation residual alone does not
+guarantee accurate coordinates when $A_B$ is ill-conditioned.
+Scale variables and rows sensibly, distinguish numerical tolerances from exact
+sign tests, and verify original feasibility as well as dual indicators.
+
 \section{Checking the hand calculations in MATLAB}\label{sec:matlab}
 The companion script is
 \href{../../matlab/exercises/lecture_03_checks.m}{\texttt{matlab/exercises/lecture\_03\_checks.m}}.
@@ -1024,6 +1061,13 @@ an insufficient finite penalty and an augmented ray carrying positive artificial
 values do not by themselves establish original infeasibility.
 
 \paragraph{Supplementary checks.}
+Section~\ref{sec:revised} and Figure~\ref{fig:revised-simplex} connect the
+existing pivot equations to implementation. The terminology was checked against
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/2ef2f1dd7045b5f29e5faea299fb0798_MIT6_251JF09_lec06.pdf}{MIT OCW,
+  \emph{The Simplex Method II}, Lecture 6}, PDF pp.~2--3.
+This is additional study material with unknown current-course alignment;
+no new solver implementation or MATLAB execution is claimed for this section.
+
 \href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/4fdf1a06497288c24593f7eedef7576e_MIT6_251JF09_lec05.pdf}{MIT OCW 15.081J/6.251J, Lecture 5 (Fall 2009)},
 PDF p.~2 and pp.~5--6, was consulted for the nondegeneracy qualification and
 anti-cycling rule.

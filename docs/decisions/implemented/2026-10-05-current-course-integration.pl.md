@@ -16,7 +16,8 @@ Trzy niezależne analizy agentów dotyczyły pokrycia źródeł, głębi dydakty
 i organizacji repozytorium. Użytkownik zaakceptował podejście 2026-10-05.
 Rozdziały pojęciowe, mapa bieżących źródeł, dodatek modelowania i pełne rozwiązania
 zestawu już istnieją. Poniżej zachowano początkowe alternatywy i uzasadnienie;
-wykonanie MATLAB-a pozostaje jawnie niezweryfikowane.
+wykonanie MATLAB-a było niezweryfikowane w chwili integracji; późniejsze pomyślne
+wyjście użytkownika zapisano w [rejestrze weryfikacji](../../matlab-verification.pl.md).
 
 Ścieżki źródeł są względne wobec katalogu głównego repozytorium; odwołania do stron
 oznaczają strony PDF-ów.

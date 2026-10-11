@@ -628,9 +628,12 @@ Exact hand fractions are compared with floating-point calculations on identical
 inputs. Endpoint and direction identities prove the entire segments/rays;
 additional sample points are numerical checks rather than substitutes for proof.
 
-\textbf{Execution status: not yet verified in MATLAB.}
-No observed MATLAB discrepancy, error bound or release is claimed here.
-Independent exact-arithmetic verification establishes the hand calculations;
-a successful future MATLAB run must be recorded separately before being
-reported as numerical execution evidence.
+\textbf{Execution status: passed in MATLAB.}
+The user supplied output on 2026-10-11 and confirmed version
+26.2.0.3386108 (R2026b). All prescribed paths and certificate assertions passed.
+The largest checked tableau/basis discrepancy was $7.11\cdot10^{-15}$,
+below the absolute tolerance $10^{-10}$; this is an observed discrepancy for
+these checks, not a universal solution-error bound.
+Independent exact-arithmetic verification establishes the hand calculations.
+The supplied output is retained in \path{docs/matlab-verification.md}.
 \end{document}

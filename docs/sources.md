@@ -173,6 +173,27 @@ failed at DNS resolution. Intended external files:
 The paired external READMEs record the URLs and retry commands.
 These supplementary references do not establish current course coverage.
 
+## Additional foundations consulted on 2026-10-11
+
+The [holistic notes review](notes-review.md) adds seven explanatory TikZ figures
+and focused mathematical bridges. These supplementary references were read
+online through the web tool; no new local PDF copies were created. They do not
+establish current course coverage. Examples and diagrams added during the review
+are original derivations, distinct from supplied exercise data.
+
+| Primary reference | Material checked |
+| --- | --- |
+| [Boyd and Vandenberghe, *Convex Optimization*](https://web.stanford.edu/~boyd/cvxbook/) | Sections 3.1 and 4.2: convexity and local/global optimality; 5.2.3 and 5.5.3: regularity and KKT; 11.2: barriers and the central path |
+| [MIT OCW 6.251J, Lecture 25: *Exact Methods for Discrete Optimization*](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/d0be6aa7393f489a419add7cec874a4c_MIT6_251JF09_lec25.pdf) | Sections 2–3: cuts, LP relaxation bounds and branch and bound; catalogue title: Discrete optimization II |
+| [MIT OCW 15.053, *Networks 2: Network flows*](https://ocw.mit.edu/courses/15-053-optimization-methods-in-management-science-spring-2013/687225c151d8cc8254dcb8b07e5f9ce2_MIT15_053S13_lec16.pdf) | PDF pp. 30–33: network integrality and its data/structure qualifications |
+| [MIT OCW 18.310, *Network flows*](https://ocw.mit.edu/courses/18-310-principles-of-discrete-applied-mathematics-fall-2013/3235079dd74eb61e56f41ea2bb595d64_MIT18_310F13_Ch9.pdf) | PDF pp. 2–3: max-flow/min-cut theorem and the cut-capacity bound |
+| [MIT OCW 6.854J, *Linear programming notes*](https://ocw.mit.edu/courses/6-854j-advanced-algorithms-fall-2008/908fe54d659623efadda2d033b895caf_notes_lp.pdf) | PDF p. 12, Theorem 6: Farkas' alternative for nonnegative equality-system feasibility |
+
+The previously inventoried MIT OCW Lecture 6, *The Simplex Method II*, was also
+consulted at PDF pp. 2–3 for revised simplex, sparse representation and periodic
+recomputation. Its earlier external-download status is unchanged. The revised
+simplex formulas use these notes' maximization convention consistently.
+
 ## MATLAB refresher documentation
 
 Refresher 1 uses original hand examples and the official MathWorks references

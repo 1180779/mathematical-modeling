@@ -683,8 +683,9 @@ infeasible duals. The task statements remain unchanged; their intended variants
 are unknown. Successful Phase II solves are provided for 5(b) and 5(d).
 
 \textbf{Verification status:} hand tableaus and pivot choices were independently
-recomputed using exact rational arithmetic. MATLAB execution is initially
-unverified; a successful static check is not MATLAB execution. The companion's
-actual execution evidence and release, when available, belong in
-\texttt{docs/matlab-verification.md}.
+recomputed using exact rational arithmetic. The user supplied successful MATLAB
+output on 2026-10-11 and confirmed version 26.2.0.3386108 (R2026b).
+All dual-simplex and recovery assertions passed, including the Phase I failures
+and primal rays in 5(a) and 5(c). The supplied execution evidence is retained
+in \path{docs/matlab-verification.md}.
 \end{document}

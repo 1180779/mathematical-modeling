@@ -258,6 +258,72 @@ Here balances force $f_{AB}=f_{BC}=t$ and $f_{AC}=3-t$, with $0\leq t\leq2$.
 Cost is $2t+5(3-t)=15-3t$, minimized at $t=2$ with value $9$.
 This derivation simultaneously checks conservation, capacities and optimality.
 
+\subsection{Cuts detect delivery bottlenecks}\label{sec:cuts}
+For a node subset $U\subseteq V$, sum its balance equations. Internal arcs
+cancel, leaving
+\[
+  \sum_{v\in U}s_v
+  =\sum_{(u,v):u\in U,v\notin U}f_{uv}
+  -\sum_{(u,v):u\notin U,v\in U}f_{uv}
+  \leq\sum_{(u,v):u\in U,v\notin U}C_{uv}.
+\]
+The total net supply inside a cut cannot exceed its outgoing capacity.
+This necessary condition can expose infeasibility even when $\sum_v s_v=0$.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[font=\small]
+    \draw[modelblue,dashed,rounded corners,fill=modelblue!6]
+    (-.9,-1) rectangle (3.6,2.5);
+    \node[above] at (1.3,2.5) {$U=\{A,B\}$; net supply 3};
+    \node[circle,draw,fill=white] (a) at (0,0) {$A$};
+    \node[circle,draw,fill=white] (b) at (2.5,1.5) {$B$};
+    \node[circle,draw] (c) at (7,0) {$C$};
+    \draw[model flow] (a)--(b) node[midway,above left] {cap 2};
+    \draw[model flow,draw=modelorange] (a)--(c) node[pos=.7,below] {cap 1};
+    \draw[model flow,draw=modelorange] (b)--(c) node[pos=.65,above right] {cap 1};
+    \node[below] at (0,-.4) {$s_A=3$};
+    \node[above] at (2.5,1.9) {$s_B=0$};
+    \node[below] at (7,-.4) {$s_C=-3$};
+  \end{tikzpicture}
+  \caption{A different network with balanced supply and demand but insufficient
+    outgoing cut capacity: $3>1+1$. No costs can repair this infeasibility.}
+  \label{fig:cut-bottleneck}
+\end{figure}
+For pure single-commodity flows with zero lower bounds, these inequalities for
+all subsets, together with total balance, are also sufficient; this is a form
+of the max-flow/min-cut theorem. Checking just one cut or total capacity does
+not establish sufficiency. Lower bounds require an adjusted balance model.
+To see the connection, add a super-source with an arc of capacity $s_v$ to
+each supply node, and an arc of capacity $-s_v$ from each demand node to a
+super-sink. Put $S=\sum_{s_v>0}s_v$. A source--sink cut containing original
+nodes $U$ has capacity $S-\sum_{v\in U}s_v+C_{\mathrm{out}}(U)$.
+Thus the subset inequalities say every such cut has capacity at least $S$.
+Max-flow/min-cut then supplies a flow of value $S$, saturating all supply and
+demand arcs and recovering the original balances.
+
+\subsection{Why some continuous network models have integer optima}\label{sec:network-integrality}
+\begin{theorem}[Network integrality, stated without proof]
+  If supplies and finite arc capacities are integers, every vertex of
+  $\{f:Bf=s,\ 0\leq f\leq C\}$ is integer. Thus a nonempty such network
+  has an integer minimum-cost optimum, regardless of whether costs are integers.
+\end{theorem}
+The structural reason is \emph{total unimodularity}: every square submatrix
+of a directed incidence matrix has determinant $0$, $1$, or $-1$.
+Adding arc bounds preserves the required structure; integral right-hand sides
+then give integral vertices. This also explains integer transportation and
+assignment optima under integral data. Arbitrary LPs do not have this property.
+An interior optimal point can still be fractional: a convex combination of
+distinct integer optima need not be integer. The guarantee is the existence
+of an integer optimizer, not integrality of every feasible or optimal flow.
+Extra side constraints, such as shared resource budgets or coupling several
+commodities, can destroy the guarantee and require integer programming.
+
+Node balances are also linearly dependent: each incidence column sums to zero.
+In a connected network one balance is redundant; in a graph with several
+connected components, each component must balance separately. Remove redundant
+rows before choosing a full-row-rank simplex basis.
+
 \section{Choosing an objective and comparing several goals}\label{sec:objectives}
 \subsection{Constants, feasibility, and genuine decisions}
 An unavoidable fixed cost $K$ changes profit $r^Tx$ to $r^Tx-K$. It changes
@@ -265,6 +331,17 @@ the reported value but leaves the optimizers unchanged. A startup cost incurred
 only if production occurs is decision-dependent: modeling it normally introduces
 an activation decision, often a binary variable. It cannot be dropped as an
 unavoidable constant.
+
+For one product with a justified finite upper bound $U>0$, introduce
+$y\in\{0,1\}$ and impose $0\leq x\leq Uy$, with profit $px-Ky$, $K>0$.
+Positive production forces $y=1$ and incurs the startup cost; $y=0$ forces
+$x=0$. If production is zero, maximizing profit chooses $y=0$ when $y$ has
+no other role. A minimum batch $\ell>0$ can be enforced by $\ell y\leq x$.
+Allowing $0\leq y\leq1$ instead creates a relaxation that can pay only part
+of the startup cost. The linking coefficient $U$ should follow from a physical
+bound; an arbitrary huge number weakens that relaxation and harms scaling.
+This use of a large linking bound differs from an artificial-variable Big M
+penalty in simplex initialization.
 
 If the question is simply whether requirements can be met, use an objective
 such as $\min0$ over the original feasible set. Every feasible point then has
@@ -296,6 +373,36 @@ $f_2$ selects $x=0$. A threshold $f_2\geq\beta$, $0\leq\beta\leq1$, gives
 $x^*=1-\beta$ when maximizing $f_1$. The max--min model has
 $z\leq x$, $z\leq1-x$, hence $2z\leq1$; $x=z=1/2$ attains this bound.
 Replacing $f_1$ by $100x$ without adjusting normalization changes these choices.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=4cm,y=4cm,font=\small]
+    \draw[model axis] (0,0)--(1.35,0) node[right] {$f_1$};
+    \draw[model axis] (0,0)--(0,1.3) node[above] {$f_2$};
+    \draw[modelblue,very thick] (0,1)--(1,0);
+    \draw[dashed] (0,.25)--(1.15,.25);
+    \node[left] at (0,.25) {$\beta=1/4$};
+    \node[model point,label=above right:{max--min}] at (.5,.5) {};
+    \node[model point,fill=modelorange,label=above right:{threshold optimum}]
+    at (.75,.25) {};
+    \draw[model flow,draw=modelorange] (.9,.7)--(1.12,.92);
+    \node[above,align=center] at (1.06,.95) {both criteria\\increase};
+    \node[anchor=west,align=left] at (1.55,.55)
+    {Criterion space\\$f_1+f_2=1$\\Every point is Pareto efficient};
+  \end{tikzpicture}
+  \caption{For $f_1=x$, $f_2=1-x$, improving either criterion worsens the other.
+    Equal weights support the entire segment; a threshold or max--min rule
+    selects a particular compromise. This is criterion space, not a two-variable
+    feasible decision set.}\label{fig:pareto-tradeoff}
+\end{figure}
+
+With zero weights, a weighted optimum may ignore improvements in an unweighted
+criterion, so the positive-weight efficiency argument no longer applies.
+For a discrete or nonconvex attainable criterion set, varying positive weights
+can also miss Pareto efficient points. For example, if the only attainable
+pairs are $(0,3)$, $(1,1)$ and $(3,0)$, all are efficient, but selecting $(1,1)$
+by weights $w_1,w_2>0$ would require both $w_1\geq2w_2$ and $w_2\geq2w_1$,
+which is impossible. Threshold methods can still select it.
 
 \section{Soft constraints: solving a deliberately changed model}\label{sec:goals}
 \subsection{What the deviation variables measure}
@@ -357,6 +464,21 @@ three-node example, normalized-goal example, relaxation example, and diagrams
 are added explanations. Continuous quantities, empty initial/final stock, no
 backlogging and unlimited storage are explicit modeling assumptions.
 
+\paragraph{Network and trade-off extensions.}
+Sections~\ref{sec:cuts}--\ref{sec:network-integrality} and
+Figures~\ref{fig:cut-bottleneck} and~\ref{fig:pareto-tradeoff} are added
+explanations; their current-course alignment is unknown. Network integrality
+was cross-checked against
+\href{https://ocw.mit.edu/courses/15-053-optimization-methods-in-management-science-spring-2013/687225c151d8cc8254dcb8b07e5f9ce2_MIT15_053S13_lec16.pdf}{MIT OCW,
+  \emph{Networks 2: Network flows}}, PDF pp.~30--33.
+The cut inequality, bottleneck and discrete Pareto counterexample are derived
+here. The max-flow/min-cut connection was checked against
+\href{https://ocw.mit.edu/courses/18-310-principles-of-discrete-applied-mathematics-fall-2013/3235079dd74eb61e56f41ea2bb595d64_MIT18_310F13_Ch9.pdf}{MIT OCW,
+  \emph{Network flows}}, PDF pp.~2--3, Theorem~1 and Lemma~1.
+The startup formulation is an additional modeling explanation.
+Further study: max-flow/min-cut, total unimodularity and multiobjective
+optimization. These additions do not alter the numerical companion.
+
 This conceptual supplement keeps the earlier LP geometry and proofs in
 Chapter~2 intact. The course map records reading routes
 and current task requirements separately from historical enrichment.
@@ -369,6 +491,7 @@ It checks the same factory, blending, shipment, storage, flow, regression, diet,
 objective and relaxation examples using base MATLAB and absolute tolerance
 $10^{-10}$. Expected values include blending $475000/27$, transportation $25919$,
 storage $1883/2$, and flow $9$. Exact rational calculations independently
-checked the new hand results. MATLAB execution of the new companion is unverified;
-the execution record is \path{docs/matlab-verification.md}.
+checked the new hand results. The user supplied successful output on 2026-10-11
+and confirmed MATLAB 26.2.0.3386108 (R2026b); all companion assertions passed.
+The execution record is \path{docs/matlab-verification.md}.
 \end{document}

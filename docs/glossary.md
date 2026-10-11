@@ -101,3 +101,17 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | zmienna odchylenia | deviation variable | u, v | One-sided target violation / Jednostronne naruszenie wymagania |
 | skalaryzacja | scalarization | Σw_i f_i | Combine objectives with stated preferences / Łączenie celów według jawnych preferencji |
 | optimum Pareto | Pareto optimum | — | No feasible improvement without worsening another criterion / Brak dopuszczalnej poprawy bez pogorszenia innego kryterium |
+| minimum lokalne | local minimum | f(x*) ≤ f(x) nearby / w otoczeniu | Comparison within feasible neighbourhood / Porównanie w dopuszczalnym otoczeniu |
+| minimum globalne | global minimum | f(x*) ≤ f(x) for all feasible x / dla wszystkich dopuszczalnych x | Whole feasible set / Cały zbiór dopuszczalny |
+| funkcja koercywna | coercive function | f(x) → +∞ as ‖x‖ → ∞ | Sufficient attainment condition with continuity and a closed domain / Warunek wystarczający osiągania przy ciągłości i domkniętej dziedzinie |
+| całkowita unimodularność | total unimodularity | det M ∈ {−1,0,1} for every square submatrix / dla każdej kwadratowej podmacierzy | Integral network vertices / Całkowitoliczbowe wierzchołki sieci |
+| przekrój sieci | network cut | U ⊆ V | Capacity bottleneck / Wąskie gardło przepustowości |
+| metoda podziału i ograniczeń | branch and bound | LP bounds and integer branches / ograniczenia PL i podziały całkowitoliczbowe | Integer optimization / Optymalizacja całkowitoliczbowa |
+| najlepsze dotychczasowe rozwiązanie | incumbent | integer feasible candidate / dopuszczalny kandydat całkowitoliczbowy | Current search bound / Bieżące ograniczenie przeszukiwania |
+| zrewidowana metoda sympleks | revised simplex method | A_B u = a_k | Basis solves instead of full tableau / Układy bazowe zamiast pełnej tablicy |
+| lemat Farkasa; alternatywa Farkasa | Farkas' lemma; Farkas' alternative | Aᵀh ≥ 0, bᵀh < 0 | Certificate for continuous infeasibility / Certyfikat sprzeczności ciągłej |
+| warunek liniowej niezależności gradientów ograniczeń | linear independence constraint qualification | LICQ | Active inequalities and equalities / Aktywne nierówności i równości |
+| bariera logarytmiczna | logarithmic barrier | −τΣ log x_j | Interior-point subproblem / Podzadanie punktu wewnętrznego |
+| ścieżka centralna | central path | x_j q_j = τ > 0 | Perturbed complementarity / Zaburzona komplementarność |
+| optymalizacja odporna | robust optimization | constraints for all allowed data / ograniczenia dla wszystkich dopuszczonych danych | Uncertain parameters / Niepewne parametry |
+| optymalizacja stochastyczna | stochastic optimization | scenarios; recourse / scenariusze; decyzje dostosowawcze | Decisions with probabilistic data / Decyzje z danymi probabilistycznymi |

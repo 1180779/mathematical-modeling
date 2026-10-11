@@ -188,12 +188,11 @@ run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
 run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
 ```
 
-**Wykonanie MATLAB-a: niezweryfikowane.** Próba agenta uruchomienia samego
-wypisania wersji, `matlab -batch 'disp(version)'`, zakończyła się kodem 1 bez wyjścia.
-Opisany powyżej problem startu nadal występuje. Czterech nowych skryptów nie
-wykonano w MATLAB-ie; nie twierdzimy, że uzyskano nową wersję podczas uruchomienia,
-zaobserwowane wyjście ani błąd numeryczny. Dawniejsze udane uruchomienia użytkownika
-obejmują tylko wymienione skrypty historyczne.
+**Wykonanie MATLAB-a w chwili integracji: niezweryfikowane.** Próba agenta
+uruchomienia samego wypisania wersji, `matlab -batch 'disp(version)'`, zakończyła
+się kodem 1 bez wyjścia. Nie zapisano wtedy pomyślnego wykonania tych czterech
+skryptów; wcześniejsze uruchomienia użytkownika dotyczyły wymienionych skryptów
+historycznych. Późniejsze pomyślne wyjście użytkownika zachowano w następnej sekcji.
 
 **Analiza statyczna: przeszła.** Zainstalowany samodzielny analizator R2026b
 `mlint -id` sprawdził każdy z czterech skryptów bez uwag. Nie wykonuje to skryptów.
@@ -217,6 +216,56 @@ wyniki wyjątkowe.
 
 Wszystkie cztery skrypty porównują te same podane dane z tolerancją bezwzględną
 `1e-10`. Korzystają z podstawowego MATLAB-a i określonych obliczeń, bez Optimization
-Toolbox i ogólnego solvera PL. Przyszłe udane uruchomienie trzeba zapisać jako nowe
-zdarzenie wykonania z faktycznym wyjściem, zanim nowe skrypty zostaną uznane za
-zweryfikowane w MATLAB-ie. Końcowe uwagi notatek obecnie zachowują to rozróżnienie.
+Toolbox i ogólnego solvera PL. Poniższe późniejsze zdarzenie wykonania dostarcza
+faktycznego wyjścia i aktualizuje stan weryfikacji w MATLAB-ie; nie zastępuje
+niezależnych dowodów z dokładnej arytmetyki.
+
+## Dowody wykonania bieżącego kursu otrzymane 2026-10-11
+
+**Wykonanie MATLAB-a: pomyślne.** Użytkownik przekazał poniższe wyjście czterech
+poleceń i potwierdził tę samą wersję co wcześniej: 26.2.0.3386108 (R2026b).
+Wersję potwierdzono osobno; te polecenia jej nie wypisują. Dokładnej daty wykonania
+nie podano osobno. Jest to dowód przekazany przez użytkownika, a nie wykonanie
+przez agenta w sandboxie.
+
+```text
+>> run('matlab/exercises/modeling_patterns_checks.m')
+Factory: optima 28704/5 and 32544/5 for G = 144 and 192
+Blending: profit 475000/27; transport cost 25919
+Storage: cost 1883/2; three-node flow cost 9
+All modeling-pattern certificate assertions passed.
+>> run('matlab/exercises/sheet_01_primal_simplex.m')
+1(a): unique maximum 15.3333333333 at (1/3, 11/3, 4).
+1(b): unique maximum 5; feasible set itself is unbounded.
+1(c): maximum 36 on (t, 6+2*t, 8), 0 <= t <= 2.
+1(d): maximum 8 on (8-2*t, t, 0), 2 <= t <= 4.
+1(e): rejected supplied start; ray (6,0,4)+theta*(0,0,1), z=16+theta.
+1(f)(i): nonbasic start moved to a BFS; two pivots reach (6,0,1).
+1(f)(ii): one pivot from supplied BFS; same ray, z=33+24*theta.
+Largest checked tableau/basis discrepancy: 7.11e-15 (absolute tolerance 1e-10).
+All prescribed primal-simplex paths and certificates passed.
+>> run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
+2(a): supplied point optimal, maximum 7, dual (3,0,2,0)
+2(b): supplied point infeasible; actual minimum 6, dual (0,9/2,6)
+2(c): supplied point optimal, maximum 1, full segment checked
+3(a): Phase I steps 4/3,5; Phase II maximum -6, dual (0,0,-1)
+3(b): Phase I step 4, Phase II step 5/2; original minimum 1/2
+3(b): dual (3/2,0,1/2), constant-objective optimal ray checked
+All complementary certificates and displayed tableaus passed at tol = 1.0e-10
+>> run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
+Task 4: primal = (3,0,2,0), dual = (0,3,1), value = 7; both unique
+Task 5(a): dual infeasible, Phase I artificial sum = 3; primal slope = -3
+Task 5(b): dual = (31/4,0,15/2,9), recovered primal = (3,-6,7), value = -44; both unique
+Task 5(c): dual infeasible, Phase I artificial sum = 4; primal slope = -4
+Task 5(d): dual = (0,18,0,5), recovered primal = (0,-8,5), value = 80; both unique
+All Sheet 1 dual-simplex and recovery assertions passed.
+```
+
+Wszystkie asercje przeszły, a zgłoszone wartości zgadzają się z certyfikatami
+ręcznymi. Największa zgłoszona różnica tablica/baza w prymalnym sympleksie,
+`7.11e-15`, jest mniejsza od tolerancji bezwzględnej skryptu `1e-10`.
+Jest to zaobserwowana różnica dla tych sprawdzeń, a nie uniwersalne ograniczenie
+błędu. Wcześniejsze niepowodzenie startu w sandboxie pozostaje kontekstem
+historycznym; nie pozostawia już tych czterech skryptów bez weryfikacji.
+Nowe przykłady pojęciowe w [przeglądzie notatek](notes-review.pl.md) nie zmieniają
+skryptów i nie twierdzimy, że zostały przez nie wykonane.

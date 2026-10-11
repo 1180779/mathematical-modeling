@@ -84,6 +84,24 @@ Niedopuszczalni kandydaci mogą być celowymi sprawdzianami. Ogólnego polecenia
 o optymalnych rozwiązaniach dualnych nie można spełnić dla 5(a) i 5(c) w wydrukowanej
 postaci; rozwiązania podają odpowiednie certyfikaty sprzeczności i nieograniczoności.
 
+## Dodatkowe podstawy i opcjonalna lektura
+
+[Przegląd notatek i przewodnik dalszej nauki](notes-review.pl.md) rejestruje
+całościowy przegląd, siedem nowych rysunków TikZ i dalsze kierunki. Dodane podstawy
+obejmują osiąganie optimum i wypukłość (rozdział 1), relaksacje całkowitoliczbowe
+(rozdział 2), przekroje i całkowitoliczbowość sieci oraz kompromisy w przestrzeni
+kryteriów (schematy modelowania), zrewidowany sympleks (rozdział 3), alternatywę
+Farkasa i certyfikaty numeryczne (rozdział 4), a także kwalifikacje nieliniowych KKT
+oraz wstęp do bariery/ścieżki centralnej (rozdział 5). Ich zgodność z bieżącym
+kursem jest nieznana; obecność tych tematów nie zmienia powyższych wymagań
+wynikających z dostarczonego wykładu i zestawu.
+
+Objaśnienia PL pozostają głównymi podstawami. Gładkie algorytmy nieliniowe, pełna
+teoria drugiego rzędu, ogólne algorytmy całkowitoliczbowe, metody niegładkie
+oraz optymalizacja przy niepewności są nadal kierunkami dalszej nauki, a nie
+w pełni rozwiniętymi rozdziałami. Przewodnik podaje podstawy i konkretne kroki,
+zamiast przypisywać zakres na podstawie historycznej mapy.
+
 ## Weryfikacja i utrzymanie
 
 Każdy dokument ćwiczeniowy wskazuje rzeczywisty dopasowany skrypt MATLAB. Przykłady

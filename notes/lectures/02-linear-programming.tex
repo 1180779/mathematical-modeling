@@ -390,6 +390,63 @@ board produce exactly $(21,14)$ pieces, using 11 boards and leaving 1 m of offcu
 This construction attains the length lower bound and proves optimality under the
 stated interpretation. It is not a claim about unspecified manufacturing details.
 
+\subsection{What an integer relaxation can and cannot certify}\label{sec:integer-relaxation}
+Removing integrality enlarges the feasible set. Thus, for maximization,
+$z^*_{\mathrm{IP}}\leq z^*_{\mathrm{LP}}$ whenever both optima exist;
+for minimization the bound reverses. Any integer feasible candidate supplies
+the opposite bound. An integer LP optimizer therefore certifies an integer
+optimum, as in the 5.2 m cutting example. An infeasible relaxation proves the
+integer model infeasible; an unbounded relaxation alone need not prove the
+integer model unbounded, since it may have no integer feasible point.
+
+Consider the small integer model
+\[
+  \max\ 2u+3v,\qquad u+2v\leq4,\quad 0\leq u\leq5/2,\quad
+  v\geq0,\quad u,v\text{ integer}.
+\]
+In its LP relaxation,
+$2u+3v=\tfrac32(u+2v)+\tfrac12u\leq6+5/4=29/4$.
+The point $(5/2,3/4)$ attains this bound. Rounding both coordinates down gives
+$(2,0)$, of value 4, whereas the integer optimum $(2,1)$ has value 7.
+To prove the latter, integrality gives $u\leq2$, hence
+$2u+3v\leq6+u/2\leq7$, attained at $(2,1)$.
+Rounding to the nearest integers gives $v=1$ and $u=2$ or 3, depending on the
+tie convention; choosing 3 violates both upper constraints.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=2cm,y=1.7cm,font=\small]
+    \draw[model region] (0,0)--(2.5,0)--(2.5,.75)--(0,2)--cycle;
+    \draw[model axis] (0,0)--(3.4,0) node[right] {$u$};
+    \draw[model axis] (0,0)--(0,2.7) node[above] {$v$};
+    \foreach \u/\v in {0/0,0/1,0/2,1/0,1/1,2/0,2/1}
+    \node[model point] at (\u,\v) {};
+    \draw[model objective] (.25,2.25)--(3.1,.35);
+    \node[model point,fill=modelorange,label=above right:{LP: $(5/2,3/4)$}]
+    at (2.5,.75) {};
+    \draw[modelorange,thick] (2,1) circle (4pt);
+    \node[above left] at (2,1) {IP: $(2,1)$};
+    \node[below] at (2,0) {floor: $(2,0)$};
+    \node[align=left,anchor=west] at (3.7,1.4)
+    {Shading: LP decisions\\Dots: integer decisions\\$7\leq z^*_{\mathrm{IP}}\leq29/4$};
+  \end{tikzpicture}
+  \caption{A relaxation gives a bound; rounding gives a candidate that still
+    needs feasibility and optimality checks. Here flooring loses value 3.}
+  \label{fig:integer-relaxation}
+\end{figure}
+
+\emph{Branch and bound} turns relaxation bounds into an exact search.
+At a fractional coordinate $u^*$, every integer solution lies in one of
+$u\leq\lfloor u^*\rfloor$ and $u\geq\lceil u^*\rceil$.
+Solve the child relaxations. If a child has an integer optimizer, update the
+best known integer solution (the \emph{incumbent}) when it improves the objective,
+then close that child. Also close an infeasible child or one whose upper bound
+cannot exceed the incumbent value. In this example the branches are $u\leq2$ and
+$u\geq3$: the second is infeasible, and the first has the integer LP optimum
+$(2,1)$ with bound 7. This closes the search. In larger problems, cuts can
+tighten the bounds by excluding fractional points while preserving all integer
+feasible points. Ordinary simplex alone does not enforce integrality.
+
 \section{Standard form and equivalent transformations}\label{sec:standard}
 We use the convention
 \begin{equation}\label{eq:standard}
@@ -804,8 +861,10 @@ Section~\ref{sec:models} are added hand-checkable illustrations, with their
 own bound certificates. The actual new companion is
 \href{run:matlab/exercises/modeling_patterns_checks.m}{modeling-patterns MATLAB script} at \path{matlab/exercises/modeling_patterns_checks.m},
 using the same data and absolute tolerance $10^{-10}$. Their exact calculations
-were independently checked; MATLAB execution of this new script is unverified.
-The historical script's successful execution below does not verify the new examples.
+were independently checked. The user supplied successful output on 2026-10-11
+and confirmed MATLAB 26.2.0.3386108 (R2026b); all modeling-pattern assertions passed.
+This companion covers the diet and regression examples, while the historical
+script's execution below concerns its own examples.
 
 \begin{center}
   \begin{tabular}{lll}\toprule
@@ -834,6 +893,14 @@ PDF pp.~4 and 6, sections on recession cones, unbounded LPs, and the resolution
 theorem. Used to check hypotheses of the vertex--ray representation;
 this supplement is not current course coverage. The source inventory records its external storage and download status.
 \paragraph{Numerical verification.}
+Section~\ref{sec:integer-relaxation} and Figure~\ref{fig:integer-relaxation}
+are original added examples; they do not change the supplied cutting data or
+their MATLAB companion. The exact bounds $29/4$ and $7$ follow from the displayed
+weighted inequalities. For further study of relaxations, cuts and branching, see
+\href{https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/d0be6aa7393f489a419add7cec874a4c_MIT6_251JF09_lec25.pdf}{MIT OCW,
+  \emph{Discrete optimization II}}, Sections~2--3. Current-course alignment
+of this extension is unknown.
+
 Verified in MATLAB R2026b on 2026-10-04, using the user's normal terminal. All assertions passed.
 The reported output matches the hand derivations: production $(2,6)$ with value
 18 PLN; 5.2 m cutting $(200,0,400)$ with offcut 140 m; and 2 m cabinet count 11
