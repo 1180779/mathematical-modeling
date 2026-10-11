@@ -115,7 +115,10 @@ upper bound, not an exact count of vertices.
 
 \Needspace{22\baselineskip}
 \subsection{Classifying three candidate solutions}
-Consider
+\paragraph{Task statement.}
+For the following system, determine whether each supplied vector is a basic
+solution and identify its basic variables. Then check feasibility under
+$x\geq0$ and, for a BFS, degeneracy:
 \begin{equation}\label{eq:classification}
   \begin{aligned}
     2x_1+x_2+3x_3+x_6&=8,\\
@@ -123,6 +126,11 @@ Consider
     3x_1+x_3+x_4+2x_6&=4.
   \end{aligned}
 \end{equation}
+\[
+  (0,8,0,4,5,0)^T,\qquad
+  (0,\tfrac12,\tfrac52,\tfrac32,0,0)^T,\qquad
+  (0,0,0,-12,-3,8)^T.
+\]
 The columns of $A$ and the right-hand side are:
 \begin{center}
   \begin{tabular}{c*{6}{r}@{\qquad}r}\toprule
@@ -328,6 +336,7 @@ exact-arithmetic pivot logic cannot simply be applied without numerical care.
 \begin{quote}
   \foreignlanguage{polish}{Rozwiązać podstawową metodą sympleks.}
 \end{quote}
+\paragraph{Task statement.}
 Solve by the basic simplex method:
 \[
   \max(3x_1+2x_2),\qquad
@@ -379,8 +388,16 @@ The production point is $(4,0)$. Enter $x_2$: its positive-column ratios
 are $2/1=2$ and $12/3=4$, while the third row has coefficient zero and is
 excluded. Thus $x_3$ leaves and revenue gains $2\cdot2=4$.
 
-\Needspace{13\baselineskip}
+\Needspace{19\baselineskip}
 \subsection{Second pivot}
+\paragraph{Original problem (recap).}
+\[
+  \max(3x_1+2x_2),\qquad
+  2x_1+x_2\leq10,\quad 3x_1+3x_2\leq24,\quad
+  \tfrac32x_1\leq6,\quad x_1,x_2\geq0.
+\]
+The slacks $x_3,x_4,x_5$ correspond to these three inequalities, in order.
+
 The ordered basis is $B=(2,4,1)$.
 \begin{center}
   \begin{tabular}{crrrrrr}\toprule
@@ -460,7 +477,9 @@ one third of the second.
 \end{figure}
 
 \section{Worked example: an unbounded objective}\label{sec:unbounded}
-Consider
+\paragraph{Task statement.}
+Apply the primal simplex method to the following problem. If the objective
+is unbounded above, give an improving feasible ray:
 \[
   \max(3x_1+x_2-3x_3-x_4),\quad
   \begin{cases}
@@ -623,7 +642,10 @@ After cleanup, delete artificial columns and recompute $q$ and $z_0$ using the
 certify optimality for Phase II.
 
 \subsection{A small infeasible example}
-For $x\geq2$ and $x\leq1$, introduce surplus $s$, slack $t$, and artificials:
+\paragraph{Task statement.}
+Use Phase I to decide whether $x\geq2$, $x\leq1$, $x\geq0$ is feasible.
+
+Introduce surplus $s$, slack $t$, and artificials:
 \[
   x-s+a_1=2,\qquad x+t+a_2=1,\qquad x,s,t,a_1,a_2\geq0.
 \]
@@ -635,7 +657,9 @@ on a numerical solver status.
 
 \clearpage
 \section{Worked example: two different Phase I starts}\label{sec:two-phase}
-Solve
+\paragraph{Task statement.}
+Solve the following problem by two-phase simplex, comparing a start with two
+artificial variables against one that reuses the original column $a_2$:
 \begin{equation}\label{eq:two-phase-original}
   \max(-x_1-2x_2-3x_3-4x_4),\qquad
   \begin{cases}
@@ -700,6 +724,16 @@ original optimum. Phase I happened to find a basis optimal for Phase II;
 this is not guaranteed in general.
 
 \subsection{Start B: reuse an original basic column}
+\paragraph{Original problem (recap).}
+Solve the same program, now using only one artificial variable:
+\[
+  \max(-x_1-2x_2-3x_3-4x_4),\qquad
+  \begin{cases}
+    x_1+x_2+x_3+x_4=1,     \\
+    x_1+x_3-3x_4=\tfrac12, \\
+    x_1,x_2,x_3,x_4\geq0.
+  \end{cases}
+\]
 Keep $x_2$ basic in row 1 and introduce only $x_5=a$ in row 2:
 \[
   x_1+x_2+x_3+x_4=1,\qquad x_1+x_3-3x_4+x_5=\tfrac12.
@@ -808,9 +842,25 @@ points with the minimum artificial sum. This recovers the two-phase priority.
 When comparing $\alpha M+\beta$ symbolically, compare $\alpha$ first and then
 $\beta$; an arbitrary large floating-point constant is not the same operation.
 
+\Needspace{14cm}
 \subsection{A symbolic Big M calculation for the equality example}
-Apply the penalty to Equation~\eqref{eq:two-phase-original}, using the same two
-artificial columns as Start A. The combined coefficient vector is
+\paragraph{Task statement.}
+Solve the following original problem using a dominant symbolic Big M penalty:
+\[
+  \max(-x_1-2x_2-3x_3-4x_4),\qquad
+  \begin{cases}
+    x_1+x_2+x_3+x_4=1,     \\
+    x_1+x_3-3x_4=\tfrac12, \\
+    x_1,x_2,x_3,x_4\geq0.
+  \end{cases}
+\]
+Introduce $x_5,x_6\geq0$ with
+\[
+  x_1+x_2+x_3+x_4+x_5=1,\qquad
+  x_1+x_3-3x_4+x_6=\tfrac12,
+\]
+and maximize $-x_1-2x_2-3x_3-4x_4-M(x_5+x_6)$.
+The combined coefficient vector is
 $c^M=(-1,-2,-3,-4,-M,-M)^T$. Its initial basis $(5,6)$ gives
 \[
   q^M=(1-2M,\ 2-M,\ 3-2M,\ 4+2M,\ 0,\ 0)^T,
@@ -837,8 +887,13 @@ For example $M=10$ gives penalty-objective values $-15$, $-11/2$, and $-11/8$.
 The threshold depends on the data; it is not a rule for other LPs.
 
 \subsection{A hand counterexample to an insufficient penalty}
-The original problem $\max(-Kx)$ subject to $x=1$, $x\geq0$ is feasible,
-with unique value $-K$. Its augmented problem is
+\paragraph{Task statement.}
+For $K>M>0$, compare the original problem $\max(-Kx)$ subject to
+$x=1$, $x\geq0$ with its Big M formulation. Does its penalized optimum
+necessarily have artificial variable $a=0$?
+
+The original problem is feasible, with unique value $-K$.
+Its augmented problem is
 \[
   \max(-Kx-Ma),\qquad x+a=1,\quad x,a\geq0,
   \qquad K>M>0.
