@@ -747,11 +747,46 @@ the reverse follows from the feasible ray: there is no limit to how far one
 can travel. This concerns the size of the feasible set, not whether an objective
 improves along that path.
 
-Closedness matters beyond polyhedra. The nonclosed convex set
-$\{(0,0)\}\cup\{(u,v):u>0,\ 0<v<1\}$ is unbounded but has no nonzero recession
-direction. Any ray from the origin either leaves $0<v<1$ eventually or stays
-on an excluded part of its boundary. The equivalence holds for nonempty closed
-convex sets, including polyhedra.
+\noindent
+\begin{minipage}{\linewidth}
+  Closedness matters beyond polyhedra. The nonclosed convex set
+  $\{(0,0)\}\cup\{(u,v):u>0,\ 0<v<1\}$ is unbounded but has no nonzero recession
+  direction. Any ray from the origin either leaves $0<v<1$ eventually or stays
+  on an excluded part of its boundary. The equivalence holds for nonempty closed
+  convex sets, including polyhedra.
+
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[x=1.3cm,y=2.2cm,font=\small]
+      \fill[modelblue!12] (0,0) rectangle (6.3,1);
+      \draw[modelblue,thick,dashed] (0,0)--(6.3,0);
+      \draw[modelblue,thick,dashed] (0,1)--(6.3,1);
+      \draw[modelblue,thick,dashed] (0,0)--(0,1);
+      \draw[model axis] (6.3,0)--(7,0) node[right] {$u$};
+      \draw[model axis] (0,1)--(0,1.7) node[above] {$v$};
+      \node[left] at (0,1) {$1$};
+      \node at (5,.82) {$u>0,\quad 0<v<1$};
+      \node[model point,label=above:{$p=(1,\tfrac12)$}] at (1,.5) {};
+      \draw[model flow,very thick] (1,.5)--(6.5,.5)
+      node[pos=.75,below] {feasible from $p$};
+      \draw[modelorange,very thick] (0,0)--(3,1);
+      \node[modelorange] at (2.6,.2) {rising ray};
+      \draw[modelorange,very thick,dashed,-{Stealth}] (3,1)--(4.5,1.5)
+      node[above right] {leaves the strip};
+      \node[model point,fill=white,draw=modelorange] at (3,1) {};
+      \draw[modelorange,very thick,dashed,-{Stealth}] (0,0)--(4.8,0)
+      node[pos=.7,below] {horizontal ray: excluded};
+      \node[model point,fill=white,draw=modelorange] at (1.5,0) {};
+      \node[model point,label=below left:{$(0,0)$}] at (0,0) {};
+    \end{tikzpicture}
+    \caption{An unbounded convex set with no nonzero recession direction.
+      Dashed boundaries are excluded, except for the included origin (filled dot).
+      From the origin, a rising ray reaches the excluded top edge; a horizontal
+      ray follows the excluded bottom edge. The blue ray stays feasible from
+      $p$, but its direction fails at the origin. Shading continues to the right.}
+    \label{fig:nonclosed-recession}
+  \end{figure}
+\end{minipage}
 
 \section{Existence, unboundedness, and the vertex principle}\label{sec:outcomes}
 For an LP there are three objective outcomes: infeasible; feasible with objective
