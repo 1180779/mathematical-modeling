@@ -140,6 +140,22 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates tem
 Przed opracowaniem materiału skopiuj szablon do odpowiedniego katalogu `notes/`;
 zachowaj ścieżki względem katalogu głównego repozytorium i uruchom `./build.sh`.
 
+Aby posprzątać lokalne pliki kompilacji, także pliki tworzone przez edytor
+obok źródeł, uruchom:
+
+```sh
+python3 scripts/clean_tex.py --dry-run
+python3 scripts/clean_tex.py
+```
+
+Skrypt sprząta `notes/`, `templates/` i `build/`, zachowuje pliki śledzone przez
+Git i nie podąża za dowiązaniami symbolicznymi. Domyślnie PDF-y pozostają.
+Dodaj `--pdfs`, aby usunąć także wygenerowane PDF-y w `build/` lub obok
+odpowiadającego źródła `.tex`; publikowane PDF-y w `output/` oraz zasoby PDF
+bez odpowiadającego źródła są zachowywane. Skrypt działa także wywołany
+ścieżką bezwzględną z innego katalogu. Typowe pliki pomocnicze TeX oraz PDF-y
+generowane przez edytor w `notes/` i `templates/` są ignorowane przez Git.
+
 ## Powtórka MATLAB-a
 
 [Powtórka 1: Tablice, indeksowanie i układy liniowe](notes/matlab-review/01-arrays-and-linear-systems.tex)

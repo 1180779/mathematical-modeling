@@ -140,6 +140,22 @@ latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build/templates tem
 Copy a template into the appropriate `notes/` directory before developing it;
 retain its repository-root paths and run `./build.sh`.
 
+To clean local compilation files, including files produced beside sources by
+an editor, run:
+
+```sh
+python3 scripts/clean_tex.py --dry-run
+python3 scripts/clean_tex.py
+```
+
+The script cleans `notes/`, `templates/`, and `build/`, preserves tracked files,
+and does not follow symlinks. PDFs are kept by default. Add `--pdfs` to also
+remove generated PDFs in `build/` or beside a matching `.tex` source; published
+PDFs in `output/` and PDF assets without a matching source are preserved.
+The script also works when invoked by its absolute path from another directory.
+Common TeX auxiliary files and editor-generated PDFs under `notes/` and
+`templates/` are ignored by Git.
+
 ## MATLAB refresher
 
 [Refresher 1: Arrays, indexing, and linear systems](notes/matlab-review/01-arrays-and-linear-systems.tex)
