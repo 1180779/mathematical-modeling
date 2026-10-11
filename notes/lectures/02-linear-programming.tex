@@ -622,20 +622,20 @@ a vertex even if it is optimal.
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[font=\small]
-    \begin{scope}[x={(1cm,0cm)},y={(-.48cm,.42cm)},z={(0cm,1cm)}]
-      \fill[modelblue!8] (0,0,0)--(3,0,0)--(0,3,0)--cycle;
+    \begin{scope}[x={(1cm,0cm)},y={(-.48cm,-.42cm)},z={(0cm,1cm)}]
       \fill[modelblue!18] (3,0,0)--(0,3,0)--(0,0,3)--cycle;
-      \draw[modelblue,thick] (0,0,0)--(3,0,0)--(0,0,3)--(0,3,0)--cycle;
-      \draw[modelblue,thick] (3,0,0)--(0,3,0);
+      \draw[modelblue,thick] (3,0,0)--(0,3,0)--(0,0,3)--cycle;
+      \draw[modelblue,dashed] (0,0,0)--(3,0,0);
+      \draw[modelblue,dashed] (0,0,0)--(0,3,0);
       \draw[modelblue,dashed] (0,0,0)--(0,0,3);
       \draw[model axis] (3,0,0)--(3.7,0,0) node[right] {$x_1$};
-      \draw[model axis] (0,3,0)--(0,4,0) node[above left] {$x_2$};
+      \draw[model axis] (0,3,0)--(0,4,0) node[below left] {$x_2$};
       \draw[model axis] (0,0,3)--(0,0,3.7) node[above] {$x_3$};
       \draw[modelorange,very thick] (2,1,0)--(0,1,2);
       \node[model point,label=below right:{$u$}] at (2,1,0) {};
       \node[model point,label=above left:{$w$}] at (0,1,2) {};
       \node[model point,fill=modelorange,label=right:{$m$}] at (1,1,1) {};
-      \node[model point,label=below left:{$v$}] at (0,0,0) {};
+      \node[model point,fill=white,draw=modelblue,label=below:{$v$}] at (0,0,0) {};
     \end{scope}
     \node[align=left,anchor=west] at (4.2,1.8)
     {$P=\{x\in\R^3:x\geq0,\ x_1+x_2+x_3\leq3\}$\\[2mm]
@@ -646,7 +646,8 @@ a vertex even if it is optimal.
   \end{tikzpicture}
   \caption{The same test in three dimensions. The shaded tetrahedron has a
     triangular face in the plane $x_1+x_2+x_3=3$. Its point $m$ lies strictly
-    between the distinct feasible points $u$ and $w$. The dashed edge is hidden
+    between the distinct feasible points $u$ and $w$. Viewed from the
+    positive-coordinate side, the origin $v$ and its three dashed edges lie
     behind that face.}
   \label{fig:extreme-point-3d}
 \end{figure}
