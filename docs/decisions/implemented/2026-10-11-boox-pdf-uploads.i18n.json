@@ -1,0 +1,22 @@
+{
+  "/optional-boox-uploads-after-commits": {
+    "en": "00ed6ee442846977eedf685d5420eccf422e8f28f76ab8792814773556fbe1f6",
+    "pl": "e72bfb91d44057e5af6d9922d3d2bdeb2c17a71024939e83b18e6f890cb03d3f"
+  },
+  "/optional-boox-uploads-after-commits/problem": {
+    "en": "b5370d3bc39e031f9a20b0a56c9a3e9f3afc76464815ee9ae8c086ab7e09b0f2",
+    "pl": "bfe9a5ff249bc30f89db0c342362b33880f6a3a3a50b75654cfaf923b641d68f"
+  },
+  "/optional-boox-uploads-after-commits/decision": {
+    "en": "5755baf740f9660e5862c34632221b093a435987f264ec3b72be4149b6be9b40",
+    "pl": "112481423715eed9196c4a98f868aea80cecf0adda9c7b7229dba5c5ea2ed318"
+  },
+  "/optional-boox-uploads-after-commits/alternatives-considered": {
+    "en": "741b6b95c6f41f9342f6176a11bd65da14df18f85ffb2132fcc1774f742f802a",
+    "pl": "c289649404def9a016cf1fd0d0ce157b9c9d04d52a50cf7f18f1dc21cc67c78f"
+  },
+  "/optional-boox-uploads-after-commits/consequences": {
+    "en": "e1d61903597f2f5dc131fb6faa02b68eafedaa719ad00f15b7e724ba575ad9cd",
+    "pl": "cb6404799c3e88d6632b51df7604f81d4253c7aedc4bcaf395c1690aaec3365d"
+  }
+}

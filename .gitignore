@@ -24,6 +24,7 @@ matlab/output/
 .DS_Store
 .env
 .env.*
+!.env.boox.example
 # Python tooling caches
 __pycache__/
 *.py[cod]

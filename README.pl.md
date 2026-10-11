@@ -242,6 +242,55 @@ Hashe wykrywają zmiany od przeglądu; nie dowodzą jakości tłumaczenia.
 Sprawdzenie PDF-ów wykrywa zmienione dane wejściowe lub pliki wynikowe; świeży klon
 może przejść sprawdzenie dzięki commitowanemu zapisowi bez pośredniego drzewa `build/`.
 
+### Wysyłanie PDF-ów na BOOX
+
+Opcjonalny hook `post-commit` wysyła nowe lub zmienione **commitowane** PDF-y na
+urządzenie BOOX, korzystając z Pythona 3 i curl. Włącz wspólne hooki jak wyżej, a następnie:
+
+```sh
+cp .env.boox.example .env.boox
+```
+
+Edytuj ignorowany plik `.env.boox`: ustaw `BOOX_UPLOAD_URL` na pełny endpoint
+widoczny w żądaniu wysyłania pliku na urządzenie, a `BOOX_REMOTE_DIR` na
+bezwzględną ścieżkę istniejącego katalogu **na urządzeniu**. Żądanie odpowiada
+dostarczonemu HAR: pola multipart `dir`, `sender=web` i `file`. Konfiguracja
+to literalne dane `KEY=value`; wartości ze spacjami ujmij w cudzysłowy.
+Polecenia powłoki i rozwijanie zmiennych nie są wykonywane. Eksportowane zmienne
+środowiskowe mają pierwszeństwo przed plikiem; eksport pustego `BOOX_UPLOAD_URL`
+tymczasowo wyłącza wysyłanie.
+
+| Zmienna | Wartość domyślna / przeznaczenie |
+| --- | --- |
+| `BOOX_UPLOAD_URL` | Wymagana; pełny endpoint wysyłania HTTP(S) |
+| `BOOX_REMOTE_DIR` | Wymagana; istniejący katalog docelowy na BOOX |
+| `BOOX_PDF_DIR` | `output`; katalog PDF-ów względem katalogu repozytorium |
+| `BOOX_CONNECT_TIMEOUT` | `1`; maksymalny czas nawiązania połączenia w sekundach |
+| `BOOX_UPLOAD_TIMEOUT` | `15`; maksymalny łączny czas wysyłania jednego pliku w sekundach |
+| `BOOX_ENV_FILE` | `.env.boox`; inny plik konfiguracji, ustawiany w środowisku |
+| `BOOX_STATE_FILE` | Lokalny dla Git `boox-upload.json`; opcjonalna inna ścieżka stanu |
+
+Pierwsze skonfigurowane uruchomienie wysyła wszystkie PDF-y z `BOOX_PDF_DIR`
+w `HEAD`. Kolejne porównują hashe obiektów blob Git z ostatnimi udanymi
+transferami. Domyślnie stan pozostaje w metadanych Git; własną ścieżkę stanu
+utrzymuj poza kontrolą wersji. Zmiana endpointu, katalogu docelowego lub katalogu
+PDF-ów rozpoczyna nową synchronizację.
+PDF-y trafiają do jednego katalogu docelowego pod pierwotnymi nazwami;
+powtarzające się nazwy są odrzucane przed wysyłaniem. Pliki na urządzeniu
+nie są usuwane, gdy PDF-y znikają z Git.
+
+Niedostępny host lub endpoint zatrzymuje wysyłanie po pierwszym niepowodzeniu;
+nie ma natychmiastowych ponowień, a commit nadal kończy się powodzeniem.
+Transfer jest zapisywany dopiero po sukcesie HTTP z odpowiedzią JSON BOOX
+`successful: true` i `code: 0`. Każdy udany transfer jest zapisywany osobno,
+więc oczekujące PDF-y zostaną wysłane przy kolejnym commicie. Aby ponowić
+wysyłanie ręcznie albo uruchomić testy bez urządzenia:
+
+```sh
+python3 scripts/upload_boox.py
+python3 -m unittest discover -s scripts/tests -v
+```
+
 ## Formatowanie LaTeX i TikZ
 
 Stosuj wspólne ustawienia latexindent do plików `.tex`, `.sty` i `.tikz`:

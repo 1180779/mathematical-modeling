@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# A device transfer must never turn a successful commit into a hook failure.
+cd -- "$(git rev-parse --show-toplevel)" || exit 0
+python3 scripts/upload_boox.py || printf '%s\n' 'BOOX: upload skipped.'
+exit 0

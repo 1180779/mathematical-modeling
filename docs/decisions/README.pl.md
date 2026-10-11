@@ -46,3 +46,9 @@ mają pliki hashy sekcji zgodnie z [polityką językową](../language-policy.pl.
   wdrożone rozdziały pojęciowe, mapa bieżącego kursu, rozwinięte luki modelowania
   i pełne rozwiązania pierwszego dostarczonego zestawu. Wpis zachowuje pierwotne
   alternatywy i uzasadnienie.
+
+## Wysyłanie na urządzenie
+
+- [Opcjonalne wysyłanie PDF-ów na BOOX po commitach](implemented/2026-10-11-boox-pdf-uploads.pl.md):
+  wysyłanie zmienionych commitowanych PDF-ów konfigurowane przez środowisko,
+  z lokalnymi zapisami sukcesów i szybkim pomijaniem niedostępnego urządzenia.

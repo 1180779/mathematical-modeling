@@ -18,5 +18,9 @@
   "/decision-log/current-course-integration": {
     "en": "7187b2fb0641cd466cb72abb75d3e4b6e138355698552709a30fff24ce2ed78d",
     "pl": "46ce0791ef86c180f0ec99cb79a8b72406cf17a1291ce5af7d250561d530aeec"
+  },
+  "/decision-log/device-uploads": {
+    "en": "1bd498777baa644396c0405406457a87d3a49dc43ff9914f5b255de903c7f036",
+    "pl": "2a459ba1eb4aa724454f5a4395a062b0eec3b71dc8a3b4aaceeeb0afec05c526"
   }
 }

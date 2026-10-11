@@ -46,3 +46,9 @@ records have section hash sidecars following the [language policy](../language-p
   implemented conceptual chapters, a current-course map, developed modeling gaps
   and complete worked solutions for the first supplied sheet. Original alternatives
   and rationale are retained in the record.
+
+## Device uploads
+
+- [Optional BOOX uploads after commits](implemented/2026-10-11-boox-pdf-uploads.md):
+  environment-configured uploads of changed committed PDFs, with local success
+  records and fast skips when the device is unavailable.

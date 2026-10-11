@@ -240,6 +240,52 @@ Hashes detect edits since review; they cannot establish translation quality.
 The PDF check detects modified inputs or exported files; a fresh clone can pass
 using the committed record without having an intermediate `build/` tree.
 
+### BOOX uploads
+
+The optional `post-commit` hook uploads new or changed **committed** PDFs to a
+BOOX device using Python 3 and curl. Enable the shared hooks as above, then:
+
+```sh
+cp .env.boox.example .env.boox
+```
+
+Edit the ignored `.env.boox` file: set `BOOX_UPLOAD_URL` to the complete upload
+endpoint shown in your device's upload request, and `BOOX_REMOTE_DIR` to the
+absolute path of an existing folder **on the device**. The request matches the
+supplied HAR: multipart fields `dir`, `sender=web`, and `file`. Configuration is
+literal `KEY=value` data; quote values with spaces. Shell commands and variable
+expansion are not evaluated. Exported environment variables override the file;
+export an empty `BOOX_UPLOAD_URL` to disable uploads temporarily.
+
+| Variable | Default / purpose |
+| --- | --- |
+| `BOOX_UPLOAD_URL` | Required; complete HTTP(S) upload endpoint |
+| `BOOX_REMOTE_DIR` | Required; existing destination directory on BOOX |
+| `BOOX_PDF_DIR` | `output`; repository-relative directory containing PDFs |
+| `BOOX_CONNECT_TIMEOUT` | `1`; maximum connection time in seconds |
+| `BOOX_UPLOAD_TIMEOUT` | `15`; maximum total time per upload in seconds |
+| `BOOX_ENV_FILE` | `.env.boox`; alternate configuration file, set in the environment |
+| `BOOX_STATE_FILE` | Git-local `boox-upload.json`; optional alternate state path |
+
+The first configured run uploads all PDFs under `BOOX_PDF_DIR` in `HEAD`.
+Later runs compare Git blob hashes with the last successful uploads. By default,
+state stays in Git metadata; keep any custom state path outside version control.
+Changing the endpoint, destination, or PDF directory starts a fresh sync.
+PDFs go into one destination folder using
+their original filenames; duplicate filenames are rejected before uploading.
+Remote files are not deleted when PDFs disappear from Git.
+
+An unavailable host or endpoint stops the upload batch after the first failure;
+there are no immediate retries and the commit still succeeds. A transfer is
+recorded only after an HTTP success with BOOX JSON `successful: true` and
+`code: 0`. Each completed upload is saved separately, so pending PDFs retry on
+the next commit. To retry manually, or to run the tests without a device:
+
+```sh
+python3 scripts/upload_boox.py
+python3 -m unittest discover -s scripts/tests -v
+```
+
 ## LaTeX and TikZ formatting
 
 Use the shared latexindent settings for `.tex`, `.sty`, and `.tikz` files:
