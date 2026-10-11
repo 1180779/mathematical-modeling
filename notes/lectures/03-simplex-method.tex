@@ -113,6 +113,7 @@ There are at most $\binom{n}{m}$ bases, but some column subsets are singular,
 some basic solutions are infeasible, and some solutions coincide. This is an
 upper bound, not an exact count of vertices.
 
+\Needspace{22\baselineskip}
 \subsection{Classifying three candidate solutions}
 Consider
 \begin{equation}\label{eq:classification}
@@ -122,6 +123,15 @@ Consider
     3x_1+x_3+x_4+2x_6&=4.
   \end{aligned}
 \end{equation}
+The columns of $A$ and the right-hand side are:
+\begin{center}
+  \begin{tabular}{c*{6}{r}@{\qquad}r}\toprule
+    Equation & $a_1$ & $a_2$ & $a_3$ & $a_4$ & $a_5$ & $a_6$ & $b$\\\midrule
+    1 & 2 & 1 & 3 & 0 & 0 & 1 & 8\\
+    2 & 1 & 0 & 2 & 0 & 1 & 1 & 5\\
+    3 & 3 & 0 & 1 & 1 & 0 & 2 & 4\\\bottomrule
+  \end{tabular}
+\end{center}
 Here $A$ has full row rank because columns $(2,5,4)$ form $I_3$.
 Solving the indicated three-column systems gives:
 \begin{center}
