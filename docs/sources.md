@@ -112,6 +112,25 @@ syllabus and lab instructions remain unavailable.
 
 ## Supplementary sources outside the repository
 
+### Downloading complete lecture sets
+
+`scripts/download_lectures.py` reads the official
+[MIT OCW 6.251J, Fall 2009 lecture index](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/pages/lecture-notes/)
+and [UCLA ECE236B course page](https://www.seas.ucla.edu/~vandenbe/ee236b/).
+Checked on 2026-10-11: these list 25 MIT lectures, 11 UCLA Winter 2026 chapters,
+and a Winter 2023 numerical-linear-algebra supplement. The script downloads all
+of them into sibling `../sources/mit/` and `../sources/ucla/` and preserves the
+intended filenames below. See the [README](../README.md#supplementary-lecture-pdfs)
+for commands, destination settings, and retry behavior. The other MIT courses
+cited in the foundations table below are separate reference collections.
+
+The downloader's discovery, PDF-marker checks, file preservation, and failure
+handling passed offline fixture tests. Live retrieval in this workspace is
+unverified: shell DNS resolution remains unavailable. The existing Lecture 10
+file was confirmed readable with `pdfinfo`; the other lecture files were absent
+when inspected on 2026-10-11. Running the script does not update this inventory
+automatically or establish current course alignment.
+
 [MIT OCW 15.081J/6.251J, Lecture 10 (Fall 2009)](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/ab890d20b071105239fe0b9bcf599f57_MIT6_251JF09_lec10.pdf),
 PDF pages 4 and 6, was consulted through the web tool to cross-check the recession
 cone and vertex–ray representation hypotheses. It supplements the source lecture;
@@ -119,7 +138,8 @@ it is not evidence of current course coverage.
 
 Intended local path from this repository:
 `../sources/mit/mit-6-251j-2009-lecture-10-polyhedral-representation.pdf`.
-**Not downloaded:** shell DNS resolution failed on 2026-10-04.
+**Present locally:** a readable eight-page PDF was confirmed on 2026-10-11.
+The earlier shell download attempt failed at DNS resolution on 2026-10-04.
 The external `../sources/README.md` records the official URL and retry command.
 
 Additional simplex cross-checks for Lecture 3:

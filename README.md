@@ -156,6 +156,28 @@ The script also works when invoked by its absolute path from another directory.
 Common TeX auxiliary files and editor-generated PDFs under `notes/` and
 `templates/` are ignored by Git.
 
+## Supplementary lecture PDFs
+
+Download all lectures from [MIT OCW 6.251J, Fall 2009](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/pages/lecture-notes/)
+and [UCLA ECE236B, Winter 2026](https://www.seas.ucla.edu/~vandenbe/ee236b/),
+including UCLA's 2023 linear-algebra supplement:
+
+```sh
+python3 scripts/download_lectures.py --dry-run
+python3 scripts/download_lectures.py
+```
+
+Requires Python 3.8+ and curl. The script reads the official course indexes;
+they currently list 25 MIT lectures and 12 UCLA PDFs. Files go to sibling
+`../sources/mit/` and `../sources/ucla/`, preserving the filenames already
+listed in the [source inventory](docs/sources.md). It skips existing PDFs with
+a PDF header and end marker, retries transient transfer failures, and publishes
+each new file only after checking those markers. Failed files remain pending
+for the next run; failures produce a nonzero exit code. `--dry-run` still reads
+the online indexes but creates no files. Use `--dest /path/to/sources` or
+`LECTURE_SOURCES_DIR` to change the destination. Invocation also works from
+another directory using the script's absolute path.
+
 ## MATLAB refresher
 
 [Refresher 1: Arrays, indexing, and linear systems](notes/matlab-review/01-arrays-and-linear-systems.tex)

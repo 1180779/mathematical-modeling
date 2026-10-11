@@ -156,6 +156,29 @@ bez odpowiadającego źródła są zachowywane. Skrypt działa także wywołany
 ścieżką bezwzględną z innego katalogu. Typowe pliki pomocnicze TeX oraz PDF-y
 generowane przez edytor w `notes/` i `templates/` są ignorowane przez Git.
 
+## Uzupełniające PDF-y wykładów
+
+Pobierz wszystkie wykłady z [MIT OCW 6.251J, jesień 2009](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/pages/lecture-notes/)
+oraz [UCLA ECE236B, zima 2026](https://www.seas.ucla.edu/~vandenbe/ee236b/),
+włącznie z uzupełnieniem UCLA dotyczącym algebry liniowej z 2023 roku:
+
+```sh
+python3 scripts/download_lectures.py --dry-run
+python3 scripts/download_lectures.py
+```
+
+Wymagane są Python 3.8+ i curl. Skrypt czyta oficjalne indeksy kursów;
+obecnie zawierają one 25 wykładów MIT i 12 PDF-ów UCLA. Pliki trafiają do
+sąsiednich `../sources/mit/` i `../sources/ucla/`, z zachowaniem nazw już
+wymienionych w [inwentarzu źródeł](docs/sources.pl.md). Skrypt pomija istniejące
+PDF-y z nagłówkiem PDF i znacznikiem końca, ponawia przejściowe błędy transferu
+i zapisuje każdy nowy plik pod docelową nazwą dopiero po sprawdzeniu tych
+znaczników. Nieudane pobrania można ponowić przy kolejnym uruchomieniu;
+błędy powodują niezerowy kod zakończenia. `--dry-run` nadal czyta indeksy
+online, ale nie tworzy plików. Zmień katalog docelowy przez
+`--dest /path/to/sources` lub `LECTURE_SOURCES_DIR`. Skrypt można też uruchomić
+z innego katalogu, podając jego ścieżkę bezwzględną.
+
 ## Powtórka MATLAB-a
 
 [Powtórka 1: Tablice, indeksowanie i układy liniowe](notes/matlab-review/01-arrays-and-linear-systems.tex)

@@ -113,6 +113,28 @@ program i instrukcje laboratoriów pozostają niedostępne.
 
 ## Źródła uzupełniające poza repozytorium
 
+### Pobieranie kompletnych zestawów wykładów
+
+`scripts/download_lectures.py` czyta oficjalny
+[indeks wykładów MIT OCW 6.251J, jesień 2009](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/pages/lecture-notes/)
+i [stronę kursu UCLA ECE236B](https://www.seas.ucla.edu/~vandenbe/ee236b/).
+Sprawdzono 2026-10-11: strony zawierają 25 wykładów MIT, 11 rozdziałów UCLA
+z zimy 2026 i uzupełnienie z numerycznej algebry liniowej z zimy 2023.
+Skrypt pobiera je wszystkie do sąsiednich `../sources/mit/` i `../sources/ucla/`,
+zachowując planowane nazwy plików podane poniżej. Polecenia, ustawienia katalogu
+docelowego i sposób ponawiania opisuje
+[README](../README.pl.md#uzupełniające-pdf-y-wykładów).
+Pozostałe kursy MIT cytowane poniżej w tabeli materiałów podstawowych są
+osobnymi zbiorami źródeł.
+
+Odkrywanie plików, sprawdzanie znaczników PDF, zachowanie istniejących plików
+i obsługa błędów przeszły testy offline na danych przykładowych.
+Pobieranie przez sieć w tym środowisku jest niezweryfikowane: rozwiązywanie
+nazw DNS w powłoce nadal nie działa. Czytelność istniejącego pliku wykładu 10
+potwierdzono przez `pdfinfo`; pozostałych plików wykładów nie było podczas
+sprawdzania 2026-10-11. Uruchomienie skryptu nie aktualizuje tego inwentarza
+automatycznie ani nie potwierdza bieżącego zakresu kursu.
+
 [MIT OCW 15.081J/6.251J, Lecture 10 (Fall 2009)](https://ocw.mit.edu/courses/6-251j-introduction-to-mathematical-programming-fall-2009/ab890d20b071105239fe0b9bcf599f57_MIT6_251JF09_lec10.pdf),
 strony PDF 4 i 6, przeczytano przez narzędzie web w celu sprawdzenia stożka recesji
 oraz założeń reprezentacji za pomocą wierzchołków i promieni. Materiał uzupełnia
@@ -120,7 +142,8 @@ dawny wykład; nie potwierdza obecnego zakresu przedmiotu.
 
 Planowana ścieżka lokalna względem repozytorium:
 `../sources/mit/mit-6-251j-2009-lecture-10-polyhedral-representation.pdf`.
-**Nie pobrano:** rozwiązywanie nazwy DNS w powłoce nie powiodło się 2026-10-04.
+**Plik jest dostępny lokalnie:** czytelny ośmiostronicowy PDF potwierdzono 2026-10-11.
+Wcześniejsza próba pobrania w powłoce nie powiodła się z powodu DNS 2026-10-04.
 Zewnętrzny plik `../sources/README.md` zawiera oficjalny URL i polecenie ponowienia pobrania.
 
 Dodatkowe sprawdzenia metody sympleks do wykładu 3:

@@ -16,8 +16,12 @@
     "pl": "b943fa71ce56b17611b253d36f410993557a687f17814ab4a328e35d0fb17182"
   },
   "/source-inventory/supplementary-sources-outside-the-repository": {
-    "en": "6322264d18f9db2896a81dfd938c80009fbf4161e9ee75ebd956a08a4e436231",
-    "pl": "3204a8f9da87c6af19aed53155edcaf39339da000d60285902d3da00180cd55b"
+    "en": "843c9408765a9b9f681b83fffda66deac92dd22225b862b5c3540e9693e5309a",
+    "pl": "f6dd244cb2ae6a53b56fa249ba8edf6274b7df6ffdfb966cd38e7c7476a87ea6"
+  },
+  "/source-inventory/supplementary-sources-outside-the-repository/downloading-complete-lecture-sets": {
+    "en": "4e80c2483e746a41c9b19f0559504b4714285b9df78093e45b9bc68324dab974",
+    "pl": "d3da429174f47a81f5a44fc3509e7b83b6b6978de48ac31c03004f87c6ccd29d"
   },
   "/source-inventory/additional-foundations-consulted-on-2026-10-11": {
     "en": "fdb15d012acfe0597b78a47c6d2130b7acd70aa7835cc623e8b732a337d0b3fa",
