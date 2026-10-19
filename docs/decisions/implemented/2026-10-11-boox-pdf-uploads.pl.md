@@ -67,3 +67,7 @@ wynikami curl. Obejmują transfery przyrostowe, błędy offline i częściowe su
 sprawdzanie odpowiedzi BOOX, konfigurację, nazwy plików i zawartość commitowaną
 w porównaniu z niecommitowaną. Transfer na rzeczywiste urządzenie nie został
 zweryfikowany w środowisku deweloperskim z ograniczonym dostępem do sieci.
+
+[Decyzja o układzie katalogów z 2026-10-19](2026-10-19-boox-directory-layout.pl.md)
+zastępuje wybór płaskiego celu. Wysyłanie zachowuje teraz katalogi względne;
+odpowiednie katalogi na urządzeniu muszą istnieć przed transferem. Pozostałe zachowanie zachowano.

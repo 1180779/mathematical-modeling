@@ -1,0 +1,22 @@
+{
+  "/preserve-output-directories-in-boox-uploads": {
+    "en": "0af40974df09a1f3f76fcbacc7c968d2de98f0ec71b9733dfff8f1ffebe462be",
+    "pl": "05038b65f7af73dfaf7218cb409db9780d0948775cf5153b2670ac23804dac61"
+  },
+  "/preserve-output-directories-in-boox-uploads/problem": {
+    "en": "f57c770c054048f2394ac3914783ad2c52d5aa0f91fd92bf974da95d4044ac4e",
+    "pl": "a18e4f3b5ddee653214ed821274987313e308dbaef266dfb7de5ff22164a38ed"
+  },
+  "/preserve-output-directories-in-boox-uploads/decision": {
+    "en": "448e7248476dddffbda9982168dc6a1a42d38f6a2c8246a6e2999de377791024",
+    "pl": "3fd0eccc3f368f7ffef85b23c63a957d9d8f541c1c0c334401a927c51d3d3c30"
+  },
+  "/preserve-output-directories-in-boox-uploads/alternatives": {
+    "en": "7d6686774fed264050a44f410f7019bbc5c818174a9e49fd815a249fc40ab7f0",
+    "pl": "82278eaa238e6935105d2afd38002d722aa4fe31ee5abba51d8ceead093893d3"
+  },
+  "/preserve-output-directories-in-boox-uploads/verification": {
+    "en": "055d1d1703307f2c0f841970678194d3a43b52171b1a20ba4dd081924457965b",
+    "pl": "bf59a66981114ff39d4515fccd6f60d58af807c69113a78ee1870076433754c6"
+  }
+}

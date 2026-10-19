@@ -314,9 +314,18 @@ The first configured run uploads all PDFs under `BOOX_PDF_DIR` in `HEAD`.
 Later runs compare Git blob hashes with the last successful uploads. By default,
 state stays in Git metadata; keep any custom state path outside version control.
 Changing the endpoint, destination, or PDF directory starts a fresh sync.
-PDFs go into one destination folder using
-their original filenames; duplicate filenames are rejected before uploading.
-Remote files are not deleted when PDFs disappear from Git.
+PDFs preserve their parent directories relative to `BOOX_PDF_DIR`. For example,
+`output/lectures/topic.pdf` goes to `BOOX_REMOTE_DIR/lectures/topic.pdf`, and
+`output/exercises/topic.pdf` goes to `BOOX_REMOTE_DIR/exercises/topic.pdf`.
+Identical filenames in different folders are supported. PDFs directly inside
+`BOOX_PDF_DIR` go to the device base directory.
+
+Create the matching subdirectories on the device before uploading; the captured
+API only establishes file uploads, so the script does not create device folders.
+A rejected directory stops the batch without falling back to a flat destination.
+The first run after this layout change resends previously synced PDFs to the
+correct subdirectories. Existing flat copies and other remote files are not
+deleted, including when PDFs disappear from Git.
 
 An unavailable host or endpoint stops the upload batch after the first failure;
 there are no immediate retries and the commit still succeeds. A transfer is

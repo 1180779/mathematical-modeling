@@ -319,9 +319,18 @@ w `HEAD`. Kolejne porównują hashe obiektów blob Git z ostatnimi udanymi
 transferami. Domyślnie stan pozostaje w metadanych Git; własną ścieżkę stanu
 utrzymuj poza kontrolą wersji. Zmiana endpointu, katalogu docelowego lub katalogu
 PDF-ów rozpoczyna nową synchronizację.
-PDF-y trafiają do jednego katalogu docelowego pod pierwotnymi nazwami;
-powtarzające się nazwy są odrzucane przed wysyłaniem. Pliki na urządzeniu
-nie są usuwane, gdy PDF-y znikają z Git.
+PDF-y zachowują katalogi nadrzędne względem `BOOX_PDF_DIR`. Na przykład
+`output/lectures/topic.pdf` trafia do `BOOX_REMOTE_DIR/lectures/topic.pdf`, a
+`output/exercises/topic.pdf` do `BOOX_REMOTE_DIR/exercises/topic.pdf`.
+Identyczne nazwy plików w różnych katalogach są obsługiwane. PDF-y bezpośrednio
+w `BOOX_PDF_DIR` trafiają do katalogu bazowego na urządzeniu.
+
+Przed wysyłaniem utwórz odpowiednie podkatalogi na urządzeniu; zapisane API
+potwierdza tylko wysyłanie plików, więc skrypt nie tworzy katalogów na urządzeniu.
+Odrzucenie katalogu zatrzymuje wysyłanie bez przejścia do płaskiego celu.
+Pierwsze uruchomienie po zmianie układu ponownie wysyła wcześniej zsynchronizowane
+PDF-y do właściwych podkatalogów. Istniejące płaskie kopie i inne pliki zdalne nie
+są usuwane, także gdy PDF-y znikają z Git.
 
 Niedostępny host lub endpoint zatrzymuje wysyłanie po pierwszym niepowodzeniu;
 nie ma natychmiastowych ponowień, a commit nadal kończy się powodzeniem.

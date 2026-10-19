@@ -100,7 +100,9 @@ class BooxUploadTests(unittest.TestCase):
         uploads = self.uploads()
         self.assertEqual({r["name"] for r in uploads}, {"a.pdf", "b.pdf"})
         for record in uploads:
-            self.assertEqual(record["fields"], ["dir=/device/Notes with spaces", "sender=web"])
+            folder = "lectures" if record["name"] == "a.pdf" else "exercises"
+            self.assertEqual(record["fields"],
+                             [f"dir=/device/Notes with spaces/{folder}", "sender=web"])
             self.assertEqual(record["url"], self.env["BOOX_UPLOAD_URL"])
             self.assertEqual(record["connect_timeout"], "0.4")
             self.assertEqual(record["upload_timeout"], "3.0")
@@ -176,11 +178,49 @@ class BooxUploadTests(unittest.TestCase):
                 self.assertEqual(self.uploads(), [])
                 self.env = original
 
-    def test_duplicate_remote_filenames_skip_before_upload(self):
+    def test_same_filename_in_separate_directories_is_preserved(self):
         self.write("output/other/a.pdf", "%PDF-1.4\ncollision\n")
         self.commit()
         self.run_upload()
-        self.assertEqual(self.uploads(), [])
+        self.assertEqual(len(self.uploads()), 3)
+        destinations = {r["fields"][0]: r["content"] for r in self.uploads()
+                        if r["name"] == "a.pdf"}
+        self.assertEqual(destinations, {
+            "dir=/device/Notes with spaces/lectures": "%PDF-1.4\nfirst\n",
+            "dir=/device/Notes with spaces/other": "%PDF-1.4\ncollision\n",
+        })
+
+    def test_nested_paths_and_root_pdfs_use_relative_parent_directories(self):
+        self.write("output/archive/week 1/a.pdf", "%PDF-1.4\nnested\n")
+        self.write("output/index.pdf", "%PDF-1.4\nroot\n")
+        self.commit()
+        self.run_upload()
+        destinations = {(r["name"], r["fields"][0]) for r in self.uploads()}
+        self.assertIn(("a.pdf", "dir=/device/Notes with spaces/archive/week 1"), destinations)
+        self.assertIn(("index.pdf", "dir=/device/Notes with spaces"), destinations)
+        self.run_upload()
+        self.assertEqual(len(self.uploads()), 4)
+
+    def test_old_flat_upload_state_resends_to_subdirectories(self):
+        blobs = {path: self.git("rev-parse", "HEAD:" + path).stdout.strip()
+                 for path in ("output/lectures/a.pdf", "output/exercises/b.pdf")}
+        self.write(".git/boox-upload.json", json.dumps({
+            "destination": [self.env["BOOX_UPLOAD_URL"], self.env["BOOX_REMOTE_DIR"], "output"],
+            "uploaded": blobs,
+        }))
+        self.run_upload()
+        self.assertEqual(len(self.uploads()), 2)
+        self.assertTrue(all(r["fields"][0].endswith(("/lectures", "/exercises"))
+                            for r in self.uploads()))
+        self.run_upload()
+        self.assertEqual(len(self.uploads()), 2)
+
+    def test_rejected_subdirectory_does_not_fall_back_to_flat_upload(self):
+        self.env["TEST_CURL_MODE"] = "rejected"
+        self.run_upload()
+        self.assertEqual(len(self.uploads()), 1)
+        self.assertTrue(self.uploads()[0]["fields"][0].endswith("/lectures"))
+        self.assertFalse((self.root / ".git/boox-upload.json").exists())
 
     def test_special_filename_and_symlink(self):
         self.write('output/lectures/c; "quoted" Ś.pdf', "%PDF-1.4\nspecial\n")
@@ -207,14 +247,14 @@ class BooxUploadTests(unittest.TestCase):
         self.env["TEST_CURL_MODE"] = "ok"
         self.run_upload()
         self.assertEqual(len(self.uploads()), 3)
-        self.assertEqual(self.uploads()[-1]["fields"][0], "dir=/device/From config")
+        self.assertEqual(self.uploads()[-1]["fields"][0], "dir=/device/From config/exercises")
 
     def test_config_is_data_and_exported_environment_takes_precedence(self):
         self.write(".env.boox", 'BOOX_REMOTE_DIR="/device/$(touch unexpected)"\n')
         self.env.pop("BOOX_REMOTE_DIR")
         self.run_upload()
         self.assertFalse((self.root / "unexpected").exists())
-        self.assertEqual(self.uploads()[0]["fields"][0], "dir=/device/$(touch unexpected)")
+        self.assertEqual(self.uploads()[0]["fields"][0], "dir=/device/$(touch unexpected)/lectures")
         self.env["BOOX_UPLOAD_URL"] = ""
         self.run_upload()
         self.assertEqual(len(self.uploads()), 2)

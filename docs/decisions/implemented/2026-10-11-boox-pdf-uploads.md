@@ -59,3 +59,7 @@ Tests run the real hook in isolated Git repositories with simulated curl results
 covering incremental transfers, offline and partial failures, BOOX response checks,
 configuration, filenames, and committed versus unstaged content. Live device
 transfer was not verified in the network-restricted development environment.
+
+The [2026-10-19 directory-layout decision](2026-10-19-boox-directory-layout.md)
+supersedes the flat-destination choice. Uploads now preserve relative folders;
+matching device directories must exist before transfer. Other behavior is retained.

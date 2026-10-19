@@ -57,12 +57,8 @@ def committed_pdfs(root, directory):
         if (mode in {"100644", "100755"} and kind == "blob"
                 and path.startswith(directory + "/") and path.lower().endswith(".pdf")):
             pdfs[path] = oid
-    # The device upload targets one existing directory; refuse name collisions.
-    names = [PurePosixPath(path).name for path in pdfs]
-    if len(names) != len(set(names)):
-        raise ValueError("PDF filenames collide in the BOOX destination directory")
-    if any("\r" in name or "\n" in name for name in names):
-        raise ValueError("PDF filenames must not contain line breaks")
+    if any("\r" in path or "\n" in path for path in pdfs):
+        raise ValueError("PDF paths must not contain line breaks")
     return pdfs
 
 
@@ -124,7 +120,7 @@ def main():
     if directory.is_absolute() or ".." in directory.parts or str(directory) == ".":
         raise ValueError("BOOX_PDF_DIR must be a directory relative to the repository")
     pdfs = committed_pdfs(root, str(directory))
-    destination = [url, remote_dir, str(directory)]
+    destination = [url, remote_dir, str(directory), "relative-directories-v1"]
     state_file = Path(os.environ.get("BOOX_STATE_FILE") or
                       os.fsdecode(git(root, "rev-parse", "--git-path", "boox-upload.json")).strip())
     if not state_file.is_absolute():
@@ -142,7 +138,9 @@ def main():
     upload_timeout = timeout("BOOX_UPLOAD_TIMEOUT", "15")
     uploaded = {path: oid for path, oid in uploaded.items() if path in pdfs}
     for path in sorted(pending, key=lambda path: PurePosixPath(path).name):
-        if not upload(root, path, pdfs[path], url, remote_dir, connect_timeout, upload_timeout):
+        relative_parent = PurePosixPath(path).relative_to(directory).parent
+        target_dir = str(PurePosixPath(remote_dir) / relative_parent)
+        if not upload(root, path, pdfs[path], url, target_dir, connect_timeout, upload_timeout):
             print("BOOX: upload unavailable or rejected; pending PDFs kept for the next run.")
             return
         uploaded[path] = pdfs[path]

@@ -53,6 +53,9 @@ records have section hash sidecars following the [language policy](../language-p
   environment-configured uploads of changed committed PDFs, with local success
   records and fast skips when the device is unavailable.
 
+- [Preserve output directories on BOOX](implemented/2026-10-19-boox-directory-layout.md):
+  relative subdirectories, separate duplicate basenames and migration from flat uploads.
+
 ## Visual lecture cues
 
 - [Confirmed lecture highlights](implemented/2026-10-19-confirmed-lecture-highlights.md):
