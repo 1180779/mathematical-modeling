@@ -612,6 +612,30 @@ This identity concerns these dictionary coefficients, including the constant
 column. It is not a rule to transpose a displayed tableau without checking
 its row equations, objective sign, and variable domains.
 
+\paragraph{Color key for the paired tableaus.}
+The colors follow a quantity across the primal and dual, including required
+sign changes. Labels and column positions give the same information in grayscale:
+\begin{center}\small
+  \tableaukey{tableaucost}{$c$: primal objective / dual RHS}\quad
+  \tableaukey{tableaurhs}{$b$: primal RHS / dual objective}\\[3pt]
+  \tableaukey{tableaumatrix}{$A$: transposed constraint coefficients}\\[3pt]
+  \tableaukey{tableauprice}{$y$: primal slack indicators / dual basic values}\\[3pt]
+  \tableaukey{tableauquantity}{$x$: primal basic values / dual surplus indicators}\quad
+  \tableaukey{tableauvalue}{objective value}
+\end{center}
+The extra coefficient rows display $c$ and $-b$ before the pivots.
+The dual tableau maximizes $-b^Ty$, so its value column is the negative of
+the original dual objective. The paired values progress as
+\[
+  (z,v)=(0,0),\quad(9,9),\quad(10,10),\qquad
+  z=c^Tx,\quad v=b^Ty.
+\]
+Intermediate dual basic vectors can violate a surplus constraint $s\geq0$; equality of these
+intermediate numbers alone is therefore not an optimality certificate.
+Only the final pair is feasible on both sides. In the final rows, the cyan
+cells recover $y=(1,3)$ and the blue cells recover $x_2=1/4$, $x_3=13/4$;
+the nonbasic $x_1$ is zero.
+
 \paragraph{Primal path.}
 With slacks $w_1,w_2$, start at the origin and deliberately choose $x_3$ to
 enter. Any negative indicator is eligible; choosing the most negative one is
@@ -620,15 +644,16 @@ leaves. Next $x_2$ enters and $w_1$ leaves, with step $1/4$.
 \begin{center}
   \begin{tabular}{c|rrrrr|r}\toprule
     Basic & $x_1$ & $x_2$ & $x_3$ & $w_1$ & $w_2$ & RHS\\\midrule
-    $w_1$ & 1 & 4 & 0 & 1 & 0 & 1\\
-    $w_2$ & 3 & -1 & 1 & 0 & 1 & 3\\\midrule
-    $q^T$ & -4 & -1 & -3 & 0 & 0 & 0\\\midrule
+    $c^T$ & \tableaucell{tableaucost}{4} & \tableaucell{tableaucost}{1} & \tableaucell{tableaucost}{3} & 0 & 0 & \\\midrule
+    $w_1$ & \tableaucell{tableaumatrix}{1} & \tableaucell{tableaumatrix}{4} & \tableaucell{tableaumatrix}{0} & 1 & 0 & \tableaucell{tableaurhs}{1}\\
+    $w_2$ & \tableaucell{tableaumatrix}{3} & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{1} & 0 & 1 & \tableaucell{tableaurhs}{3}\\\midrule
+    $q^T$ & \tableaucell{tableaucost}{-4} & \tableaucell{tableaucost}{-1} & \tableaucell{tableaucost}{-3} & 0 & 0 & \tableaucell{tableauvalue}{0}\\\midrule
     $w_1$ & 1 & 4 & 0 & 1 & 0 & 1\\
     $x_3$ & 3 & -1 & 1 & 0 & 1 & 3\\\midrule
-    $q^T$ & 5 & -4 & 0 & 0 & 3 & 9\\\midrule
-    $x_2$ & $1/4$ & 1 & 0 & $1/4$ & 0 & $1/4$\\
-    $x_3$ & $13/4$ & 0 & 1 & $1/4$ & 1 & $13/4$\\\midrule
-    $q^T$ & 6 & 0 & 0 & 1 & 3 & 10\\\bottomrule
+    $q^T$ & 5 & -4 & 0 & 0 & 3 & \tableaucell{tableauvalue}{9}\\\midrule
+    $x_2$ & $1/4$ & 1 & 0 & $1/4$ & 0 & \tableaucell{tableauquantity}{1/4}\\
+    $x_3$ & $13/4$ & 0 & 1 & $1/4$ & 1 & \tableaucell{tableauquantity}{13/4}\\\midrule
+    $q^T$ & 6 & 0 & 0 & \tableaucell{tableauprice}{1} & \tableaucell{tableauprice}{3} & \tableaucell{tableauvalue}{10}\\\bottomrule
   \end{tabular}
 \end{center}
 Thus $x^*=(0,1/4,13/4)$ attains the bound 10. The final slack-column
@@ -643,18 +668,19 @@ nonnegative indicators. Keep column order $(y_1,y_2,s_1,s_2,s_3)$:
 \begin{center}
   \begin{tabular}{c|rrrrr|r}\toprule
     Basic & $y_1$ & $y_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
-    $s_1$ & -1 & -3 & 1 & 0 & 0 & -4\\
-    $s_2$ & -4 & 1 & 0 & 1 & 0 & -1\\
-    $s_3$ & 0 & -1 & 0 & 0 & 1 & -3\\\midrule
-    $q^T$ & 1 & 3 & 0 & 0 & 0 & 0\\\midrule
+    $-b^T$ & \tableaucell{tableaurhs}{-1} & \tableaucell{tableaurhs}{-3} & 0 & 0 & 0 & \\\midrule
+    $s_1$ & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{-3} & 1 & 0 & 0 & \tableaucell{tableaucost}{-4}\\
+    $s_2$ & \tableaucell{tableaumatrix}{-4} & \tableaucell{tableaumatrix}{1} & 0 & 1 & 0 & \tableaucell{tableaucost}{-1}\\
+    $s_3$ & \tableaucell{tableaumatrix}{0} & \tableaucell{tableaumatrix}{-1} & 0 & 0 & 1 & \tableaucell{tableaucost}{-3}\\\midrule
+    $q^T$ & \tableaucell{tableaurhs}{1} & \tableaucell{tableaurhs}{3} & 0 & 0 & 0 & \tableaucell{tableauvalue}{0}\\\midrule
     $s_1$ & -1 & 0 & 1 & 0 & -3 & 5\\
     $s_2$ & -4 & 0 & 0 & 1 & 1 & -4\\
     $y_2$ & 0 & 1 & 0 & 0 & -1 & 3\\\midrule
-    $q^T$ & 1 & 0 & 0 & 0 & 3 & -9\\\midrule
+    $q^T$ & 1 & 0 & 0 & 0 & 3 & \tableaucell{tableauvalue}{-9}\\\midrule
     $s_1$ & 0 & 0 & 1 & $-1/4$ & $-13/4$ & 6\\
-    $y_1$ & 1 & 0 & 0 & $-1/4$ & $-1/4$ & 1\\
-    $y_2$ & 0 & 1 & 0 & 0 & -1 & 3\\\midrule
-    $q^T$ & 0 & 0 & 0 & $1/4$ & $13/4$ & -10\\\bottomrule
+    $y_1$ & 1 & 0 & 0 & $-1/4$ & $-1/4$ & \tableaucell{tableauprice}{1}\\
+    $y_2$ & 0 & 1 & 0 & 0 & -1 & \tableaucell{tableauprice}{3}\\\midrule
+    $q^T$ & 0 & 0 & 0 & \tableaucell{tableauquantity}{1/4} & \tableaucell{tableauquantity}{13/4} & \tableaucell{tableauvalue}{-10}\\\bottomrule
   \end{tabular}
 \end{center}
 Choose row $s_3$ first (a negative RHS suffices; it need not be the most

@@ -9,22 +9,22 @@
     "notes/lectures/02-linear-programming.tex": "a2a39356d0a8731153a7b8e4ddd101540afe78df47f96a732015d3947baa513d",
     "notes/lectures/02a-linear-modeling-patterns.tex": "8a0f98da4d9753122c8b3c58ed09ba6d845096b7b859b4d1d76c2e1762166e55",
     "notes/lectures/03-simplex-method.tex": "703d7d96edd2753cfc16e28a7c204f2092d562a55c8360fac94bf2645aff33dd",
-    "notes/lectures/04-degeneracy-and-duality.tex": "7939b90df675f324821127abc26fbe4ed946c6eb4b0b5f96a545fc3b05d7200b",
+    "notes/lectures/04-degeneracy-and-duality.tex": "688a9a42de91b9b96c036c8b69feb68adf8d2e51c241d1c34a240abcb0e22677",
     "notes/lectures/05-sensitivity-and-lagrange-multipliers.tex": "27ae576c333bc9023b596289c51a149283b7e3c7ad69ae07a6e10d1534cbaee0",
     "notes/matlab-review/.latexmkrc": "e395f89a58e8e7da04365c286dca87ca9406ea4740cdb19982e87f9c0398afec",
     "notes/matlab-review/01-arrays-and-linear-systems.tex": "a315f338be427d4acc5eeb4be8180b5771f57a48fa1b7095cbc49b1fad9ae57b",
-    "templates/modeling-notes.sty": "512d33d653c236bceed0755871e4df3bd18c67d880226daf48afa93748003dc0"
+    "templates/modeling-notes.sty": "cb5d0cbe882d5aaf5ce10d7dc08817b2348848b4221fe11c5f902442bcf60273"
   },
   "pdfs": {
-    "output/exercises/01-complementarity-and-two-phase.pdf": "7b9efc85b44d1e843de843aa17653b4ef84063d817ff7115a525385a63c7e852",
-    "output/exercises/01-dual-simplex-and-recovery.pdf": "0d8d632329fcae212f723c4d7ed24da8352f544160c4888b9294d0e79e08ff11",
-    "output/exercises/01-primal-simplex.pdf": "6de4ef185a5daa679e8601fbc2d541fdc80c0cecd14e2a0c70eb17149adb79f9",
-    "output/lectures/01-optimization-modeling.pdf": "c1b9753d005eedaefcb07236734401fcf28ff31b02536d8e01fec88774a64bf0",
-    "output/lectures/02-linear-programming.pdf": "d6a226a5fea4ce002066ed9908e85499032cd3c4450c9e39d98a5534395e2006",
-    "output/lectures/02a-linear-modeling-patterns.pdf": "c7a154d748c444499ed1fbbc35ed6e65f41783c9d9979fc441b9d26c352e3d76",
-    "output/lectures/03-simplex-method.pdf": "1a0baef6a1417979d211a4df5c856d354200be009e3d5c1e84bfaae803204ae9",
-    "output/lectures/04-degeneracy-and-duality.pdf": "a7a25cb6dfa350636458f631ddda289ed5e7aa72e9882ee725cd95a6327d63d5",
-    "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "df397e394c08f80a63347875b16362b4ca34301bd048a05460416f7e8e0a498d",
-    "output/matlab-review/01-arrays-and-linear-systems.pdf": "edddc40884ce01f6131e8d81ea427769a0aecfa4f953ef3c13b7e039bd6d8c5d"
+    "output/exercises/01-complementarity-and-two-phase.pdf": "da14fed73fa6e76327b7f6aaa04b19e04d14b78132a579589cedd0a61837d74e",
+    "output/exercises/01-dual-simplex-and-recovery.pdf": "29407afe0f91e4e5d7e08ce1bbc551f23c99ffd100a768d8e69a8870a2eee856",
+    "output/exercises/01-primal-simplex.pdf": "515626addc508b2daf646f5bf722b8088b4a4227cba2e314777021dc63283e04",
+    "output/lectures/01-optimization-modeling.pdf": "c2afe7c4a83c7bca74068d9eb19df745a42526911eb983520c66cc7a4bec7a48",
+    "output/lectures/02-linear-programming.pdf": "e12ada5e78290a3887a2d67083ea07e864b11126a702c74bdec52e3d7803a71c",
+    "output/lectures/02a-linear-modeling-patterns.pdf": "0f32659a925442d81c8b467b4926639a8c3dac74d1329a5f1739c934c1dffc78",
+    "output/lectures/03-simplex-method.pdf": "36e8760e1f71785e5906ccaadac50a3e6edc2cf1f9550935c4bcdadb0c81b89b",
+    "output/lectures/04-degeneracy-and-duality.pdf": "86e40b3d4c3bd8ea96c8a89f9c0eb33c21d27fe182c2b878d579898642e478ef",
+    "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "bcdd9f1178abc084a72a512036b702d7ab639180e662cf2d54c7a240bc0820af",
+    "output/matlab-review/01-arrays-and-linear-systems.pdf": "b0ca36ae098ead6d151d5d40c008b0726103df2a7cd4c8635195ef56160b592b"
   }
 }
