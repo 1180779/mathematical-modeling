@@ -4,14 +4,28 @@
 
 ## Bieżące materiały kursu 2026–27
 
-Użytkownik dostarczył następujące materiały bieżącego kursu. Daty zajęć nie są
-ustalone; data utworzenia PDF-u nie jest datą wykładu ani zaliczenia.
+Użytkownik dostarczył następujące materiały bieżącego kursu. Odręczne notatki
+jawnie datują wykład na 19 października 2026. Daty zajęć ze slajdów i zestawu nie
+są ustalone; same metadane PDF-ów ich nie ustalają.
 Ścieżki są względne wobec katalogu głównego repozytorium; oryginały pozostają poza nim.
 
 | Plik | Strony | Ścieżka lokalna |
 | --- | --- | --- |
 | `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
 | `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
+| `lecture_19_10_2026.pdf` | 10 | `../lecutures_notes/lecture_19_10_2026.pdf` |
+
+Odręczny eksport BOOX przejrzano wizualnie na wszystkich dziesięciu stronach.
+Treść włączono do rozdziału 4: cykle, perturbacja symboliczna, reguła Blanda,
+konstrukcja dualu, słaba/silna dualność, powiązane tablice i komplementarność.
+Trzy dodane podsekcje z przykładami rozwijają perturbację liczbową, powiązane
+rozwiązanie prymalne/dualne i końcowy przykład dopuszczalnego startu dualu.
+Kandydat ze stron 9–10 ma już tam pełne opracowanie. Końcowe uwagi redakcyjne
+zachowują rozbieżność prawej strony `8`/`3` i objaśniają korekty rachunków;
+mapa kursu podaje ścieżkę według stron. Dokładne sprawdzenie wymierne objęło
+wszystkie osiem nowych tablic po wymianach i certyfikaty; nie przypisuje się
+nowego uruchomienia MATLAB-a.
+
 
 Wykład rozwija modelowanie PL aż do sympleksu i inicjalizacji. Rozdziały 01–03
 oraz nowy dodatek ze schematami modelowania włączają jego treść. Zestaw ma 16
@@ -62,7 +76,8 @@ Poniższe ścieżki są względem katalogu głównego repozytorium. Oryginały p
 
 Dla każdego opracowywanego tematu podawaj nazwę pliku i numery stron, odróżniaj
 materiały źródłowe od dodanych objaśnień i zapisuj porównanie z obecnymi zajęciami.
-Dostarczono już jeden bieżący wykład i jeden zestaw ćwiczeń. Pełny bieżący
+Dostarczono już slajdy bieżącego wykładu, odręczne notatki z 19 października
+i jeden zestaw ćwiczeń. Pełny bieżący
 program i instrukcje laboratoriów pozostają niedostępne.
 
 ## Opracowane notatki i doprecyzowania źródeł

@@ -281,7 +281,36 @@ calculations checked both nutrient totals, the positive weighted lower bound,
 uniqueness and all three vertices. **Static analysis: passed.** The R2026b
 standalone `mlint -id` analyzer reported no diagnostics for the revised script.
 
-**MATLAB execution of this revision: unverified.** The agent attempted
+**MATLAB execution at revision time: unverified.** The agent attempted
 `matlab -batch "run('matlab/exercises/modeling_patterns_checks.m')"`; MATLAB
 exited with code 1 and no output. The successful user transcript above concerns
 the earlier diet coefficients. The three sheet 1 scripts are unchanged.
+
+## Revised modeling-patterns execution on 2026-10-19
+
+**MATLAB execution of the diet revision: passed.** After the user installed the
+command-specific approval rules, the agent executed the following command from
+the repository root. MATLAB exited with code 0 and reported R2026b. This is an
+agent-executed run, separate from the earlier user-supplied transcripts.
+
+```sh
+/usr/local/bin/matlab -batch "disp(version); run('matlab/exercises/modeling_patterns_checks.m')"
+```
+
+```text
+26.2.0.3386108 (R2026b)
+Factory: optima 28704/5 and 32544/5 for G = 144 and 192
+Blending: profit 475000/27; transport cost 25919
+Storage: cost 1883/2; three-node flow cost 9
+All modeling-pattern certificate assertions passed.
+```
+
+All assertions passed at the script's absolute tolerance `1e-10`, including the
+revised diet candidate `(8/5,4/5)`, nutrient totals, dual certificate and cost
+`28/5` PLN. The diet checks do not print a separate summary; successful completion
+confirms their assertions ran. Factory, blending, transportation, storage, flow
+and regression checks in the same script also passed. No Optimization Toolbox
+solver was used. This resolves the last pending execution of an existing MATLAB
+script; the other eight scripts already had successful execution records.
+The 19 October handwritten-lecture additions have exact rational verification
+and are not implemented in the existing MATLAB companions.

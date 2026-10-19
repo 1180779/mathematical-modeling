@@ -5,7 +5,8 @@
 Osobiste repozytorium do nauki modelowania matematycznego: notatki z wykładów,
 ćwiczenia z rozwiązaniami ręcznymi i w MATLAB-ie, powtórka MATLAB-a oraz laboratoria.
 Rozdziały pojęciowe zachowują głębię dawnych notatek i włączają dostarczone
-wykład 1 oraz zestaw 1 z kursu 2026–27. Numery rozdziałów są niezależne od
+wykład 1, zestaw 1 oraz odręczne notatki z wykładu 19 października 2026 z kursu
+2026–27. Numery rozdziałów są niezależne od
 numerów bieżących wykładów; przyszła zgodność z kursem pozostaje nieznana.
 
 ## Od czego zacząć
@@ -17,6 +18,10 @@ numerów bieżących wykładów; przyszła zgodność z kursem pozostaje nieznan
 - [Słownik polsko-angielski](docs/glossary.md): wspólne słownictwo.
 - [Wykaz źródeł](docs/sources.pl.md): bieżące materiały, dawne źródła i pochodzenie szablonu.
 - [Rejestr decyzji](docs/decisions/README.pl.md): uzasadnienia i oczekujące propozycje.
+
+Do wykładu z 19 października użyj [ścieżki według stron](docs/course-map-2026-27.pl.md#odręczne-notatki-z-wykładu-19-października-2026)
+przez rozdział 4: perturbacja, reguła Blanda, dualność, powiązane tablice
+i komplementarność. Przykłady zawierają sprawdzone korekty odręcznego zapisu.
 
 ## Rozdziały pojęciowe do nauki
 
@@ -78,9 +83,9 @@ czterech skryptów przeszły. Użytkownik przekazał pomyślne wyjście i potwie
 MATLAB 26.2.0.3386108 (R2026b); skrypt prymalnego sympleksu podał największą
 różnicę tablica/baza `7.11e-15` przy tolerancji bezwzględnej `1e-10`.
 Zobacz [rejestr weryfikacji](docs/matlab-verification.pl.md).
-Przykład diety i jego sprawdzenie zmieniono po tym uruchomieniu. Nowy wynik
-przechodzi dokładne obliczenia i analizę statyczną; wykonanie tej wersji
-w MATLAB-ie oczekuje na weryfikację.
+Przykład diety i jego sprawdzenie zmieniono po tym uruchomieniu. Dnia 2026-10-19
+agent uruchomił zmieniony skrypt schematów modelowania w R2026b; wszystkie asercje
+przeszły, w tym certyfikat diety dla kosztu `28/5` PLN.
 
 ## Struktura
 

@@ -389,6 +389,70 @@ optimum of the original problem.
 \end{center}
 The counts compare this particular example, not universal relative performance.
 
+
+\subsection{A zero-ratio tie resolved by symbolic right-hand sides}\label{sec:zero-tie}
+Consider the continuous problem
+\[
+  \max(6x_1+4x_2),\qquad
+  -9x_1-4x_2\leq0,\quad 4x_1+2x_2\leq0,\quad x_2\leq1,
+  \qquad x_1,x_2\geq0.
+\]
+The second inequality and nonnegativity force $x_1=x_2=0$; the maximum is
+therefore zero. This does not prevent simplex from changing the basis at that
+same point. Add slacks $w_1,w_2,w_3$ and replace the three right-hand sides by
+$\varepsilon_1,\varepsilon_2,1+\varepsilon_3$, with
+\[
+  \varepsilon_1=\delta^3,\qquad\varepsilon_2=\delta^2,\qquad
+  \varepsilon_3=\delta,\qquad 0<\delta\ll1.
+\]
+Thus $0<\varepsilon_1\ll\varepsilon_2\ll\varepsilon_3$; the order of
+magnitudes, rather than three chosen floating-point numbers, defines comparisons.
+The slack basis is feasible. With column order $(x_1,x_2,w_1,w_2,w_3)$,
+its initial constraint rows and indicators are
+\begin{center}
+  \begin{tabular}{c|rrrrr|l}\toprule
+    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
+    $w_1$ & -9 & -4 & 1 & 0 & 0 & $\varepsilon_1$\\
+    $w_2$ & 4 & 2 & 0 & 1 & 0 & $\varepsilon_2$\\
+    $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$\\\midrule
+    $q^T$ & -6 & -4 & 0 & 0 & 0 & $0$\\\bottomrule
+  \end{tabular}
+\end{center}
+Choose $x_1$ to enter; only row 2 limits its increase. Divide that row by 4
+and add nine times it to row 1:
+\begin{center}
+  \begin{tabular}{c|rrrrr|l}\toprule
+    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
+    $w_1$ & 0 & $1/2$ & 1 & $9/4$ & 0 & $\varepsilon_1+9\varepsilon_2/4$\\
+    $x_1$ & 1 & $1/2$ & 0 & $1/4$ & 0 & $\varepsilon_2/4$\\
+    $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$\\\midrule
+    $q^T$ & 0 & -1 & 0 & $3/2$ & 0 & $3\varepsilon_2/2$\\\bottomrule
+  \end{tabular}
+\end{center}
+Now $x_2$ enters. The first two ordinary ratios are both zero when the
+perturbations are discarded. Their symbolic ratios are instead
+\[
+  2\varepsilon_1+\tfrac92\varepsilon_2,\qquad
+  \tfrac12\varepsilon_2,\qquad 1+\varepsilon_3.
+\]
+The second is smallest, so $x_1$ leaves. Divide its row by $1/2$ and eliminate
+$x_2$ from the other rows:
+\begin{center}
+  \begin{tabular}{c|rrrrr|l}\toprule
+    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
+    $w_1$ & -1 & 0 & 1 & 2 & 0 & $\varepsilon_1+2\varepsilon_2$\\
+    $x_2$ & 2 & 1 & 0 & $1/2$ & 0 & $\varepsilon_2/2$\\
+    $w_3$ & -2 & 0 & 0 & $-1/2$ & 1 & $1+\varepsilon_3-\varepsilon_2/2$\\\midrule
+    $q^T$ & 2 & 0 & 0 & 2 & 0 & $2\varepsilon_2$\\\bottomrule
+  \end{tabular}
+\end{center}
+All basic values are positive for sufficiently small $\delta>0$, and $q\geq0$.
+The perturbed optimum is $x=(0,\varepsilon_2/2)$ with value $2\varepsilon_2$.
+Taking $\delta\to0$ recovers $x=(0,0)$ and $(w_1,w_2,w_3)=(0,0,1)$.
+Both pivots have zero length in the original problem, while their perturbed
+objective values strictly increase. This example illustrates tie-breaking;
+it is not itself a cycling sequence.
+
 \Needspace{23\baselineskip}
 \section{Complexity and the route to an optimum}\label{sec:complexity}
 Avoiding cycles establishes termination, but does not establish a polynomial
@@ -516,6 +580,90 @@ would generally change the dual problem.
     The number of constraints changes places with the number of variables.}
 \end{figure}
 
+
+\subsection{A weighted bound and paired primal--dual tableaus}\label{sec:paired-tableaus}
+Consider
+\[
+  \max(4x_1+x_2+3x_3),\qquad
+  x_1+4x_2\leq1,\quad 3x_1-x_2+x_3\leq3,\qquad x\geq0.
+\]
+Multiplying the first row by 2 and the second by 3 gives
+\[
+  4x_1+x_2+3x_3\leq11x_1+5x_2+3x_3\leq11.
+\]
+These nonnegative weights give a valid bound, but a tighter choice is
+$y=(1,3)$: then $A^Ty=(10,1,3)^T\geq(4,1,3)^T$ and $b^Ty=10$.
+The dual searches over all such weights:
+\[
+  \min(y_1+3y_2),\qquad y_1+3y_2\geq4,\quad
+  4y_1-y_2\geq1,\quad y_2\geq3,\qquad y\geq0.
+\]
+To see why a transpose appears even in the initial dictionaries, write
+\[
+  z=c^Tx,\qquad w=b-Ax,\qquad
+  -v=-b^Ty,\qquad s=A^Ty-c.
+\]
+The matrices mapping $(1,x)^T$ to $(z,w)^T$ and $(1,y)^T$ to $(-v,s)^T$ are
+\[
+  M=\begin{pmatrix}0&c^T\\b&-A\end{pmatrix},\qquad
+  N=\begin{pmatrix}0&-b^T\\-c&A^T\end{pmatrix}=-M^T.
+\]
+This identity concerns these dictionary coefficients, including the constant
+column. It is not a rule to transpose a displayed tableau without checking
+its row equations, objective sign, and variable domains.
+
+\paragraph{Primal path.}
+With slacks $w_1,w_2$, start at the origin and deliberately choose $x_3$ to
+enter. Any negative indicator is eligible; choosing the most negative one is
+not required. The only positive entry in its column is in row 2, so $w_2$
+leaves. Next $x_2$ enters and $w_1$ leaves, with step $1/4$.
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $x_1$ & $x_2$ & $x_3$ & $w_1$ & $w_2$ & RHS\\\midrule
+    $w_1$ & 1 & 4 & 0 & 1 & 0 & 1\\
+    $w_2$ & 3 & -1 & 1 & 0 & 1 & 3\\\midrule
+    $q^T$ & -4 & -1 & -3 & 0 & 0 & 0\\\midrule
+    $w_1$ & 1 & 4 & 0 & 1 & 0 & 1\\
+    $x_3$ & 3 & -1 & 1 & 0 & 1 & 3\\\midrule
+    $q^T$ & 5 & -4 & 0 & 0 & 3 & 9\\\midrule
+    $x_2$ & $1/4$ & 1 & 0 & $1/4$ & 0 & $1/4$\\
+    $x_3$ & $13/4$ & 0 & 1 & $1/4$ & 1 & $13/4$\\\midrule
+    $q^T$ & 6 & 0 & 0 & 1 & 3 & 10\\\bottomrule
+  \end{tabular}
+\end{center}
+Thus $x^*=(0,1/4,13/4)$ attains the bound 10. The final slack-column
+indicators recover $y^*=(1,3)$; the dual surpluses are $(6,0,0)$.
+The positive surplus for $x_1$ forces $x_1=0$ at every optimum, and positive
+$y_1,y_2$ force both primal rows tight. This proves uniqueness.
+
+\paragraph{Dual path by dual simplex.}
+Negate the dual objective and rewrite its constraints as
+$-A^Ty+s=-c$. The starting surplus basis has negative RHS entries but
+nonnegative indicators. Keep column order $(y_1,y_2,s_1,s_2,s_3)$:
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
+    $s_1$ & -1 & -3 & 1 & 0 & 0 & -4\\
+    $s_2$ & -4 & 1 & 0 & 1 & 0 & -1\\
+    $s_3$ & 0 & -1 & 0 & 0 & 1 & -3\\\midrule
+    $q^T$ & 1 & 3 & 0 & 0 & 0 & 0\\\midrule
+    $s_1$ & -1 & 0 & 1 & 0 & -3 & 5\\
+    $s_2$ & -4 & 0 & 0 & 1 & 1 & -4\\
+    $y_2$ & 0 & 1 & 0 & 0 & -1 & 3\\\midrule
+    $q^T$ & 1 & 0 & 0 & 0 & 3 & -9\\\midrule
+    $s_1$ & 0 & 0 & 1 & $-1/4$ & $-13/4$ & 6\\
+    $y_1$ & 1 & 0 & 0 & $-1/4$ & $-1/4$ & 1\\
+    $y_2$ & 0 & 1 & 0 & 0 & -1 & 3\\\midrule
+    $q^T$ & 0 & 0 & 0 & $1/4$ & $13/4$ & -10\\\bottomrule
+  \end{tabular}
+\end{center}
+Choose row $s_3$ first (a negative RHS suffices; it need not be the most
+negative). Its only eligible entering column is $y_2$. Then row $s_2$ has
+the only negative RHS, and $y_1$ enters. Each pivot preserves $q\geq0$;
+the last tableau is also primal feasible for the transformed dual LP.
+Recover the original dual minimum by changing the sign of its tableau value:
+$-(-10)=10$. The final indicators under $s_2,s_3$ recover $x_2,x_3$.
+
 \subsection{A sign table for mixed forms}
 Write the primal as a \emph{maximization}. Then the dual is a minimization,
 with objective $b^Ty$, and use the following two independent tables.
@@ -548,6 +696,14 @@ a positive coefficient on a nonnegative variable would otherwise give $+\infty$;
 a free variable requires a zero coefficient. Thus the signs follow from an
 upper-bound construction, rather than memorization alone.
 Dualizing again restores the original problem, up to equivalent sign conventions.
+For the inequality pair in \eqref{eq:primal-dual}, rewrite (D) as
+\[
+  \max(-b^Ty),\qquad -A^Ty\leq-c,\qquad y\geq0.
+\]
+Its dual is $\min(-c^Tx)$ subject to $-Ax\geq-b$, $x\geq0$.
+Negating that objective and the inequalities recovers (P). The new dual
+variables are indexed by the original $n$ primal variables, while the original
+multipliers $y$ have $m$ coordinates; consequently $b^Ty=\sum_{i=1}^m b_i y_i$.
 
 \subsection{Worked mixed-sign example}\label{sec:mixed}
 \[
@@ -1122,6 +1278,52 @@ Equality forces $x_2=x_3=x_5=0$, then $x_1=5$; the optimum is unique.
     basic vector is not an admissible solution of the original minimization problem.}
 \end{figure}
 
+
+\subsection{Solving the dual when its slack start is feasible}\label{sec:feasible-dual-start}
+Consider the maximization problem
+\[
+  \max(-x_1-x_2),\qquad
+  -2x_1-x_2\leq4,\quad -2x_1+4x_2\leq-8,\quad
+  -x_1+3x_2\leq-7,\qquad x\geq0.
+\]
+The primal origin is infeasible. Its dual is
+\[
+  \min(4y_1-8y_2-7y_3),\qquad
+  -2y_1-2y_2-y_3\geq-1,\quad -y_1+4y_2+3y_3\geq-1,
+  \qquad y\geq0.
+\]
+Unlike a general dual, this one becomes immediately suitable for primal simplex:
+negate both rows and the objective, giving
+\[
+  \max(-4y_1+8y_2+7y_3),\qquad
+  2y_1+2y_2+y_3+s_1=1,\quad
+  y_1-4y_2-3y_3+s_2=1,\qquad y,s\geq0.
+\]
+At $y=0$, both slacks equal 1. The following primal-simplex path therefore
+needs no artificial variables. Columns are $(y_1,y_2,y_3,s_1,s_2)$.
+\begin{center}
+  \begin{tabular}{c|rrrrr|r}\toprule
+    Basic & $y_1$ & $y_2$ & $y_3$ & $s_1$ & $s_2$ & RHS\\\midrule
+    $s_1$ & 2 & 2 & 1 & 1 & 0 & 1\\
+    $s_2$ & 1 & -4 & -3 & 0 & 1 & 1\\\midrule
+    $q^T$ & 4 & -8 & -7 & 0 & 0 & 0\\\midrule
+    $y_2$ & 1 & 1 & $1/2$ & $1/2$ & 0 & $1/2$\\
+    $s_2$ & 5 & 0 & -1 & 2 & 1 & 3\\\midrule
+    $q^T$ & 12 & 0 & -3 & 4 & 0 & 4\\\midrule
+    $y_3$ & 2 & 2 & 1 & 1 & 0 & 1\\
+    $s_2$ & 7 & 2 & 0 & 3 & 1 & 4\\\midrule
+    $q^T$ & 18 & 6 & 0 & 7 & 0 & 7\\\bottomrule
+  \end{tabular}
+\end{center}
+First $y_2$ enters and $s_1$ leaves with step $1/2$; then $y_3$ enters and
+$y_2$ leaves with step 1. The resulting $y^*=(0,0,1)$ has original dual
+value $-7$, not $7$. Its second dual constraint is strict, so complementarity
+forces $x_2=0$. Since $y_3>0$, the third primal row is tight, giving $x_1=7$.
+Direct substitution gives primal slacks $(18,6,0)$ and objective $-7$.
+The matching feasible values certify optimality; the same complementarity
+conditions prove uniqueness. This is primal simplex applied to a transformed
+dual problem, rather than the dual-simplex algorithm applied to the primal.
+
 \section{Checking numerical primal--dual certificates}\label{sec:numerical-certificate}
 For the standard pair $\max c^Tx$, $Ax=b$, $x\geq0$ and
 $\min b^Ty$, $A^Ty\geq c$, $y$ free, inspect three separate quantities:
@@ -1245,8 +1447,9 @@ PDF pages 1--12, printed slides 1--47 (slide 47 is the closing slide).\\
 \textbf{Current course alignment:} Supplied sheet~1, groups~2--5, requires
 dual construction, complementarity and dual simplex. These topics are not
 developed in the supplied \texttt{ProgMat\_w1.pdf}; its numbering does not
-establish when they were taught. Cycling and complexity remain historical
-enrichment.\\
+establish when they were taught. The handwritten lecture dated 19 October 2026 confirms cycling, perturbation,
+Bland's rule, duality, complementarity, and paired simplex calculations as current
+lecture topics. Complexity remains historical enrichment.\\
 \textbf{Editorial scope:} Complete mathematical lecture content, reorganized
 in English, with hand proofs, worked paths, certificates, study questions, and
 editable TikZ illustrations. All source pages were reviewed; dense cycling,
@@ -1274,6 +1477,36 @@ The full Bland path, the $p=5$ three-dimensional vertex list, mixed-example
 feasible pair, resource-price interval, optimal segment, and explicit row
 infeasibility certificate are added derivations. Drawings explain the source
 ideas in the current style; the ratio-indicator graph uses added data.
+
+\paragraph{Handwritten lecture, 19 October 2026.}
+All ten pages of the user's BOOX export
+\path{../lecutures_notes/lecture_19_10_2026.pdf} were inspected visually.
+Pages 1--3 discuss cycling, perturbation and Bland's rule; the numerical
+perturbation example is developed in Section~\ref{sec:zero-tie}.
+Pages 3--8 give weighted bounds, dual construction, weak/strong duality,
+dualizing twice and paired tableaus; Section~\ref{sec:paired-tableaus}
+develops the numerical pair. Pages 8--10 revisit complementarity and the
+candidate already treated in Section~\ref{sec:candidate}; the final new
+example is completed in Section~\ref{sec:feasible-dual-start}.
+The earlier proofs and counterexamples remain explanatory additions; handwriting
+confirms recorded topics, not a verbatim account of the instructor's proofs.
+
+The source has local inconsistencies. Page 6's primal header gives a second
+RHS of 8, while its own dictionary, dual objective and pages 3, 7--8 use 3.
+Section~\ref{sec:paired-tableaus} uses the consistent RHS 3. If the header's
+8 is intended instead, the same prices $(1,3)$ certify
+$x=(0,1/4,33/4)$ and value 25. Page 7's crossed-out primal tableau is superseded
+by page 8's path. On page 2 the final $w_3$ RHS must be
+$1+\varepsilon_3-\varepsilon_2/2$, obtained by subtracting the normalized
+pivot row. On page 10 the second row after the first pivot must have $s_1$
+coefficient 2; the final $s_2$ row is $(7,2,0,3,1\mid4)$.
+The objective arithmetic for the candidate is $2+4+2=8$.
+The dual objective uses $b_i$, not $c_i$, and runs over the $m$ primal rows;
+Sections~\ref{sec:dual-rules} and \ref{sec:duality} keep those dimensions explicit.
+These corrections follow from the supplied equations, without changing their
+problem data. New tableaus and certificates were independently recomputed in
+exact rational arithmetic; the existing MATLAB companion was not extended or
+rerun for these additions.
 
 \paragraph{Qualifications.}
 Section~\ref{sec:degeneracy} distinguishes zero steps from positive tied steps,

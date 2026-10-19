@@ -4,21 +4,25 @@ English | [Polski](course-map-2026-27.pl.md)
 
 ## Scope and reading routes
 
-This map covers the supplied `ProgMat_w1.pdf` and `ProgMatc1.pdf`. Source paths,
+This map covers the supplied `ProgMat_w1.pdf`, `ProgMatc1.pdf`, and handwritten
+`lecture_19_10_2026.pdf` (19 October 2026). Source paths,
 provenance and discrepancies are in the [source inventory](sources.md). Page
 numbers mean PDF pages. Chapter numbers describe the notes' conceptual sequence;
 they are independent of current lecture and sheet numbers. All topics and tasks
 below have developed explanations or hand solutions. Future course coverage,
-assessment emphasis, labs and lecture delivery dates remain unknown.
+assessment emphasis and labs remain unknown. The handwriting establishes the
+19 October lecture date; delivery dates for the slide deck remain unknown.
 
 For modeling, read [Chapter 1](../output/lectures/01-optimization-modeling.pdf),
 the modeling sections of [Chapter 2](../output/lectures/02-linear-programming.pdf),
 then [Modeling patterns](../output/lectures/02a-linear-modeling-patterns.pdf).
 For the first sheet, follow Chapter 2's standard form, geometry and bases,
 [Chapter 3](../output/lectures/03-simplex-method.pdf), then the required sections
-of [Chapter 4](../output/lectures/04-degeneracy-and-duality.pdf). Cycling and
-complexity in Chapter 4 and [Chapter 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)
-remain available enrichment; this lecture and sheet do not confirm them as current requirements.
+of [Chapter 4](../output/lectures/04-degeneracy-and-duality.pdf). The handwritten
+lecture confirms cycling, perturbation, Bland's rule, duality and complementarity
+as current topics. Complexity in Chapter 4 and
+[Chapter 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) remain
+enrichment; the supplied current materials do not confirm them as requirements.
 
 ## Supplied lecture 1
 
@@ -46,6 +50,31 @@ remain available enrichment; this lecture and sheet do not confirm them as curre
 
 The lecture confirms these topics' presence in the slides. It does not establish
 that the full proofs, examples or counterexamples added to the notes were delivered orally.
+
+## Handwritten lecture: 19 October 2026
+
+All ten BOOX pages were reviewed visually. Read Chapter 3's indicators and ratio
+test first, then the following sections of [Chapter 4](../output/lectures/04-degeneracy-and-duality.pdf).
+These are conceptual sections, not a new numbered lecture document.
+
+| PDF pages | Recorded topic | Reading destination and outcome |
+| --- | --- | --- |
+| 1 | Cycling, entering/leaving choices, symbolic perturbation | “Degeneracy” and “Perturbation and lexicographic tie-breaking”; zero steps can change bases without improving the original objective |
+| 2 | Perturbed two-variable example | “A zero-ratio tie resolved by symbolic right-hand sides”; both pivot tableaus, symbolic ratio comparisons, limit optimum `(0,0)`, value `0` |
+| 3 | Bland's rule, finite termination, weighted bounds | “Bland's rule and its complete path”; “A weighted bound and paired primal–dual tableaus”; full Bland requires both index rules |
+| 4–5 | Dual definition, weak/strong duality, dual of the dual | “Constructing the dual problem” and “Weak duality, strong duality, and possible outcomes”; dual objective is `b^T y`, with `m` terms |
+| 6–8 | Dictionary transposition and paired primal/dual pivots | “A weighted bound and paired primal–dual tableaus”; primal `(0,1/4,13/4)`, dual `(1,3)`, common value `10` for RHS `(1,3)` |
+| 8–9 | Complementarity and its proof | “Complementary slackness”; feasible points are optimal exactly when all complementary products vanish |
+| 9–10 | Candidate `(2,1,1,0,0)` | “Certifying a supplied candidate without running simplex”; existing example, value `8`, dual `(1,2,0)`, entire optimal segment retained |
+| 10 | Choose the dual because its slack start is feasible | “Solving the dual when its slack start is feasible”; two primal-simplex pivots on the transformed dual, primal `(7,0)`, dual `(0,0,1)`, original value `-7` |
+
+Chapter 4's final remarks record handwriting discrepancies: the isolated RHS `8`
+on page 6 versus `3` in the dictionaries and subsequent tableaus; the final
+perturbation coefficient; and row arithmetic on page 10. The RHS `8` variant is
+also solved in those remarks (value `25`). The final page uses primal simplex on
+a transformed dual; this is distinct from the dual-simplex algorithm. New pivot
+tableaus and certificates passed independent exact rational checks. The existing
+MATLAB companion has not been extended or rerun for these additions.
 
 ## Supplied sheet 1
 

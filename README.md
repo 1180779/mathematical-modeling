@@ -5,8 +5,9 @@ English | [Polski](README.pl.md)
 Personal study repository for mathematical modeling: lecture notes, exercises
 with hand and MATLAB solutions, MATLAB revision, and lab work.
 Conceptual chapters preserve the explanatory depth of the historical notes and
-integrate the supplied 2026–27 lecture 1 and task sheet 1. Chapter numbers are
-independent of current lecture numbers; future course alignment remains unknown.
+integrate the supplied 2026–27 lecture 1, task sheet 1, and handwritten lecture
+notes from 19 October 2026. Chapter numbers are independent of current lecture
+numbers; future course alignment remains unknown.
 
 ## Start here
 
@@ -17,6 +18,10 @@ independent of current lecture numbers; future course alignment remains unknown.
 - [Polish–English glossary](docs/glossary.md): shared vocabulary.
 - [Source inventory](docs/sources.md): current materials, historical references and template provenance.
 - [Decision log](docs/decisions/README.md): rationale and pending proposals.
+
+For the 19 October lecture, follow the [page-by-page reading route](docs/course-map-2026-27.md#handwritten-lecture-19-october-2026)
+through Chapter 4: perturbation, Bland's rule, duality, paired tableaus and
+complementarity. The worked examples include checked corrections to the handwriting.
 
 ## Conceptual study chapters
 
@@ -78,9 +83,9 @@ passed. The user supplied successful output and confirmed MATLAB
 26.2.0.3386108 (R2026b); the primal-simplex script reported a largest tableau/basis
 discrepancy of `7.11e-15` against absolute tolerance `1e-10`.
 See the [verification record](docs/matlab-verification.md).
-The diet example and its check were revised after that run. Their new result
-passes exact arithmetic and static analysis; MATLAB execution of this revision
-is pending.
+The diet example and its check were revised after that run. On 2026-10-19,
+the agent ran the revised modeling-patterns script on R2026b; all assertions
+passed, including the diet certificate for cost `28/5` PLN.
 
 ## Layout
 

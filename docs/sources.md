@@ -4,14 +4,27 @@ English | [Polski](sources.pl.md)
 
 ## Current course materials 2026–27
 
-The user supplied the following materials for the current course. Delivery dates
-are not established; PDF creation metadata is not a lecture or assessment date.
+The user supplied the following materials for the current course. The handwritten
+notes explicitly date the lecture to 19 October 2026. Delivery dates for the slide
+deck and sheet are not established; PDF metadata alone does not establish them.
 Paths are relative to the repository root, and originals stay outside it.
 
 | File | Pages | Local path |
 | --- | --- | --- |
 | `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
 | `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
+| `lecture_19_10_2026.pdf` | 10 | `../lecutures_notes/lecture_19_10_2026.pdf` |
+
+The handwritten BOOX export was reviewed visually on all ten pages. Its content
+is integrated into Chapter 4: cycling, symbolic perturbation, Bland's rule,
+dual construction, weak/strong duality, paired tableaus and complementarity.
+Three added worked subsections develop the numerical perturbation, paired
+primal/dual solve, and final feasible-dual-start example. The candidate on pages
+9–10 already has a complete treatment there. Final editorial remarks preserve
+the RHS `8`/`3` discrepancy and explain arithmetic corrections; the course map
+provides a page-by-page route. Exact rational checks passed for all eight new
+pivot tableaus and certificates; no new MATLAB execution is claimed.
+
 
 The lecture develops LP modeling through simplex and initialization. Chapters 01–03
 and the new modeling-patterns supplement integrate its content. The sheet has 16
@@ -61,7 +74,8 @@ relative to the repository root. These originals remain outside this repository.
 
 For each developed topic, cite the filename and page numbers, distinguish supplied
 material from added explanations, and record any comparison with current classes.
-One current lecture and one exercise sheet have now been supplied. The full current
+A current slide deck, handwritten notes from 19 October and one exercise sheet
+have now been supplied. The full current
 syllabus and lab instructions remain unavailable.
 
 ## Developed notes and source qualifications

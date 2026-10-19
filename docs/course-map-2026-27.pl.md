@@ -4,21 +4,25 @@
 
 ## Zakres i ścieżki czytania
 
-Mapa obejmuje dostarczone `ProgMat_w1.pdf` i `ProgMatc1.pdf`. Ścieżki źródeł,
+Mapa obejmuje dostarczone `ProgMat_w1.pdf`, `ProgMatc1.pdf` i odręczny
+`lecture_19_10_2026.pdf` (19 października 2026). Ścieżki źródeł,
 pochodzenie i rozbieżności opisuje [wykaz źródeł](sources.pl.md). Numery stron
 oznaczają strony PDF-ów. Numery rozdziałów opisują pojęciowy tok notatek;
 są niezależne od numerów bieżących wykładów i zestawów. Wszystkie poniższe tematy
 i zadania mają opracowane objaśnienia lub rozwiązania ręczne. Przyszły zakres kursu,
-nacisk na zaliczeniu, laboratoria i daty wykładów pozostają nieznane.
+nacisk na zaliczeniu i laboratoria pozostają nieznane. Odręczne notatki ustalają
+datę wykładu 19 października; daty zajęć ze slajdów pozostają nieznane.
 
 Do modelowania przeczytaj [rozdział 1](../output/lectures/01-optimization-modeling.pdf),
 sekcje modelowania w [rozdziale 2](../output/lectures/02-linear-programming.pdf),
 następnie [schematy modelowania](../output/lectures/02a-linear-modeling-patterns.pdf).
 Do pierwszego zestawu przejdź przez postać standardową, geometrię i bazy w rozdziale 2,
 [rozdział 3](../output/lectures/03-simplex-method.pdf) oraz potrzebne sekcje
-[rozdziału 4](../output/lectures/04-degeneracy-and-duality.pdf). Cykl i złożoność
-w rozdziale 4 oraz [rozdział 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf)
-pozostają dostępnymi rozszerzeniami; ten wykład i zestaw nie potwierdzają ich jako bieżących wymagań.
+[rozdziału 4](../output/lectures/04-degeneracy-and-duality.pdf). Odręczne notatki
+potwierdzają cykle, perturbację, regułę Blanda, dualność i komplementarność jako
+bieżące tematy. Złożoność w rozdziale 4 oraz
+[rozdział 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) pozostają
+rozszerzeniami; dostarczone bieżące materiały nie potwierdzają ich jako wymagań.
 
 ## Dostarczony wykład 1
 
@@ -46,6 +50,33 @@ pozostają dostępnymi rozszerzeniami; ten wykład i zestaw nie potwierdzają ic
 
 Wykład potwierdza obecność tematów na slajdach. Nie ustala, czy pełne dowody,
 przykłady i kontrprzykłady dodane do notatek przedstawiono ustnie.
+
+## Odręczne notatki z wykładu: 19 października 2026
+
+Wszystkie dziesięć stron z BOOX-a przejrzano wizualnie. Najpierw przeczytaj
+wskaźniki i test ilorazów z rozdziału 3, następnie poniższe sekcje
+[rozdziału 4](../output/lectures/04-degeneracy-and-duality.pdf).
+To sekcje pojęciowe, a nie nowy numerowany dokument wykładu.
+
+| Strony PDF | Zapisany temat | Miejsce do czytania i wynik |
+| --- | --- | --- |
+| 1 | Cykle, wybór zmiennych wchodzących/wychodzących, perturbacja symboliczna | „Degeneracy” i „Perturbation and lexicographic tie-breaking”; zerowe kroki mogą zmieniać bazę bez poprawy pierwotnego celu |
+| 2 | Przykład perturbacji z dwiema zmiennymi | „A zero-ratio tie resolved by symbolic right-hand sides”; obie tablice po wymianach, porównania ilorazów symbolicznych, graniczne optimum `(0,0)`, wartość `0` |
+| 3 | Reguła Blanda, skończone zakończenie, ograniczenia ważone | „Bland's rule and its complete path”; „A weighted bound and paired primal–dual tableaus”; pełny Bland wymaga obu reguł indeksów |
+| 4–5 | Definicja dualu, słaba/silna dualność, dual dualu | „Constructing the dual problem” i „Weak duality, strong duality, and possible outcomes”; cel dualny to `b^T y`, z `m` składnikami |
+| 6–8 | Transpozycja słowników i powiązane wymiany prymalne/dualne | „A weighted bound and paired primal–dual tableaus”; prymalne `(0,1/4,13/4)`, dualne `(1,3)`, wspólna wartość `10` dla prawej strony `(1,3)` |
+| 8–9 | Komplementarność i dowód | „Complementary slackness”; punkty dopuszczalne są optymalne dokładnie wtedy, gdy wszystkie iloczyny komplementarne znikają |
+| 9–10 | Kandydat `(2,1,1,0,0)` | „Certifying a supplied candidate without running simplex”; istniejący przykład, wartość `8`, dual `(1,2,0)`, zachowany cały odcinek optymalny |
+| 10 | Wybór dualu ze względu na dopuszczalną bazę luzów | „Solving the dual when its slack start is feasible”; dwie wymiany sympleksu prymalnego na przekształconym dualu, prymalne `(7,0)`, dualne `(0,0,1)`, pierwotna wartość `-7` |
+
+Końcowe uwagi rozdziału 4 zapisują rozbieżności rękopisu: pojedynczą prawą stronę
+`8` na stronie 6 wobec `3` w słownikach i kolejnych tablicach; końcowy współczynnik
+perturbacji; oraz rachunki wierszy na stronie 10. Wariant prawej strony `8`
+również rozwiązano w tych uwagach (wartość `25`). Ostatnia strona stosuje sympleks
+prymalny do przekształconego dualu; to inna metoda niż algorytm sympleksu dualnego.
+Nowe tablice wymian i certyfikaty przeszły niezależne sprawdzenie w dokładnej
+arytmetyce wymiernej. Istniejącego skryptu MATLAB nie rozszerzano ani nie
+uruchamiano ponownie dla tych dodatków.
 
 ## Dostarczony zestaw 1
 

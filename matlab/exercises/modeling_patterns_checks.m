@@ -2,7 +2,7 @@
 % Current source: ProgMat_w1.pdf, pp. 2-26; added examples are identified
 % in the notes' final source remarks. These are specified certificate checks,
 % not a general LP solver. Base MATLAB only; absolute tolerance 1e-10.
-% Execution evidence: docs/matlab-verification.md. Revised diet run unverified.
+% Execution evidence: docs/matlab-verification.md. Revised diet passed 2026-10-19.
 % Run from the repository root:
 %   run('matlab/exercises/modeling_patterns_checks.m')
 clear;

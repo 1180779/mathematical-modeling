@@ -285,7 +285,37 @@ kursowych.
 jednoznaczność i wszystkie trzy wierzchołki. **Analiza statyczna: przeszła.**
 Samodzielny analizator R2026b `mlint -id` nie zgłosił uwag dla zmienionego skryptu.
 
-**Wykonanie tej wersji w MATLAB-ie: niezweryfikowane.** Agent podjął próbę
+**Wykonanie w MATLAB-ie w chwili zmiany: niezweryfikowane.** Agent podjął próbę
 `matlab -batch "run('matlab/exercises/modeling_patterns_checks.m')"`; MATLAB
 zakończył się kodem 1 bez wyjścia. Pomyślny zapis użytkownika powyżej dotyczy
 wcześniejszych współczynników diety. Trzy skrypty zestawu 1 pozostają bez zmian.
+
+## Wykonanie zmienionych schematów modelowania 2026-10-19
+
+**Wykonanie zmiany diety w MATLAB-ie: przeszło.** Po zainstalowaniu przez użytkownika
+reguł zatwierdzania konkretnych poleceń agent wykonał poniższe polecenie z katalogu
+głównego repozytorium. MATLAB zakończył się kodem 0 i podał R2026b. To uruchomienie
+wykonane przez agenta, odrębne od wcześniejszych zapisów przekazanych przez użytkownika.
+
+```sh
+/usr/local/bin/matlab -batch "disp(version); run('matlab/exercises/modeling_patterns_checks.m')"
+```
+
+```text
+26.2.0.3386108 (R2026b)
+Factory: optima 28704/5 and 32544/5 for G = 144 and 192
+Blending: profit 475000/27; transport cost 25919
+Storage: cost 1883/2; three-node flow cost 9
+All modeling-pattern certificate assertions passed.
+```
+
+Wszystkie asercje przeszły przy tolerancji bezwzględnej skryptu `1e-10`, w tym
+zmieniony kandydat diety `(8/5,4/5)`, sumy składników, certyfikat dualny i koszt
+`28/5` PLN. Sprawdzenia diety nie wypisują osobnego podsumowania; pomyślne
+zakończenie potwierdza wykonanie ich asercji. Sprawdzenia fabryki, mieszania,
+transportu, magazynowania, przepływu i regresji w tym samym skrypcie również
+przeszły. Nie użyto solvera Optimization Toolbox. To zamyka ostatnie oczekujące
+uruchomienie istniejącego skryptu MATLAB; pozostałe osiem skryptów miało już
+pomyślne zapisy wykonania. Dodatki z odręcznych notatek wykładu 19 października
+mają dokładną weryfikację wymierną i nie są zaimplementowane w istniejących
+skryptach towarzyszących MATLAB.
