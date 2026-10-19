@@ -70,3 +70,20 @@ Formatuj LaTeX i TikZ poleceniem `python3 scripts/format_tex.py --write`, a pote
 kompiluj przez `./build.sh`. Przejrzyj zmienione pary językowe i jawnie odśwież
 ich pliki `.i18n.json`. Dodaj do indeksu oba języki, zapisy hashy, źródła i nowe
 PDF-y; hook pre-commit czyta indeks zamiast niezapisanych w nim zmian edytora.
+
+## Wyróżnianie potwierdzonego materiału wykładowego
+
+Używaj wspólnego środowiska `lecturecore` dla wybranych stwierdzeń, wzorów i
+danych zadań jawnie obecnych w dostarczonych bieżących źródłach wykładowych.
+Dodaj `\lecturelegend` po `\maketitle` w każdym dokumencie, który go używa.
+Kremowe tło i brązowa ramka oznaczają materiał wykładowy; legenda daje wskazówkę
+tekstową. Dodane dowody, przykłady i certyfikaty pozostaw poza ramkami, chyba że
+ich rzeczywistą treść niezależnie potwierdza źródło. Oznaczenie twierdzenia nie
+oznacza następującego po nim dowodu. Treść o nieznanej zgodności pozostaw bez oznaczeń.
+
+To wizualny wyjątek od reguły braku pochodzenia w tekście, zamówiony przez użytkownika;
+atrybucja stron i rozbieżności pozostają w końcowych uwagach i mapie kursu.
+Nie ustala wymagań egzaminacyjnych. Ramki łamane między stronami zaadaptowano z
+`aa-lectures-2025-2026/preamble.tex` w projekcie AZ z poprzedniego semestru.
+Powiązany przykład prymalny–dualny używa osobnej legendy kolorów komórek dla ról
+matematycznych; te kolory nie określają zakresu kursu.

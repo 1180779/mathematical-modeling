@@ -69,3 +69,20 @@ Format LaTeX and TikZ with `python3 scripts/format_tex.py --write`, then rebuild
 with `./build.sh`. Review changed language pairs and re-record their `.i18n.json`
 files explicitly. Stage both languages, hash records, sources, and refreshed PDFs;
 pre-commit checks read the index rather than unstaged editor contents.
+
+## Highlighting confirmed lecture material
+
+Use the shared `lecturecore` environment for selected statements, formulas and
+problem data explicitly present in supplied current lecture sources. Include
+`\lecturelegend` after `\maketitle` in each document using it. Cream backgrounds
+and brown borders identify lecture content; the legend supplies a text cue.
+Keep added proofs, examples and certificates outside unless their actual content
+is independently confirmed by the source. Marking a theorem statement does not
+mark its following proof. Leave material with unknown alignment unmarked.
+
+This is the user's requested visual exception to the no-inline-provenance rule;
+page attribution and discrepancies remain in final remarks and the course map.
+It does not establish examination requirements. The breakable box treatment is
+adapted from `aa-lectures-2025-2026/preamble.tex` in the previous semester's AZ
+project. The paired primal–dual example uses a separate cell-color legend for
+mathematical roles; those colors do not identify course coverage.

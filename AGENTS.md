@@ -6,7 +6,7 @@
 - This instruction file is English only. The glossary is bilingual in one file; LaTeX templates and study notes are English only.
 - Read `docs/writing-guide.md`, `docs/language-policy.md`, and relevant decisions before adding material.
 - Use `templates/modeling-notes.sty`; do not duplicate preambles in notes.
-- Keep teaching text independent of repository decisions and provenance. Put source attribution, editorial context, and execution evidence in final remarks or `docs/`; use only backward pointers from those remarks. Keep essential mathematical assumptions in the teaching text.
+- Keep teaching text independent of repository decisions and provenance. Selected current-lecture statements may use `lecturecore` boxes with the shared legend; this does not mark added proofs or imply exam scope. Put source attribution, editorial context, and execution evidence in final remarks or `docs/`; use only backward pointers from those remarks. Keep essential mathematical assumptions in the teaching text.
 - Add readable TikZ diagrams when they clarify the mathematics.
 - Historical 2020 lectures are reference material, not confirmed current syllabus. Mark unknown course alignment explicitly.
 - Treat `notes/lectures/` as conceptual chapters; their numbers are independent of current lecture and sheet numbers. Maintain current-source reading routes and coverage in `docs/course-map-2026-27.md` and its Polish pair. Preserve derivations, proofs, counterexamples, and essential assumptions when integrating new sources.

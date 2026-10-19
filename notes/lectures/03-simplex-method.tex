@@ -8,16 +8,19 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 {\small\tableofcontents}
 
 \section{The problem and its possible outcomes}\label{sec:problem}
 The primal simplex method solves a linear program by maintaining a feasible
 basis and exchanging one basic variable at a time. For a maximization problem,
 use the standard form
-\begin{equation}\label{eq:standard}
-  \max c^Tx,\qquad Ax=b,\qquad x\geq0,
-  \quad A\in\R^{m\times n},\ b\in\R^m,\ c,x\in\R^n.
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:standard}
+    \max c^Tx,\qquad Ax=b,\qquad x\geq0,
+    \quad A\in\R^{m\times n},\ b\in\R^m,\ c,x\in\R^n.
+  \end{equation}
+\end{lecturecore}
 Unless explicitly discussing redundant rows, assume $\operatorname{rank}A=m$
 and $m\leq n$. If $m=n$, the nonsingular system has a single candidate
 $x=A^{-1}b$: check its nonnegativity directly. The interesting basis exchanges
@@ -190,10 +193,12 @@ For every basic column, $q_j=0$.
   \end{tabular}
 \end{center}
 
-\begin{proposition}[Optimality certificate]\label{prop:certificate}
-  If the basis is feasible and $q_j\geq0$ for every nonbasic index, then its
-  basic solution is globally optimal.
-\end{proposition}
+\begin{lecturecore}
+  \begin{proposition}[Optimality certificate]\label{prop:certificate}
+    If the basis is feasible and $q_j\geq0$ for every nonbasic index, then its
+    basic solution is globally optimal.
+  \end{proposition}
+\end{lecturecore}
 \begin{proof}
   Every feasible point obeys the same transformed equations. Since its
   nonbasic coordinates are nonnegative, Equation~\eqref{eq:reduced} gives
@@ -216,26 +221,30 @@ $\max0$ with $x_1+x_2=0$, $x\geq0$ has $q_2=0$ and still only one feasible point
 
 \section{One simplex step}\label{sec:pivot}
 \subsection{Entering variable and feasible direction}
-Choose a nonbasic $k$ with $q_k<0$. Dantzig's rule chooses a most negative
-indicator; any negative indicator is eligible. Hold other nonbasic coordinates
-at zero and increase $x_k=\theta\geq0$. With $u=\bar a_k$,
-\begin{equation}\label{eq:direction}
-  x_B(\theta)=\bar b-\theta u,\qquad
-  d_B=-u,\quad d_k=1,\quad d_j=0\ (j\in N\setminus\{k\}).
-\end{equation}
+\begin{lecturecore}
+  Choose a nonbasic $k$ with $q_k<0$. Dantzig's rule chooses a most negative
+  indicator; any negative indicator is eligible. Hold other nonbasic coordinates
+  at zero and increase $x_k=\theta\geq0$. With $u=\bar a_k$,
+  \begin{equation}\label{eq:direction}
+    x_B(\theta)=\bar b-\theta u,\qquad
+    d_B=-u,\quad d_k=1,\quad d_j=0\ (j\in N\setminus\{k\}).
+  \end{equation}
+\end{lecturecore}
 Then $Ad=0$ and $c^Td=-q_k>0$. The equations remain satisfied along
 $x(\theta)=x^{(B)}+\theta d$; nonnegativity determines the allowed step.
 
 \subsection{Ratio test and leaving variable}
-If $u_i>0$, basic coordinate $x_{j_i}$ decreases and requires
-$\theta\leq\bar b_i/u_i$. If $u_i\leq0$, it places no upper bound on the step.
-Thus
-\begin{equation}\label{eq:ratio}
-  \theta^*=\min_{i:u_i>0}\frac{\bar b_i}{u_i}.
-\end{equation}
-Choose a minimizing row $r$ and remove its basic variable $x_{j_r}$.
-The pivot element is $p=\bar a_{rk}>0$. Replace $j_r$ by $k$ in the ordered
-basis; $x_k=\theta^*$ and the leaving variable becomes nonbasic and zero.
+\begin{lecturecore}
+  If $u_i>0$, basic coordinate $x_{j_i}$ decreases and requires
+  $\theta\leq\bar b_i/u_i$. If $u_i\leq0$, it places no upper bound on the step.
+  Thus
+  \begin{equation}\label{eq:ratio}
+    \theta^*=\min_{i:u_i>0}\frac{\bar b_i}{u_i}.
+  \end{equation}
+  Choose a minimizing row $r$ and remove its basic variable $x_{j_r}$.
+  The pivot element is $p=\bar a_{rk}>0$. Replace $j_r$ by $k$ in the ordered
+  basis; $x_k=\theta^*$ and the leaving variable becomes nonbasic and zero.
+\end{lecturecore}
 The objective gain is $-q_k\theta^*$. A tie may leave another zero basic
 coordinate, making the new BFS degenerate.
 
@@ -626,9 +635,11 @@ system is
 where each row has an artificial variable. It has the BFS $x=0$, $a=b$.
 If some usable basic columns already exist, add artificials only to the rows
 that need them. Phase I solves
-\begin{equation}\label{eq:phase-one}
-  \min w=\sum_i a_i\quad\text{or, equivalently,}\quad\max(-w).
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:phase-one}
+    \min w=\sum_i a_i\quad\text{or, equivalently,}\quad\max(-w).
+  \end{equation}
+\end{lecturecore}
 Always build its indicator row from its actual basic objective coefficients;
 the artificial variables may already be basic and cannot be treated as if their
 objective contribution were absent.
@@ -705,14 +716,16 @@ on a numerical solver status.
 \paragraph{Task statement.}
 Solve the following problem by two-phase simplex, comparing a start with two
 artificial variables against one that reuses the original column $a_2$:
-\begin{equation}\label{eq:two-phase-original}
-  \max(-x_1-2x_2-3x_3-4x_4),\qquad
-  \begin{cases}
-    x_1+x_2+x_3+x_4=1,     \\
-    x_1+x_3-3x_4=\tfrac12, \\
-    x_1,x_2,x_3,x_4\geq0.
-  \end{cases}
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:two-phase-original}
+    \max(-x_1-2x_2-3x_3-4x_4),\qquad
+    \begin{cases}
+      x_1+x_2+x_3+x_4=1,     \\
+      x_1+x_3-3x_4=\tfrac12, \\
+      x_1,x_2,x_3,x_4\geq0.
+    \end{cases}
+  \end{equation}
+\end{lecturecore}
 The coefficient matrix has rank 2, but its original columns do not provide an
 immediate feasible identity basis. Compare an all-artificial start with a start
 that reuses the existing column $a_2=(1,0)^T$.
@@ -874,10 +887,12 @@ imply that every such reuse minimizes the total number of simplex pivots.
 \section{The Big M method and its limitations}\label{sec:big-m}
 After normalizing the RHS and introducing needed artificials, the maximization
 penalty formulation is
-\begin{equation}\label{eq:big-m}
-  \max\bigl(c^Tx-M\textstyle\sum_i a_i\bigr),\qquad
-  Ax+a=b,\quad x,a\geq0.
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:big-m}
+    \max\bigl(c^Tx-M\textstyle\sum_i a_i\bigr),\qquad
+    Ax+a=b,\quad x,a\geq0.
+  \end{equation}
+\end{lecturecore}
 Here the displayed form adds one artificial per row; a mixed starting basis
 can use fewer. Positive artificial values are penalized, but $M$ must dominate
 the competing original objective for the intended feasibility priority.
@@ -1136,6 +1151,12 @@ and $(x,a)=(1,0)$.
 
 \clearpage
 \section{Sources and editorial remarks}\label{sec:sources}
+\paragraph{Lecture highlighting.}
+Cream boxes identify selected statements, formulas and problem data recorded in
+the supplied current lecture sources. The course map in
+\path{docs/course-map-2026-27.md} gives the page destinations. Added hand proofs,
+qualifications and solution steps are not claimed as recorded lecture content.
+
 \noindent\textbf{Primary source:} E. Pawelec, \texttt{s4\_w3.pdf},
 PDF pages 1--12, printed slides 1--46.\\
 \textbf{Source date:} Stored in the folder labelled 2020; PDF metadata records

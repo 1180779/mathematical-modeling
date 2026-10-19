@@ -8,6 +8,7 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 {\small\tableofcontents}
 \clearpage
 
@@ -229,12 +230,14 @@ After six pivots, both the basis and the full tableau are back at their start.
 \end{figure}
 
 \subsection{Bland's rule and its complete path}\label{sec:bland}
-Bland's anti-cycling rule changes \emph{both} choices:
-\begin{enumerate}[leftmargin=*,itemsep=2pt]
-  \item Choose the smallest original nonbasic index $k$ with $q_k<0$.
-  \item Apply the ordinary minimum-ratio test; among ties, choose the smallest
-        original index $j_r$ of the basic variable that would leave.
-\end{enumerate}
+\begin{lecturecore}
+  Bland's anti-cycling rule changes \emph{both} choices:
+  \begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item Choose the smallest original nonbasic index $k$ with $q_k<0$.
+    \item Apply the ordinary minimum-ratio test; among ties, choose the smallest
+          original index $j_r$ of the basic variable that would leave.
+  \end{enumerate}
+\end{lecturecore}
 In exact arithmetic this rule prevents cycling and yields finite termination
 of primal simplex. The claim is not a promise about speed or floating-point
 roundoff. A rule changing only the entering choice is not the full Bland rule.
@@ -391,12 +394,14 @@ The counts compare this particular example, not universal relative performance.
 
 
 \subsection{A zero-ratio tie resolved by symbolic right-hand sides}\label{sec:zero-tie}
-Consider the continuous problem
-\[
-  \max(6x_1+4x_2),\qquad
-  -9x_1-4x_2\leq0,\quad 4x_1+2x_2\leq0,\quad x_2\leq1,
-  \qquad x_1,x_2\geq0.
-\]
+\begin{lecturecore}
+  Consider the continuous problem
+  \[
+    \max(6x_1+4x_2),\qquad
+    -9x_1-4x_2\leq0,\quad 4x_1+2x_2\leq0,\quad x_2\leq1,
+    \qquad x_1,x_2\geq0.
+  \]
+\end{lecturecore}
 The second inequality and nonnegativity force $x_1=x_2=0$; the maximum is
 therefore zero. This does not prevent simplex from changing the basis at that
 same point. Add slacks $w_1,w_2,w_3$ and replace the three right-hand sides by
@@ -545,11 +550,13 @@ Floating-point conditioning and sparse linear algebra also affect real runtime.
 \section{Constructing the dual problem}\label{sec:dual-rules}
 \subsection{Bounds from weighted constraints}
 For the inequality-form primal
-\begin{equation}\label{eq:primal-dual}
-  \text{(P)}\quad\max c^Tx:\ Ax\leq b,\ x\geq0,
-  \qquad
-  \text{(D)}\quad\min b^Ty:\ A^Ty\geq c,\ y\geq0,
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:primal-dual}
+    \text{(P)}\quad\max c^Tx:\ Ax\leq b,\ x\geq0,
+    \qquad
+    \text{(D)}\quad\min b^Ty:\ A^Ty\geq c,\ y\geq0,
+  \end{equation}
+\end{lecturecore}
 think of $y_i$ as the weight or price of resource constraint $i$.
 Nonnegative weights preserve its direction. If $A^Ty\geq c$, each product's
 weighted resource use covers its objective coefficient, so $b^Ty$ bounds the
@@ -582,11 +589,13 @@ would generally change the dual problem.
 
 
 \subsection{A weighted bound and paired primal--dual tableaus}\label{sec:paired-tableaus}
-Consider
-\[
-  \max(4x_1+x_2+3x_3),\qquad
-  x_1+4x_2\leq1,\quad 3x_1-x_2+x_3\leq3,\qquad x\geq0.
-\]
+\begin{lecturecore}
+  Consider
+  \[
+    \max(4x_1+x_2+3x_3),\qquad
+    x_1+4x_2\leq1,\quad 3x_1-x_2+x_3\leq3,\qquad x\geq0.
+  \]
+\end{lecturecore}
 Multiplying the first row by 2 and the second by 3 gives
 \[
   4x_1+x_2+3x_3\leq11x_1+5x_2+3x_3\leq11.
@@ -756,10 +765,12 @@ is feasible and gives $c^Tx=-4=b^Ty$. Equal feasible values certify that
 both points are optimal, as the next section proves.
 
 \section{Weak duality, strong duality, and possible outcomes}\label{sec:duality}
-\begin{theorem}[Weak duality]
-  For the pair in \eqref{eq:primal-dual}, every primal-feasible $x$ and
-  dual-feasible $y$ satisfy $c^Tx\leq b^Ty$.
-\end{theorem}
+\begin{lecturecore}
+  \begin{theorem}[Weak duality]
+    For the pair in \eqref{eq:primal-dual}, every primal-feasible $x$ and
+    dual-feasible $y$ satisfy $c^Tx\leq b^Ty$.
+  \end{theorem}
+\end{lecturecore}
 \begin{proof}
   Using nonnegativity in the two separate comparisons,
   \[
@@ -775,10 +786,12 @@ both points are optimal, as the next section proves.
 \end{proof}
 This certificate uses only weak duality. The stronger theorem supplies the
 existence of a matching feasible bound.
-\begin{theorem}[Strong duality for linear programming]\label{thm:strong}
-  If one member of a primal--dual LP pair has a finite optimal value and is
-  feasible, both attain finite optima and those values are equal.
-\end{theorem}
+\begin{lecturecore}
+  \begin{theorem}[Strong duality for linear programming]\label{thm:strong}
+    If one member of a primal--dual LP pair has a finite optimal value and is
+    feasible, both attain finite optima and those values are equal.
+  \end{theorem}
+\end{lecturecore}
 \begin{proof}[Proof through a certifying simplex basis]
   Convert the primal to full-row-rank standard form, removing redundant
   consistent equalities. Two-phase primal simplex with an anti-cycling rule
@@ -1004,12 +1017,14 @@ Their duality gap splits into nonnegative products:
 \begin{equation}\label{eq:gap}
   b^Ty-c^Tx=y^T(b-Ax)+x^T(A^Ty-c)=y^Ts+x^Tt.
 \end{equation}
-\begin{theorem}[Complementary slackness]
-  A primal-feasible $x$ and dual-feasible $y$ are both optimal if and only if
-  \[
-    y_is_i=0\quad(i=1,\ldots,m),\qquad x_jt_j=0\quad(j=1,\ldots,n).
-  \]
-\end{theorem}
+\begin{lecturecore}
+  \begin{theorem}[Complementary slackness]
+    A primal-feasible $x$ and dual-feasible $y$ are both optimal if and only if
+    \[
+      y_is_i=0\quad(i=1,\ldots,m),\qquad x_jt_j=0\quad(j=1,\ldots,n).
+    \]
+  \end{theorem}
+\end{lecturecore}
 \begin{proof}
   For optimal feasible points, strong duality gives zero gap. Since every summand
   in \eqref{eq:gap} is nonnegative, each product must vanish. Conversely, vanishing
@@ -1050,15 +1065,17 @@ $x=(2,6)$, and $t=(0,0)$, so every product vanishes.
 \paragraph{Task statement.}
 \foreignlanguage{polish}{Sprawdzić, czy $x=[2,1,1,0,0]^T$ jest rozwiązaniem
 optymalnym.}
-Consider
-\[
-  \begin{aligned}
-    \min\quad &x_1+4x_2+2x_3+2x_4+8x_5,\\
-    &x_1+2x_2+x_4\geq4,\\
-    &x_2+x_3-x_4\geq2,\\
-    &x_2+x_5\geq1,\qquad x_1,\ldots,x_5\geq0.
-  \end{aligned}
-\]
+\begin{lecturecore}
+  Consider
+  \[
+    \begin{aligned}
+      \min\quad &x_1+4x_2+2x_3+2x_4+8x_5,\\
+      &x_1+2x_2+x_4\geq4,\\
+      &x_2+x_3-x_4\geq2,\\
+      &x_2+x_5\geq1,\qquad x_1,\ldots,x_5\geq0.
+    \end{aligned}
+  \]
+\end{lecturecore}
 For a min problem $Ax\geq b$, the dual is
 \[
   \max b^Ty,\quad A^Ty\leq c,\quad y\geq0.
@@ -1306,12 +1323,14 @@ Equality forces $x_2=x_3=x_5=0$, then $x_1=5$; the optimum is unique.
 
 
 \subsection{Solving the dual when its slack start is feasible}\label{sec:feasible-dual-start}
-Consider the maximization problem
-\[
-  \max(-x_1-x_2),\qquad
-  -2x_1-x_2\leq4,\quad -2x_1+4x_2\leq-8,\quad
-  -x_1+3x_2\leq-7,\qquad x\geq0.
-\]
+\begin{lecturecore}
+  Consider the maximization problem
+  \[
+    \max(-x_1-x_2),\qquad
+    -2x_1-x_2\leq4,\quad -2x_1+4x_2\leq-8,\quad
+    -x_1+3x_2\leq-7,\qquad x\geq0.
+  \]
+\end{lecturecore}
 The primal origin is infeasible. Its dual is
 \[
   \min(4y_1-8y_2-7y_3),\qquad
@@ -1465,6 +1484,12 @@ dual feasibility. An arbitrary negative pivot is insufficient.
 
 \clearpage
 \section{Sources and editorial remarks}\label{sec:sources}
+\paragraph{Lecture highlighting.}
+Cream boxes identify selected statements, formulas and problem data recorded in
+the supplied current lecture sources. The course map in
+\path{docs/course-map-2026-27.md} gives the page destinations. Added hand proofs,
+qualifications and solution steps are not claimed as recorded lecture content.
+
 \begingroup\small
 \noindent\textbf{Primary source:} E. Pawelec, \texttt{s4\_w4.pdf},
 PDF pages 1--12, printed slides 1--47 (slide 47 is the closing slide).\\

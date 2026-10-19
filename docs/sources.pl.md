@@ -257,3 +257,10 @@ Nie znaleziono osobnego szablonu, pakietu stylu ani przewodnika pisania w podany
 checkoutcie, również na liście śledzonych plików. Nowy styl wyodrębnia wspólny
 układ i konwencje twierdzeń, używa angielskich etykiet i dodaje listingi MATLAB.
 Do notatek nie skopiowano treści przedmiotu AZ.
+
+Ramki wyróżniające wykład dodane 2026-10-19 adaptują sposób wybranych ramek
+`obowiazkowybox` łamanych między stronami z osobnego repozytorium AZ:
+`/home/rdkgsk/Documents/Studies/masters/sem1/az/aa-lectures-2025-2026/preamble.tex`.
+Jego README odróżnia wydania zwykłe, wyróżnione i egzaminacyjne. Tutaj użyto tylko
+konwencji wizualnej: kremowy oznacza potwierdzoną treść bieżącego wykładu,
+bez przejmowania znaczenia obowiązkowego materiału egzaminacyjnego lub filtrowania dowodów.

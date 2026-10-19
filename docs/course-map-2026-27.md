@@ -138,3 +138,14 @@ Hand certificates and exact rational verification establish the reported mathema
 Actual MATLAB execution is recorded separately in the [verification record](matlab-verification.md).
 Update this map, source remarks and both language versions when new materials arrive;
 preserve uncertain future alignment rather than extrapolating from historical lectures.
+
+## Visual lecture cues
+
+Cream `lecturecore` boxes in Chapters 1–4 and Modeling patterns mark selected
+models, formulas and theorem statements directly supported by the current
+lecture sources mapped above (23 blocks). Each document includes a legend.
+Unboxed proofs, worked solutions and other additions retain their explanatory
+role without a claim that those exact details were recorded in class. Chapter 5
+has no such highlights because its lecture alignment remains unconfirmed.
+The separate cell colors in Chapter 4's paired tableaus track mathematical roles,
+including objective coefficients, RHS values and recovered primal/dual solutions.

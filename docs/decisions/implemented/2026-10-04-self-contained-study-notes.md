@@ -37,3 +37,7 @@ Lecture notes, the existing MATLAB refresher, templates, and both writing guides
 follow this boundary. Future source updates should revise end remarks and the
 source inventory together. Drawings must match stated mathematical models and
 remain readable in the compiled PDF.
+
+The [2026-10-19 visual-cue decision](2026-10-19-confirmed-lecture-highlights.md)
+narrowly supersedes the prohibition on inline source cues for selected lecture
+boxes and their shared legend. The remaining provenance boundary still applies.

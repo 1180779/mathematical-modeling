@@ -37,3 +37,7 @@ Notatki wykładowe, istniejąca powtórka MATLAB-a, szablony i oba przewodniki
 stosują tę granicę. Aktualizacje źródeł powinny obejmować końcowe uwagi i wykaz
 źródeł razem. Rysunki muszą odpowiadać opisanym modelom matematycznym i być
 czytelne w skompilowanym PDF-ie.
+
+[Decyzja o oznaczeniach wizualnych z 2026-10-19](2026-10-19-confirmed-lecture-highlights.pl.md)
+wąsko zastępuje zakaz oznaczeń źródła wewnątrz tekstu dla wybranych ramek
+wykładowych i ich wspólnej legendy. Pozostała granica pochodzenia nadal obowiązuje.

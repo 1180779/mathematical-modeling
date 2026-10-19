@@ -7,6 +7,7 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 {\small\tableofcontents}
 
 \section{Building an LP from a statement}\label{sec:principles}
@@ -42,14 +43,16 @@ Revenue minus purchase cost is
 \]
 
 \subsection{Why multiplying preserves the quality requirement}
-For $y>0$, average hardness is
-\[
-  H=\frac{8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5}{y}.
-\]
-Requiring $3\leq H\leq6$ is equivalent, for positive $y$, to
-\begin{equation}\label{eq:quality}
-  3y\leq8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5\leq6y.
-\end{equation}
+\begin{lecturecore}
+  For $y>0$, average hardness is
+  \[
+    H=\frac{8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5}{y}.
+  \]
+  Requiring $3\leq H\leq6$ is equivalent, for positive $y$, to
+  \begin{equation}\label{eq:quality}
+    3y\leq8.8x_1+6.1x_2+2x_3+4.2x_4+5x_5\leq6y.
+  \end{equation}
+\end{lecturecore}
 The directions are preserved because the multiplier $y$ is positive. Every
 coefficient is fixed, so these are linear inequalities. Multiplication by an
 expression of unknown sign would need separate cases and would not justify
@@ -224,13 +227,15 @@ the exact optimum $941.5=1883/2$ PLN. Enough total capacity alone would not
 prove feasibility: these prefix-demand arguments also respect time.
 
 \section{Minimum-cost flow and the meaning of signs}\label{sec:flow}
-For a directed graph $(V,E)$ choose flow $f_{uv}\geq0$ on each arc, bounded by
-capacity $C_{uv}$. Let $s_v$ be net supply: positive at a source and negative
-at a demand node. The model is
-\[
-  \min\sum_{(u,v)\in E}p_{uv}f_{uv},\qquad 0\leq f_{uv}\leq C_{uv},\qquad
-  \sum_{u:(u,v)\in E}f_{uv}+s_v=\sum_{w:(v,w)\in E}f_{vw}.
-\]
+\begin{lecturecore}
+  For a directed graph $(V,E)$ choose flow $f_{uv}\geq0$ on each arc, bounded by
+  capacity $C_{uv}$. Let $s_v$ be net supply: positive at a source and negative
+  at a demand node. The model is
+  \[
+    \min\sum_{(u,v)\in E}p_{uv}f_{uv},\qquad 0\leq f_{uv}\leq C_{uv},\qquad
+    \sum_{u:(u,v)\in E}f_{uv}+s_v=\sum_{w:(v,w)\in E}f_{vw}.
+  \]
+\end{lecturecore}
 Incoming flow plus local production equals outgoing flow. Summing all node
 balances cancels every arc and gives $\sum_v s_v=0$, a necessary condition.
 It is insufficient when capacities or missing routes block deliveries.
@@ -406,11 +411,13 @@ which is impossible. Threshold methods can still select it.
 
 \section{Soft constraints: solving a deliberately changed model}\label{sec:goals}
 \subsection{What the deviation variables measure}
-Keep inviolable conditions in a hard feasible set. For a relaxable upper target
-$a^Tx\leq b$, use $a^Tx\leq b+u$, $u\geq0$. For a lower target use
-$a^Tx\geq b-v$, $v\geq0$. For an equality target use
-$a^Tx=b+u-v$ with $u,v\geq0$. With positive penalties, minimizing these
-variables gives one-sided violations or, for the equality, $|a^Tx-b|$.
+\begin{lecturecore}
+  Keep inviolable conditions in a hard feasible set. For a relaxable upper target
+  $a^Tx\leq b$, use $a^Tx\leq b+u$, $u\geq0$. For a lower target use
+  $a^Tx\geq b-v$, $v\geq0$. For an equality target use
+  $a^Tx=b+u-v$ with $u,v\geq0$. With positive penalties, minimizing these
+  variables gives one-sided violations or, for the equality, $|a^Tx-b|$.
+\end{lecturecore}
 With a strictly positive weighted-sum penalty, the equality deviations cannot
 both be positive at an optimum: reducing both
 by their minimum preserves the equality and reduces the sum penalty.
@@ -453,6 +460,12 @@ specified violations and reports a solution of a modified problem.
 \end{enumerate}
 
 \section{Sources and editorial remarks}\label{sec:sources}
+\paragraph{Lecture highlighting.}
+Cream boxes identify selected statements, formulas and problem data recorded in
+the supplied current lecture sources. The course map in
+\path{docs/course-map-2026-27.md} gives the page destinations. Added hand proofs,
+qualifications and solution steps are not claimed as recorded lecture content.
+
 The supplied current-course source is \texttt{ProgMat\_w1.pdf}, 39 PDF pages,
 stored externally in \texttt{../lectures-2026-27/}. Its delivery date is not
 established. This document develops the modeling material in pp.~10--26:

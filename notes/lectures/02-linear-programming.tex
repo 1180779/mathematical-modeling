@@ -7,14 +7,17 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 \tableofcontents
 
 \section{The linear programming problem}\label{sec:lp}
-A linear program (LP, Polish abbreviations PL or ZPL) optimizes a linear function
-$c^Tx$ subject to linear equality and inequality constraints, with continuous
-variables. The feasible set $\Omega$ includes every sign and bound restriction.
-For maximization, a feasible $x^*$ is globally optimal when
-$c^Tx^*\geq c^Tx$ for every $x\in\Omega$.
+\begin{lecturecore}
+  A linear program (LP, Polish abbreviations PL or ZPL) optimizes a linear function
+  $c^Tx$ subject to linear equality and inequality constraints, with continuous
+  variables. The feasible set $\Omega$ includes every sign and bound restriction.
+  For maximization, a feasible $x^*$ is globally optimal when
+  $c^Tx^*\geq c^Tx$ for every $x\in\Omega$.
+\end{lecturecore}
 
 Minimization and maximization are related by
 \[
@@ -483,10 +486,12 @@ feasible points. Ordinary simplex alone does not enforce integrality.
 
 \section{Standard form and equivalent transformations}\label{sec:standard}
 We use the convention
-\begin{equation}\label{eq:standard}
-  \max c^Tx,\qquad Ax=b,\quad x\geq0,
-  \quad A\in\R^{m\times n},\quad b\in\R^m,\quad c\in\R^n.
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:standard}
+    \max c^Tx,\qquad Ax=b,\quad x\geq0,
+    \quad A\in\R^{m\times n},\quad b\in\R^m,\quad c\in\R^n.
+  \end{equation}
+\end{lecturecore}
 Other texts use different ``standard form'' conventions. Here it means equality
 constraints and nonnegative variables. Full row rank is a useful basis assumption,
 not part of the definition of every LP. Remove redundant equalities after checking
@@ -1049,6 +1054,12 @@ are consistent; and explain why an optimal edge does not contradict the vertex t
 
 \clearpage
 \section{Sources and editorial remarks}\label{sec:sources}
+\paragraph{Lecture highlighting.}
+Cream boxes identify selected statements, formulas and problem data recorded in
+the supplied current lecture sources. The course map in
+\path{docs/course-map-2026-27.md} gives the page destinations. Added hand proofs,
+qualifications and solution steps are not claimed as recorded lecture content.
+
 \noindent\textbf{Primary source:} \texttt{s4\_w2.pdf}, PDF pages 1--11,
 printed slides 1--44.\\
 \textbf{Source date:} Not established; stored in the folder labelled 2020.\\

@@ -1,0 +1,22 @@
+{
+  "/visual-cues-for-confirmed-current-lecture-content": {
+    "en": "3cbbf28a89019331799ebe20f71a8b106c847db85cd743465707e276905d4008",
+    "pl": "1084ee71c45e54801f82cb6bc9c0506ac7f45387b930db9dc94a6b19d14dfcfb"
+  },
+  "/visual-cues-for-confirmed-current-lecture-content/problem": {
+    "en": "43c9900f6ef2598f47735ca82f1bcecf812c494cafbe47077324ca2f44f627cb",
+    "pl": "2a9ccb7f2d3166498d9a395c41ba0bf3ed640b4adac55b8251d5bf6c009adf87"
+  },
+  "/visual-cues-for-confirmed-current-lecture-content/decision": {
+    "en": "4bb7263a28ec5e7adb47be112b8cf5956a752542d3054e1833fdc3c4e1ef5270",
+    "pl": "dd574b581d07d4022794fb79abb96d33c9b06e040f5e4cb323c2ea4e933bf276"
+  },
+  "/visual-cues-for-confirmed-current-lecture-content/alternatives": {
+    "en": "3c0c9d7b897ccd914af412166fef8a2ee4c2cd5f5f0a729a9f99f71e0857998c",
+    "pl": "ae64c317668c0de2e2f80ea0326fc923c4b7a578c8434db180b814c568b0aa81"
+  },
+  "/visual-cues-for-confirmed-current-lecture-content/consequences-and-verification": {
+    "en": "a5457b20263a031c9f816ce41ac56e48b6ba544bb9ed3eb07cfbcef6f2bffc44",
+    "pl": "c8bbee0a3687c72892240e0f510be855ced9b82871002663fdf681ec9c1261a8"
+  }
+}

@@ -251,3 +251,10 @@ No separate template, style package, or writing guide was found in the supplied
 checkout, including its tracked file list. The new style extracts their common
 layout and theorem conventions, uses English labels, and adds MATLAB listings.
 No AZ subject content is copied into these notes.
+
+The lecture-highlight boxes added on 2026-10-19 adapt the selected, breakable
+`obowiazkowybox` treatment from a separate AZ checkout:
+`/home/rdkgsk/Documents/Studies/masters/sem1/az/aa-lectures-2025-2026/preamble.tex`.
+Its README distinguishes normal, highlighted and exam editions. Only the visual
+box convention is reused here: cream means confirmed current lecture content,
+without adopting AZ's mandatory-exam meaning or proof filtering.

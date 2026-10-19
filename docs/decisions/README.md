@@ -52,3 +52,9 @@ records have section hash sidecars following the [language policy](../language-p
 - [Optional BOOX uploads after commits](implemented/2026-10-11-boox-pdf-uploads.md):
   environment-configured uploads of changed committed PDFs, with local success
   records and fast skips when the device is unavailable.
+
+## Visual lecture cues
+
+- [Confirmed lecture highlights](implemented/2026-10-19-confirmed-lecture-highlights.md):
+  selected cream boxes, an explicit legend and separate primal–dual cell colors;
+  a narrow exception to the earlier provenance boundary.

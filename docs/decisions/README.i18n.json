@@ -22,5 +22,9 @@
   "/decision-log/device-uploads": {
     "en": "1bd498777baa644396c0405406457a87d3a49dc43ff9914f5b255de903c7f036",
     "pl": "2a459ba1eb4aa724454f5a4395a062b0eec3b71dc8a3b4aaceeeb0afec05c526"
+  },
+  "/decision-log/visual-lecture-cues": {
+    "en": "0fc2e97c32fea5f78e8d44e78412b3efe666b1ad2a41266ae8303c1a9c6d2405",
+    "pl": "63a446ec9f68670f3e8e70db3eba58b7769fbebc86ec9ead43c71757f74ba524"
   }
 }

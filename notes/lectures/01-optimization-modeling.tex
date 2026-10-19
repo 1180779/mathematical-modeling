@@ -7,6 +7,7 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 \tableofcontents
 
 \section{What mathematical programming means}\label{sec:meaning}
@@ -15,12 +16,14 @@ the best feasible decision according to a specified criterion. The word
 ``programming'' refers to planning; an optimization problem is a mathematical
 object even before any computer program is written.
 
-A model has three central ingredients:
-\begin{enumerate}[leftmargin=1.8em]
-  \item \textbf{Decision variables}: quantities that may be chosen.
-  \item \textbf{Constraints}: conditions that an acceptable decision must satisfy.
-  \item \textbf{Objective function}: a numerical criterion to minimize or maximize.
-\end{enumerate}
+\begin{lecturecore}
+  A model has three central ingredients:
+  \begin{enumerate}[leftmargin=1.8em]
+    \item \textbf{Decision variables}: quantities that may be chosen.
+    \item \textbf{Constraints}: conditions that an acceptable decision must satisfy.
+    \item \textbf{Objective function}: a numerical criterion to minimize or maximize.
+  \end{enumerate}
+\end{lecturecore}
 Parameters, such as available resources or prices, are fixed data for one model
 instance. A parameter can change between instances without becoming a decision
 variable.
@@ -45,15 +48,17 @@ person-hours. Let $G$ denote available grinding hours; three machines give
 $G=144$, whereas four give $G=192$. Assume capacity can be pooled, with no
 additional scheduling, setup, or demand restrictions. Each coefficient times
 $x_j$ is a required number of hours, so the model is
-\begin{equation}\label{eq:factory}
-  \begin{aligned}
-    \max\quad &550x_1+600x_2+350x_3+400x_4+200x_5\\
-    \text{subject to}\quad
-    &12x_1+20x_2+25x_4+15x_5\leq G,\\
-    &10x_1+8x_2+16x_3\leq96,\\
-    &20(x_1+x_2+x_3+x_4+x_5)\leq384,\qquad x\geq0.
-  \end{aligned}
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:factory}
+    \begin{aligned}
+      \max\quad &550x_1+600x_2+350x_3+400x_4+200x_5\\
+      \text{subject to}\quad
+      &12x_1+20x_2+25x_4+15x_5\leq G,\\
+      &10x_1+8x_2+16x_3\leq96,\\
+      &20(x_1+x_2+x_3+x_4+x_5)\leq384,\qquad x\geq0.
+    \end{aligned}
+  \end{equation}
+\end{lecturecore}
 Resource limits give upper bounds, while $x_j\geq0$ prevents negative production.
 The objective counts total profit, using the stated unit profits. Choosing a
 single product by its profit per unit alone ignores the different resources it uses.
@@ -271,6 +276,12 @@ Optimization Toolbox provides solvers for comparison with implemented algorithms
 \end{enumerate}
 
 \section{Sources and editorial remarks}\label{sec:sources}
+\paragraph{Lecture highlighting.}
+Cream boxes identify selected statements, formulas and problem data recorded in
+the supplied current lecture sources. The course map in
+\path{docs/course-map-2026-27.md} gives the page destinations. Added hand proofs,
+qualifications and solution steps are not claimed as recorded lecture content.
+
 \noindent\textbf{Primary source:} \texttt{s4\_w1.pdf}, PDF pages 1--6.\\
 \textbf{Source context:} Folder labelled 2020; the slides contain a 2019/2020
 schedule. Exact lecture date is not established.\\

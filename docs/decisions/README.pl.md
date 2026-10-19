@@ -52,3 +52,9 @@ mają pliki hashy sekcji zgodnie z [polityką językową](../language-policy.pl.
 - [Opcjonalne wysyłanie PDF-ów na BOOX po commitach](implemented/2026-10-11-boox-pdf-uploads.pl.md):
   wysyłanie zmienionych commitowanych PDF-ów konfigurowane przez środowisko,
   z lokalnymi zapisami sukcesów i szybkim pomijaniem niedostępnego urządzenia.
+
+## Wizualne oznaczenia wykładu
+
+- [Wyróżnienia potwierdzonego wykładu](implemented/2026-10-19-confirmed-lecture-highlights.pl.md):
+  wybrane kremowe ramki, jawna legenda i osobne kolory komórek prymalnych–dualnych;
+  wąski wyjątek od wcześniejszej granicy pochodzenia.

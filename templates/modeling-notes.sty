@@ -16,6 +16,8 @@
 \RequirePackage{float}
 \RequirePackage{xcolor}
 \RequirePackage{colortbl}
+\RequirePackage{tcolorbox}
+\tcbuselibrary{breakable,skins}
 \RequirePackage{tikz}
 \usetikzlibrary{arrows.meta,calc,patterns}
 \definecolor{modelblue}{RGB}{35,94,145}
@@ -36,6 +38,19 @@ model flow/.style={-{Stealth[length=2mm]},draw=modelblue,thick}
 \definecolor{tableauvalue}{RGB}{218,193,238}
 \newcommand{\tableaucell}[2]{\cellcolor{#1}\ensuremath{#2}}
 \newcommand{\tableaukey}[2]{\colorbox{#1}{\strut #2}}
+% Adapted from aa-lectures-2025-2026/preamble.tex: selected, breakable boxes.
+\definecolor{lecturebackground}{RGB}{255,250,235}
+\definecolor{lectureborder}{RGB}{175,125,50}
+\newtcolorbox{lecturecore}{breakable,enhanced,
+  colback=lecturebackground,colframe=lectureborder,boxrule=.6pt,
+  arc=2pt,left=7pt,right=7pt,top=5pt,bottom=5pt,boxsep=0pt,
+  before skip=8pt,after skip=8pt,pad at break*=4pt}
+\newcommand{\lecturelegend}{\begin{center}\small
+    \colorbox{lecturebackground}{\textcolor{lectureborder}{\strut\textbf{Lecture material}}}
+    \quad Cream boxes mark content confirmed in supplied current lecture sources.\\
+    Highlighting identifies recorded statements or models, not every surrounding proof\\
+    or an examination requirement. Source details remain in the final remarks.
+  \end{center}}
 \RequirePackage{listings}
 \RequirePackage{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue!50!black,

@@ -141,3 +141,14 @@ Certyfikaty ręczne i dokładna weryfikacja wymierna uzasadniają podaną matema
 Faktyczne wykonanie MATLAB-a zapisujemy osobno w [rejestrze weryfikacji](matlab-verification.pl.md).
 Aktualizować mapę, uwagi o źródłach i oba języki wraz z nowymi materiałami;
 zachować niepewność przyszłej zgodności zamiast wnioskować z dawnych wykładów.
+
+## Wizualne oznaczenia wykładu
+
+Kremowe ramki `lecturecore` w rozdziałach 1–4 i Schematach modelowania oznaczają
+wybrane modele, wzory i twierdzenia bezpośrednio potwierdzone przez bieżące źródła
+wykładowe zmapowane powyżej (23 bloki). Każdy dokument ma legendę. Dowody,
+rozwiązania i inne dodatki poza ramkami nadal objaśniają materiał bez twierdzenia,
+że dokładnie te szczegóły zapisano na zajęciach. Rozdział 5 nie ma takich oznaczeń,
+ponieważ jego zgodność z wykładem pozostaje niepotwierdzona. Osobne kolory komórek
+w powiązanych tablicach rozdziału 4 śledzą role matematyczne, w tym współczynniki
+celu, prawe strony i odzyskane rozwiązania prymalne/dualne.
