@@ -124,6 +124,77 @@ There are at most $\binom{n}{m}$ bases, but some column subsets are singular,
 some basic solutions are infeasible, and some solutions coincide. This is an
 upper bound, not an exact count of vertices.
 
+\paragraph{Why a basis gives a corner.}
+The equations $Ax=b$ describe an affine space of dimension $n-m$ inside
+$\R^n$. Nonnegativity cuts out the feasible part of this space. Choosing a
+basis sets $n-m$ coordinates to zero: geometrically, we intersect this
+space with coordinate boundaries $x_j=0$ for $j\in N$. Nonsingularity of
+$A_B$ means these choices pin down exactly one point. If that point is
+nonnegative, it is a corner of the feasible set.
+
+Here ``corner'' means that the point cannot lie strictly between two distinct
+feasible points. To see why, suppose a BFS satisfies
+$x=\lambda u+(1-\lambda)v$ for feasible $u,v$ and $0<\lambda<1$.
+Since $x_N=0$ and $u,v\geq0$, both $u_N$ and $v_N$ must be zero.
+Then $A_Bu_B=A_Bv_B=b$ forces $u=v=x$.
+Conversely, at a vertex the columns indexed by positive coordinates must be
+independent. Otherwise a nonzero vector $d$ supported on those coordinates
+would satisfy $Ad=0$, and both $x+\varepsilon d$ and $x-\varepsilon d$
+would be feasible for sufficiently small $\varepsilon>0$, contradicting
+the corner property. Extend those independent columns to a basis of $A$;
+all coordinates outside it are zero, so the vertex is its BFS.
+
+\paragraph{Drawing a high-dimensional feasible set.}
+We need not draw all $n$ coordinates. When $n-m=2$, we can parameterize
+the affine space by two coordinates and draw the feasible set exactly in
+that plane. For example, take $m=2$, $n=4$ and
+\[
+  x_1+x_2+x_3=1,\qquad x_1+x_4=1,\qquad x\geq0.
+\]
+Every solution is uniquely described by
+\[
+  x=(x_1,x_2,1-x_1-x_2,1-x_1)^T.
+\]
+Thus the planar conditions are $x_1\geq0$, $x_2\geq0$,
+$x_1+x_2\leq1$, and $x_1\leq1$. The last condition follows from the
+others, but its boundary still helps explain degeneracy.
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[x=3.6cm,y=3.6cm,every node/.style={font=\small}]
+    \fill[modelblue!12] (0,0)--(1,0)--(0,1)--cycle;
+    \draw[model axis] (-0.12,0)--(1.35,0) node[right] {$x_1$};
+    \draw[model axis] (0,-0.12)--(0,1.25) node[above] {$x_2$};
+    \draw[modelblue,thick] (0,0)--(1,0)--(0,1)--cycle;
+    \draw[modelorange,dashed,thick] (1,-0.18)--(1,1.08);
+    \node[above,modelorange] at (1,1.08) {$x_4=0$};
+    \node[above right] at (0.48,0.52) {$x_3=0$};
+    \node[below] at (0.45,0) {$x_2=0$};
+    \node[left] at (0,0.5) {$x_1=0$};
+    \node[model point,label=below left:{$(0,0)$}] at (0,0) {};
+    \node[model point,label=left:{$(0,1)$}] at (0,1) {};
+    \node[model point,label=below right:{$(1,0)$}] (corner) at (1,0) {};
+    \node[align=left,anchor=west] (description) at (1.45,0.57)
+    {One vertex in $\R^4$:\\$x=(1,0,0,0)^T$.\\[3pt]
+      Three feasible bases:\\$B=(1,2),\ (1,3),\ (1,4)$.};
+    \draw[model flow] (description.south west)--(corner.north east);
+  \end{tikzpicture}
+  \caption{An exact planar parameterization of a feasible set in $\R^4$.
+    At $(1,0)$, three coordinate boundaries meet, although only two are
+    needed to pin down the point. The dashed boundary touches the feasible
+    triangle only at this vertex.}
+  \label{fig:basis-vertex}
+\end{figure}
+At $x=(1,0,0,0)^T$, each of the three displayed bases contains the positive
+coordinate $x_1$ and one zero basic coordinate. Each therefore represents
+the same degenerate BFS, choosing two of $x_2,x_3,x_4$ as nonbasic zeros.
+The other vertices have bases $(3,4)$ and $(2,4)$ respectively for planar
+points $(0,0)$ and $(0,1)$. Of the $\binom42=6$ column subsets,
+$(2,3)$ is singular because $a_2=a_3$. The five remaining subsets are
+feasible bases but describe only three vertices. Counting bases means
+counting column subsets; reordering one subset does not give a new vertex.
+For larger $n-m$, the same corner argument holds, though a planar projection
+may hide vertices or make distinct points overlap.
+
 \Needspace{22\baselineskip}
 \subsection{Classifying three candidate solutions}
 \paragraph{Task statement.}
