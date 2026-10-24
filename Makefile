@@ -3,7 +3,7 @@ MATLAB ?= matlab
 
 .DEFAULT_GOAL := help
 .PHONY: help build format check check-translations check-output check-format test \
-	matlab-checks clean-preview clean download-preview download upload-boox
+	matlab-checks clean-preview clean download-preview download upload-boox upload-boox-dev
 
 help:
 	@printf '%s\n' \
@@ -16,7 +16,8 @@ help:
 		'make clean              Remove generated TeX build files' \
 		'make download-preview   Preview supplementary lecture downloads' \
 		'make download           Download supplementary lectures' \
-		'make upload-boox        Upload changed PDFs to BOOX'
+		'make upload-boox        Upload changed committed PDFs to BOOX' \
+		'make upload-boox-dev    Build and upload current PDFs without committing'
 
 build:
 	./build.sh
@@ -63,3 +64,6 @@ download:
 
 upload-boox:
 	$(PYTHON) scripts/upload_boox.py
+
+upload-boox-dev: build
+	$(PYTHON) scripts/upload_boox.py --working-tree

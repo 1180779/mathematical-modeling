@@ -84,8 +84,8 @@ class BooxUploadTests(unittest.TestCase):
         self.git("add", "output")
         return self.git("commit", "-qm", "Update notes")
 
-    def run_upload(self):
-        result = subprocess.run(["python3", str(SCRIPT)], cwd=self.root,
+    def run_upload(self, *args):
+        result = subprocess.run(["python3", str(SCRIPT), *args], cwd=self.root,
                                 env=self.env, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         return result
@@ -122,6 +122,67 @@ class BooxUploadTests(unittest.TestCase):
         self.env["TEST_CURL_MODE"] = "ok"
         self.run_upload()
         self.assertEqual({r["name"] for r in self.uploads()[1:]}, {"a.pdf", "b.pdf"})
+
+    def test_working_tree_uploads_edits_and_untracked_pdfs_then_skips_unchanged(self):
+        self.run_upload()
+        self.write("output/lectures/a.pdf", "%PDF-1.4\ndraft\n")
+        self.write("output/lectures/new.pdf", "%PDF-1.4\nnew draft\n")
+        self.run_upload("--working-tree")
+        self.assertEqual([r["content"] for r in self.uploads()[2:]],
+                         ["%PDF-1.4\ndraft\n", "%PDF-1.4\nnew draft\n"])
+        self.run_upload("--working-tree")
+        self.assertEqual(len(self.uploads()), 4)
+        self.run_upload()
+        self.assertEqual(self.uploads()[-1]["content"], "%PDF-1.4\nfirst\n")
+        self.assertEqual(len(self.uploads()), 5)
+
+    def test_committing_uploaded_draft_does_not_resend_it(self):
+        self.write("output/lectures/a.pdf", "%PDF-1.4\ndraft\n")
+        self.run_upload("--working-tree")
+        self.commit()
+        self.run_upload()
+        self.assertEqual(len(self.uploads()), 2)
+
+    def test_working_tree_supports_ignored_build_directory_and_skips_symlinks(self):
+        self.write(".gitignore", "build/\n")
+        self.write("build/lectures/draft.pdf", "%PDF-1.4\nbuild draft\n")
+        (self.root / "build/lectures/link.pdf").symlink_to("draft.pdf")
+        (self.root / "build/linked").symlink_to(self.root / "output", target_is_directory=True)
+        self.env["BOOX_PDF_DIR"] = "build"
+        self.run_upload("--working-tree")
+        self.assertEqual([r["name"] for r in self.uploads()], ["draft.pdf"])
+        self.assertEqual(self.uploads()[0]["fields"][0],
+                         "dir=/device/Notes with spaces/lectures")
+
+    def test_working_tree_retries_failed_draft(self):
+        self.env["TEST_CURL_MODE"] = "offline"
+        self.write("output/lectures/a.pdf", "%PDF-1.4\ndraft\n")
+        self.run_upload("--working-tree")
+        self.env["TEST_CURL_MODE"] = "ok"
+        self.run_upload("--working-tree")
+        self.assertEqual([r["content"] for r in self.uploads()[:2]],
+                         ["%PDF-1.4\ndraft\n", "%PDF-1.4\ndraft\n"])
+        self.run_upload("--working-tree")
+        self.assertEqual(len(self.uploads()), 3)
+
+    def test_development_command_builds_before_upload_and_stops_on_build_failure(self):
+        shutil.copy2(ROOT / "Makefile", self.root / "Makefile")
+        scripts = self.root / "scripts"
+        scripts.mkdir()
+        shutil.copy2(SCRIPT, scripts / "upload_boox.py")
+        self.write("build.sh", '#!/usr/bin/env python3\nfrom pathlib import Path\n'
+                   'Path("output/lectures/a.pdf").write_text("%PDF-1.4\\nfresh build\\n")\n')
+        (self.root / "build.sh").chmod(0o755)
+        result = subprocess.run(["make", "upload-boox-dev", "PYTHON=python3"],
+                                cwd=self.root, env=self.env, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.uploads()[0]["content"], "%PDF-1.4\nfresh build\n")
+        self.write("output/lectures/a.pdf", "%PDF-1.4\nunbuilt edit\n")
+        self.write("build.sh", "#!/bin/sh\nexit 1\n")
+        result = subprocess.run(["make", "upload-boox-dev", "PYTHON=python3"],
+                                cwd=self.root, env=self.env, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(len(self.uploads()), 2)
 
     def test_partial_success_is_saved_without_resending_it(self):
         self.env["TEST_CURL_MODE"] = "partial"

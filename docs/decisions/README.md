@@ -56,6 +56,9 @@ records have section hash sidecars following the [language policy](../language-p
 - [Preserve output directories on BOOX](implemented/2026-10-19-boox-directory-layout.md):
   relative subdirectories, separate duplicate basenames and migration from flat uploads.
 
+- [Upload drafts during development](implemented/2026-10-24-boox-development-uploads.md):
+  explicit local PDF selection, build-and-upload command and shared content history.
+
 ## Visual lecture cues
 
 - [Confirmed lecture highlights](implemented/2026-10-19-confirmed-lecture-highlights.md):

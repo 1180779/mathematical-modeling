@@ -56,6 +56,9 @@ mają pliki hashy sekcji zgodnie z [polityką językową](../language-policy.pl.
 - [Zachowanie katalogów wyjściowych na BOOX](implemented/2026-10-19-boox-directory-layout.pl.md):
   względne podkatalogi, oddzielne powtarzające się nazwy bazowe i migracja z płaskich transferów.
 
+- [Wysyłanie wersji roboczych podczas pracy](implemented/2026-10-24-boox-development-uploads.pl.md):
+  jawny wybór lokalnych PDF-ów, polecenie kompilacji z wysyłaniem i wspólna historia zawartości.
+
 ## Wizualne oznaczenia wykładu
 
 - [Wyróżnienia potwierdzonego wykładu](implemented/2026-10-19-confirmed-lecture-highlights.pl.md):

@@ -342,6 +342,29 @@ make upload-boox
 make test
 ```
 
+For iteration on notes without committing, use:
+
+```sh
+make upload-boox-dev
+```
+
+This builds the notes, refreshes `output/`, and uploads its current PDFs,
+including uncommitted changes and new files. A failed build prevents uploading.
+The commit hook and `make upload-boox` continue to use `HEAD`.
+Both modes share the last-uploaded content hashes: unchanged PDFs are skipped,
+and committing an uploaded draft does not resend it. Running the committed mode
+while a newer draft is on the device restores the committed version.
+
+To upload existing build PDFs directly without rebuilding or exporting them:
+
+```sh
+BOOX_PDF_DIR=build python3 scripts/upload_boox.py --working-tree
+```
+
+This includes all PDFs under `build/`, so use `BOOX_PDF_DIR=build/lectures`
+to limit the selection; paths on BOOX remain relative to the selected directory.
+Local mode skips symlinks and snapshots file contents before transferring them.
+
 ## LaTeX and TikZ formatting
 
 The project `.latexmkrc` sets `TEXINPUTS` to the repository and `templates/`,

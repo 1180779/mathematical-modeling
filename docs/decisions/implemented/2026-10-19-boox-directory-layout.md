@@ -17,6 +17,9 @@ basenames in different folders are allowed. Continue uploading committed blobs
 only, recording success after each file, and stopping after the first rejection.
 Never fall back to the base directory on a subdirectory failure.
 
+The [development-upload decision](2026-10-24-boox-development-uploads.md)
+extends committed-only selection with an explicit local-file mode.
+
 Version the destination state with `relative-directories-v1` so earlier flat
 upload records cannot suppress the initial upload into the correct folders.
 Keep existing flat copies; do not delete remote files.

@@ -17,6 +17,9 @@ Powtarzające się nazwy bazowe w różnych katalogach są dozwolone. Nadal wysy
 wyłącznie commitowane obiekty blob, zapisuj sukces po każdym pliku i zatrzymuj
 się po pierwszym odrzuceniu. Przy błędzie podkatalogu nigdy nie przechodź do katalogu bazowego.
 
+[Decyzja o wysyłaniu wersji roboczych](2026-10-24-boox-development-uploads.pl.md)
+rozszerza wybór wyłącznie commitowanych plików o jawny tryb plików lokalnych.
+
 Wersjonuj stan celu przez `relative-directories-v1`, aby wcześniejsze zapisy
 płaskich transferów nie pomijały pierwszego wysłania do właściwych katalogów.
 Zachowaj istniejące płaskie kopie; nie usuwaj plików zdalnych.

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Upload committed PDFs changed since the last successful BOOX transfer."""
+"""Upload changed PDFs from HEAD or, with --working-tree, local builds."""
 
+import argparse
 import json
 import math
 import os
@@ -17,8 +18,9 @@ CONFIG_KEYS = {
 }
 
 
-def git(root, *args):
-    return subprocess.check_output(["git", *args], cwd=root, stderr=subprocess.DEVNULL)
+def git(root, *args, input=None):
+    return subprocess.check_output(["git", *args], cwd=root, input=input,
+                                   stderr=subprocess.DEVNULL)
 
 
 def load_config(root):
@@ -76,12 +78,30 @@ def save_state(path, state):
             temporary.unlink(missing_ok=True)
 
 
-def upload(root, path, oid, url, remote_dir, connect_timeout, upload_timeout):
+def working_tree_pdfs(root, directory):
+    """Snapshot local PDFs, including untracked files, without following symlinks."""
+    base = root / directory
+    if any((root / parent).is_symlink() for parent in [directory, *directory.parents]):
+        raise ValueError("BOOX_PDF_DIR must not contain symlinks")
+    contents = {}
+    for folder, subdirs, files in os.walk(base):
+        subdirs[:] = sorted(name for name in subdirs if not (Path(folder) / name).is_symlink())
+        for name in sorted(files):
+            path = Path(folder) / name
+            if path.suffix.lower() != ".pdf" or path.is_symlink() or not path.is_file():
+                continue
+            relative = path.relative_to(root).as_posix()
+            if "\r" in relative or "\n" in relative:
+                raise ValueError("PDF paths must not contain line breaks")
+            contents[relative] = path.read_bytes()
+    return contents
+
+
+def upload(path, content, url, remote_dir, connect_timeout, upload_timeout):
     with tempfile.TemporaryDirectory(prefix="boox-upload-") as folder:
         pdf = Path(folder) / PurePosixPath(path).name
-        content = git(root, "cat-file", "blob", oid)
         if not content.startswith(b"%PDF-"):
-            raise ValueError("Committed file is not a PDF")
+            raise ValueError("Selected file is not a PDF")
         pdf.write_bytes(content)
         # curl's form parser needs its own quoting, even without a shell.
         quoted_path = str(pdf).replace("\\", "\\\\").replace('"', '\\"')
@@ -103,6 +123,10 @@ def upload(root, path, oid, url, remote_dir, connect_timeout, upload_timeout):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--working-tree", action="store_true",
+                        help="upload current PDFs, including untracked files, instead of HEAD")
+    args = parser.parse_args()
     root = Path(git(None, "rev-parse", "--show-toplevel").decode().strip())
     load_config(root)
     url = os.environ.get("BOOX_UPLOAD_URL", "")
@@ -119,7 +143,11 @@ def main():
     directory = PurePosixPath(os.environ.get("BOOX_PDF_DIR", "output"))
     if directory.is_absolute() or ".." in directory.parts or str(directory) == ".":
         raise ValueError("BOOX_PDF_DIR must be a directory relative to the repository")
-    pdfs = committed_pdfs(root, str(directory))
+    contents = working_tree_pdfs(root, directory) if args.working_tree else {}
+    # Git blob IDs let both modes share the actual last-uploaded content record.
+    pdfs = ({path: git(root, "hash-object", "--stdin", input=content).decode().strip()
+             for path, content in contents.items()} if args.working_tree
+            else committed_pdfs(root, str(directory)))
     destination = [url, remote_dir, str(directory), "relative-directories-v1"]
     state_file = Path(os.environ.get("BOOX_STATE_FILE") or
                       os.fsdecode(git(root, "rev-parse", "--git-path", "boox-upload.json")).strip())
@@ -140,7 +168,8 @@ def main():
     for path in sorted(pending, key=lambda path: PurePosixPath(path).name):
         relative_parent = PurePosixPath(path).relative_to(directory).parent
         target_dir = str(PurePosixPath(remote_dir) / relative_parent)
-        if not upload(root, path, pdfs[path], url, target_dir, connect_timeout, upload_timeout):
+        content = contents[path] if args.working_tree else git(root, "cat-file", "blob", pdfs[path])
+        if not upload(path, content, url, target_dir, connect_timeout, upload_timeout):
             print("BOOX: upload unavailable or rejected; pending PDFs kept for the next run.")
             return
         uploaded[path] = pdfs[path]

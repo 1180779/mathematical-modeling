@@ -349,6 +349,30 @@ make upload-boox
 make test
 ```
 
+Podczas pracy nad notatkami bez commitowania używaj:
+
+```sh
+make upload-boox-dev
+```
+
+To polecenie kompiluje notatki, odświeża `output/` i wysyła aktualne PDF-y,
+także niezacommitowane zmiany i nowe pliki. Nieudana kompilacja blokuje wysyłanie.
+Hook po commicie i `make upload-boox` nadal korzystają z `HEAD`.
+Oba tryby współdzielą hashe ostatnio wysłanej zawartości: niezmienione PDF-y są
+pomijane, a commit wysłanej wersji roboczej nie powoduje ponownego transferu.
+Uruchomienie trybu commitowanego, gdy na urządzeniu jest nowsza wersja robocza,
+przywraca wersję z commita.
+
+Aby wysłać istniejące PDF-y kompilacji bez ponownej kompilacji ani eksportowania:
+
+```sh
+BOOX_PDF_DIR=build python3 scripts/upload_boox.py --working-tree
+```
+
+Obejmuje to wszystkie PDF-y w `build/`, więc użyj `BOOX_PDF_DIR=build/lectures`,
+aby ograniczyć wybór; ścieżki na BOOX pozostają względne wobec wybranego katalogu.
+Tryb lokalny pomija dowiązania symboliczne i utrwala zawartość plików przed transferem.
+
 ## Formatowanie LaTeX i TikZ
 
 Projektowy `.latexmkrc` ustawia `TEXINPUTS` na repozytorium i `templates/`,
