@@ -125,12 +125,50 @@ some basic solutions are infeasible, and some solutions coincide. This is an
 upper bound, not an exact count of vertices.
 
 \paragraph{Why a basis gives a corner.}
-The equations $Ax=b$ describe an affine space of dimension $n-m$ inside
-$\R^n$. Nonnegativity cuts out the feasible part of this space. Choosing a
-basis sets $n-m$ coordinates to zero: geometrically, we intersect this
-space with coordinate boundaries $x_j=0$ for $j\in N$. Nonsingularity of
-$A_B$ means these choices pin down exactly one point. If that point is
-nonnegative, it is a corner of the feasible set.
+There are two different spaces involved. The columns $a_j$ of $A$ are
+vectors in $\R^m$, whereas a solution $x=(x_1,\ldots,x_n)^T$ is a point
+in $\R^n$. In the equation
+\[
+  Ax=\sum_{j=1}^n x_j a_j=b,
+\]
+the coordinates of that point are the coefficients multiplying the columns.
+Choosing $m$ independent columns gives a basis of $\R^m$; it does not
+select rows. Every remaining column is a linear combination of these
+basic columns, but this does \emph{not} force its coefficient $x_j$ to be zero.
+Indeed, after choosing the basis we still have the whole family
+\[
+  x_N=t,\qquad x_B=A_B^{-1}b-A_B^{-1}A_Nt,
+  \qquad t\in\R^{n-m}.
+\]
+Changing a nonbasic coefficient can be compensated by changing the basic
+coefficients. The column dependencies explain this freedom.
+Setting $t=0$ is an \emph{additional choice}, made to define the basic
+solution: we represent $b$ using only the basic columns.
+
+Now interpret that choice in the space of solutions, $\R^n$.
+The equations $Ax=b$ describe an affine space of dimension $n-m$.
+Each inequality $x_j\geq0$ restricts us to one side of the coordinate
+hyperplane $x_j=0$; this hyperplane is the boundary of that half-space.
+Thus setting $x_N=0$ means intersecting $Ax=b$ with the $n-m$ coordinate
+hyperplanes indexed by $N$. These are boundaries of the nonnegativity
+constraints, not boundaries arising from dependence among the columns.
+The intersection contains exactly one point because the remaining equations
+are $A_Bx_B=b$ and $A_B$ is nonsingular. If that point is nonnegative,
+it is a corner of the feasible set. Some basic coordinates may also vanish,
+so more than $n-m$ nonnegativity constraints can be active at that corner.
+
+For example, let $x_1+x_2+x_3=1$ with $x\geq0$.
+Here $A=[1\ 1\ 1]$, $m=1$, and $n=3$; all three columns are identical.
+Choose $B=\{1\}$, so $N=\{2,3\}$. Solutions of the equality have the form
+\[
+  x=(1-s-t,s,t)^T.
+\]
+Column dependence allows nonzero $s,t$: for instance,
+$(1/3,1/3,1/3)^T$ is feasible. To obtain the basic solution for this basis,
+we specifically impose $x_2=x_3=0$, giving $(1,0,0)^T$.
+Geometrically, the equality describes a plane, its nonnegative part is a
+triangle, and intersecting the plane with the coordinate boundaries
+$x_2=0$ and $x_3=0$ selects one vertex of that triangle.
 
 Here ``corner'' means that the point cannot lie strictly between two distinct
 feasible points. To see why, suppose a BFS satisfies
