@@ -190,10 +190,10 @@ intervals, proving the equivalence of route costs and inventory holding cost.
   \centering
   \begin{tikzpicture}[font=\small]
     \foreach \k/\x in {1/0,2/3,3/6,4/9} {
-    \node[draw,rounded corners] (m\k) at (\x,0) {Month $\k$};
-    \draw[model flow] (\x,1.1)--(m\k) node[midway,right] {$p_{\k,d}+p_{\k,n}$};
-    \draw[model flow] (m\k)--(\x,-1.1) node[midway,right] {$D_{\k}$};
-    }
+        \node[draw,rounded corners] (m\k) at (\x,0) {Month $\k$};
+        \draw[model flow] (\x,1.1)--(m\k) node[midway,right] {$p_{\k,d}+p_{\k,n}$};
+        \draw[model flow] (m\k)--(\x,-1.1) node[midway,right] {$D_{\k}$};
+      }
     \draw[model flow] (m1)--(m2) node[midway,above] {$I_1$};
     \draw[model flow] (m2)--(m3) node[midway,above] {$I_2$};
     \draw[model flow] (m3)--(m4) node[midway,above] {$I_3$};
