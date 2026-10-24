@@ -13,9 +13,10 @@ wyodrębniony styl. Pochodzenie opisuje [wykaz źródeł](sources.pl.md).
 
 W razie potrzeby skopiuj `templates/lecture.tex` lub `templates/exercise.tex` do
 `notes/`. Używaj opisowych nazw ASCII, np. `01-topic.tex`, oraz stałych prefiksów
-etykiet `sec:`, `def:`, `thm:`, `eq:` i `fig:`. Uruchamiaj `./build.sh` z katalogu głównego repozytorium zgodnie z
-[README](../README.pl.md). Pliki pośrednie pozostają w ignorowanym `build/`;
-kopie PDF w `output/`, pogrupowane jak `notes/`, commituj razem ze źródłami.
+etykiet `sec:`, `def:`, `thm:`, `eq:` i `fig:`. Uruchamiaj `make build` z katalogu
+głównego repozytorium zgodnie z [README](../README.pl.md). Pliki pośrednie
+pozostają w ignorowanym `build/`; kopie PDF w `output/`, pogrupowane jak
+`notes/`, commituj razem ze źródłami.
 
 ## Notatki z wykładów
 
@@ -66,8 +67,8 @@ Dla trwałych wyborów zapisuj uzasadnienie i rzeczywiste alternatywy w
 Komunikaty commitów mają najwyżej 72 znaki w wierszu. Oddziel tytuł od opcjonalnego
 opisu pustym wierszem; wspólny hook `commit-msg` sprawdza tę zasadę.
 
-Formatuj LaTeX i TikZ poleceniem `python3 scripts/format_tex.py --write`, a potem
-kompiluj przez `./build.sh`. Przejrzyj zmienione pary językowe i jawnie odśwież
+Formatuj LaTeX i TikZ poleceniem `make format`, a potem kompiluj przez
+`make build`. Przejrzyj zmienione pary językowe i jawnie odśwież
 ich pliki `.i18n.json`. Dodaj do indeksu oba języki, zapisy hashy, źródła i nowe
 PDF-y; hook pre-commit czyta indeks zamiast niezapisanych w nim zmian edytora.
 

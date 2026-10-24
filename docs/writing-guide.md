@@ -13,9 +13,10 @@ See the [source inventory](sources.md) for provenance.
 
 Copy `templates/lecture.tex` or `templates/exercise.tex` into `notes/` as needed.
 Use descriptive ASCII filenames such as `01-topic.tex` and stable label prefixes
-`sec:`, `def:`, `thm:`, `eq:`, and `fig:`. Run `./build.sh` from the repository root as shown in the
-[README](../README.md). Intermediate files stay in ignored `build/`; commit the
-PDF copies in `output/`, grouped like `notes/`, alongside their sources.
+`sec:`, `def:`, `thm:`, `eq:`, and `fig:`. Run `make build` from the repository
+root as shown in the [README](../README.md). Intermediate files stay in ignored
+`build/`; commit the PDF copies in `output/`, grouped like `notes/`, alongside
+their sources.
 
 ## Lecture notes
 
@@ -65,8 +66,8 @@ together. For lasting choices, record rationale and genuine alternatives in the
 Commit messages use at most 72 characters per line. Separate the title from an
 optional description with a blank line; the shared `commit-msg` hook checks this.
 
-Format LaTeX and TikZ with `python3 scripts/format_tex.py --write`, then rebuild
-with `./build.sh`. Review changed language pairs and re-record their `.i18n.json`
+Format LaTeX and TikZ with `make format`, then rebuild with `make build`.
+Review changed language pairs and re-record their `.i18n.json`
 files explicitly. Stage both languages, hash records, sources, and refreshed PDFs;
 pre-commit checks read the index rather than unstaged editor contents.
 

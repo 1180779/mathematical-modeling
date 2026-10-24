@@ -78,6 +78,10 @@ run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
 run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
 ```
 
+Uruchom wszystkie skrypty do sprawdzania w MATLAB-ie poleceniem
+`make matlab-checks`, jeśli MATLAB jest dostępny. Cel obejmuje także sprawdzenia
+wykładów i skrypt powtórkowy.
+
 Dokładne sprawdzenia wymierne, analiza statyczna MATLAB-a i asercje wszystkich
 czterech skryptów przeszły. Użytkownik przekazał pomyślne wyjście i potwierdził
 MATLAB 26.2.0.3386108 (R2026b); skrypt prymalnego sympleksu podał największą
@@ -102,6 +106,7 @@ przeszły, w tym certyfikat diety dla kosztu `28/5` PLN.
 | `docs/` | Dwujęzyczne przewodniki, decyzje, wykaz źródeł i słownik |
 | `build/` | PDF-y kompilacji i pliki pośrednie, pogrupowane jak `notes/`; ignorowane przez Git |
 | `output/` | Commitowane kopie PDF, pogrupowane jak `notes/`; wyłącznie PDF-y |
+| `Makefile` | Wspólne polecenia kompilacji, kontroli, testów i utrzymania |
 | `build.sh` | Kompilacja wszystkich notatek i odświeżanie kopii PDF |
 
 Stosuj zgodne nazwy tematów dla rozwiązania ćwiczenia i jego skryptu MATLAB;
@@ -109,14 +114,16 @@ powiąż skrypt z rozwiązaniem. Utrzymuj jedną wykonywalną implementację zad
 
 ## Kompilacja notatek
 
-Zainstaluj Bash, Python 3, dystrybucję TeX z pdfLaTeX-em, latexmk i pakietami wymienionymi
-w `templates/modeling-notes.sty`. Z katalogu głównego repozytorium uruchom:
+Zainstaluj GNU Make, Bash, Python 3, dystrybucję TeX z pdfLaTeX-em, latexmk
+i pakietami wymienionymi w `templates/modeling-notes.sty`. Z katalogu głównego
+repozytorium uruchom `make help`, aby zobaczyć cele, albo skompiluj notatki poleceniem:
 
 ```sh
-./build.sh
+make build
 ```
 
-Skrypt wykrywa wszystkie dokumenty `.tex` w `notes/`. Kompiluje je w odpowiednich
+Skrypt `build.sh` wywoływany przez ten cel wykrywa wszystkie dokumenty `.tex`
+w `notes/`. Kompiluje je w odpowiednich
 podkatalogach ignorowanego `build/`, a dopiero po pomyślnej kompilacji wszystkich
 dokumentów kopiuje wyłącznie PDF-y do `output/`. Przykład:
 
@@ -149,8 +156,8 @@ Aby posprzątać lokalne pliki kompilacji, także pliki tworzone przez edytor
 obok źródeł, uruchom:
 
 ```sh
-python3 scripts/clean_tex.py --dry-run
-python3 scripts/clean_tex.py
+make clean-preview
+make clean
 ```
 
 Skrypt sprząta `notes/`, `templates/` i `build/`, zachowuje pliki śledzone przez
@@ -168,8 +175,8 @@ oraz [UCLA ECE236B, zima 2026](https://www.seas.ucla.edu/~vandenbe/ee236b/),
 włącznie z uzupełnieniem UCLA dotyczącym algebry liniowej z 2023 roku:
 
 ```sh
-python3 scripts/download_lectures.py --dry-run
-python3 scripts/download_lectures.py
+make download-preview
+make download
 ```
 
 Wymagane są Python 3.8+ i curl. Skrypt czyta oficjalne indeksy kursów;
@@ -198,7 +205,7 @@ run('matlab/review/arrays_and_linear_systems.m')
 Wykres trafia do ignorowanego `matlab/output/`. Odśwież PDF-y notatek poleceniem:
 
 ```sh
-./build.sh
+make build
 ```
 
 ## Sprawdzenia MATLAB z rozdziału 2
@@ -265,12 +272,10 @@ Hook `pre-commit` sprawdza zawartość indeksu Git pod kątem:
 - Hashy PDF-ów, zapisanych danych wejściowych i dostępnych kopii kompilacji zmienionych PDF-ów.
 - Formatowania LaTeX/TikZ zgodnie z konfiguracją `.latexindent.yaml` z indeksu.
 
-Uruchom sprawdzenia katalogu roboczego bezpośrednio:
+Uruchom wszystkie sprawdzenia katalogu roboczego i testy Pythona poleceniem:
 
 ```sh
-python3 scripts/check_translations.py
-python3 scripts/check_output.py
-python3 scripts/format_tex.py --check
+make check
 ```
 
 Po edycji dokumentów przejrzyj oba języki, zapisz konkretną sprawdzoną parę,
@@ -340,8 +345,8 @@ więc oczekujące PDF-y zostaną wysłane przy kolejnym commicie. Aby ponowić
 wysyłanie ręcznie albo uruchomić testy bez urządzenia:
 
 ```sh
-python3 scripts/upload_boox.py
-python3 -m unittest discover -s scripts/tests -v
+make upload-boox
+make test
 ```
 
 ## Formatowanie LaTeX i TikZ
@@ -359,8 +364,8 @@ ogólna konfiguracja ścieżek wyszukiwania TeX Live to `texmf.cnf`. Zobacz
 Stosuj wspólne ustawienia latexindent do plików `.tex`, `.sty` i `.tikz`:
 
 ```sh
-python3 scripts/format_tex.py --write
-./build.sh
+make format
+make build
 ```
 
 Obecne grafiki TikZ są wewnątrz wykładowych plików `.tex` i podlegają sprawdzeniu.

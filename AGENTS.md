@@ -13,10 +13,10 @@
 - Preserve supplied problem data even when starts are inadmissible or requested optima do not exist. Check feasibility first and give mathematical outcome certificates; document genuine source contradictions in final remarks or `docs/`.
 - Do not invent lecture dates, task sources, MATLAB versions, solver output, or verification results.
 - For worked tasks, provide assumptions and a hand derivation, link the actual MATLAB script, and compare the same inputs and tolerances.
-- Run `./build.sh` to build LaTeX notes into ignored `build/` and refresh the PDF-only `output/` tree matching `notes/`. Commit PDF copies alongside their sources. Run relevant MATLAB scripts when MATLAB is available; otherwise report them as unverified.
+- Run `make build` to build LaTeX notes into ignored `build/` and refresh the PDF-only `output/` tree matching `notes/`. Commit PDF copies alongside their sources. Run relevant MATLAB scripts when MATLAB is available; otherwise report them as unverified.
 - Record lasting decisions under `docs/decisions/` with problem, decision/proposal, alternatives, and consequences/acceptance criteria.
 - Preserve old decision rationale. Supersede it with a linked new record when a choice changes.
 - Keep source PDFs outside this repository unless explicitly needed; inventory them in `docs/sources.md`.
 - Commit messages have at most 72 characters per line and a blank line between title and body. Enable shared hooks with `git config --local core.hooksPath .githooks`.
 - Pre-commit checks staged translation section hashes, PDF/build-input hashes, and LaTeX/TikZ formatting. Review bilingual edits before explicitly updating `.i18n.json` records with `scripts/check_translations.py --write <English-file.md>`.
-- Run `python3 scripts/format_tex.py --write` before rebuilding notes. Commit `docs/pdf-build.json` with refreshed PDFs. Use `.nvim.lua` for matching project-local Conform formatting.
+- Run `make format` before rebuilding notes. Commit `docs/pdf-build.json` with refreshed PDFs. Use `.nvim.lua` for matching project-local Conform formatting.

@@ -78,6 +78,9 @@ run('matlab/exercises/sheet_01_complementarity_and_two_phase.m')
 run('matlab/exercises/sheet_01_dual_simplex_and_recovery.m')
 ```
 
+Run all MATLAB study scripts together with `make matlab-checks` when MATLAB is
+available. This target also runs the lecture checks and refresher script.
+
 Exact rational checks, MATLAB static analysis and all four scripts' assertions
 passed. The user supplied successful output and confirmed MATLAB
 26.2.0.3386108 (R2026b); the primal-simplex script reported a largest tableau/basis
@@ -102,6 +105,7 @@ passed, including the diet certificate for cost `28/5` PLN.
 | `docs/` | Bilingual guides, decisions, source inventory, and glossary |
 | `build/` | Compilation PDFs and intermediate files, grouped like `notes/`; ignored by Git |
 | `output/` | Committed PDF copies, grouped like `notes/`; PDFs only |
+| `Makefile` | Common commands for builds, checks, tests, and maintenance |
 | `build.sh` | Build all study notes and refresh their PDF copies |
 
 Use matching topic names for a worked exercise and its MATLAB script; link the
@@ -109,14 +113,16 @@ script from the solution. Keep one executable implementation per task.
 
 ## Build notes
 
-Install Bash, Python 3, a TeX distribution with pdfLaTeX, latexmk, and the packages listed
-in `templates/modeling-notes.sty`. From the repository root, run:
+Install GNU Make, Bash, Python 3, a TeX distribution with pdfLaTeX, latexmk, and
+the packages listed in `templates/modeling-notes.sty`. From the repository root,
+run `make help` to list the available targets, or build the notes with:
 
 ```sh
-./build.sh
+make build
 ```
 
-The script discovers every `.tex` document under `notes/`. It compiles into
+The `build.sh` script called by this target discovers every `.tex` document under
+`notes/`. It compiles into
 matching directories under ignored `build/`, then copies only PDFs to `output/`
 after all documents build successfully. For example:
 
@@ -149,8 +155,8 @@ To clean local compilation files, including files produced beside sources by
 an editor, run:
 
 ```sh
-python3 scripts/clean_tex.py --dry-run
-python3 scripts/clean_tex.py
+make clean-preview
+make clean
 ```
 
 The script cleans `notes/`, `templates/`, and `build/`, preserves tracked files,
@@ -168,8 +174,8 @@ and [UCLA ECE236B, Winter 2026](https://www.seas.ucla.edu/~vandenbe/ee236b/),
 including UCLA's 2023 linear-algebra supplement:
 
 ```sh
-python3 scripts/download_lectures.py --dry-run
-python3 scripts/download_lectures.py
+make download-preview
+make download
 ```
 
 Requires Python 3.8+ and curl. The script reads the official course indexes;
@@ -197,7 +203,7 @@ run('matlab/review/arrays_and_linear_systems.m')
 The plot is written to ignored `matlab/output/`. Refresh the study PDFs with:
 
 ```sh
-./build.sh
+make build
 ```
 
 ## Chapter 2 MATLAB checks
@@ -262,12 +268,10 @@ The `pre-commit` hook checks staged contents for:
 - PDF hashes, recorded build inputs, and available build copies of changed PDFs.
 - LaTeX/TikZ formatting with the staged `.latexindent.yaml` configuration.
 
-Run the working-tree checks directly:
+Run all working-tree checks and Python tests with:
 
 ```sh
-python3 scripts/check_translations.py
-python3 scripts/check_output.py
-python3 scripts/format_tex.py --check
+make check
 ```
 
 After editing paired documents, review both languages, then record the specific
@@ -334,8 +338,8 @@ recorded only after an HTTP success with BOOX JSON `successful: true` and
 the next commit. To retry manually, or to run the tests without a device:
 
 ```sh
-python3 scripts/upload_boox.py
-python3 -m unittest discover -s scripts/tests -v
+make upload-boox
+make test
 ```
 
 ## LaTeX and TikZ formatting
@@ -353,8 +357,8 @@ search-path configuration is `texmf.cnf`. See the
 Use the shared latexindent settings for `.tex`, `.sty`, and `.tikz` files:
 
 ```sh
-python3 scripts/format_tex.py --write
-./build.sh
+make format
+make build
 ```
 
 The current TikZ figures are inline in lecture `.tex` files and are included in
