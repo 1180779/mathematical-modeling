@@ -75,7 +75,11 @@ Order $c_B$ and $c_N$ by the same indices. Then
 \emph{Define the basic solution associated with $B$} as the vector $x$ obtained
 by setting $x_N=0$ and solving $A_Bx_B=b$, so $x_B=A_B^{-1}b$.
 It is a \emph{basic feasible solution} (BFS, Polish BRD) exactly
-when $x_B\geq0$. A feasible basic solution is \emph{degenerate} when at least
+when $x_B\geq0$. A basis $B$ is called a \emph{feasible basis} if its
+associated basic solution is feasible, equivalently if $A_B^{-1}b\geq0$.
+The basis is the choice of independent columns; the basic feasible solution
+is the resulting point $x$.
+A feasible basic solution is \emph{degenerate} when at least
 one basic coordinate is zero. A nonbasic zero does not establish degeneracy.
 
 \begin{figure}[H]
