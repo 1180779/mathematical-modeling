@@ -963,12 +963,33 @@ After subtracting twice the first row from the second:
   \end{tabular}
 \end{center}
 Now $q_4=-2$ and the $x_4$ column is $(-1,-1)^T$. There is no positive
-entry and hence no leaving row. Set $x_4=\theta$, keeping $x_2=x_3=x_5=0$.
-The equations give
+entry and hence no leaving row. To see what happens to the solution, read
+the two constraint rows of the tableau as equations:
+\[
+  \begin{aligned}
+    x_1+2x_2-x_3-x_4+x_5&=4,\\
+    -6x_2+5x_3-x_4-2x_5+x_6&=1.
+  \end{aligned}
+\]
+The basic variables are $x_1,x_6$. Increase the nonbasic variable
+$x_4=\theta\geq0$, keeping the other nonbasic variables $x_2=x_3=x_5=0$.
+Substitution leaves
+\[
+  x_1-\theta=4,\qquad x_6-\theta=1,
+  \qquad\text{so}\qquad x_1=4+\theta,\quad x_6=1+\theta.
+\]
+Here $x(\theta)$ denotes the \emph{whole} solution vector in the fixed order
+$(x_1,x_2,x_3,x_4,x_5,x_6)^T$, including the two slacks $x_5,x_6$.
+Putting these six coordinates together gives
 \begin{equation}\label{eq:unbounded-ray}
   x(\theta)=(4+\theta,0,0,\theta,0,1+\theta)^T,
   \quad d=(1,0,0,1,0,1)^T,\quad \theta\geq0.
 \end{equation}
+At $\theta=0$ this is the current BFS $(4,0,0,0,0,1)^T$. Each unit increase
+in $\theta$ adds the direction $d$: $x_1,x_4,x_6$ each increase by one,
+while the other coordinates stay zero. The equations force the basic
+variables to increase alongside $x_4$, so neither can reach a negative value
+and block the step.
 Check directly: $Ad=0$, $d\geq0$, and $c^Td=2$. The original constraint
 left-hand sides are $4$ and $8-\theta\leq9$, while the objective is
 $12+2\theta\to+\infty$. Thus unboundedness comes with a verifiable feasible

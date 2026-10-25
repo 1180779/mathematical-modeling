@@ -8,7 +8,7 @@
     "notes/lectures/01-optimization-modeling.tex": "38d8d6be46b62e3741401f723ef49bb519c8a0e065e22f404e34c8197a3eeb2d",
     "notes/lectures/02-linear-programming.tex": "c5280f125f87036a546c59c013ae35aaf5ebe9060042815c7ba9aa554a89c450",
     "notes/lectures/02a-linear-modeling-patterns.tex": "cad1bf3ee17abb7bb33c5b700b53e1c4113376e42eabadbd514b341abbd3fc77",
-    "notes/lectures/03-simplex-method.tex": "6f72e1f02f21c601c5749a33e8c10a025c098bdab3f11c682f8603449613f71f",
+    "notes/lectures/03-simplex-method.tex": "3d2ec7dafb957ac6a7e58cdcaf32e769364f4b11c533536b626fe1637db62135",
     "notes/lectures/04-degeneracy-and-duality.tex": "76baefdfd8b28e2fbde3e6b52e64ca36930da0649771570a3b0a383f7775bee8",
     "notes/lectures/05-sensitivity-and-lagrange-multipliers.tex": "182c16620f4e4faf395dd8a19f08418881c2a944b8b817379bdc49a655f8fd4f",
     "notes/matlab-review/.latexmkrc": "e395f89a58e8e7da04365c286dca87ca9406ea4740cdb19982e87f9c0398afec",
@@ -22,7 +22,7 @@
     "output/lectures/01-optimization-modeling.pdf": "c41c3e9a853fd8e169e6731b546a3b32cd7431e7161d5017963529f483afa7b9",
     "output/lectures/02-linear-programming.pdf": "a79f98fdd19e6496562646c8a3c3aa2f1f20e8f53f76496653bef2e7f366c504",
     "output/lectures/02a-linear-modeling-patterns.pdf": "f6724576328263dbddabf7ed575c6db5a978cb317dd3882edc1609b92a8c7fcb",
-    "output/lectures/03-simplex-method.pdf": "e73c987c4c708e900252ae6d9357e1541faa642d23eb975d4dcb5d788bfd0bda",
+    "output/lectures/03-simplex-method.pdf": "e1563deb67a8d887e1aa2a1cdd4fe638fa0e1aa6d2891fa06b1619501c9a3129",
     "output/lectures/04-degeneracy-and-duality.pdf": "9b36d064a08ac41445e0f5881a537c3c5616a156d13db43feeb81b7132b82ec4",
     "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "8e52e32ba4fbfc33b0e9594dc65dfdbd970de3bfa86f02ee2b83c6abb173fb77",
     "output/matlab-review/01-arrays-and-linear-systems.pdf": "69ecffc2210e2e868716c53baa30c5c475fa70c477ee9e10b13a173f2db17bd3"
