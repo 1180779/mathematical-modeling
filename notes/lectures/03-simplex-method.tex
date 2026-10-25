@@ -281,30 +281,189 @@ feasibility; conversely, counting nonzero entries alone cannot establish that
 an arbitrary solution is basic without checking column independence.
 
 \section{Canonical equations and reduced costs}\label{sec:canonical}
-For a chosen feasible basis, define
+The basis gives us a starting point: set the nonbasic variables to zero and
+solve for the basic ones. To improve that point, we need two more pieces of
+information: how must the basic variables change when a nonbasic variable
+increases, and what happens to the objective? Canonical equations answer the
+first question; reduced costs answer the second.
+
+\subsection{Expressing the constraints in basic coordinates}
+Choose a feasible basis, using the ordered notation $B=(j_1,\ldots,j_m)$
+and its complement $N$ from Section~\ref{sec:bases}. Starting with
+$A_Bx_B+A_Nx_N=b$, multiply every term by $A_B^{-1}$. Since
+$A_B^{-1}A_B=I_m$, the coefficients of the basic variables become an identity
+matrix. Define
 \begin{equation}\label{eq:transformed}
   \bar A=A_B^{-1}A,\qquad \bar b=A_B^{-1}b\geq0.
 \end{equation}
-The basic columns of $\bar A$ form the identity. The resulting canonical
-equations are
+Here the bar means \emph{transformed using the current basis}, not an average.
+The matrix $\bar A$ still has $m$ rows and $n$ columns in the original variable
+order. Its column $j$ is $\bar a_j=A_B^{-1}a_j$, and $\bar A_N$ collects
+the nonbasic columns in the order of $N$.
+
+\paragraph{Why these shapes, and what is inside them?}
+There are still $m$ equations and $n$ variables: the transformation combines
+equations without adding or removing any. The dimensions therefore fit as
 \[
-  x_B+\bar A_Nx_N=\bar b.
+  \underbrace{A_B^{-1}}_{m\times m}
+  \underbrace{A}_{m\times n}
+  =\underbrace{\bar A}_{m\times n},
+  \qquad
+  \underbrace{A_B^{-1}}_{m\times m}
+  \underbrace{b}_{m\times1}
+  =\underbrace{\bar b}_{m\times1}.
 \]
+In particular, $\bar b$ has one entry per basic variable, whereas the full
+solution $x$ has $n$ entries. At the basic solution, the other $n-m$
+coordinates are supplied separately as zeros.
+
+There is also a useful interpretation in the column space $\R^m$.
+The identities $A_B\bar b=b$ and $A_B\bar a_j=a_j$ mean that
+\[
+  b=\sum_{i=1}^m\bar b_i a_{j_i},\qquad
+  a_j=\sum_{i=1}^m\bar a_{ij}a_{j_i}.
+\]
+Thus $\bar b$ lists the coefficients needed to build $b$ from the basic
+columns, and column $j$ of $\bar A$ lists the coefficients needed to build
+$a_j$ from those same columns. A basic column needs just one copy of itself,
+so its transformed column is a unit vector. If we display the basic columns
+first, the augmented system has the shape
+\[
+  \left[\begin{array}{cc|c}
+      I_m & \bar A_N & \bar b
+    \end{array}\right],
+  \qquad \bar A_N\in\R^{m\times(n-m)}.
+\]
+The identity block identifies the basic variables, the middle block describes
+how nonbasic variables affect them, and the last column gives their values
+when the nonbasic variables are zero. In the original column order, the
+identity columns can be scattered through $\bar A$; they need not be the
+first $m$ columns.
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \node[align=center] at (0,0) {$
+        \underbrace{\bar A=
+          \begin{pmatrix}
+            \bar a_{11}&\cdots&\bar a_{1j}&\cdots&\bar a_{1n}\\
+            \vdots&&\vdots&&\vdots\\
+            \bar a_{i1}&\cdots&\bar a_{ij}&\cdots&\bar a_{in}\\
+            \vdots&&\vdots&&\vdots\\
+            \bar a_{m1}&\cdots&\bar a_{mj}&\cdots&\bar a_{mn}
+          \end{pmatrix}}_{m\text{ rows, }n\text{ columns in original order}}
+        \qquad
+        \underbrace{\bar b=
+          \begin{pmatrix}\bar b_1\\\vdots\\\bar b_i\\\vdots\\\bar b_m\end{pmatrix}
+        }_{m\text{ entries}}
+      $};
+    \draw[model flow] (0,-1.6)--(0,-2.4)
+    node[midway,right] {Display columns in the order $(B,N)$.};
+    \node at (0,-4.1) {$
+        \setlength{\arraycolsep}{3pt}
+        \renewcommand{\arraystretch}{1.3}
+        \begin{array}{r}
+          \text{row label}\\ x_{j_1}\\ \vdots\\
+          \color{modelblue}x_{j_i}\\ \vdots\\ x_{j_m}
+        \end{array}
+        \quad
+        \left[\begin{array}{>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c|>{\columncolor{modelorange!12}\color{modelorange}}c>{\color{modelorange}}c>{\color{modelorange}}c|c}
+            x_{j_1}&\cdots&x_{j_i}&\cdots&x_{j_m}&x_{k_1}&\cdots&x_{k_s}&\text{RHS}\\\hline
+            1&\cdots&0&\cdots&0&\bar a_{1k_1}&\cdots&\bar a_{1k_s}&\bar b_1\\
+            \vdots&&\vdots&&\vdots&\vdots&&\vdots&\vdots\\
+            \rowcolor{modelblue!12}
+            0&\cdots&1&\cdots&0&\cellcolor{modelorange!25}\bar a_{ik_1}&\cdots&\bar a_{ik_s}&\bar b_i\\
+            \vdots&&\vdots&&\vdots&\vdots&&\vdots&\vdots\\
+            0&\cdots&0&\cdots&1&\bar a_{mk_1}&\cdots&\bar a_{mk_s}&\bar b_m
+          \end{array}\right]
+      $};
+    \node[align=center,text=modelblue,text width=5cm] at (-3.3,-6.7)
+    {Blue columns: $\bar A_B=I_m$\\$m$ basic variables};
+    \node[align=center,text=modelorange,text width=5cm] at (3.3,-6.7)
+    {Orange columns: $\bar A_N$\\$s=n-m$ nonbasic variables};
+    \node[align=center,text width=13cm] at (0,-7.9)
+    {Shaded row $i$: $x_{j_i}+\sum_{\ell=1}^{s}\bar a_{ik_\ell}x_{k_\ell}=\bar b_i$.\\[1mm]
+      Shaded column $k_1$: increasing $x_{k_1}$ by $\theta$ changes each
+      $x_{j_i}$ by $-\theta\bar a_{ik_1}$.};
+  \end{tikzpicture}
+  \caption{The general canonical system, with $B=(j_1,\ldots,j_m)$ and
+    $N=(k_1,\ldots,k_s)$, $s=n-m$. The lower display writes out
+    $[\bar A_B\ \bar A_N\mid\bar b]$ with variable labels above it.
+    The highlighted intersection $\bar a_{ik_1}$ belongs to row $i$ and
+    original-variable column $k_1$. The right-hand entry $\bar b_i$ gives
+    $x_{j_i}$ at the basic solution. Reordering columns for display does
+    not change the variable indices.}
+  \label{fig:canonical-shape}
+\end{figure}
+
+The resulting \emph{canonical equations}
+can be read in either of two equivalent ways:
+\[
+  \underbrace{x_B+\bar A_Nx_N=\bar b}_{\text{identity basic columns}},
+  \qquad
+  \underbrace{x_B=\bar b-\bar A_Nx_N}_{\text{basic variables determined by nonbasic ones}}.
+\]
+These are the same constraints in a more useful form: multiplication by an
+invertible matrix preserves all solutions. We have not set $x_N=0$ yet.
+Doing so recovers the current basic solution $x_B=\bar b$. For any other
+choice of $x_N$, the second form tells us exactly how to adjust $x_B$ to
+keep $Ax=b$. Such a choice is feasible only if both $x_N\geq0$ and the
+resulting $x_B\geq0$.
+
+In row $i$, the basic variable is $x_{j_i}$, so the same equation reads
+\[
+  x_{j_i}=\bar b_i-\sum_{j\in N}\bar a_{ij}x_j,
+  \qquad i=1,\ldots,m.
+\]
+The index $i$ labels a transformed equation; $j$ labels an original variable.
+Thus $\bar b_i$ is the current value of $x_{j_i}$, not necessarily of $x_i$.
+If only a nonbasic $x_k$ increases from zero to $\theta$, then
+$x_{j_i}=\bar b_i-\theta\bar a_{ik}$. A positive $\bar a_{ik}$ makes that
+basic variable decrease; a negative entry makes it increase.
+
 This is canonical \emph{relative to the basis}: any nonsingular basis produces
 identity columns after transformation, but only a feasible basis gives
 $\bar b\geq0$. In numerical code solve systems with $A_B$ rather than computing
 its inverse explicitly.
 
-Substitute the canonical equations into the objective:
+\subsection{The objective after allowing for the basic variables}
+The original coefficient $c_j$ describes the objective change from increasing
+$x_j$ while holding all other variables fixed. Usually that change would
+violate $Ax=b$: the basic variables must adjust too. The \emph{reduced cost}
+measures the net objective change after including those adjustments.
+
+Write $z=c^Tx$. Substituting $x_B=\bar b-\bar A_Nx_N$ gives
 \begin{align}
   c^Tx&=c_B^Tx_B+c_N^Tx_N\notag\\
-  &=c_B^T\bar b+(c_N^T-c_B^T\bar A_N)x_N\notag\\
+  &=c_B^T(\bar b-\bar A_Nx_N)+c_N^Tx_N\notag\\
+  &=\underbrace{c_B^T\bar b}_{z_0}
+  +\underbrace{(c_N^T-c_B^T\bar A_N)}_{\text{net objective coefficients}}x_N\notag\\
   &=z_0-\sum_{j\in N}q_jx_j,\qquad
   z_0=c_B^T\bar b,\quad q_j=c_B^T\bar a_j-c_j.\label{eq:reduced}
 \end{align}
-The indicators $q_j=z_j-c_j$ use the \emph{maximization} sign convention.
-Another common convention calls $\rho_j=c_j-z_j=-q_j$ the reduced cost.
-For every basic column, $q_j=0$.
+The number $z_0$ is the objective value at the current BFS. To interpret the
+coefficient of a nonbasic $x_j$, increase it by $\theta$ and keep the other
+nonbasic variables zero. Its direct contribution is $c_j\theta$; the change
+in the basic variables contributes $-c_B^T\bar a_j\theta$. Together,
+\[
+  z(\theta)-z_0=(c_j-c_B^T\bar a_j)\theta=-q_j\theta.
+\]
+This is an exact linear change, valid for every feasible step along that
+direction. The sign tells us whether moving would help; the constraints
+determine whether a positive step is possible and how far it can go.
+
+\paragraph{Two sign conventions.}
+Define $z_j=c_B^T\bar a_j$. The subscripted $z_j$ is a scalar computed for
+column $j$; it is not the current objective value $z_0$. These notes use
+the \emph{indicators} $q_j=z_j-c_j$, so the objective row can be written
+$z+\sum_{j\in N}q_jx_j=z_0$.
+Another common convention calls $\rho_j=c_j-z_j=-q_j$ the reduced cost and
+writes $z=z_0+\sum_{j\in N}\rho_jx_j$. Both describe the same change.
+For this maximization problem, a negative $q_j$ (positive $\rho_j$)
+signals an improving direction, provided a positive step is feasible.
+For a basic column $j_i$, $\bar a_{j_i}$ is the $i$th unit vector, so
+$c_B^T\bar a_{j_i}=c_{j_i}$ and $q_{j_i}=0$. The basic variables disappear
+from the objective row because we have already substituted for them.
 \begin{center}
   \begin{tabular}{lll}\toprule
     Indicator & Equivalent reduced cost & Effect of increasing $x_j$\\\midrule
@@ -314,6 +473,52 @@ For every basic column, $q_j=0$.
   \end{tabular}
 \end{center}
 
+\subsection{A small example: direct gain and net gain}
+Return to the matrix in Figure~\ref{fig:partition}, now with objective
+$z=3x_1+x_3$:
+\[
+  x_1+x_2+2x_3=4,\qquad x_1+x_3+x_4=3,\qquad x\geq0.
+\]
+Choose $B=(1,3)$ and $N=(2,4)$. In this order,
+\[
+  A_B=\begin{pmatrix}1&2\\1&1\end{pmatrix},\qquad
+  A_B^{-1}=\begin{pmatrix}-1&2\\1&-1\end{pmatrix},\qquad
+  \bar b=\binom21,\qquad
+  \bar A_N=\begin{pmatrix}-1&2\\1&-1\end{pmatrix}.
+\]
+Here $m=2$ and $n=4$, so the full transformed matrix is
+\[
+  \bar A=\begin{pmatrix}1&-1&0&2\\0&1&1&-1\end{pmatrix},
+  \qquad \bar b=\binom21.
+\]
+Columns 1 and 3 form the identity in the order $B=(1,3)$; columns 2 and 4
+form $\bar A_N$. For instance, $\bar a_2=(-1,1)^T$ says
+$a_2=-a_1+a_3$, while $\bar b=(2,1)^T$ says $b=2a_1+a_3$.
+The canonical equations and current BFS are therefore
+\[
+  x_1=2+x_2-2x_4,\qquad x_3=1-x_2+x_4,
+  \qquad x^{(B)}=(2,0,1,0)^T.
+\]
+Notice that $\bar b_2=1$ is the value of $x_3$, the second basic variable.
+Substitution into the objective makes the reduced coefficients visible:
+\[
+  z=3(2+x_2-2x_4)+(1-x_2+x_4)
+  =7+2x_2-5x_4.
+\]
+Thus $z_0=7$, $q_2=-2$, and $q_4=5$. Although the original objective
+coefficient of $x_2$ is zero, increasing $x_2$ by $\theta$ with $x_4=0$
+increases $x_1$ by $\theta$ and decreases $x_3$ by $\theta$. The net gain
+is $3\theta-\theta=2\theta$. Feasibility requires
+$x_3=1-\theta\geq0$, so $0\leq\theta\leq1$; at $\theta=1$ we reach
+$(3,1,0,0)^T$ with objective value $9$. By comparison, increasing $x_4$
+with $x_2=0$ loses $5$ objective units per unit step. This is why simplex
+looks at the reduced coefficients rather than the original $c_j$ alone.
+
+\subsection{Why the sign test certifies optimality}
+The objective identity holds for \emph{every} feasible point, not just for
+small moves from the current BFS. If all $q_j\geq0$, every nonnegative
+choice of $x_N$ subtracts a nonnegative amount from $z_0$. No feasible point
+can have a larger objective value, and the current BFS attains that bound.
 \begin{lecturecore}
   \begin{proposition}[Optimality certificate]\label{prop:certificate}
     If the basis is feasible and $q_j\geq0$ for every nonbasic index, then its
@@ -1290,6 +1495,10 @@ requires the methods practiced in \texttt{01-primal-simplex.tex}.\\
 English. The worked tableaus retain the supplied data and both Phase I starts.
 Proofs, counterexamples, study questions, redrawn figures, and the MATLAB
 companion are additional explanations.
+The worked example in Section~\ref{sec:canonical} adds the objective
+$3x_1+x_3$ to the illustrative matrix from Figure~\ref{fig:partition};
+it explains the transformation and the net objective change rather than
+reproducing a supplied lecture problem.
 
 \begin{center}
   \begin{tabular}{lll}\toprule
