@@ -110,9 +110,17 @@ Consider
     &-4x_1+3x_2+8x_3\leq10,\qquad x_1,x_2,x_3\geq0.
   \end{aligned}
 \end{equation}
+Ratios are calculated in the column to the right of the RHS;
+$\longrightarrow$ in the separate Out column marks the chosen leaving row.
+The indicator row is labelled $z_j-c_j$; $q_j$ abbreviates this difference
+in formulas. Vertical rules separate $c_B$, the basic-variable labels,
+the coefficient columns, and the RHS. Variable-column headings keep their
+order across pivots; only the basic-variable labels change. Artificial
+columns are removed after Phase I without reordering the retained columns.
+
 Introduce slacks $x_4,x_5,x_6$. For $B=(1,2,6)$ the final tableau is
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
     & $c_j$ & $-1$ & $3$ & $-2$ & $0$ & $0$ & $0$ & \\
     \midrule
@@ -121,7 +129,7 @@ Introduce slacks $x_4,x_5,x_6$. For $B=(1,2,6)$ the final tableau is
     $0$ & $x_6$ & 0 & 0 & 10 & 1 & $-1/2$ & 1 & 11\\
     \midrule
     & $z_j$ & $-1$ & $3$ & $\tfrac{2}{5}$ & $\tfrac{1}{5}$ & $\tfrac{4}{5}$ & $0$ & $11$\\
-    & $q$ & 0 & 0 & $12/5$ & $1/5$ & $4/5$ & 0 & $z_0=11$\\
+    & $z_j-c_j$ & 0 & 0 & $12/5$ & $1/5$ & $4/5$ & 0 & $z_0=11$\\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -342,7 +350,7 @@ Slacks are $x_4,x_5$, $B=(1,5)$, and
 The inverse is displayed to understand the row transformation; numerical code
 should solve linear systems.
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\
     & $c_j$ & $2$ & $-1$ & $1$ & $0$ & $0$ & \\
     \midrule
@@ -350,7 +358,7 @@ should solve linear systems.
     $0$ & $x_5$ & 0 & 3 & 1 & 1 & 1 & 10\\
     \midrule
     & $z_j$ & $2$ & $2$ & $2$ & $2$ & $0$ & $12$\\
-    & $q$ & 0 & 3 & 1 & 2 & 0 & $z_0=12$\\
+    & $z_j-c_j$ & 0 & 3 & 1 & 2 & 0 & $z_0=12$\\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -404,21 +412,21 @@ decision space.
 Set decision costs to $(3,4,2)$. The old basic point is still feasible, its value
 is now 18, and its new indicator row is $(0,-1,1,3,0)$.
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
-    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_2\uparrow$)\\
-    & $c_j$ & $3$ & $4$ & $2$ & $0$ & $0$ &  & \\
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_2\uparrow$) & Out\\
+    & $c_j$ & $3$ & $4$ & $2$ & $0$ & $0$ & & & \\
     \cmidrule(r{1.5em}){1-8}
-    $3$ & $x_1$ & 1 & 1 & 1 & 1 & 0 & 6 & $6/1=6$\\
-    $0$ & $x_5$ & 0 & 3 & 1 & 1 & 1 & 10 & $10/3$\\
+    $3$ & $x_1$ & 1 & 1 & 1 & 1 & 0 & 6 & $6/1=6$ & \\
+    $0$ & $x_5$ & 0 & 3 & 1 & 1 & 1 & 10 & $10/3$ & $\longrightarrow$\\
     \cmidrule(r{1.5em}){1-8}
-    & $z_j$ & $3$ & $3$ & $3$ & $3$ & $0$ & $18$ & \\
-    & $q$ & 0 & $-1$ & 1 & 3 & 0 & $z_0=18$ & \\
+    & $z_j$ & $3$ & $3$ & $3$ & $3$ & $0$ & $18$ & & \\
+    & $z_j-c_j$ & 0 & $-1$ & 1 & 3 & 0 & $z_0=18$ & & \\
     \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
-Enter $x_2$. Ratios are $6/1$ and $10/3$, so $x_5$ leaves.
+Enter $x_2$ and remove $x_5$ with step $10/3$.
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\
     & $c_j$ & $3$ & $4$ & $2$ & $0$ & $0$ & \\
     \midrule
@@ -426,7 +434,7 @@ Enter $x_2$. Ratios are $6/1$ and $10/3$, so $x_5$ leaves.
     $4$ & $x_2$ & 0 & 1 & $1/3$ & $1/3$ & $1/3$ & $10/3$\\
     \midrule
     & $z_j$ & $3$ & $4$ & $\tfrac{10}{3}$ & $\tfrac{10}{3}$ & $\tfrac{1}{3}$ & $\tfrac{64}{3}$\\
-    & $q$ & 0 & 0 & $4/3$ & $10/3$ & $1/3$ & $z_0=64/3$\\
+    & $z_j-c_j$ & 0 & 0 & $4/3$ & $10/3$ & $1/3$ & $z_0=64/3$\\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -536,7 +544,7 @@ The canonical equations are now
 Enter $x_6$. Only the second row has a positive coefficient; the step is 10
 and $x_5$ leaves. The final tableau is
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
     & $c_j$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $1$ & \\
     \midrule
@@ -544,7 +552,7 @@ and $x_5$ leaves. The final tableau is
     $1$ & $x_6$ & 0 & 3 & 1 & 1 & 1 & 1 & 10\\
     \midrule
     & $z_j$ & $2$ & $11$ & $5$ & $5$ & $3$ & $1$ & $42$\\
-    & $q$ & 0 & 12 & 4 & 5 & 3 & 0 & $z_0=42$\\
+    & $z_j-c_j$ & 0 & 12 & 4 & 5 & 3 & 0 & $z_0=42$\\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -588,23 +596,23 @@ The old point $(6,0,0)$ violates the row. With new slack $x_6$,
 \]
 Subtract the old $x_1$ row. The new canonical tableau is
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
-    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Dual ratios ($r=3$)\\
-    & $c_j$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $0$ &  & \\
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Dual ratios ($r=3$) & Out\\
+    & $c_j$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $0$ & & & \\
     \cmidrule(r{1.5em}){1-9}
-    $2$ & $x_1$ & 1 & 1 & 1 & 1 & 0 & 0 & 6 & $x_2:\ 3/(1)=3$\\
-    $0$ & $x_5$ & 0 & 3 & 1 & 1 & 1 & 0 & 10 & $x_3:\ 1/(3)=1 / 3$\\
-    $0$ & $x_6$ & 0 & $-1$ & $-3$ & $-1$ & 0 & 1 & $-8$ & $x_4:\ 2/(1)=2$\\
+    $2$ & $x_1$ & 1 & 1 & 1 & 1 & 0 & 0 & 6 & $x_2:\ 3/(1)=3$ & \\
+    $0$ & $x_5$ & 0 & 3 & 1 & 1 & 1 & 0 & 10 & $x_3:\ 1/(3)=1 / 3$ & \\
+    $0$ & $x_6$ & 0 & $-1$ & $-3$ & $-1$ & 0 & 1 & $-8$ & $x_4:\ 2/(1)=2$ & $\longrightarrow$\\
     \cmidrule(r{1.5em}){1-9}
-    & $z_j$ & $2$ & $2$ & $2$ & $2$ & $0$ & $0$ & $12$ & \\
-    & $q$ & 0 & 3 & 1 & 2 & 0 & 0 & $z_0=12$ & \\
+    & $z_j$ & $2$ & $2$ & $2$ & $2$ & $0$ & $0$ & $12$ & & \\
+    & $z_j-c_j$ & 0 & 3 & 1 & 2 & 0 & 0 & $z_0=12$ & & \\
     \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Select the negative RHS row and compare the dual ratios displayed to the right.
 Enter $x_3$, leave $x_6$, and pivot on $-3$:
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
     & $c_j$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $0$ & \\
     \midrule
@@ -613,7 +621,7 @@ Enter $x_3$, leave $x_6$, and pivot on $-3$:
     $1$ & $x_3$ & 0 & $1/3$ & 1 & $1/3$ & 0 & $-1/3$ & $8/3$\\
     \midrule
     & $z_j$ & $2$ & $\tfrac{5}{3}$ & $1$ & $\tfrac{5}{3}$ & $0$ & $\tfrac{1}{3}$ & $\tfrac{28}{3}$\\
-    & $q$ & 0 & $8/3$ & 0 & $5/3$ & 0 & $1/3$ & $z_0=28/3$\\
+    & $z_j-c_j$ & 0 & $8/3$ & 0 & $5/3$ & 0 & $1/3$ & $z_0=28/3$\\
     \bottomrule
   \end{tabular}
 \end{center}
@@ -778,22 +786,22 @@ The point $(4,4)$ attains 20. This is an exact bound, not just a graphical guess
 Here is the full update for deleting row 1 using $x_6$ with column $-e_1$.
 Start from the ordered basis $B=(2,5,1)$:
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
-    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_6\uparrow$)\\
-    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ & $0$ &  & \\
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_6\uparrow$) & Out\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ & $0$ & & & \\
     \cmidrule(r{1.5em}){1-9}
-    $2$ & $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 1 & 6 & $6 / 1=6$\\
-    $0$ & $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & $3/2$ & 3 & $3 / (3 / 2)=2$\\
-    $3$ & $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & $-1$ & 2 & $\text{--}$\\
+    $2$ & $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 1 & 6 & $6 / 1=6$ & \\
+    $0$ & $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & $3/2$ & 3 & $3 / (3 / 2)=2$ & $\longrightarrow$\\
+    $3$ & $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & $-1$ & 2 & $\text{--}$ & \\
     \cmidrule(r{1.5em}){1-9}
-    & $z_j$ & $3$ & $2$ & $1$ & $\tfrac{1}{3}$ & $0$ & $-1$ & $18$ & \\
-    & $q$ & 0 & 0 & 1 & $1/3$ & 0 & $-1$ & $z_0=18$ & \\
+    & $z_j$ & $3$ & $2$ & $1$ & $\tfrac{1}{3}$ & $0$ & $-1$ & $18$ & & \\
+    & $z_j-c_j$ & 0 & 0 & 1 & $1/3$ & 0 & $-1$ & $z_0=18$ & & \\
     \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
-Enter $x_6$. Ratios are $6/1$ and $3/(3/2)=2$, so $x_5$ leaves.
+Enter $x_6$ and remove $x_5$ with step 2.
 \begin{center}
-  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\toprule
     $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
     & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ & $0$ & \\
     \midrule
@@ -802,7 +810,7 @@ Enter $x_6$. Ratios are $6/1$ and $3/(3/2)=2$, so $x_5$ leaves.
     $3$ & $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 0 & 4\\
     \midrule
     & $z_j$ & $3$ & $2$ & $0$ & $\tfrac{2}{3}$ & $\tfrac{2}{3}$ & $0$ & $20$\\
-    & $q$ & 0 & 0 & 0 & $2/3$ & $2/3$ & 0 & $z_0=20$\\
+    & $z_j-c_j$ & 0 & 0 & 0 & $2/3$ & $2/3$ & 0 & $z_0=20$\\
     \bottomrule
   \end{tabular}
 \end{center}

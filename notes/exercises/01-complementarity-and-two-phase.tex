@@ -49,7 +49,13 @@ the basic coordinates to $\bar b-\theta\bar m_k$.
 Only positive entries of $\bar m_k$ limit the step, with
 $\theta^*=\min_{i:\bar m_{ik}>0}\bar b_i/\bar m_{ik}$.
 Choose a most negative $q_k$, breaking entering ties by the smaller column
-index. The displayed paths have no leaving tie.
+index. The displayed paths have no leaving tie. Ratios are calculated in the column to the right of the RHS;
+$\longrightarrow$ in the separate Out column marks the chosen leaving row.
+The indicator row is labelled $z_j-c_j$; $q_j$ abbreviates this difference
+in formulas. Vertical rules separate $c_B$, the basic-variable labels,
+the coefficient columns, and the RHS. Variable-column headings keep their
+order across pivots; only the basic-variable labels change. Artificial
+columns are removed after Phase I without reordering the retained columns.
 The derivations appear in
 \href{../lectures/03-simplex-method.pdf}{The simplex method}, in the sections
 on canonical equations, one simplex step, and initialization.
@@ -228,7 +234,7 @@ Add slack $s_1$, surpluses $s_2,s_3$, and artificials $a_2,a_3$:
     x_1+2x_2-x_3-s_3+a_3&=6.
   \end{aligned}
 \]
-All eight variables are nonnegative. Use column order
+All eight variables are nonnegative. Use variable order
 $(x_1,x_2,x_3,s_1,s_2,s_3,a_2,a_3)$, initial basis $B=(4,7,8)$,
 and Phase I objective $w=-a_2-a_3$.
 Surplus columns point in the negative unit direction and cannot supply
@@ -239,43 +245,42 @@ Substitution gives $w=-10+2x_1+5x_2-s_2-s_3$; the indicator row must
 already account for both basic artificial variables.
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-11}
-    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(x_2\uparrow)\\
-    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 &  & \\
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-11}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(x_2\uparrow) & \text{Out}\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 & & & \\
     \cmidrule(r{1.5em}){1-11}
-    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--}\\
-    -1 & a_2 & 1 & 3 & 1 & 0 & -1 & 0 & 1 & 0 & 4 & 4 / 3\\
-    -1 & a_3 & 1 & 2 & -1 & 0 & 0 & -1 & 0 & 1 & 6 & 6 / 2=3\\
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--} & \\
+    -1 & a_2 & 1 & 3 & 1 & 0 & -1 & 0 & 1 & 0 & 4 & 4 / 3 & \longrightarrow\\
+    -1 & a_3 & 1 & 2 & -1 & 0 & 0 & -1 & 0 & 1 & 6 & 6 / 2=3 & \\
     \cmidrule(r{1.5em}){1-11}
-    & z_j & -2 & -5 & 0 & 0 & 1 & 1 & -1 & -1 & -10 & \\
-    & q & -2 & -5 & 0 & 0 & 1 & 1 & 0 & 0 & -10 & \\
+    & z_j & -2 & -5 & 0 & 0 & 1 & 1 & -1 & -1 & -10 & & \\
+    & z_j-c_j & -2 & -5 & 0 & 0 & 1 & 1 & 0 & 0 & -10 & & \\
     \cmidrule(r{1.5em}){1-11}
   \end{array}
 \]
-Enter $x_2$. Ratios are $4/3$ and $6/2=3$, so $a_2$ leaves with
-$\theta=4/3$. Divide its row by $3$ and eliminate column $x_2$:
+Enter $x_2$ and remove $a_2$ with $\theta=4/3$. Divide its row by $3$ and eliminate column $x_2$:
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-11}
-    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(s_2\uparrow)\\
-    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 &  & \\
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-11}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(s_2\uparrow) & \text{Out}\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 & & & \\
     \cmidrule(r{1.5em}){1-11}
-    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--}\\
-    0 & x_2 & 1/3 & 1 & 1/3 & 0 & -1/3 & 0 & 1/3 & 0 & 4/3 & \text{--}\\
-    -1 & a_3 & 1/3 & 0 & -5/3 & 0 & 2/3 & -1 & -2/3 & 1 & 10/3 & (10 / 3) / (2 / 3)=5\\
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--} & \\
+    0 & x_2 & 1/3 & 1 & 1/3 & 0 & -1/3 & 0 & 1/3 & 0 & 4/3 & \text{--} & \\
+    -1 & a_3 & 1/3 & 0 & -5/3 & 0 & 2/3 & -1 & -2/3 & 1 & 10/3 & (10 / 3) / (2 / 3)=5 & \longrightarrow\\
     \cmidrule(r{1.5em}){1-11}
-    & z_j & -\tfrac{1}{3} & 0 & \tfrac{5}{3} & 0 & -\tfrac{2}{3} & 1 & \tfrac{2}{3} & -1 & -\tfrac{10}{3} & \\
-    & q & -1/3 & 0 & 5/3 & 0 & -2/3 & 1 & 5/3 & 0 & -10/3 & \\
+    & z_j & -\tfrac{1}{3} & 0 & \tfrac{5}{3} & 0 & -\tfrac{2}{3} & 1 & \tfrac{2}{3} & -1 & -\tfrac{10}{3} & & \\
+    & z_j-c_j & -1/3 & 0 & 5/3 & 0 & -2/3 & 1 & 5/3 & 0 & -10/3 & & \\
     \cmidrule(r{1.5em}){1-11}
   \end{array}
 \]
-Now $s_2$ has the most negative indicator. Its only positive entry is $2/3$
-in row $a_3$, so $a_3$ leaves with $\theta=(10/3)/(2/3)=5$.
+Now $s_2$ has the most negative indicator. Enter it and remove $a_3$
+with $\theta=5$.
 There is no rule restricting entry to original decision variables: a surplus
 is a legitimate variable in the equivalent system.
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r}
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrrrr@{\quad}|@{\quad}r}\hline
     c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b\\
     & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 & \\
     \hline
@@ -284,7 +289,7 @@ is a legitimate variable in the equivalent system.
     0 & s_2 & 1/2 & 0 & -5/2 & 0 & 1 & -3/2 & -1 & 3/2 & 5\\
     \hline
     & z_j & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-    & q & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0\\
+    & z_j-c_j & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0\\
     \hline
   \end{array}
 \]
@@ -297,7 +302,7 @@ Recompute the indicator row for the original coefficients:
   d=(-1,-2,1,0,0,0)^T.
 \]
 \[
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\hline
     c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & \bar b\\
     & c_j & -1 & -2 & 1 & 0 & 0 & 0 & \\
     \hline
@@ -306,7 +311,7 @@ Recompute the indicator row for the original coefficients:
     0 & s_2 & 1/2 & 0 & -5/2 & 0 & 1 & -3/2 & 5\\
     \hline
     & z_j & -1 & -2 & 1 & 0 & 0 & 1 & -6\\
-    & q & 0 & 0 & 0 & 0 & 0 & 1 & -6\\
+    & z_j-c_j & 0 & 0 & 0 & 0 & 0 & 1 & -6\\
     \hline
   \end{array}
 \]
@@ -360,7 +365,7 @@ right-hand sides; their inequality directions reverse:
   \end{aligned}
 \]
 Here $s_1,s_2$ are slacks of the reversed rows, $s_3$ a surplus, and
-$a_3$ artificial. Use column order $(x_1,x_2,t,s_1,s_2,s_3,a_3)$ and
+$a_3$ artificial. Use variable order $(x_1,x_2,t,s_1,s_2,s_3,a_3)$ and
 initial basis $B=(4,5,7)$. Phase I maximizes $w=-a_3$.
 The two negative original right-hand sides do not require artificials after
 the row reversal; their slack columns provide a feasible start.
@@ -368,24 +373,23 @@ the row reversal; their slack columns provide a feasible start.
 \paragraph{Phase I.}
 The initial tableau is
 \[
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
-    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & a_3 & \bar b & \text{Ratio }(x_1\uparrow)\\
-    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 &  & \\
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-10}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & a_3 & \bar b & \text{Ratio }(x_1\uparrow) & \text{Out}\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & & & \\
     \cmidrule(r{1.5em}){1-10}
-    0 & s_1 & -1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & \text{--}\\
-    0 & s_2 & -1 & -2 & 2 & 0 & 1 & 0 & 0 & 4 & \text{--}\\
-    -1 & a_3 & 1 & -1 & 1 & 0 & 0 & -1 & 1 & 4 & 4 / 1=4\\
+    0 & s_1 & -1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & \text{--} & \\
+    0 & s_2 & -1 & -2 & 2 & 0 & 1 & 0 & 0 & 4 & \text{--} & \\
+    -1 & a_3 & 1 & -1 & 1 & 0 & 0 & -1 & 1 & 4 & 4 / 1=4 & \longrightarrow\\
     \cmidrule(r{1.5em}){1-10}
-    & z_j & -1 & 1 & -1 & 0 & 0 & 1 & -1 & -4 & \\
-    & q & -1 & 1 & -1 & 0 & 0 & 1 & 0 & -4 & \\
+    & z_j & -1 & 1 & -1 & 0 & 0 & 1 & -1 & -4 & & \\
+    & z_j-c_j & -1 & 1 & -1 & 0 & 0 & 1 & 0 & -4 & & \\
     \cmidrule(r{1.5em}){1-10}
   \end{array}
 \]
 Both $x_1$ and $t$ have indicator $-1$; the smaller column index chooses
-$x_1$. Its only positive coefficient is in row $a_3$, so $a_3$ leaves
-with $\theta=4$:
+$x_1$. Remove $a_3$ with $\theta=4$:
 \[
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r}
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrrr@{\quad}|@{\quad}r}\hline
     c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & a_3 & \bar b\\
     & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & \\
     \hline
@@ -394,7 +398,7 @@ with $\theta=4$:
     0 & x_1 & 1 & -1 & 1 & 0 & 0 & -1 & 1 & 4\\
     \hline
     & z_j & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-    & q & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    & z_j-c_j & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
     \hline
   \end{array}
 \]
@@ -403,23 +407,22 @@ The zero Phase I value and nonbasic artificial allow its column to be removed.
 \paragraph{Phase II.}
 For the negative original objective use $d=(-2,2,1,0,0,0)^T$:
 \[
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
-    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & \bar b & \text{Ratio }(t\uparrow)\\
-    & c_j & -2 & 2 & 1 & 0 & 0 & 0 &  & \\
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-9}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & \bar b & \text{Ratio }(t\uparrow) & \text{Out}\\
+    & c_j & -2 & 2 & 1 & 0 & 0 & 0 & & & \\
     \cmidrule(r{1.5em}){1-9}
-    0 & s_1 & 0 & 0 & 2 & 1 & 0 & -1 & 5 & 5 / 2\\
-    0 & s_2 & 0 & -3 & 3 & 0 & 1 & -1 & 8 & 8 / 3\\
-    -2 & x_1 & 1 & -1 & 1 & 0 & 0 & -1 & 4 & 4 / 1=4\\
+    0 & s_1 & 0 & 0 & 2 & 1 & 0 & -1 & 5 & 5 / 2 & \longrightarrow\\
+    0 & s_2 & 0 & -3 & 3 & 0 & 1 & -1 & 8 & 8 / 3 & \\
+    -2 & x_1 & 1 & -1 & 1 & 0 & 0 & -1 & 4 & 4 / 1=4 & \\
     \cmidrule(r{1.5em}){1-9}
-    & z_j & -2 & 2 & -2 & 0 & 0 & 2 & -8 & \\
-    & q & 0 & 0 & -3 & 0 & 0 & 2 & -8 & \\
+    & z_j & -2 & 2 & -2 & 0 & 0 & 2 & -8 & & \\
+    & z_j-c_j & 0 & 0 & -3 & 0 & 0 & 2 & -8 & & \\
     \cmidrule(r{1.5em}){1-9}
   \end{array}
 \]
-Enter $t$. The ratios are $5/2$, $8/3$, and $4$, so $s_1$ leaves
-with $\theta=5/2$. Normalize its row and eliminate the $t$ column:
+Enter $t$ and remove $s_1$ with $\theta=5/2$. Normalize its row and eliminate the $t$ column:
 \[
-  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}
+  \begin{array}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrrrr@{\quad}|@{\quad}r}\hline
     c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & \bar b\\
     & c_j & -2 & 2 & 1 & 0 & 0 & 0 & \\
     \hline
@@ -428,7 +431,7 @@ with $\theta=5/2$. Normalize its row and eliminate the $t$ column:
     -2 & x_1 & 1 & -1 & 0 & -1/2 & 0 & -1/2 & 3/2\\
     \hline
     & z_j & -2 & 2 & 1 & \tfrac{3}{2} & 0 & \tfrac{1}{2} & -\tfrac{1}{2}\\
-    & q & 0 & 0 & 0 & 3/2 & 0 & 1/2 & -1/2\\
+    & z_j-c_j & 0 & 0 & 0 & 3/2 & 0 & 1/2 & -1/2\\
     \hline
   \end{array}
 \]
