@@ -2,6 +2,67 @@
 
 English | [Polski](matlab-verification.pl.md)
 
+## Lab 3 practice on 2026-10-25
+
+The invented preparation material has two new scripts:
+`matlab/labs/lab_03_demo.m` and `matlab/labs/lab_03_practice_answers.m`.
+The former reconstructs specified hand bases and solves the demo in original
+and standard forms. The latter solves the reference practice models and checks
+feasibility, objective recovery, Phase I values, redundant split variables,
+multiple optima, infeasibility and an improving ray. Solver calls explicitly
+select `dual-simplex-highs`, with constraint and optimality tolerances `1e-9`
+and absolute assertion tolerance `1e-7`.
+
+The agent attempted:
+
+```sh
+matlab -batch "disp(version); run('matlab/labs/lab_03_demo.m'); run('matlab/labs/lab_03_practice_answers.m');"
+```
+
+The launcher again exited with code 1 and an empty log. No MATLAB output,
+release or plot rendering is attributed to this attempt. Both scripts remain
+unverified in MATLAB. Exact Python rational elimination and vertex enumeration
+independently checked both formulations of each finite model, all displayed
+hand bases/indicators, the Phase I problems, capacity changes and objective
+constants. Separate exact certificates checked infeasibility and the improving
+ray; neither conclusion relies on a solver status.
+
+Expected results: demo `(8/3,8/3)`, profit `56/3`; A `(4,3)`, profit `32`,
+or `(5,5/2)`, profit `35` after the capacity change; B `(3,1)`, cost `9`,
+Phase I sum `0`; C original `(u,v)=(4,-1)`, score `15`, with nonunique split
+representations; D1 the segment `(t,4-t)`, `1<=t<=3`, value `4`; D2 infeasible
+with Phase I minimum `1`; D3 unbounded above with ray `(1,0)+theta*(1,1)`.
+These are expected mathematical values, not recorded MATLAB solver output.
+
+## Lab 2 companions on 2026-10-25
+
+New independent scripts are `matlab/labs/lab_02_probability.m` and
+`matlab/labs/lab_02_courier.m`. They require Optimization Toolbox, encode
+bounds as matrix rows, check solver outcomes and hand certificates, and draw
+the task's bar charts. Constraint and optimality tolerances are `1e-9`;
+assertions use absolute tolerance `1e-7`.
+
+The agent attempted:
+
+```sh
+matlab -batch "disp(version); run('matlab/labs/lab_02_probability.m'); run('matlab/labs/lab_02_courier.m');"
+```
+
+The installed launcher exited with code 1 and no output. Neither MATLAB
+execution nor figure rendering is verified; no release or solver output is
+attributed to this attempt. Exact Python rational arithmetic independently
+checked the minimax supporting coefficients and mixture, and the courier edge
+loads and costs. The notes give global hand bounds for every claimed optimum.
+
+Expected results: probability part (a) has `E[X]=0.21` and a nonunique optimal
+distribution with `p3=p5=0.3`, `p2=0`, `p1+p4=0.4`; `E[Y]` ranges from
+`0.96` to `1.22`. Part (b) has `p2=10/37`, `p5=27/37` and both expectations
+`15/74`. Courier loads `M=7,8` are infeasible; `M=9,10,11` give deliveries
+`(2.5,4,2.5)`, `(3.5,4,2.5)`, `(4.5,4,2.5)` and full costs `40,42,44`.
+
+The user's report of full credit concerns the original courier submission,
+not execution of these new scripts. Lab 3 is only a starter copy.
+
 ## Execution on 2026-10-04
 
 The user ran the command below in a normal terminal from the repository root

@@ -2,6 +2,72 @@
 
 [English](matlab-verification.md) | Polski
 
+## Trening do laboratorium 3 w dniu 2026-10-25
+
+Wymyślone materiały przygotowawcze mają dwa nowe skrypty:
+`matlab/labs/lab_03_demo.m` i `matlab/labs/lab_03_practice_answers.m`.
+Pierwszy odtwarza zadane ręczne bazy i rozwiązuje przykład w postaci oryginalnej
+i standardowej. Drugi rozwiązuje modele referencyjne i sprawdza dopuszczalność,
+odtwarzanie celu, wartości fazy I, nadmiarowe zmienne rozszczepione,
+wielokrotne optima, sprzeczność i kierunek poprawy. Wywołania solvera jawnie
+wybierają `dual-simplex-highs`, z tolerancjami ograniczeń i optymalności `1e-9`
+oraz bezwzględną tolerancją asercji `1e-7`.
+
+Agent podjął próbę:
+
+```sh
+matlab -batch "disp(version); run('matlab/labs/lab_03_demo.m'); run('matlab/labs/lab_03_practice_answers.m');"
+```
+
+Launcher ponownie zakończył się kodem 1 z pustym logiem. Tej próbie nie
+przypisuje się wyników MATLAB-a, wersji ani renderowania wykresów. Oba skrypty
+pozostają niezweryfikowane w MATLAB-ie. Dokładna eliminacja wymierna
+i wyliczanie wierzchołków w Pythonie niezależnie sprawdziły obie postacie
+każdego modelu ze skończonym optimum, wszystkie pokazane ręczne bazy
+i wskaźniki, problemy fazy I, zmiany zasobów i stałe w celu. Oddzielne dokładne
+certyfikaty sprawdziły sprzeczność i kierunek poprawy; żaden wniosek nie opiera
+się na statusie solvera.
+
+Oczekiwane wyniki: przykład `(8/3,8/3)`, zysk `56/3`; A `(4,3)`, zysk `32`,
+lub `(5,5/2)`, zysk `35` po zmianie zasobu; B `(3,1)`, koszt `9`,
+suma fazy I `0`; C oryginalne `(u,v)=(4,-1)`, wynik `15`, z niejednoznacznym
+rozszczepieniem; D1 odcinek `(t,4-t)`, `1<=t<=3`, wartość `4`; D2 sprzeczne
+z minimum fazy I `1`; D3 nieograniczone z góry z promieniem
+`(1,0)+theta*(1,1)`. To oczekiwane wartości matematyczne, a nie zapisane wyniki
+solvera MATLAB-a.
+
+## Skrypty laboratorium 2 w dniu 2026-10-25
+
+Nowe niezależne skrypty to `matlab/labs/lab_02_probability.m` i
+`matlab/labs/lab_02_courier.m`. Wymagają Optimization Toolbox, zapisują
+ograniczenia zmiennych jako wiersze macierzy, sprawdzają wyniki solvera
+i certyfikaty ręczne oraz rysują wymagane wykresy słupkowe. Tolerancje
+ograniczeń i optymalności wynoszą `1e-9`; asercje stosują tolerancję
+bezwzględną `1e-7`.
+
+Agent podjął próbę:
+
+```sh
+matlab -batch "disp(version); run('matlab/labs/lab_02_probability.m'); run('matlab/labs/lab_02_courier.m');"
+```
+
+Zainstalowany launcher zakończył się kodem 1 bez komunikatu. Nie zweryfikowano
+wykonania MATLAB-a ani renderowania wykresów; tej próbie nie przypisuje się
+wersji ani wyników solvera. Dokładna arytmetyka wymierna w Pythonie niezależnie
+sprawdziła współczynniki certyfikatu minimaksowego i mieszaninę oraz ładunki
+na krawędziach i koszty kuriera. Notatki podają globalne oszacowania ręczne
+dla każdego deklarowanego optimum.
+
+Oczekiwane wyniki: w części (a) zadania o prawdopodobieństwie `E[X]=0.21`,
+a niejednoznaczny rozkład optymalny spełnia `p3=p5=0.3`, `p2=0`,
+`p1+p4=0.4`; `E[Y]` zmienia się od `0.96` do `1.22`. Część (b) daje
+`p2=10/37`, `p5=27/37` i obie wartości oczekiwane `15/74`.
+Ładunki kuriera `M=7,8` są niedopuszczalne; `M=9,10,11` dają dostawy
+`(2.5,4,2.5)`, `(3.5,4,2.5)`, `(4.5,4,2.5)` i pełne koszty `40,42,44`.
+
+Informacja użytkownika o komplecie punktów dotyczy oryginalnego rozwiązania
+kurierskiego, nie wykonania nowych skryptów. Laboratorium 3 to jedynie kopia startowa.
+
 ## Wykonanie 2026-10-04
 
 Użytkownik uruchomił poniższe polecenie w zwykłym terminalu z katalogu głównego

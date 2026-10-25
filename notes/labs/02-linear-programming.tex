@@ -1,0 +1,319 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Mathematical modeling -- Lab 2: linear programming}}
+\title{\textbf{Mathematical Modeling}\\[2mm]\large Lab 2: distributions and courier deliveries}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{From a statement to solver matrices}
+Both tasks ask us to choose quantities subject to linear restrictions. First
+define the variables, derive the objective and constraints, and check feasibility.
+Only then assemble the numerical arrays. We use column decision vectors and the
+convention
+\[
+  \min f^Tv,\qquad Av\leq b,\qquad A_{\mathrm{eq}}v=b_{\mathrm{eq}}.
+\]
+Every row is one restriction; every column belongs to one decision variable.
+Bounds can be written as matrix rows:
+\[
+  \ell\leq v\leq u
+  \quad\Longleftrightarrow\quad
+  \underbrace{\begin{bmatrix}-I\\I\end{bmatrix}}_{A}v
+  \leq\underbrace{\begin{bmatrix}-\ell\\u\end{bmatrix}}_b.
+\]
+The lower bound changes sign because $v_i\geq\ell_i$ becomes
+$-v_i\leq-\ell_i$. The MATLAB scripts below put all bounds into these rows
+and pass empty lower/upper-bound arguments to \texttt{linprog}. Using its
+\texttt{lb}, \texttt{ub} arguments instead describes the same feasible set.
+
+\section{Group 1: choosing a probability distribution}\label{sec:probability}
+\subsection{Task statement}
+\begin{otherlanguage}{polish}
+  Dana jest zmienne losowe $X$ oraz $Y$ o dziedzinie
+  $[5]=\{1,2,3,4,5\}$ przyjmujące wartości zgodnie z macierzami
+  przedstawionymi na dole tego pliku.
+  Naszym celem jest znalezienie rozkładu prawdopodobieństwa
+  $P=(p_i)_{i\in[5]}$ takiego, który minimalizuje wartość:
+  \begin{enumerate}[label=\alph*)]
+    \item $E_P[X]$ (przy dodatkowym założeniu, że każde prawdopodobieństwo
+          $p_i$ (dla $i\in[5]$) jest co najwyżej równe $0.3$),
+    \item $z$ ograniczającą z góry jednocześnie wartości: $E_P[x]$ oraz $E_P[Y]$.
+  \end{enumerate}
+  Zaprojektuj i zaimplementuj dwa modele programowania liniowego, które znajdą
+  optymalne rozkłady prawdopodobieństwa dla powyższych podpunktów. Ile wynoszą
+  wartości oczekiwane w każdym z tych przypadków? W każdym podpunkcie,
+  zwizualizuj uzyskane rozkłady prawdopodobieństwa przy pomocy wykresów słupkowych
+  (przydatna może być funkcja \texttt{bar}).
+\end{otherlanguage}
+The supplied value arrays are
+\[
+  \begin{array}{c|rrrrr}
+    i&1&2&3&4&5\\\hline
+    X(i)&1.2&2.1&-0.4&1.2&-0.5\\
+    Y(i)&1.2&-0.6&2.4&-0.1&0.5
+  \end{array}.
+\]
+
+\subsection{Variables and expectations}
+The outcomes and their values are fixed. The decisions are the probabilities
+$p=(p_1,\ldots,p_5)^T$, with $p_i\geq0$ and $\sum_i p_i=1$.
+Use the value vectors
+\[
+  \xi=(1.2,2.1,-0.4,1.2,-0.5)^T,\qquad
+  \eta=(1.2,-0.6,2.4,-0.1,0.5)^T.
+\]
+Then
+\[
+  E_P[X]=\xi^Tp,\qquad E_P[Y]=\eta^Tp.
+\]
+These are weighted averages, so they are linear in the unknown probabilities.
+The $0.3$ cap is an extra condition in part (a) only.
+
+\subsection{Part (a): minimize one expectation}
+The complete LP is
+\[
+  \min\xi^Tp,\qquad
+  \begin{bmatrix}-I_5\\I_5\end{bmatrix}p
+  \leq\begin{bmatrix}0_5\\0.3\,\mathbf1_5\end{bmatrix},
+  \qquad\mathbf1_5^Tp=1.
+\]
+To lower the expectation, place as much probability as allowed on the smallest
+values: $X(5)=-0.5$ and $X(3)=-0.4$ each receive $0.3$.
+The remaining $0.4$ goes to outcomes 1 and 4, both with value $1.2$.
+Outcome 2 has a larger value and receives zero. Thus all optimal distributions are
+\[
+  p=(t,0,0.3,0.4-t,0.3)^T,\qquad 0.1\leq t\leq0.3.
+\]
+The interval ensures that both $p_1$ and $p_4$ remain between zero and $0.3$.
+For a direct lower-bound certificate, eliminate $p_1+p_4$ using the sum:
+\[
+  E_P[X]=1.2+0.9p_2-1.6p_3-1.7p_5
+  \geq1.2-1.6(0.3)-1.7(0.3)=0.21.
+\]
+Every displayed distribution attains this bound. Its other expectation is
+\[
+  E_P[Y]=0.83+1.3t\in[0.96,1.22].
+\]
+For example, $p=(0.1,0,0.3,0.3,0.3)^T$ gives
+$E_P[X]=0.21$ and $E_P[Y]=0.96$. Different optimal bar charts can therefore
+be equally correct: part (a) minimizes $E_P[X]$, not $E_P[Y]$.
+
+\subsection{Part (b): minimize a common upper bound}
+For a fixed distribution, the smallest number bounding both expectations is
+$\max\{E_P[X],E_P[Y]\}$. Introduce $z$ as a sixth decision variable and solve
+\[
+  \min z,\qquad \xi^Tp-z\leq0,\qquad\eta^Tp-z\leq0,
+  \qquad p\geq0,\quad\mathbf1_5^Tp=1.
+\]
+For $v=(p_1,\ldots,p_5,z)^T$, the solver arrays are
+\[
+  f=\begin{bmatrix}0_5\\1\end{bmatrix},\quad
+  A=\begin{bmatrix}\xi^T&-1\\\eta^T&-1\\-I_5&0_5\end{bmatrix},\quad
+  b=0_7,\quad A_{\mathrm{eq}}=\begin{bmatrix}\mathbf1_5^T&0\end{bmatrix},
+  \quad b_{\mathrm{eq}}=1.
+\]
+Here $A$ has seven rows and six columns. Its last five rows restrict the
+probabilities, leaving $z$ unrestricted in sign. The $0.3$ cap is absent.
+
+\paragraph{Hand solution and a global certificate.}
+Outcome 5 favors $X$; outcome 2 favors $Y$. Mixing just these two, set
+$p_2=t$, $p_5=1-t$. Their expectations are
+\[
+  E_P[X]=-0.5+2.6t,\qquad E_P[Y]=0.5-1.1t.
+\]
+Balancing them gives $3.7t=1$, hence
+\[
+  p^*=(0,10/37,0,0,27/37)^T,\qquad
+  E_{P^*}[X]=E_{P^*}[Y]=z^*=15/74\approx0.202703.
+\]
+Balancing a chosen pair alone would not rule out a better mixture involving
+other outcomes. To prove global optimality, observe that
+\[
+  \frac{11\xi+26\eta}{37}
+  =\left(\frac65,\frac{15}{74},\frac{58}{37},\frac{53}{185},\frac{15}{74}\right)^T
+  \geq\frac{15}{74}\,\mathbf1_5.
+\]
+For any feasible distribution and upper bound,
+\[
+  z\geq\frac{11}{37}E_P[X]+\frac{26}{37}E_P[Y]
+  \geq\frac{15}{74}\sum_i p_i=\frac{15}{74}.
+\]
+Our distribution attains this bound. Equality requires zero mass at outcomes
+1, 3 and 4 and equal expectations, so this optimum is unique.
+
+\subsection{MATLAB implementation and comparison}
+Run \href{run:matlab/labs/lab_02_probability.m}{\texttt{lab\_02\_probability.m}}
+from the repository root:
+\begin{lstlisting}[language=Matlab]
+run('matlab/labs/lab_02_probability.m')
+\end{lstlisting}
+The script prints both expectations and the probability vectors, draws one bar
+chart for each part, and checks feasibility and objective values with absolute
+tolerance $10^{-7}$. It uses solver constraint and optimality tolerances
+$10^{-9}$. For part (a), it checks the optimal family rather than requiring
+one particular vector. For part (b), it checks the unique vector above.
+
+\section{Group 5: deliveries along a fixed courier route}\label{sec:courier}
+\subsection{Task statement}
+\begin{otherlanguage}{polish}
+  W pewnej firmie kurierskiej kurier przewozi paczki. Swoją trasę rozpoczyna
+  w centrum logistycznym, a następnie podąża zgodnie z trasą przedstawioną
+  na poniższym rysunku (centrum logistyczne oznaczono jako 0), kończąc w punkcie
+  0 po odwiedzeniu wcześniej wszystkich punktów.
+\end{otherlanguage}
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small}]
+    \node[draw,circle] (zero) at (0,2) {0};
+    \node[draw,circle] (one) at (3,2) {1};
+    \node[draw,circle] (two) at (3,0) {2};
+    \node[draw,circle] (three) at (0,0) {3};
+    \draw[model flow] (zero)--node[above] {$2$} (one);
+    \draw[model flow] (one)--node[right] {$3$} (two);
+    \draw[model flow] (two)--node[below] {$1$} (three);
+    \draw[model flow] (three)--node[left] {$1.5$} (zero);
+  \end{tikzpicture}
+  \caption{The prescribed route and its edge cost weights. Only delivery
+    quantities are decisions; the route is fixed.}
+\end{figure}
+\begin{otherlanguage}{polish}
+  Kurier rozpoczyna podróż z ładunkiem $M$ kilogramów. Następnie, w każdym
+  kolejnym punkcie podróży zostawia pewną liczbę kilogramów, przy czym:
+  \begin{itemize}
+    \item w punkcie 1 musi zostawić przynajmniej 2 kilogramy, a maksymalnie 6 kilogramów,
+    \item w punkcie 2 musi zostawić przynajmniej 4 kilogramy, a zostawić maksymalnie 7 kilogramów,
+    \item w punkcie 3 musi zostawić przynajmniej 2.5 kilograma, a zostawić maksymalnie 5 kilogramów.
+  \end{itemize}
+  Zaprojektuj odpowiedni model programowania liniowego, który wyznaczy, ile
+  kilogramów musi zostawić w każdym z punktów tak, aby spełnić warunki i
+  zminimalizować koszt podróży, który liczony jest następująco:
+  \begin{itemize}
+    \item koszt przejechania krawędzi to jej waga przemnożona przez wagę wiezionego ładunku,
+    \item koszt całej podróży to sumaryczny koszt przejechanych krawędzi.
+  \end{itemize}
+  \begin{sloppypar}
+    Rozwiąż zaprojektowany model przy pomocy funkcji \texttt{linprog} kolejno
+    dla wartości $M=7,8,9,10,11$. Ponadto, przy pomocy wykresu słupkowego
+    zwizualizuj uzyskane rozwiązania dla każdego punktu na trasie i każdej
+    wartości $M$ (przydatna może być funkcja \texttt{bar}).
+  \end{sloppypar}
+\end{otherlanguage}
+
+\subsection{Variables, loads, and the objective}
+Let $x_i$ be kilograms delivered at point $i$. The initial mass $M$ is a given
+parameter for each run. Masses are continuous. The load decreases after each
+delivery, so the objective is the sum of the following costs:
+\begin{center}
+  \begin{tabular}{cll}\toprule
+    Edge & Load on departure (kg) & Edge cost\\\midrule
+    $0\to1$ & $M$ & $2M$\\
+    $1\to2$ & $M-x_1$ & $3(M-x_1)$\\
+    $2\to3$ & $M-x_1-x_2$ & $M-x_1-x_2$\\
+    $3\to0$ & $M-x_1-x_2-x_3$ & $1.5(M-x_1-x_2-x_3)$\\\bottomrule
+  \end{tabular}
+\end{center}
+Thus the total trip cost is
+\[
+  C_M(x)=7.5M-5.5x_1-2.5x_2-1.5x_3.
+\]
+Delivering one kilogram at point 1 saves the weights of all remaining edges,
+$3+1+1.5=5.5$. The analogous savings at points 2 and 3 are $2.5$ and $1.5$.
+This explains the negative coefficients. The source does not specify a currency
+unit, so costs are reported in the units induced by its edge weights.
+
+\subsection{The complete matrix model}
+With $x=(x_1,x_2,x_3)^T$, minimize $f^Tx$ using
+\[
+  f=\begin{bmatrix}-5.5\\-2.5\\-1.5\end{bmatrix},\qquad
+  \underbrace{\begin{bmatrix}
+      1&1&1\\
+      -1&0&0\\0&-1&0\\0&0&-1\\
+      1&0&0\\0&1&0\\0&0&1
+    \end{bmatrix}}_{A\in\mathbb R^{7\times3}}x
+  \leq
+  \underbrace{\begin{bmatrix}M\\-2\\-4\\-2.5\\6\\7\\5\end{bmatrix}}_b.
+\]
+There are no equality constraints. The first row prevents delivery of more
+than the initial load. Because all deliveries are nonnegative, this also
+ensures that every earlier edge load is nonnegative. The next three rows
+are the minimum deliveries; the last three are the maximum deliveries.
+The condition $x_1+x_2+x_3\geq0$ is already implied and needs no extra row.
+The statement allows returning with undelivered load; an equality
+$\sum_i x_i=M$ need not be imposed as a modeling assumption.
+
+The term $7.5M$ is constant within a run, so omitting it from the solver
+objective preserves the optimizer. Add it back to the returned objective
+value when reporting the cost of the trip, particularly when comparing runs
+with different $M$.
+
+\subsection{Hand solution and feasibility}
+The minimum deliveries total $2+4+2.5=8.5$ kg. Thus $M=7$ and $M=8$
+are infeasible. For $M=9,10,11$, start with these minimum deliveries and
+allocate the remaining $M-8.5$ kg. Each extra kilogram saves most when
+delivered at point 1. Its upper bound allows four extra kilograms, more
+than the $0.5$, $1.5$, or $2.5$ kg available in these cases. Hence
+\[
+  x^*(M)=(M-6.5,4,2.5)^T,\qquad M\in\{9,10,11\}.
+\]
+For a global certificate, write $S=x_1+x_2+x_3$. Every feasible point satisfies
+\[
+  5.5x_1+2.5x_2+1.5x_3
+  =5.5S-3x_2-4x_3\leq5.5M-3(4)-4(2.5)=5.5M-22.
+\]
+Consequently $C_M(x)\geq2M+22$, with equality at the stated delivery vector.
+Equality requires $S=M$, $x_2=4$, and $x_3=2.5$, so each feasible case here
+has a unique optimizer.
+\begin{center}
+  \begin{tabular}{crrrr}\toprule
+    $M$ (kg) & $x_1$ (kg) & $x_2$ (kg) & $x_3$ (kg) & Minimum trip cost\\\midrule
+    7 & \multicolumn{4}{c}{Infeasible}\\
+    8 & \multicolumn{4}{c}{Infeasible}\\
+    9 & 2.5 & 4 & 2.5 & 40\\
+    10 & 3.5 & 4 & 2.5 & 42\\
+    11 & 4.5 & 4 & 2.5 & 44\\\bottomrule
+  \end{tabular}
+\end{center}
+All available load is delivered at these optima because each delivery saves
+cost and the upper bounds do not prevent it. This is a conclusion for these
+inputs, rather than an extra equality added to the task.
+
+\subsection{MATLAB implementation and comparison}
+Run \href{run:matlab/labs/lab_02_courier.m}{\texttt{lab\_02\_courier.m}}:
+\begin{lstlisting}[language=Matlab]
+run('matlab/labs/lab_02_courier.m')
+\end{lstlisting}
+The script runs all five requested loads, checks infeasibility for 7 and 8,
+and compares the remaining cases with the hand solution. It independently
+recomputes the full trip cost from the four edge loads. Solver tolerances are
+$10^{-9}$; comparison tolerance is $10^{-7}$. The grouped bar chart retains
+ticks for every $M$ and uses missing values for infeasible cases: zero bars
+would incorrectly suggest a feasible zero-delivery solution.
+
+\section{Sources and editorial remarks}
+Task sources: Hubert Grochowski, \texttt{Sam2Gr1.pdf} and
+\texttt{Sam2Gr5.pdf}, one page each, headed Lab 2, academic year 2026/2027.
+Originals are at \path{../Labs/tasks/} relative to the repository root.
+The mathematical task wording is retained in Polish above, with the supplied
+arrays typeset as a table and the courier diagram redrawn. Administrative
+submission instructions are omitted. The lowercase $x$ in the probability
+statement's $E_P[x]$ is interpreted as the named random variable $X$.
+
+The user's completed courier submission is
+\path{../Labs/Lab2/RadoslawGlasekLab2.m}; the user reports full lab credit.
+\path{../Labs/Lab2/Lab2.m} is a friend's probability solution and was consulted
+as a comparison, not copied into the companions. The Lab 3 file is a starter
+copy, not evidence of completed Lab 3 work. The original files are preserved.
+The matrix-only formulations, hand certificates and companion scripts are
+independent study additions.
+
+Exact rational checks confirm the displayed supporting coefficients, minimax
+mixture and courier costs. The agent attempted to run both companions through
+the installed MATLAB launcher on 25 October 2026; it exited with code 1 and
+no diagnostic before producing output. Actual MATLAB execution and plot
+rendering therefore remain unverified. Expected results and acceptance
+tolerances are given above; execution status is also recorded in
+\path{docs/matlab-verification.md}.
+\end{document}

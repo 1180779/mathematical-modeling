@@ -1,0 +1,159 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Simplex practice -- four mock labs}}
+\title{\textbf{Mathematical Modeling}\\[2mm]\large Four mock labs: standard form and simplex}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+
+\section*{How to use these tasks}
+Complete the solved demo first. Then attempt each mock lab before opening
+the separate answer PDF or its reference MATLAB script.
+The time budgets below are suggested practice limits. Each task is independent.
+For hand work, standard form means $Sv=b$, $v\geq0$, with a maximization
+objective. Convert minimization by negating the objective. For MATLAB, use
+\texttt{linprog} with \texttt{dual-simplex-highs}; remember that it minimizes.
+Put variable bounds into matrix rows and pass empty \texttt{lb}, \texttt{ub}.
+
+In every submission, include variables and units, the original model, the
+standard-form matrix and variable order, a starting-basis check, the requested
+hand work, MATLAB arrays and output, and an interpretation in the original
+variables. Check solver status, signs, constraint residuals and the objective.
+Use $10^{-7}$ as the absolute comparison tolerance. Do not require identical
+optimal vectors or split-variable values when the representation is nonunique.
+
+For hand pivots use the most negative $z_j-c_j$, breaking entering ties by
+smaller column index. Break leaving-ratio ties by the smaller basic-variable
+index. Keep variable headings fixed. Include $c_B$, $z_j$, and $z_j-c_j$;
+place slash ratios and the leaving arrow outside the RHS, as in the demo.
+
+\section{Mock lab A: a feasible slack start (40 minutes)}
+A workshop makes two divisible products. Product 1 earns 5 monetary units per
+batch and uses 3 hours of assembly and 1 hour of finishing. Product 2 earns
+4 per batch and uses 2 hours of each resource. There are 18 assembly hours and
+10 finishing hours. Unsold inventory is not required and production may be zero.
+\begin{enumerate}[leftmargin=*]
+  \item Formulate the profit-maximizing LP. State the dimensions of all arrays.
+  \item Add slacks $s_1,s_2$ in that order. Use the fixed column order
+        $(x_1,x_2,s_1,s_2)$. Identify and verify an initial BFS.
+  \item Solve by hand, showing every tableau. Explain the stopping condition.
+  \item Verify both the original inequalities and standard-form equalities
+        with MATLAB. Report production, unused hours and total profit.
+  \item Draw the feasible polygon and mark your hand pivot path.
+  \item Repeat the solver calculation with 20 assembly hours and unchanged
+        finishing hours. Explain the change in production and profit.
+\end{enumerate}
+Suggested self-marking: model 2, standard form/start 2, pivots 3,
+MATLAB checks 2, interpretation 1 (10 points total).
+
+\clearpage
+\section{Mock lab B: a start that needs Phase I (50 minutes)}
+Two divisible feed components cost 2 and 3 monetary units per kg. Their masses
+are $x_1,x_2\geq0$. At least 4 kg of feed is required. A processing condition
+requires exactly $x_1+3x_2=6$. Minimize total cost.
+\begin{enumerate}[leftmargin=*]
+  \item Write the original LP. Explain why subtracting a surplus variable
+        from the minimum-mass constraint does not immediately give a feasible
+        slack/surplus basis.
+  \item Use the original standard-form order $(x_1,x_2,s_1)$.
+        Add artificials $a_1,a_2$ in that order for the hand calculation,
+        giving $(x_1,x_2,s_1,a_1,a_2)$.
+  \item Start with $(a_1,a_2)$ basic and maximize $-a_1-a_2$.
+        Construct the indicator row from the actual basic coefficients.
+        Carry out Phase I and state what its optimum proves.
+  \item Remove artificial columns when justified. Recompute the original
+        objective as a maximization of negative cost and determine whether
+        a Phase II pivot is required.
+  \item Solve the original LP with MATLAB, then solve its original
+        three-variable standard form without artificial variables. Explain
+        why the solver input does not require your hand Phase I variables.
+  \item Independently eliminate one variable using the equality and minimize
+        the resulting one-variable expression on its feasible interval.
+\end{enumerate}
+Suggested self-marking: model/standard form 2, Phase I 4, Phase II 2,
+solver and independent check 2 (10 points total).
+
+\section*{Preparation note}
+This is an extension after the slack-start task. Read Chapter 3's initialization
+section before attempting it if Phase I is unfamiliar.
+
+\clearpage
+\section{Mock lab C: recover the original variables (45 minutes)}
+A continuous planning model has a signed adjustment $u$ with no sign
+restriction, and a second adjustment $v$ satisfying $-1\leq v\leq2$.
+Maximize the score
+\[
+  F(u,v)=3u+2v+5
+\]
+subject to
+\[
+  -u-v\geq-3,\qquad -u+v\leq1.
+\]
+The score and variables are abstract numerical quantities; no integrality is
+assumed.
+\begin{enumerate}[leftmargin=*]
+  \item Convert the first inequality to a $\leq$ row, explaining the sign
+        reversal. In the original variables, assemble all restrictions into
+        $A(u,v)^T\leq b$. Do not accidentally impose $u\geq0$ or $v\geq0$.
+  \item Write $u=u^+-u^-$ and $v=w-1$, with $u^+,u^-,w\geq0$.
+        Derive the new RHS values, the upper bound on $w$, the objective
+        coefficients, and the objective constant.
+  \item Add slacks $s_1,s_2,s_3$ and use the fixed standard-form order
+        $(u^+,u^-,w,s_1,s_2,s_3)$. Verify a feasible slack basis and calculate
+        its meaning in the original variables.
+  \item Perform the improving hand pivot(s). Recover $u,v$ and the full
+        score, including the objective constant.
+  \item Solve both formulations with MATLAB. Compare recovered original
+        decisions and full scores. Must the solver return exactly the same
+        individual values of $u^+$ and $u^-$ as your hand calculation?
+  \item Give a direct upper bound on $F$ using $u+v\leq3$ and $v\geq-1$.
+\end{enumerate}
+Suggested self-marking: signs/domains 2, transformation 3, simplex 2,
+recovery and solver comparison 2, certificate 1 (10 points total).
+
+\clearpage
+\section{Mock lab D: diagnose the outcome (40 minutes)}
+For each model below, classify the mathematical outcome before interpreting
+any solver output. All variables are continuous and nonnegative.
+\subsection*{D1: a finite maximum}
+\[
+  \max(x_1+x_2),\qquad x_1+x_2\leq4,\quad x_1\leq3,\quad x_2\leq3.
+\]
+Convert to standard form using three slacks. Find the optimal value, give
+two distinct optimal points, and describe every optimizer. Verify the model
+with MATLAB. Explain why a different returned vector need not be an error.
+
+\subsection*{D2: competing requirements}
+\[
+  \min(x_1+2x_2),\qquad x_1+x_2\geq5,\quad2x_1+2x_2\leq8.
+\]
+Give a short mathematical feasibility certificate. For an additional Phase I
+check, use
+\[
+  x_1+x_2-s+a=5,\qquad2x_1+2x_2+t=8,
+  \qquad x_1,x_2,s,t,a\geq0.
+\]
+Determine the minimum possible artificial sum $a$ and exhibit a point attaining
+it. Compare with the solver status for the original model. Explain why no
+original optimal decision vector should be reported.
+
+\subsection*{D3: an improving direction}
+\[
+  \max(2x_1+x_2),\qquad x_1-x_2\leq1.
+\]
+Write standard form with one slack. Carry out the first pivot from the slack
+basis and inspect the next entering column. Give a feasible point and a
+nonnegative improving ray, verify the constraint along it, and compute the
+objective as a function of its ray parameter. Compare with the solver status.
+
+Suggested self-marking: D1 3, D2 3, D3 4 (10 points total).
+
+\section*{Sources and editorial remarks}
+All four tasks, suggested times and marking guides are invented for practice;
+they are not official Lab 3 assignments. The confirmed Lab 3 topics are simplex
+and standard form. Assessment of Phase I, free-variable transformations or
+a particular MATLAB implementation remains unconfirmed. Tasks B--D deliberately
+broaden practice. The exact lab timetable remains unconfirmed. The original
+Lab 3 starter file is left untouched.
+\end{document}

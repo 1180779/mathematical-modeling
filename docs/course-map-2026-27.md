@@ -5,12 +5,13 @@ English | [Polski](course-map-2026-27.pl.md)
 ## Scope and reading routes
 
 This map covers the supplied `ProgMat_w1.pdf`, `ProgMatc1.pdf`, and handwritten
-`lecture_19_10_2026.pdf` (19 October 2026). Source paths,
+`lecture_19_10_2026.pdf` (19 October 2026), the two supplied Lab 2 tasks,
+and the confirmed Lab 3 topics. Source paths,
 provenance and discrepancies are in the [source inventory](sources.md). Page
 numbers mean PDF pages. Chapter numbers describe the notes' conceptual sequence;
 they are independent of current lecture and sheet numbers. All topics and tasks
 below have developed explanations or hand solutions. Future course coverage,
-assessment emphasis and labs remain unknown. The handwriting establishes the
+detailed assessment requirements and later labs remain unknown. The handwriting establishes the
 19 October lecture date; delivery dates for the slide deck remain unknown.
 
 For modeling, read [Chapter 1](../output/lectures/01-optimization-modeling.pdf),
@@ -23,6 +24,40 @@ lecture confirms cycling, perturbation, Bland's rule, duality and complementarit
 as current topics. Complexity in Chapter 4 and
 [Chapter 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) remain
 enrichment; the supplied current materials do not confirm them as requirements.
+
+## Supplied Lab 2 tasks
+
+Read [Lab 2: distributions and courier deliveries](../output/labs/02-linear-programming.pdf)
+after the modeling sections of Chapters 1–2. The one-page `Sam2Gr1.pdf`
+and `Sam2Gr5.pdf` tasks are developed in full, including probability caps,
+a common upper bound on expectations, load-dependent trip costs, and infeasible
+loads. Matching scripts are `matlab/labs/lab_02_probability.m` and
+`matlab/labs/lab_02_courier.m`. Both use matrix rows for bounds and include
+bar charts. Their actual MATLAB execution remains unverified.
+Lab 3 has not been started; its copied script does not establish task coverage.
+
+## Announced Lab 3 and independent practice
+
+The confirmed Lab 3 topics are simplex and standard form. The exact
+current assignment, required implementation, toolbox and lab date remain
+unconfirmed.
+
+Preparation route:
+
+1. Read Chapter 2's standard-form transformations and Chapter 3's canonical
+   equations, ratio test and initialization.
+2. Work through the [solved demo](../output/labs/03-simplex-demo.pdf) and
+   `matlab/labs/lab_03_demo.m`: two hand pivots, a geometric path and independent
+   original/standard-form solver calls.
+3. Attempt the [four mock labs](../output/labs/03-simplex-practice.pdf) before
+   opening the [answer key](../output/labs/03-simplex-answers.pdf) or
+   `matlab/labs/lab_03_practice_answers.m`.
+
+The invented tasks cover a slack start, Phase I, free/signed variables and
+objective constants, and finite/nonunique/infeasible/unbounded outcomes.
+Their suggested timing and marks are practice aids. Assessment of all these
+extensions remains unconfirmed. Toolbox checks use
+`dual-simplex-highs`; their actual MATLAB execution remains unverified.
 
 ## Supplied lecture 1
 

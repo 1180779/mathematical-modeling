@@ -47,6 +47,43 @@ Hand explanations, exact certificates and diagrams are additions to the slides.
 The [verification record](matlab-verification.md) distinguishes mathematical and
 static checks from actual execution of the new MATLAB companions.
 
+## Supplied Lab 2 tasks
+
+The user supplied two one-page tasks by Hubert Grochowski, headed Lab 2,
+academic year 2026/2027: `../Labs/tasks/Sam2Gr1.pdf` (probability distributions)
+and `../Labs/tasks/Sam2Gr5.pdf` (courier deliveries). The courier route was
+checked visually. Neither task establishes a lab delivery date.
+
+Both are developed in [Lab 2 notes](../output/labs/02-linear-programming.pdf),
+with independent hand certificates and matrix-only `linprog` scripts in
+`matlab/labs/`. The user's `../Labs/Lab2/RadoslawGlasekLab2.m` is the courier
+submission, reported by the user as receiving full credit. The friend's
+`../Labs/Lab2/Lab2.m` probability solution is comparison material only;
+`../Labs/Lab3/RadoslawGlasekLab3.m` is an unstarted lab's starter copy.
+Original scripts remain unchanged. The new companions' MATLAB execution is
+unverified; see the [verification record](matlab-verification.md).
+
+## Confirmed Lab 3 topics and invented practice
+
+The confirmed Lab 3 topics are simplex and conversion to standard form.
+This establishes the broad topics; the exact current assignment, lab date,
+algorithm implementation requirement and toolbox requirement remain unconfirmed.
+
+The [solved demo](../output/labs/03-simplex-demo.pdf),
+[four mock labs](../output/labs/03-simplex-practice.pdf), and
+[separate answers](../output/labs/03-simplex-answers.pdf) are invented preparation
+material with independent data and hand certificates. Their scripts are
+`matlab/labs/lab_03_demo.m` and `matlab/labs/lab_03_practice_answers.m`.
+The timing, marking guides and extensions beyond slack-start simplex are not
+claims about the forthcoming assessment. Original lab files remain untouched.
+
+Solver syntax and the `dual-simplex-highs` selection were checked against
+[MathWorks linprog](https://www.mathworks.com/help/optim/ug/linprog.html) and
+[Linear Programming Algorithms](https://www.mathworks.com/help/optim/ug/linear-programming-algorithms.html)
+on 2026-10-25. Hand primal-simplex paths are distinguished from the solver's
+dual-simplex/presolve behavior. Exact rational verification passed; actual
+MATLAB execution remains unverified, as recorded separately.
+
 ## Historical lectures
 
 Thirteen PDFs are available beside this repository. Their folder labels them as
@@ -76,7 +113,7 @@ For each developed topic, cite the filename and page numbers, distinguish suppli
 material from added explanations, and record any comparison with current classes.
 A current slide deck, handwritten notes from 19 October and one exercise sheet
 have now been supplied. The full current
-syllabus and lab instructions remain unavailable.
+syllabus and further lab instructions remain unavailable.
 
 ## Developed notes and source qualifications
 

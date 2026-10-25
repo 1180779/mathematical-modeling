@@ -5,12 +5,13 @@
 ## Zakres i ścieżki czytania
 
 Mapa obejmuje dostarczone `ProgMat_w1.pdf`, `ProgMatc1.pdf` i odręczny
-`lecture_19_10_2026.pdf` (19 października 2026). Ścieżki źródeł,
+`lecture_19_10_2026.pdf` (19 października 2026), dwa dostarczone zadania z laboratorium 2
+oraz potwierdzone tematy laboratorium 3. Ścieżki źródeł,
 pochodzenie i rozbieżności opisuje [wykaz źródeł](sources.pl.md). Numery stron
 oznaczają strony PDF-ów. Numery rozdziałów opisują pojęciowy tok notatek;
 są niezależne od numerów bieżących wykładów i zestawów. Wszystkie poniższe tematy
 i zadania mają opracowane objaśnienia lub rozwiązania ręczne. Przyszły zakres kursu,
-nacisk na zaliczeniu i laboratoria pozostają nieznane. Odręczne notatki ustalają
+szczegółowe wymagania zaliczeniowe i późniejsze laboratoria pozostają nieznane. Odręczne notatki ustalają
 datę wykładu 19 października; daty zajęć ze slajdów pozostają nieznane.
 
 Do modelowania przeczytaj [rozdział 1](../output/lectures/01-optimization-modeling.pdf),
@@ -23,6 +24,42 @@ potwierdzają cykle, perturbację, regułę Blanda, dualność i komplementarno�
 bieżące tematy. Złożoność w rozdziale 4 oraz
 [rozdział 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) pozostają
 rozszerzeniami; dostarczone bieżące materiały nie potwierdzają ich jako wymagań.
+
+## Dostarczone zadania z laboratorium 2
+
+Przeczytaj [Laboratorium 2: rozkłady i dostawy kurierskie](../output/labs/02-linear-programming.pdf)
+po sekcjach modelowania w rozdziałach 1–2. Jednostronicowe zadania
+`Sam2Gr1.pdf` i `Sam2Gr5.pdf` opracowano w całości: limity prawdopodobieństw,
+wspólna górna granica wartości oczekiwanych, koszt podróży zależny od ładunku
+i niedopuszczalne ładunki początkowe. Odpowiadające skrypty to
+`matlab/labs/lab_02_probability.m` i `matlab/labs/lab_02_courier.m`.
+Oba zapisują ograniczenia zmiennych jako wiersze macierzy i zawierają wykresy
+słupkowe. Ich faktyczne wykonanie w MATLAB-ie pozostaje niezweryfikowane.
+Laboratorium 3 nie zostało rozpoczęte; skopiowany skrypt nie potwierdza zakresu zadań.
+
+## Zapowiedziane laboratorium 3 i samodzielny trening
+
+Potwierdzone tematy laboratorium 3 to sympleks i postać standardowa.
+Dokładne bieżące zadanie, wymagana implementacja, toolbox i data laboratorium
+pozostają niepotwierdzone.
+
+Ścieżka przygotowania:
+
+1. Przeczytaj przekształcenia do postaci standardowej w rozdziale 2 oraz
+   równania kanoniczne, test ilorazów i inicjalizację w rozdziale 3.
+2. Przejdź przez [rozwiązany przykład](../output/labs/03-simplex-demo.pdf) i
+   `matlab/labs/lab_03_demo.m`: dwie ręczne wymiany, ścieżkę geometryczną oraz
+   niezależne wywołania solvera dla postaci oryginalnej i standardowej.
+3. Rozwiąż [cztery próbne laboratoria](../output/labs/03-simplex-practice.pdf), zanim
+   otworzysz [klucz odpowiedzi](../output/labs/03-simplex-answers.pdf) lub
+   `matlab/labs/lab_03_practice_answers.m`.
+
+Wymyślone zadania obejmują start z luzami, fazę I, zmienne swobodne i ze znakiem,
+stałe w celu oraz przypadki skończonego/niejednoznacznego optimum,
+sprzeczności i nieograniczoności. Sugerowane czasy i punkty służą treningowi.
+Ocenianie wszystkich tych rozszerzeń pozostaje niepotwierdzone.
+Sprawdzenia toolboxem używają `dual-simplex-highs`; ich faktyczne wykonanie
+w MATLAB-ie pozostaje niezweryfikowane.
 
 ## Dostarczony wykład 1
 

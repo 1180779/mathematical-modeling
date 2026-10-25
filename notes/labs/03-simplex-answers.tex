@@ -1,0 +1,242 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{templates/modeling-notes}
+\hypersetup{pdftitle={Simplex practice -- answer key}}
+\title{\textbf{Mathematical Modeling}\\[2mm]\large Simplex practice: answer key}
+\author{Personal study notes}
+\date{}
+\begin{document}
+\maketitle
+Attempt the separate practice sheet before reading this document. The results
+below are exact mathematical answers. Run the accompanying reference script
+only after completing your own MATLAB models.
+
+\section{Mock lab A: slack basis and two pivots}
+The original model is
+\[
+  \max(5x_1+4x_2),\qquad
+  \begin{bmatrix}3&2\\1&2\end{bmatrix}x\leq
+  \begin{bmatrix}18\\10\end{bmatrix},\qquad x\geq0.
+\]
+For MATLAB, append $-I_2x\leq0$ to the two resource rows and minimize
+$(-5,-4)x$. Thus $A$ is $4\times2$, $b$ has four entries and $f$ has two.
+For standard form, with $v=(x_1,x_2,s_1,s_2)^T$, use
+\[
+  S=\begin{bmatrix}3&2&1&0\\1&2&0&1\end{bmatrix},\quad
+  b=\begin{bmatrix}18\\10\end{bmatrix},\quad c=(5,4,0,0)^T.
+\]
+The slack BFS is $(0,0,18,10)^T$. Initially $z_j-c_j=(-5,-4,0,0)$.
+Enter $x_1$, remove $s_1$, and obtain
+\[
+  \left[\begin{array}{rrrr|r}
+      1&2/3&1/3&0&6\\0&4/3&-1/3&1&4
+    \end{array}\right],\qquad
+  z_j-c_j=(0,-2/3,5/3,0),\quad z=30.
+\]
+Now enter $x_2$ and remove $s_2$. The final constraint rows are
+\[
+  \left[\begin{array}{rrrr|r}
+      1&0&1/2&-1/2&4\\0&1&-1/4&3/4&3
+    \end{array}\right],\qquad
+  z_j-c_j=(0,0,3/2,1/2),\quad z=32.
+\]
+Thus $x^*=(4,3)^T$, both slacks vanish, and profit is 32. The weighted
+$z_j$ rows, including the objective value on the RHS, are respectively
+$(0,0,0,0\mid0)$, $(5,10/3,5/3,0\mid30)$ and
+$(5,4,3/2,1/2\mid32)$.
+
+The feasible polygon has vertices $(0,0),(6,0),(4,3),(0,5)$; the hand path
+visits its first three vertices in that order. A direct certificate is
+\[
+  5x_1+4x_2=\tfrac32(3x_1+2x_2)+\tfrac12(x_1+2x_2)
+  \leq\tfrac32(18)+\tfrac12(10)=32.
+\]
+For 20 assembly hours, the same two resource constraints are tight at
+$x^*=(5,5/2)^T$, with profit 35. The same nonnegative resource weights
+give an upper bound of 35, proving optimality. Extra assembly capacity shifts
+production toward the product with greater assembly use, while finishing remains
+fully used. In MATLAB the standard model uses $S$ as equalities,
+$-I_4v\leq0$ as inequalities, and objective $-c$.
+
+\clearpage
+\section{Mock lab B: two-phase initialization}
+The original model is
+\[
+  \min C=2x_1+3x_2,\qquad x_1+x_2\geq4,\quad x_1+3x_2=6,
+  \qquad x_1,x_2\geq0.
+\]
+For the original MATLAB call, use
+\[
+  f=\begin{bmatrix}2\\3\end{bmatrix},\quad
+  A=\begin{bmatrix}-1&-1\\-1&0\\0&-1\end{bmatrix},\quad
+  b=\begin{bmatrix}-4\\0\\0\end{bmatrix},\quad
+  A_{\mathrm{eq}}=\begin{bmatrix}1&3\end{bmatrix},\quad b_{\mathrm{eq}}=6.
+\]
+The original standard form is
+\[
+  \begin{bmatrix}1&1&-1\\1&3&0\end{bmatrix}
+  \begin{bmatrix}x_1\\x_2\\s_1\end{bmatrix}
+  =\begin{bmatrix}4\\6\end{bmatrix},\qquad x_1,x_2,s_1\geq0.
+\]
+Setting $x_1=x_2=0$ would give $s_1=-4$ and would also violate the
+second equality. It is not a feasible start. For Phase I, append $a_1,a_2$
+and maximize $-a_1-a_2$:
+\[
+  \left[\begin{array}{rrrrr|r}
+      1&1&-1&1&0&4\\1&3&0&0&1&6
+    \end{array}\right].
+\]
+With $B=(a_1,a_2)$, $c_B=(-1,-1)^T$ and $z_{\mathrm I}=-10$, the initial
+indicator vector is $(-2,-4,1,0,0)^T$. Enter $x_2$ and remove $a_2$:
+\[
+  \left[\begin{array}{rrrrr|r}
+      2/3&0&-1&1&-1/3&2\\1/3&1&0&0&1/3&2
+    \end{array}\right],\quad
+  z_j-c_j=(-2/3,0,1,0,4/3)^T,\quad z_{\mathrm I}=-2.
+\]
+Enter $x_1$ and remove $a_1$. Apply $R_1\leftarrow(3/2)R_1$, then
+$R_2\leftarrow R_2-(1/3)R_1$ using the new row 1:
+\[
+  \left[\begin{array}{rrrrr|r}
+      1&0&-3/2&3/2&-1/2&3\\0&1&1/2&-1/2&1/2&1
+    \end{array}\right].
+\]
+Both artificials are nonbasic and zero. The Phase I indicators are
+$(0,0,0,1,1)^T$, and the optimal artificial sum is zero. Hence the
+original system is feasible. Delete the last two columns and recompute using
+the original maximization coefficients $(-2,-3,0)^T$:
+\[
+  z=-C=-9-\tfrac32s_1,\qquad z_j-c_j=(0,0,3/2)^T.
+\]
+No Phase II pivot is needed. The unique minimum is $C^*=9$ at $(3,1)^T$.
+As an independent check, eliminate $x_1=6-3x_2$. Nonnegativity and the
+minimum total mass give $0\leq x_2\leq1$, and
+$C=12-3x_2$ is smallest at $x_2=1$.
+
+For MATLAB's original standard form, minimize $(2,3,0)^Tv$, use the
+three-column matrix above as equalities, and append $-I_3v\leq0$.
+Artificial variables are a device for our hand initialization; the solver
+handles its own initialization. The reference script separately solves the
+explicit Phase I problem to check that its artificial sum is zero, without
+assuming that the solver follows these particular hand pivots.
+
+\clearpage
+\section{Mock lab C: signs, shifts and recovery}
+The original MATLAB inequalities and minimized objective are
+\[
+  A=\begin{bmatrix}1&1\\-1&1\\0&-1\\0&1\end{bmatrix},\qquad
+  b=\begin{bmatrix}3\\1\\1\\2\end{bmatrix},\qquad
+  f=\begin{bmatrix}-3\\-2\end{bmatrix}.
+\]
+The third row is $v\geq-1$, rather than $v\geq0$. No lower bound is imposed
+on $u$. Recover the full score as $-\texttt{fval}+5$.
+
+Let $u=u^+-u^-$ and $v=w-1$. The three upper inequalities become
+\[
+  u^+-u^-+w\leq4,\qquad -u^++u^-+w\leq2,\qquad w\leq3.
+\]
+The objective is $F=3u^+-3u^-+2w+3$. With standard-form vector
+$y=(u^+,u^-,w,s_1,s_2,s_3)^T\geq0$,
+\[
+  S=\begin{bmatrix}
+    1&-1&1&1&0&0\\-1&1&1&0&1&0\\0&0&1&0&0&1
+  \end{bmatrix},\quad
+  b=\begin{bmatrix}4\\2\\3\end{bmatrix},\quad c=(3,-3,2,0,0,0)^T.
+\]
+The slack start $y=(0,0,0,4,2,3)^T$ represents $(u,v)=(0,-1)$,
+with full score 3. Initially $z_j-c_j=(-3,3,-2,0,0,0)^T$ for the
+variable part of the objective. Enter $u^+$ and remove $s_1$. Adding row 1
+to row 2 gives
+\[
+  \left[\begin{array}{rrrrrr|r}
+      1&-1&1&1&0&0&4\\0&0&2&1&1&0&6\\0&0&1&0&0&1&3
+    \end{array}\right],\qquad z_j-c_j=(0,0,1,3,0,0)^T.
+\]
+The variable objective is 12, so the full score is $12+3=15$. One
+representative optimum is $y=(4,0,0,0,6,3)^T$, recovering
+$(u,v)=(4,-1)$. A direct upper-bound certificate is
+\[
+  F=3(u+v)-v+5\leq3(3)+1+5=15.
+\]
+Equality forces $u+v=3$ and $v=-1$, so the original optimum is unique.
+The split representation is not unique: replacing $(u^+,u^-)$ by
+$(4+t,t)$ for any $t\geq0$ leaves $u$ and the objective unchanged.
+For example $(6,2)$ represents the same signed adjustment as $(4,0)$.
+The zero indicator for $u^-$ reflects this redundancy, not a second original
+decision. Compare recovered variables, not an arbitrarily chosen split.
+
+For MATLAB's standard form, minimize $-c^Ty$ subject to $Sy=b$ and
+$-I_6y\leq0$. Recover the full score as $-\texttt{fval}+3$.
+The different constants in the original and transformed calls are essential.
+
+\clearpage
+\section{Mock lab D: three different outcomes}
+\subsection{D1: an optimal segment}
+In standard form append $I_3$ to the original three-row matrix and use
+$(x_1,x_2,s_1,s_2,s_3)\geq0$. Its slack start is $(0,0,4,3,3)^T$.
+The first restriction gives the bound $x_1+x_2\leq4$. All optimizers are
+\[
+  (x_1,x_2)=(t,4-t),\qquad1\leq t\leq3,
+\]
+with objective value 4. In particular $(1,3)$ and $(3,1)$ are distinct
+optimal points. Check the sum, bounds and objective of the returned vector;
+do not require one endpoint. In the original MATLAB call use resource rows
+$(1,1),(1,0),(0,1)$ with RHS $(4,3,3)^T$, append $-I_2x\leq0$, and
+minimize $(-1,-1)x$.
+
+\subsection{D2: infeasible, with a Phase I certificate}
+The original requirements imply both $x_1+x_2\geq5$ and $x_1+x_2\leq4$,
+an impossibility. For the augmented equations in the question,
+the second gives $x_1+x_2=4-t/2$. Substitution into the first yields
+\[
+  a=1+s+t/2\geq1.
+\]
+The point $(x_1,x_2,s,t,a)=(4,0,0,0,1)$ attains $a=1$, so the Phase I
+minimum is strictly positive. There is no original feasible point and hence
+no original optimal value or optimizer. MATLAB input uses the rows
+$(-1,-1)$ and $(2,2)$ with RHS $(-5,8)^T$, plus nonnegativity rows,
+and objective $(1,2)x$. An infeasible status is the expected outcome.
+
+\subsection{D3: feasible and unbounded above}
+Standard form is $x_1-x_2+s=1$, with $x_1,x_2,s\geq0$. From the slack
+start, enter $x_1$ and remove $s$. The point becomes $(x_1,x_2,s)=(1,0,0)$.
+The objective equation is
+\[
+  z=2+3x_2-2s.
+\]
+Thus the indicator for $x_2$ is $-3$, but its transformed column is $(-1)$:
+there is no positive entry and no leaving row. Set $x_2=\theta$, $s=0$,
+so $x_1=1+\theta$. In original coordinates,
+\[
+  x(\theta)=(1+\theta,\theta)^T=(1,0)^T+\theta(1,1)^T,\qquad\theta\geq0.
+\]
+Its constraint left side stays at 1 and $z(\theta)=2+3\theta\to+\infty$.
+The original MATLAB model minimizes $(-2,-1)x$ subject to $(1,-1)x\leq1$
+and $-I_2x\leq0$. An unbounded status refers to minimization of the negative
+profit; it confirms there is no finite maximum of the original profit.
+
+\section{Reference MATLAB checks}
+\href{run:matlab/labs/lab_03_practice_answers.m}{\texttt{lab\_03\_practice\_answers.m}}
+contains complete solver matrices, feasibility/objective assertions and the
+certificates above. Run from the repository root:
+\begin{lstlisting}[language=Matlab]
+run('matlab/labs/lab_03_practice_answers.m')
+\end{lstlisting}
+Constraint and optimality tolerances are $10^{-9}$; comparisons use absolute
+tolerance $10^{-7}$. For finite optima, check a positive exit flag before using
+the solution. For D2 and D3, inspect the solver message and compare it with the
+independent infeasibility or ray certificate. A numerical failure is not itself
+a mathematical infeasibility proof.
+
+\section{Sources and editorial remarks}
+These are independent solutions to invented practice tasks. The confirmed
+broad Lab 3 topics are simplex and standard form. The questions, certificates, time budgets and answers are
+not official assessment material. The numerical hand results were checked
+with exact rational calculations independently of MATLAB.
+
+The solver interface follows the official
+\href{https://www.mathworks.com/help/optim/ug/linprog.html}{\texttt{linprog} reference}.
+It was checked on 25 October 2026. The demo and reference scripts require Optimization
+Toolbox for their solver calls. Attempted execution through the installed MATLAB
+launcher ended with code 1 and no output; actual MATLAB execution and plot
+rendering remain unverified. See \path{docs/matlab-verification.md}.
+\end{document}

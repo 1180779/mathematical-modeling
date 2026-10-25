@@ -49,6 +49,46 @@ Objaśnienia ręczne, dokładne certyfikaty i diagramy są dodatkami do slajdów
 [Rejestr weryfikacji](matlab-verification.pl.md) odróżnia sprawdzenia matematyczne
 oraz statyczne od rzeczywistego wykonania nowych skryptów MATLAB.
 
+## Dostarczone zadania z laboratorium 2
+
+Użytkownik dostarczył dwa jednostronicowe zadania Huberta Grochowskiego,
+oznaczone jako laboratorium 2, rok akademicki 2026/2027:
+`../Labs/tasks/Sam2Gr1.pdf` (rozkłady prawdopodobieństwa) i
+`../Labs/tasks/Sam2Gr5.pdf` (dostawy kurierskie). Trasę kuriera sprawdzono
+wizualnie. Żadne zadanie nie ustala daty przeprowadzenia laboratorium.
+
+Oba opracowano w [notatkach z laboratorium 2](../output/labs/02-linear-programming.pdf),
+z niezależnymi certyfikatami ręcznymi i skryptami `linprog` zapisującymi
+ograniczenia wyłącznie macierzowo w `matlab/labs/`.
+Plik użytkownika `../Labs/Lab2/RadoslawGlasekLab2.m` jest rozwiązaniem zadania
+kurierskiego; według użytkownika otrzymał komplet punktów. Rozwiązanie
+prawdopodobieństwa znajomego `../Labs/Lab2/Lab2.m` służy wyłącznie do porównania;
+`../Labs/Lab3/RadoslawGlasekLab3.m` to kopia startowa do nierozpoczętego laboratorium.
+Oryginalne skrypty pozostają bez zmian. Wykonanie nowych skryptów w MATLAB-ie
+jest niezweryfikowane; zobacz [rejestr weryfikacji](matlab-verification.pl.md).
+
+## Potwierdzone tematy laboratorium 3 i wymyślony trening
+
+Potwierdzone tematy laboratorium 3 to sympleks i przekształcanie do postaci
+standardowej. Ustala to ogólny zakres; dokładne bieżące zadanie, data
+laboratorium, wymóg implementacji algorytmu i wymóg użycia toolboxa pozostają
+niepotwierdzone.
+
+[Rozwiązany przykład](../output/labs/03-simplex-demo.pdf),
+[cztery próbne laboratoria](../output/labs/03-simplex-practice.pdf) oraz
+[oddzielne odpowiedzi](../output/labs/03-simplex-answers.pdf) to wymyślone materiały
+przygotowawcze z niezależnymi danymi i certyfikatami ręcznymi. Ich skrypty to
+`matlab/labs/lab_03_demo.m` i `matlab/labs/lab_03_practice_answers.m`.
+Czasy, punktacja i rozszerzenia poza sympleks ze startem z luzami nie opisują
+przyszłego zaliczenia. Oryginalne pliki laboratoryjne pozostają bez zmian.
+
+Składnię solvera i wybór `dual-simplex-highs` sprawdzono na stronach
+[MathWorks linprog](https://www.mathworks.com/help/optim/ug/linprog.html) oraz
+[Linear Programming Algorithms](https://www.mathworks.com/help/optim/ug/linear-programming-algorithms.html)
+w dniu 2026-10-25. Ręczne ścieżki sympleksu prymalnego odróżniono od
+sympleksu dualnego i presolve solvera. Dokładna weryfikacja wymierna przeszła;
+faktyczne wykonanie MATLAB-a pozostaje niezweryfikowane, co zapisano oddzielnie.
+
 ## Dawne wykłady
 
 Obok repozytorium znajduje się trzynaście PDF-ów. Nazwa ich katalogu wskazuje na
@@ -78,7 +118,7 @@ Dla każdego opracowywanego tematu podawaj nazwę pliku i numery stron, odróżn
 materiały źródłowe od dodanych objaśnień i zapisuj porównanie z obecnymi zajęciami.
 Dostarczono już slajdy bieżącego wykładu, odręczne notatki z 19 października
 i jeden zestaw ćwiczeń. Pełny bieżący
-program i instrukcje laboratoriów pozostają niedostępne.
+program i dalsze instrukcje laboratoriów pozostają niedostępne.
 
 ## Opracowane notatki i doprecyzowania źródeł
 
