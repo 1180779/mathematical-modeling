@@ -1025,9 +1025,46 @@ use parallel nonnegative multiples of $d$.
 
 \Needspace{18\baselineskip}
 \section{Finding an initial feasible basis}\label{sec:initialization}
-A simplex step preserves feasibility; it cannot repair an infeasible starting
-basis. Before using the primal algorithm, convert the constraints to equalities
-and establish a BFS.
+So far, every primal simplex calculation has started with a feasible basis
+already available. From that starting vertex, the ratio test lets us move
+without leaving the feasible set. But a new linear program supplies constraints
+and an objective, not necessarily a starting vertex. Before asking which
+variable should enter the basis to improve the objective, we must answer a
+more basic question: \emph{where can the algorithm start?}
+
+\paragraph{What exactly are we looking for?}
+After converting the constraints to $Ax=b$, $x\geq0$, we need $m$ independent
+columns, indexed by $B$, such that
+\[
+  x_N=0,\qquad x_B=A_B^{-1}b\geq0.
+\]
+Independence makes the basic solution well defined; nonnegativity makes it
+feasible. An arbitrary invertible $A_B$ guarantees only the first property.
+The initial point need not have a good objective value: any BFS will let
+primal simplex begin. Geometrically, initialization finds a first vertex;
+the subsequent pivots search for a better one. A primal simplex step preserves
+feasibility, so its usual ratio test assumes this starting point is already
+feasible.
+
+\paragraph{When is the starting point immediate?}
+For constraints $Ax\leq b$ with $b\geq0$, adding slacks gives
+$Ax+s=b$. Setting $x=0$ leaves $s=b\geq0$, and the slack columns form the
+identity matrix. Thus the familiar slack basis solves initialization for free.
+This is one common reason a worked example can begin directly with a feasible
+tableau.
+
+A lower bound shows why that construction does not always work. Consider
+\[
+  x_1+x_2\geq2,\qquad x_1,x_2\geq0.
+\]
+Its equality form is $x_1+x_2-s=2$, with $s\geq0$. Setting $x_1=x_2=0$
+would give $s=-2$, which is inadmissible. Yet the constraint is feasible:
+$(x_1,x_2,s)=(2,0,0)$ satisfies it. A failed slack or surplus start therefore
+does \emph{not} prove that the problem is infeasible. Here we can spot a
+feasible basis by inspection; in a larger coupled system it may be difficult
+to find one. Equality constraints can cause the same difficulty because they
+do not automatically supply slack columns. The following rules identify
+which rows offer an immediate start and which may need help.
 \begin{center}
   \begin{tabular}{>{\raggedright\arraybackslash}p{0.23\linewidth}>{\raggedright\arraybackslash}p{0.32\linewidth}>{\raggedright\arraybackslash}p{0.35\linewidth}}\toprule
     Constraint or situation & Equality form & Initial basis implication\\\midrule
@@ -1042,19 +1079,34 @@ Slacks and surplus variables describe the original constraint. Artificial
 variables are temporary additions used to find feasibility; they must be zero
 in a solution of the original problem.
 
-For $Ax\leq b$, $b\geq0$, slacks give the immediate basis $x=0$, $s=b$.
 More generally, identity columns already present in an equality system can form
 an initial basis when their RHS values are nonnegative. An identity block with
 a negative basic value is not a feasible basis. Zero RHS values are allowed but
 produce degeneracy.
 
 \subsection{Phase I: a feasibility problem}\label{sec:phase-one}
+\paragraph{Create a problem with an easy starting point.}
+If no feasible basis is apparent, introduce temporary \emph{artificial
+  variables}. In the lower-bound example, write
+\[
+  x_1+x_2-s+a=2,\qquad x_1,x_2,s,a\geq0.
+\]
+Now $(x_1,x_2,s,a)=(0,0,0,2)$ is an immediate BFS with $a$ basic.
+It satisfies the augmented equation, but its original coordinates still
+violate $x_1+x_2\geq2$: the artificial variable supplies the missing amount.
+If we can reduce $a$ to zero while keeping the augmented system feasible,
+the original constraint will hold. For example, increasing $x_1$ from zero
+to two reduces $a$ from two to zero. This suggests a temporary objective:
+drive all artificial variables to zero before optimizing the original objective.
+
 After normalizing equality rows to $b\geq0$, a universally available augmented
 system is
 \[
   Ax+a=b,\qquad x\geq0,\quad a\geq0,
 \]
 where each row has an artificial variable. It has the BFS $x=0$, $a=b$.
+Here $a=(a_1,\ldots,a_m)^T$ is the vector of artificial variables;
+its columns form an added identity matrix, $[A\ I]$.
 If some usable basic columns already exist, add artificials only to the rows
 that need them. Phase I solves
 \begin{lecturecore}
@@ -1062,6 +1114,14 @@ that need them. Phase I solves
     \min w=\sum_i a_i\quad\text{or, equivalently,}\quad\max(-w).
   \end{equation}
 \end{lecturecore}
+The sum $w$ measures how much artificial support remains. Because every
+$a_i\geq0$, it is zero exactly when all artificials are zero. During this
+\emph{Phase I}, the original coefficients $c_j$ play no role: we are looking
+for any feasible starting point, not yet improving $c^Tx$. If feasibility is
+established, \emph{Phase II} restores the original objective and continues
+from the basis found in Phase I. If a feasible basis was available from the
+outset, Phase I can be skipped entirely.
+
 Always build its indicator row from its actual basic objective coefficients;
 the artificial variables may already be basic and cannot be treated as if their
 objective contribution were absent.
@@ -1148,6 +1208,10 @@ artificial variables against one that reuses the original column $a_2$:
     \end{cases}
   \end{equation}
 \end{lecturecore}
+An optional solution using row operations to obtain a feasible basis directly,
+without Phase I, is given in Section~\ref{sec:row-operation-start} at the end
+of the chapter.
+
 The coefficient matrix has rank 2, but its original columns do not provide an
 immediate feasible identity basis. Compare an all-artificial start with a start
 that reuses the existing column $a_2=(1,0)^T$.
@@ -1605,6 +1669,101 @@ then $x_1$ enters with step 2 and $x_3$ leaves, reaching $(2,6)$.
 (4) $(-2)4+(-1)(-3)-(-4)=-1$.
 (5) Respectively $(x,a)=(0,1)$, the whole segment $x+a=1$ with $x,a\geq0$,
 and $(x,a)=(1,0)$.
+
+\clearpage
+\section{Supplement: finding a starting basis by row operations}\label{sec:row-operation-start}
+Can we solve the equality problem from Section~\ref{sec:two-phase} by first
+creating identity columns with row operations? Yes, in this example. Row
+operations preserve the equations, provided we apply them to the RHS too.
+The additional check is that the resulting basic values must be nonnegative.
+An identity block alone does not establish feasibility.
+
+\paragraph{Step 1: reduce the augmented constraint matrix.}
+Keep the variable columns in their original order $(x_1,x_2,x_3,x_4)$:
+\[
+  \left[\begin{array}{rrrr|r}
+      1&1&1&1&1\\
+      1&0&1&-3&1/2
+    \end{array}\right]
+  \xrightarrow{R_1\leftarrow R_1-R_2}
+  \left[\begin{array}{rrrr|r}
+      0&1&0&4&1/2\\
+      1&0&1&-3&1/2
+    \end{array}\right]
+  \xrightarrow{R_1\leftrightarrow R_2}
+  \left[\begin{array}{rrrr|r}
+      1&0&1&-3&1/2\\
+      0&1&0&4&1/2
+    \end{array}\right].
+\]
+Columns 1 and 2 now form the identity. Choose $B=(1,2)$ and set the
+nonbasic variables $x_3=x_4=0$. The equations give
+\[
+  x_1=1/2,\qquad x_2=1/2,
+  \qquad x^{(0)}=(1/2,1/2,0,0)^T\geq0.
+\]
+This is a BFS of the original problem, so no artificial variables or Phase I
+are needed for this route. Row operations have found a starting point; they
+have not yet optimized the objective.
+
+\paragraph{Step 2: express the original objective in this basis.}
+The transformed constraints and objective are
+\[
+  x_1=\tfrac12-x_3+3x_4,\qquad
+  x_2=\tfrac12-4x_4,\qquad
+  z=-x_1-2x_2-3x_3-4x_4=-\tfrac32-2x_3+x_4.
+\]
+In particular, $z=-3/2$ at the starting BFS, but increasing $x_4$ can improve
+it. The objective row must be computed with the basic coefficients
+$c_B=(-1,-2)^T$; simply copying the original objective coefficients below
+the transformed constraints would miss this substitution.
+\begin{center}
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrr@{\quad}|@{\quad}r@{\qquad\quad}l@{\quad}c}\cmidrule(r{1.5em}){1-7}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS & Ratio ($x_4\uparrow$) & Out\\
+    & $c_j$ & $-1$ & $-2$ & $-3$ & $-4$ & & & \\
+    \cmidrule(r{1.5em}){1-7}
+    $-1$ & $x_1$ & 1 & 0 & 1 & $-3$ & $1/2$ & $\text{--}$ & \\
+    $-2$ & $x_2$ & 0 & 1 & 0 & $\boxed{4}$ & $1/2$ & $(1 / 2) / 4=1 / 8$ & $\longrightarrow$\\
+    \cmidrule(r{1.5em}){1-7}
+    & $z_j$ & $-1$ & $-2$ & $-1$ & $-5$ & $-3/2$ & & \\
+    & $z_j-c_j$ & 0 & 0 & 2 & $-1$ & $z=-3/2$ & & \\
+    \cmidrule(r{1.5em}){1-7}
+  \end{tabular}
+\end{center}
+\paragraph{Step 3: perform the improving pivot.}
+Enter $x_4$ and remove $x_2$. Apply
+$R_2\leftarrow R_2/4$, followed by $R_1\leftarrow R_1+3R_2$ using the
+new row 2. The variable columns stay fixed:
+\begin{center}
+  \begin{tabular}{r@{\hspace{0.2em}}|@{\hspace{0.2em}}c@{\enspace}|@{\enspace}rrrr@{\quad}|@{\quad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\
+    & $c_j$ & $-1$ & $-2$ & $-3$ & $-4$ & \\
+    \midrule
+    $-1$ & $x_1$ & 1 & $3/4$ & 1 & 0 & $7/8$\\
+    $-4$ & $x_4$ & 0 & $1/4$ & 0 & 1 & $1/8$\\
+    \midrule
+    & $z_j$ & $-1$ & $-7/4$ & $-1$ & $-4$ & $-11/8$\\
+    & $z_j-c_j$ & 0 & $1/4$ & 2 & 0 & $z=-11/8$\\
+    \bottomrule
+  \end{tabular}
+\end{center}
+All indicators are nonnegative. Setting the nonbasic variables $x_2=x_3=0$
+gives the same optimum as the two-phase routes:
+\[
+  x^*=(7/8,0,0,1/8)^T,\qquad z^*=-11/8.
+\]
+Direct substitution checks both original equalities:
+$7/8+1/8=1$ and $7/8-3(1/8)=1/2$.
+
+\paragraph{Why does this not replace Phase I in general?}
+Gaussian elimination can create identity columns for any chosen nonsingular
+basis, but the transformed RHS may contain negative entries. For example,
+choosing $B=(2,4)$ in this same problem and setting $x_1=x_3=0$ gives
+$x_4=-1/6$ and $x_2=7/6$. That basis is invertible but infeasible.
+Thus row reduction is a useful shortcut when it reveals a nonnegative basic
+solution; Phase I provides a systematic search when it does not. When checking
+a different hand result, verify the RHS operations, identify the nonbasic
+variables set to zero, and recompute the objective for the resulting basis.
 
 \clearpage
 \section{Sources and editorial remarks}\label{sec:sources}
