@@ -114,91 +114,119 @@ basic columns are unit columns.
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(1,2,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0\\
-    $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $0$ & $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0 & $0 / (1 / 4)=0$\\
+    $0$ & $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0 & $0 / (1 / 2)=0$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(4,2,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_4$ & 4 & 0 & 0 & 1 & -32 & -4 & 36 & 0\\
-    $x_2$ & -2 & 1 & 0 & 0 & 4 & $3/2$ & -15 & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 3 & 0 & 0 & 0 & -4 & $-7/2$ & 33 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_5\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $\tfrac{3}{4}$ & $x_4$ & 4 & 0 & 0 & 1 & -32 & -4 & 36 & 0 & $\text{--}$\\
+    $0$ & $x_2$ & -2 & 1 & 0 & 0 & 4 & $3/2$ & -15 & 0 & $0 / 4=0$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $3$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-24$ & $-3$ & $27$ & $0$ & \\
+    & $q^T$ & 3 & 0 & 0 & 0 & -4 & $-7/2$ & 33 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(4,5,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_4$ & -12 & 8 & 0 & 1 & 0 & 8 & -84 & 0\\
-    $x_5$ & $-1/2$ & $1/4$ & 0 & 0 & 1 & $3/8$ & $-15/4$ & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 1 & 1 & 0 & 0 & 0 & -2 & 18 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_6\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $\tfrac{3}{4}$ & $x_4$ & -12 & 8 & 0 & 1 & 0 & 8 & -84 & 0 & $0 / 8=0$\\
+    $-20$ & $x_5$ & $-1/2$ & $1/4$ & 0 & 0 & 1 & $3/8$ & $-15/4$ & 0 & $0 / (3 / 8)=0$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $1 / 1=1$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $1$ & $1$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $-\tfrac{3}{2}$ & $12$ & $0$ & \\
+    & $q^T$ & 1 & 1 & 0 & 0 & 0 & -2 & 18 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(6,5,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_6$ & $-3/2$ & 1 & 0 & $1/8$ & 0 & 1 & $-21/2$ & 0\\
-    $x_5$ & $1/16$ & $-1/8$ & 0 & $-3/64$ & 1 & 0 & $3/16$ & 0\\
-    $x_3$ & $3/2$ & -1 & 1 & $-1/8$ & 0 & 0 & $21/2$ & 1\\
-    \midrule
-    $q^T$ & -2 & 3 & 0 & $1/4$ & 0 & 0 & -3 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_7\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $\tfrac{1}{2}$ & $x_6$ & $-3/2$ & 1 & 0 & $1/8$ & 0 & 1 & $-21/2$ & 0 & $\text{--}$\\
+    $-20$ & $x_5$ & $1/16$ & $-1/8$ & 0 & $-3/64$ & 1 & 0 & $3/16$ & 0 & $0 / (3 / 16)=0$\\
+    $0$ & $x_3$ & $3/2$ & -1 & 1 & $-1/8$ & 0 & 0 & $21/2$ & 1 & $1 / (21 / 2)=2 / 21$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $-2$ & $3$ & $0$ & $1$ & $-20$ & $\tfrac{1}{2}$ & $-9$ & $0$ & \\
+    & $q^T$ & -2 & 3 & 0 & $1/4$ & 0 & 0 & -3 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(6,7,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_6$ & 2 & -6 & 0 & $-5/2$ & 56 & 1 & 0 & 0\\
-    $x_7$ & $1/3$ & $-2/3$ & 0 & $-1/4$ & $16/3$ & 0 & 1 & 0\\
-    $x_3$ & -2 & 6 & 1 & $5/2$ & -56 & 0 & 0 & 1\\
-    \midrule
-    $q^T$ & -1 & 1 & 0 & $-1/2$ & 16 & 0 & 0 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $\tfrac{1}{2}$ & $x_6$ & 2 & -6 & 0 & $-5/2$ & 56 & 1 & 0 & 0 & $0 / 2=0$\\
+    $-6$ & $x_7$ & $1/3$ & $-2/3$ & 0 & $-1/4$ & $16/3$ & 0 & 1 & 0 & $0 / (1 / 3)=0$\\
+    $0$ & $x_3$ & -2 & 6 & 1 & $5/2$ & -56 & 0 & 0 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $-1$ & $1$ & $0$ & $\tfrac{1}{4}$ & $-4$ & $\tfrac{1}{2}$ & $-6$ & $0$ & \\
+    & $q^T$ & -1 & 1 & 0 & $-1/2$ & 16 & 0 & 0 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(1,7,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_1$ & 1 & -3 & 0 & $-5/4$ & 28 & $1/2$ & 0 & 0\\
-    $x_7$ & 0 & $1/3$ & 0 & $1/6$ & -4 & $-1/6$ & 1 & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 0 & -2 & 0 & $-7/4$ & 44 & $1/2$ & 0 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $0$ & $x_1$ & 1 & -3 & 0 & $-5/4$ & 28 & $1/2$ & 0 & 0 & $\text{--}$\\
+    $-6$ & $x_7$ & 0 & $1/3$ & 0 & $1/6$ & -4 & $-1/6$ & 1 & 0 & $0 / (1 / 3)=0$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $0$ & $-2$ & $0$ & $-1$ & $24$ & $1$ & $-6$ & $0$ & \\
+    & $q^T$ & 0 & -2 & 0 & $-7/4$ & 44 & $1/2$ & 0 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(1,2,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0\\
-    $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $0$ & $x_1$ & 1 & 0 & 0 & $1/4$ & -8 & -1 & 9 & 0 & $0 / (1 / 4)=0$\\
+    $0$ & $x_2$ & 0 & 1 & 0 & $1/2$ & -12 & $-1/2$ & 3 & 0 & $0 / (1 / 2)=0$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & 0 & 0 & 0 & $-3/4$ & 20 & $-1/2$ & 6 & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
@@ -351,26 +379,34 @@ This gives the following two noninitial tableaus.
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(1,4,3)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_1$ & 1 & $-1/2$ & 0 & 0 & -2 & $-3/4$ & $15/2$ & 0\\
-    $x_4$ & 0 & 2 & 0 & 1 & -24 & -1 & 6 & 0\\
-    $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
-    \midrule
-    $q^T$ & 0 & $3/2$ & 0 & 0 & 2 & $-5/4$ & $21/2$ & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS & Ratio ($x_6\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    $0$ & $x_1$ & 1 & $-1/2$ & 0 & 0 & -2 & $-3/4$ & $15/2$ & 0 & $\text{--}$\\
+    $\tfrac{3}{4}$ & $x_4$ & 0 & 2 & 0 & 1 & -24 & -1 & 6 & 0 & $\text{--}$\\
+    $0$ & $x_3$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & $1 / 1=1$\\
+    \cmidrule(r{1.5em}){1-10}
+    & $z_j$ & $0$ & $\tfrac{3}{2}$ & $0$ & $\tfrac{3}{4}$ & $-18$ & $-\tfrac{3}{4}$ & $\tfrac{9}{2}$ & $0$ & \\
+    & $q^T$ & 0 & $3/2$ & 0 & 0 & 2 & $-5/4$ & $21/2$ & 0 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{tabular}
 \end{center}
 
 \Needspace{8\baselineskip}
 \noindent\textbf{Basis $B=(1,4,6)$.}
 \begin{center}
-  \begin{tabular}{c|rrrrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\\midrule
-    $x_1$ & 1 & $-1/2$ & $3/4$ & 0 & -2 & 0 & $15/2$ & $3/4$\\
-    $x_4$ & 0 & 2 & 1 & 1 & -24 & 0 & 6 & 1\\
-    $x_6$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ & RHS\\
+    & $c_j$ & $0$ & $0$ & $0$ & $\tfrac{3}{4}$ & $-20$ & $\tfrac{1}{2}$ & $-6$ & \\
     \midrule
-    $q^T$ & 0 & $3/2$ & $5/4$ & 0 & 2 & 0 & $21/2$ & $5/4$\\\bottomrule
+    $0$ & $x_1$ & 1 & $-1/2$ & $3/4$ & 0 & -2 & 0 & $15/2$ & $3/4$\\
+    $\tfrac{3}{4}$ & $x_4$ & 0 & 2 & 1 & 1 & -24 & 0 & 6 & 1\\
+    $\tfrac{1}{2}$ & $x_6$ & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1\\
+    \midrule
+    & $z_j$ & $0$ & $\tfrac{3}{2}$ & $\tfrac{5}{4}$ & $\tfrac{3}{4}$ & $-18$ & $\tfrac{1}{2}$ & $\tfrac{9}{2}$ & $\tfrac{5}{4}$\\
+    & $q^T$ & 0 & $3/2$ & $5/4$ & 0 & 2 & 0 & $21/2$ & $5/4$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 
@@ -415,23 +451,33 @@ magnitudes, rather than three chosen floating-point numbers, defines comparisons
 The slack basis is feasible. With column order $(x_1,x_2,w_1,w_2,w_3)$,
 its initial constraint rows and indicators are
 \begin{center}
-  \begin{tabular}{c|rrrrr|l}\toprule
-    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
-    $w_1$ & -9 & -4 & 1 & 0 & 0 & $\varepsilon_1$\\
-    $w_2$ & 4 & 2 & 0 & 1 & 0 & $\varepsilon_2$\\
-    $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$\\\midrule
-    $q^T$ & -6 & -4 & 0 & 0 & 0 & $0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}l@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $6$ & $4$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $w_1$ & -9 & -4 & 1 & 0 & 0 & $\varepsilon_1$ & $\text{--}$\\
+    $0$ & $w_2$ & 4 & 2 & 0 & 1 & 0 & $\varepsilon_2$ & $\varepsilon_2/4$\\
+    $0$ & $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & -6 & -4 & 0 & 0 & 0 & $0$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Choose $x_1$ to enter; only row 2 limits its increase. Divide that row by 4
 and add nine times it to row 1:
 \begin{center}
-  \begin{tabular}{c|rrrrr|l}\toprule
-    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
-    $w_1$ & 0 & $1/2$ & 1 & $9/4$ & 0 & $\varepsilon_1+9\varepsilon_2/4$\\
-    $x_1$ & 1 & $1/2$ & 0 & $1/4$ & 0 & $\varepsilon_2/4$\\
-    $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$\\\midrule
-    $q^T$ & 0 & -1 & 0 & $3/2$ & 0 & $3\varepsilon_2/2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}l@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $6$ & $4$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $w_1$ & 0 & $1/2$ & 1 & $9/4$ & 0 & $\varepsilon_1+9\varepsilon_2/4$ & $2\varepsilon_1+9\varepsilon_2/2$\\
+    $6$ & $x_1$ & 1 & $1/2$ & 0 & $1/4$ & 0 & $\varepsilon_2/4$ & $\varepsilon_2/2$\\
+    $0$ & $w_3$ & 0 & 1 & 0 & 0 & 1 & $1+\varepsilon_3$ & $1+\varepsilon_3$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $6$ & $3$ & $0$ & $\tfrac{3}{2}$ & $0$ & $3\varepsilon_2/2$ & \\
+    & $q^T$ & 0 & -1 & 0 & $3/2$ & 0 & $3\varepsilon_2/2$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Now $x_2$ enters. The first two ordinary ratios are both zero when the
@@ -443,12 +489,17 @@ perturbations are discarded. Their symbolic ratios are instead
 The second is smallest, so $x_1$ leaves. Divide its row by $1/2$ and eliminate
 $x_2$ from the other rows:
 \begin{center}
-  \begin{tabular}{c|rrrrr|l}\toprule
-    Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\\midrule
-    $w_1$ & -1 & 0 & 1 & 2 & 0 & $\varepsilon_1+2\varepsilon_2$\\
-    $x_2$ & 2 & 1 & 0 & $1/2$ & 0 & $\varepsilon_2/2$\\
-    $w_3$ & -2 & 0 & 0 & $-1/2$ & 1 & $1+\varepsilon_3-\varepsilon_2/2$\\\midrule
-    $q^T$ & 2 & 0 & 0 & 2 & 0 & $2\varepsilon_2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}l}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $w_1$ & $w_2$ & $w_3$ & RHS\\
+    & $c_j$ & $6$ & $4$ & $0$ & $0$ & $0$ & \\
+    \midrule
+    $0$ & $w_1$ & -1 & 0 & 1 & 2 & 0 & $\varepsilon_1+2\varepsilon_2$\\
+    $4$ & $x_2$ & 2 & 1 & 0 & $1/2$ & 0 & $\varepsilon_2/2$\\
+    $0$ & $w_3$ & -2 & 0 & 0 & $-1/2$ & 1 & $1+\varepsilon_3-\varepsilon_2/2$\\
+    \midrule
+    & $z_j$ & $8$ & $4$ & $0$ & $2$ & $0$ & $2\varepsilon_2$\\
+    & $q^T$ & 2 & 0 & 0 & 2 & 0 & $2\varepsilon_2$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 All basic values are positive for sufficiently small $\delta>0$, and $q\geq0$.
@@ -651,18 +702,28 @@ enter. Any negative indicator is eligible; choosing the most negative one is
 not required. The only positive entry in its column is in row 2, so $w_2$
 leaves. Next $x_2$ enters and $w_1$ leaves, with step $1/4$.
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $w_1$ & $w_2$ & RHS\\\midrule
-    $c^T$ & \tableaucell{tableaucost}{4} & \tableaucell{tableaucost}{1} & \tableaucell{tableaucost}{3} & 0 & 0 & \\\midrule
-    $w_1$ & \tableaucell{tableaumatrix}{1} & \tableaucell{tableaumatrix}{4} & \tableaucell{tableaumatrix}{0} & 1 & 0 & \tableaucell{tableaurhs}{1}\\
-    $w_2$ & \tableaucell{tableaumatrix}{3} & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{1} & 0 & 1 & \tableaucell{tableaurhs}{3}\\\midrule
-    $q^T$ & \tableaucell{tableaucost}{-4} & \tableaucell{tableaucost}{-1} & \tableaucell{tableaucost}{-3} & 0 & 0 & \tableaucell{tableauvalue}{0}\\\midrule
-    $w_1$ & 1 & 4 & 0 & 1 & 0 & 1\\
-    $x_3$ & 3 & -1 & 1 & 0 & 1 & 3\\\midrule
-    $q^T$ & 5 & -4 & 0 & 0 & 3 & \tableaucell{tableauvalue}{9}\\\midrule
-    $x_2$ & $1/4$ & 1 & 0 & $1/4$ & 0 & \tableaucell{tableauquantity}{1/4}\\
-    $x_3$ & $13/4$ & 0 & 1 & $1/4$ & 1 & \tableaucell{tableauquantity}{13/4}\\\midrule
-    $q^T$ & 6 & 0 & 0 & \tableaucell{tableauprice}{1} & \tableaucell{tableauprice}{3} & \tableaucell{tableauvalue}{10}\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $w_1$ & $w_2$ & RHS & Ratio\\
+    & $c^T$ & \tableaucell{tableaucost}{4} & \tableaucell{tableaucost}{1} & \tableaucell{tableaucost}{3} & 0 & 0 &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $w_1$ & \tableaucell{tableaumatrix}{1} & \tableaucell{tableaumatrix}{4} & \tableaucell{tableaumatrix}{0} & 1 & 0 & \tableaucell{tableaurhs}{1} & $\text{--}$\\
+    $0$ & $w_2$ & \tableaucell{tableaumatrix}{3} & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{1} & 0 & 1 & \tableaucell{tableaurhs}{3} & $3/1=3$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & \tableaucell{tableaucost}{-4} & \tableaucell{tableaucost}{-1} & \tableaucell{tableaucost}{-3} & 0 & 0 & \tableaucell{tableauvalue}{0} & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $w_1$ & 1 & 4 & 0 & 1 & 0 & 1 & $1/4$\\
+    $3$ & $x_3$ & 3 & -1 & 1 & 0 & 1 & 3 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $9$ & $-3$ & $3$ & $0$ & $3$ & $9$ & \\
+    & $q^T$ & 5 & -4 & 0 & 0 & 3 & \tableaucell{tableauvalue}{9} & \\
+    \cmidrule(r{1.5em}){1-8}
+    $1$ & $x_2$ & $1/4$ & 1 & 0 & $1/4$ & 0 & \tableaucell{tableauquantity}{1/4} & \\
+    $3$ & $x_3$ & $13/4$ & 0 & 1 & $1/4$ & 1 & \tableaucell{tableauquantity}{13/4} & \\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $10$ & $1$ & $3$ & $1$ & $3$ & $10$ & \\
+    & $q^T$ & 6 & 0 & 0 & \tableaucell{tableauprice}{1} & \tableaucell{tableauprice}{3} & \tableaucell{tableauvalue}{10} & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Thus $x^*=(0,1/4,13/4)$ attains the bound 10. The final slack-column
@@ -675,21 +736,31 @@ Negate the dual objective and rewrite its constraints as
 $-A^Ty+s=-c$. The starting surplus basis has negative RHS entries but
 nonnegative indicators. Keep column order $(y_1,y_2,s_1,s_2,s_3)$:
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $y_1$ & $y_2$ & $s_1$ & $s_2$ & $s_3$ & RHS\\\midrule
-    $-b^T$ & \tableaucell{tableaurhs}{-1} & \tableaucell{tableaurhs}{-3} & 0 & 0 & 0 & \\\midrule
-    $s_1$ & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{-3} & 1 & 0 & 0 & \tableaucell{tableaucost}{-4}\\
-    $s_2$ & \tableaucell{tableaumatrix}{-4} & \tableaucell{tableaumatrix}{1} & 0 & 1 & 0 & \tableaucell{tableaucost}{-1}\\
-    $s_3$ & \tableaucell{tableaumatrix}{0} & \tableaucell{tableaumatrix}{-1} & 0 & 0 & 1 & \tableaucell{tableaucost}{-3}\\\midrule
-    $q^T$ & \tableaucell{tableaurhs}{1} & \tableaucell{tableaurhs}{3} & 0 & 0 & 0 & \tableaucell{tableauvalue}{0}\\\midrule
-    $s_1$ & -1 & 0 & 1 & 0 & -3 & 5\\
-    $s_2$ & -4 & 0 & 0 & 1 & 1 & -4\\
-    $y_2$ & 0 & 1 & 0 & 0 & -1 & 3\\\midrule
-    $q^T$ & 1 & 0 & 0 & 0 & 3 & \tableaucell{tableauvalue}{-9}\\\midrule
-    $s_1$ & 0 & 0 & 1 & $-1/4$ & $-13/4$ & 6\\
-    $y_1$ & 1 & 0 & 0 & $-1/4$ & $-1/4$ & \tableaucell{tableauprice}{1}\\
-    $y_2$ & 0 & 1 & 0 & 0 & -1 & \tableaucell{tableauprice}{3}\\\midrule
-    $q^T$ & 0 & 0 & 0 & \tableaucell{tableauquantity}{1/4} & \tableaucell{tableauquantity}{13/4} & \tableaucell{tableauvalue}{-10}\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $y_1$ & $y_2$ & $s_1$ & $s_2$ & $s_3$ & RHS & Dual ratios\\
+    & $-b^T$ & \tableaucell{tableaurhs}{-1} & \tableaucell{tableaurhs}{-3} & 0 & 0 & 0 &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $s_1$ & \tableaucell{tableaumatrix}{-1} & \tableaucell{tableaumatrix}{-3} & 1 & 0 & 0 & \tableaucell{tableaucost}{-4} & $r=s_3:\ y_2:3/1=3$\\
+    $0$ & $s_2$ & \tableaucell{tableaumatrix}{-4} & \tableaucell{tableaumatrix}{1} & 0 & 1 & 0 & \tableaucell{tableaucost}{-1} & \\
+    $0$ & $s_3$ & \tableaucell{tableaumatrix}{0} & \tableaucell{tableaumatrix}{-1} & 0 & 0 & 1 & \tableaucell{tableaucost}{-3} & \\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & \tableaucell{tableaurhs}{1} & \tableaucell{tableaurhs}{3} & 0 & 0 & 0 & \tableaucell{tableauvalue}{0} & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $s_1$ & -1 & 0 & 1 & 0 & -3 & 5 & $r=s_2:\ y_1:1/4=1 / 4$\\
+    $0$ & $s_2$ & -4 & 0 & 0 & 1 & 1 & -4 & \\
+    $-3$ & $y_2$ & 0 & 1 & 0 & 0 & -1 & 3 & \\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $-3$ & $0$ & $0$ & $3$ & $-9$ & \\
+    & $q^T$ & 1 & 0 & 0 & 0 & 3 & \tableaucell{tableauvalue}{-9} & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $s_1$ & 0 & 0 & 1 & $-1/4$ & $-13/4$ & 6 & \\
+    $-1$ & $y_1$ & 1 & 0 & 0 & $-1/4$ & $-1/4$ & \tableaucell{tableauprice}{1} & \\
+    $-3$ & $y_2$ & 0 & 1 & 0 & 0 & -1 & \tableaucell{tableauprice}{3} & \\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $-1$ & $-3$ & $0$ & $\tfrac{1}{4}$ & $\tfrac{13}{4}$ & $-10$ & \\
+    & $q^T$ & 0 & 0 & 0 & \tableaucell{tableauquantity}{1/4} & \tableaucell{tableauquantity}{13/4} & \tableaucell{tableauvalue}{-10} & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Choose row $s_3$ first (a negative RHS suffices; it need not be the most
@@ -764,6 +835,7 @@ As a check, $y=(0,1)$ is dual feasible. The primal point $x=(0,0,2)$
 is feasible and gives $c^Tx=-4=b^Ty$. Equal feasible values certify that
 both points are optimal, as the next section proves.
 
+\Needspace{9\baselineskip}
 \section{Weak duality, strong duality, and possible outcomes}\label{sec:duality}
 \begin{lecturecore}
   \begin{theorem}[Weak duality]
@@ -921,12 +993,17 @@ Return to the production model
 \]
 Introduce slacks $x_3,x_4,x_5$ in that row order. The final primal tableau is
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6\\
-    $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3\\
-    $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2\\\midrule
-    $q^T$ & 0 & 0 & 1 & $1/3$ & 0 & 18\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_5\uparrow$)\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $2$ & $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6 & $\text{--}$\\
+    $0$ & $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3 & $3 / 1=3$\\
+    $3$ & $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $3$ & $2$ & $1$ & $\tfrac{1}{3}$ & $0$ & $18$ & \\
+    & $q^T$ & 0 & 0 & 1 & $1/3$ & 0 & 18 & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Its basis is $B=(2,5,1)$; $c_B=(2,0,3)^T$. Solve $A_B^Ty=c_B$, rather than
@@ -1263,30 +1340,33 @@ Here $x_4,x_5$ denote the nonnegative surpluses of the original inequalities:
 \]
 The start $B=(4,5)$ is primal infeasible but dual feasible:
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_4$ & $-1$ & $-2$ & $-1$ & 1 & 0 & $-2$\\
-    $x_5$ & $-2$ & $-1$ & 1 & 0 & 1 & $-10$\\\midrule
-    $q^T$ & 1 & 1 & 1 & 0 & 0 & 0\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Dual ratios ($r=2$)\\
+    & $c_j$ & $-1$ & $-1$ & $-1$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $x_4$ & $-1$ & $-2$ & $-1$ & 1 & 0 & $-2$ & $x_1:\ 1/(2)=1 / 2$\\
+    $0$ & $x_5$ & $-2$ & $-1$ & 1 & 0 & 1 & $-10$ & $x_2:\ 1/(1)=1$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & 1 & 1 & 1 & 0 & 0 & 0 & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 The most negative RHS is in row 2, so $x_5$ leaves. Only columns 1 and 2
-have negative entries there:
-\begin{center}
-  \begin{tabular}{crrr}\toprule
-    Column & $q_j$ & $\bar a_{2j}$ & $q_j/(-\bar a_{2j})$\\\midrule
-    1 & 1 & $-2$ & $1/2$\\
-    2 & 1 & $-1$ & 1\\\bottomrule
-  \end{tabular}
-\end{center}
+have negative entries there; their dual ratios are displayed beside the tableau.
 Choose $x_1$ to enter, and pivot on $-2$. Divide row 2 by $-2$, add that
 normalized row to row 1, and subtract it from the indicator row:
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_4$ & 0 & $-3/2$ & $-3/2$ & 1 & $-1/2$ & 3\\
-    $x_1$ & 1 & $1/2$ & $-1/2$ & 0 & $-1/2$ & 5\\\midrule
-    $q^T$ & 0 & $1/2$ & $3/2$ & 0 & $1/2$ & $-5$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\
+    & $c_j$ & $-1$ & $-1$ & $-1$ & $0$ & $0$ & \\
+    \midrule
+    $0$ & $x_4$ & 0 & $-3/2$ & $-3/2$ & 1 & $-1/2$ & 3\\
+    $-1$ & $x_1$ & 1 & $1/2$ & $-1/2$ & 0 & $-1/2$ & 5\\
+    \midrule
+    & $z_j$ & $-1$ & $-\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $0$ & $\tfrac{1}{2}$ & $-5$\\
+    & $q^T$ & 0 & $1/2$ & $3/2$ & 0 & $1/2$ & $-5$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 Both RHS entries are now nonnegative and all indicators remain nonnegative.
@@ -1347,17 +1427,28 @@ negate both rows and the objective, giving
 At $y=0$, both slacks equal 1. The following primal-simplex path therefore
 needs no artificial variables. Columns are $(y_1,y_2,y_3,s_1,s_2)$.
 \begin{center}
-  \begin{tabular}{c|rrrrr|r}\toprule
-    Basic & $y_1$ & $y_2$ & $y_3$ & $s_1$ & $s_2$ & RHS\\\midrule
-    $s_1$ & 2 & 2 & 1 & 1 & 0 & 1\\
-    $s_2$ & 1 & -4 & -3 & 0 & 1 & 1\\\midrule
-    $q^T$ & 4 & -8 & -7 & 0 & 0 & 0\\\midrule
-    $y_2$ & 1 & 1 & $1/2$ & $1/2$ & 0 & $1/2$\\
-    $s_2$ & 5 & 0 & -1 & 2 & 1 & 3\\\midrule
-    $q^T$ & 12 & 0 & -3 & 4 & 0 & 4\\\midrule
-    $y_3$ & 2 & 2 & 1 & 1 & 0 & 1\\
-    $s_2$ & 7 & 2 & 0 & 3 & 1 & 4\\\midrule
-    $q^T$ & 18 & 6 & 0 & 7 & 0 & 7\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $y_1$ & $y_2$ & $y_3$ & $s_1$ & $s_2$ & RHS & Ratio\\
+    & $c_j$ & $-4$ & $8$ & $7$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $s_1$ & 2 & 2 & 1 & 1 & 0 & 1 & $y_2:\ 1 / 2=1/2$\\
+    $0$ & $s_2$ & 1 & -4 & -3 & 0 & 1 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q^T$ & 4 & -8 & -7 & 0 & 0 & 0 & \\
+    \cmidrule(r{1.5em}){1-8}
+    $8$ & $y_2$ & 1 & 1 & $1/2$ & $1/2$ & 0 & $1/2$ & $y_3:\ (1/2) / (1/2)=1$\\
+    $0$ & $s_2$ & 5 & 0 & -1 & 2 & 1 & 3 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $8$ & $8$ & $4$ & $4$ & $0$ & $4$ & \\
+    & $q^T$ & 12 & 0 & -3 & 4 & 0 & 4 & \\
+    \cmidrule(r{1.5em}){1-8}
+    $7$ & $y_3$ & 2 & 2 & 1 & 1 & 0 & 1 & \\
+    $0$ & $s_2$ & 7 & 2 & 0 & 3 & 1 & 4 & \\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $14$ & $14$ & $7$ & $7$ & $0$ & $7$ & \\
+    & $q^T$ & 18 & 6 & 0 & 7 & 0 & 7 & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 First $y_2$ enters and $s_1$ leaves with step $1/2$; then $y_3$ enters and

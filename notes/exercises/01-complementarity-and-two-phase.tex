@@ -39,7 +39,11 @@ with $Mv=b$, $v\geq0$. An ordered basis $B$ produces
   \bar M=M_B^{-1}M,\qquad \bar b=M_B^{-1}b,
   \qquad q_j=d_B^T\bar m_j-d_j,\qquad z_0=d_B^T\bar b.
 \]
-Tableau rows mean $\bar Mv=\bar b$ and $z+q^Tv=z_0$.
+Tableau rows mean $\bar Mv=\bar b$ and $z+q^Tv=z_0$. The $c_B$ column gives the objective coefficient of each basic
+variable. The $z_j$ row sums each constraint column with these weights;
+subtract the displayed $c_j$ row to obtain $q_j=z_j-c_j$. The same
+weighted sum on the RHS gives $z_0$. In Phase I these are the auxiliary
+objective coefficients; in Phase II they are the original ones.
 A negative $q_k$ offers improvement; increasing $v_k$ by $\theta$ changes
 the basic coordinates to $\bar b-\theta\bar m_k$.
 Only positive entries of $\bar m_k$ limit the step, with
@@ -235,24 +239,34 @@ Substitution gives $w=-10+2x_1+5x_2-s_2-s_3$; the indicator row must
 already account for both basic artificial variables.
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{c|rrrrrrrr|r}
-    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
-    s_1&1&0&1&1&0&0&0&0&12\\
-    a_2&1&3&1&0&-1&0&1&0&4\\
-    a_3&1&2&-1&0&0&-1&0&1&6\\\hline
-    q&-2&-5&0&0&1&1&0&0&-10
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-11}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(x_2\uparrow)\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 &  & \\
+    \cmidrule(r{1.5em}){1-11}
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--}\\
+    -1 & a_2 & 1 & 3 & 1 & 0 & -1 & 0 & 1 & 0 & 4 & 4 / 3\\
+    -1 & a_3 & 1 & 2 & -1 & 0 & 0 & -1 & 0 & 1 & 6 & 6 / 2=3\\
+    \cmidrule(r{1.5em}){1-11}
+    & z_j & -2 & -5 & 0 & 0 & 1 & 1 & -1 & -1 & -10 & \\
+    & q & -2 & -5 & 0 & 0 & 1 & 1 & 0 & 0 & -10 & \\
+    \cmidrule(r{1.5em}){1-11}
   \end{array}
 \]
 Enter $x_2$. Ratios are $4/3$ and $6/2=3$, so $a_2$ leaves with
 $\theta=4/3$. Divide its row by $3$ and eliminate column $x_2$:
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{c|rrrrrrrr|r}
-    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
-    s_1&1&0&1&1&0&0&0&0&12\\
-    x_2&1/3&1&1/3&0&-1/3&0&1/3&0&4/3\\
-    a_3&1/3&0&-5/3&0&2/3&-1&-2/3&1&10/3\\\hline
-    q&-1/3&0&5/3&0&-2/3&1&5/3&0&-10/3
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-11}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b & \text{Ratio }(s_2\uparrow)\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 &  & \\
+    \cmidrule(r{1.5em}){1-11}
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12 & \text{--}\\
+    0 & x_2 & 1/3 & 1 & 1/3 & 0 & -1/3 & 0 & 1/3 & 0 & 4/3 & \text{--}\\
+    -1 & a_3 & 1/3 & 0 & -5/3 & 0 & 2/3 & -1 & -2/3 & 1 & 10/3 & (10 / 3) / (2 / 3)=5\\
+    \cmidrule(r{1.5em}){1-11}
+    & z_j & -\tfrac{1}{3} & 0 & \tfrac{5}{3} & 0 & -\tfrac{2}{3} & 1 & \tfrac{2}{3} & -1 & -\tfrac{10}{3} & \\
+    & q & -1/3 & 0 & 5/3 & 0 & -2/3 & 1 & 5/3 & 0 & -10/3 & \\
+    \cmidrule(r{1.5em}){1-11}
   \end{array}
 \]
 Now $s_2$ has the most negative indicator. Its only positive entry is $2/3$
@@ -261,12 +275,17 @@ There is no rule restricting entry to original decision variables: a surplus
 is a legitimate variable in the equivalent system.
 \[
   \setlength{\arraycolsep}{3pt}
-  \begin{array}{c|rrrrrrrr|r}
-    B&x_1&x_2&x_3&s_1&s_2&s_3&a_2&a_3&\bar b\\\hline
-    s_1&1&0&1&1&0&0&0&0&12\\
-    x_2&1/2&1&-1/2&0&0&-1/2&0&1/2&3\\
-    s_2&1/2&0&-5/2&0&1&-3/2&-1&3/2&5\\\hline
-    q&0&0&0&0&0&0&1&1&0
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrrrr@{\qquad}r}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & a_2 & a_3 & \bar b\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & -1 & \\
+    \hline
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 12\\
+    0 & x_2 & 1/2 & 1 & -1/2 & 0 & 0 & -1/2 & 0 & 1/2 & 3\\
+    0 & s_2 & 1/2 & 0 & -5/2 & 0 & 1 & -3/2 & -1 & 3/2 & 5\\
+    \hline
+    & z_j & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    & q & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 0\\
+    \hline
   \end{array}
 \]
 Phase I has value zero and both artificials are nonbasic. Delete their
@@ -278,12 +297,17 @@ Recompute the indicator row for the original coefficients:
   d=(-1,-2,1,0,0,0)^T.
 \]
 \[
-  \begin{array}{c|rrrrrr|r}
-    B&x_1&x_2&x_3&s_1&s_2&s_3&\bar b\\\hline
-    s_1&1&0&1&1&0&0&12\\
-    x_2&1/2&1&-1/2&0&0&-1/2&3\\
-    s_2&1/2&0&-5/2&0&1&-3/2&5\\\hline
-    q&0&0&0&0&0&1&-6
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}
+    c_B & B & x_1 & x_2 & x_3 & s_1 & s_2 & s_3 & \bar b\\
+    & c_j & -1 & -2 & 1 & 0 & 0 & 0 & \\
+    \hline
+    0 & s_1 & 1 & 0 & 1 & 1 & 0 & 0 & 12\\
+    -2 & x_2 & 1/2 & 1 & -1/2 & 0 & 0 & -1/2 & 3\\
+    0 & s_2 & 1/2 & 0 & -5/2 & 0 & 1 & -3/2 & 5\\
+    \hline
+    & z_j & -1 & -2 & 1 & 0 & 0 & 1 & -6\\
+    & q & 0 & 0 & 0 & 0 & 0 & 1 & -6\\
+    \hline
   \end{array}
 \]
 All indicators are nonnegative, so no Phase II pivot is needed.
@@ -344,24 +368,34 @@ the row reversal; their slack columns provide a feasible start.
 \paragraph{Phase I.}
 The initial tableau is
 \[
-  \begin{array}{c|rrrrrrr|r}
-    B&x_1&x_2&t&s_1&s_2&s_3&a_3&\bar b\\\hline
-    s_1&-1&1&1&1&0&0&0&1\\
-    s_2&-1&-2&2&0&1&0&0&4\\
-    a_3&1&-1&1&0&0&-1&1&4\\\hline
-    q&-1&1&-1&0&0&1&0&-4
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-10}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & a_3 & \bar b & \text{Ratio }(x_1\uparrow)\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 &  & \\
+    \cmidrule(r{1.5em}){1-10}
+    0 & s_1 & -1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & \text{--}\\
+    0 & s_2 & -1 & -2 & 2 & 0 & 1 & 0 & 0 & 4 & \text{--}\\
+    -1 & a_3 & 1 & -1 & 1 & 0 & 0 & -1 & 1 & 4 & 4 / 1=4\\
+    \cmidrule(r{1.5em}){1-10}
+    & z_j & -1 & 1 & -1 & 0 & 0 & 1 & -1 & -4 & \\
+    & q & -1 & 1 & -1 & 0 & 0 & 1 & 0 & -4 & \\
+    \cmidrule(r{1.5em}){1-10}
   \end{array}
 \]
 Both $x_1$ and $t$ have indicator $-1$; the smaller column index chooses
 $x_1$. Its only positive coefficient is in row $a_3$, so $a_3$ leaves
 with $\theta=4$:
 \[
-  \begin{array}{c|rrrrrrr|r}
-    B&x_1&x_2&t&s_1&s_2&s_3&a_3&\bar b\\\hline
-    s_1&0&0&2&1&0&-1&1&5\\
-    s_2&0&-3&3&0&1&-1&1&8\\
-    x_1&1&-1&1&0&0&-1&1&4\\\hline
-    q&0&0&0&0&0&0&1&0
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrrr@{\qquad}r}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & a_3 & \bar b\\
+    & c_j & 0 & 0 & 0 & 0 & 0 & 0 & -1 & \\
+    \hline
+    0 & s_1 & 0 & 0 & 2 & 1 & 0 & -1 & 1 & 5\\
+    0 & s_2 & 0 & -3 & 3 & 0 & 1 & -1 & 1 & 8\\
+    0 & x_1 & 1 & -1 & 1 & 0 & 0 & -1 & 1 & 4\\
+    \hline
+    & z_j & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+    & q & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0\\
+    \hline
   \end{array}
 \]
 The zero Phase I value and nonbasic artificial allow its column to be removed.
@@ -369,23 +403,33 @@ The zero Phase I value and nonbasic artificial allow its column to be removed.
 \paragraph{Phase II.}
 For the negative original objective use $d=(-2,2,1,0,0,0)^T$:
 \[
-  \begin{array}{c|rrrrrr|r}
-    B&x_1&x_2&t&s_1&s_2&s_3&\bar b\\\hline
-    s_1&0&0&2&1&0&-1&5\\
-    s_2&0&-3&3&0&1&-1&8\\
-    x_1&1&-1&1&0&0&-1&4\\\hline
-    q&0&0&-3&0&0&2&-8
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & \bar b & \text{Ratio }(t\uparrow)\\
+    & c_j & -2 & 2 & 1 & 0 & 0 & 0 &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    0 & s_1 & 0 & 0 & 2 & 1 & 0 & -1 & 5 & 5 / 2\\
+    0 & s_2 & 0 & -3 & 3 & 0 & 1 & -1 & 8 & 8 / 3\\
+    -2 & x_1 & 1 & -1 & 1 & 0 & 0 & -1 & 4 & 4 / 1=4\\
+    \cmidrule(r{1.5em}){1-9}
+    & z_j & -2 & 2 & -2 & 0 & 0 & 2 & -8 & \\
+    & q & 0 & 0 & -3 & 0 & 0 & 2 & -8 & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{array}
 \]
 Enter $t$. The ratios are $5/2$, $8/3$, and $4$, so $s_1$ leaves
 with $\theta=5/2$. Normalize its row and eliminate the $t$ column:
 \[
-  \begin{array}{c|rrrrrr|r}
-    B&x_1&x_2&t&s_1&s_2&s_3&\bar b\\\hline
-    t&0&0&1&1/2&0&-1/2&5/2\\
-    s_2&0&-3&0&-3/2&1&1/2&1/2\\
-    x_1&1&-1&0&-1/2&0&-1/2&3/2\\\hline
-    q&0&0&0&3/2&0&1/2&-1/2
+  \begin{array}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}
+    c_B & B & x_1 & x_2 & t & s_1 & s_2 & s_3 & \bar b\\
+    & c_j & -2 & 2 & 1 & 0 & 0 & 0 & \\
+    \hline
+    1 & t & 0 & 0 & 1 & 1/2 & 0 & -1/2 & 5/2\\
+    0 & s_2 & 0 & -3 & 0 & -3/2 & 1 & 1/2 & 1/2\\
+    -2 & x_1 & 1 & -1 & 0 & -1/2 & 0 & -1/2 & 3/2\\
+    \hline
+    & z_j & -2 & 2 & 1 & \tfrac{3}{2} & 0 & \tfrac{1}{2} & -\tfrac{1}{2}\\
+    & q & 0 & 0 & 0 & 3/2 & 0 & 1/2 & -1/2\\
+    \hline
   \end{array}
 \]
 All indicators are nonnegative, proving the maximum of $z$ is $-1/2$.

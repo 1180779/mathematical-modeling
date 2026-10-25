@@ -46,7 +46,11 @@ into the maximization objective:
 Thus $q_j<0$ means that increasing nonbasic $x_j$ increases the objective.
 The alternative convention $c_j-z_j$ is $-q_j$ and reverses this test.
 The bottom row of each tableau lists $q_j$; its last entry records the current
-objective $z_0$, rather than another equation coefficient. Basic indicators
+objective $z_0$, rather than another equation coefficient. The $c_B$ column gives the objective coefficient of each basic
+variable. The $z_j$ row sums each constraint column with these weights;
+subtract the displayed $c_j$ row to obtain $q_j=z_j-c_j$. The same
+weighted sum on the RHS gives $z_0$. In Phase I these are the auxiliary
+objective coefficients; in Phase II they are the original ones. Basic indicators
 are always zero and do not by themselves imply alternative optima.
 
 When $x_k$ enters at value $\theta\geq0$, the basic variables become
@@ -91,13 +95,17 @@ a different basis.
 Add slacks $x_4,x_5,x_6$ to the three rows. The origin is feasible, and its
 slack basis $B=(4,5,6)$ has basic values $(2,1,5)$.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $-4$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $2$\\
-    $x_5$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
-    $x_6$ & $3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $5$\\
-    \midrule
-    $q$ & $1$ & $-1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_3\uparrow$)\\
+    & $c_j$ & $-1$ & $1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $-4$ & $2$ & $-1$ & $1$ & $0$ & $0$ & $2$ & $\text{--}$\\
+    $0$ & $x_5$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$ & $1 / 1=1$\\
+    $0$ & $x_6$ & $3$ & $0$ & $1$ & $0$ & $0$ & $1$ & $5$ & $5 / 1=5$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q$ & $1$ & $-1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_3$, since $q_3=-3$. Only rows $x_5$ and $x_6$ have positive
@@ -105,13 +113,17 @@ entering coefficients; their ratios are $1/1=1$ and $5/1=5$.
 Hence $x_5$ leaves at $\theta=1$. Keep row 2, add it to row 1, and subtract
 it from row 3. The objective increases by $3\cdot1$.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$\\
-    $x_3$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$\\
-    $x_6$ & $1$ & $1$ & $0$ & $0$ & $-1$ & $1$ & $4$\\
-    \midrule
-    $q$ & $7$ & $-4$ & $0$ & $0$ & $3$ & $0$ & $z_0=3$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $-1$ & $1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$ & $3 / 1=3$\\
+    $3$ & $x_3$ & $2$ & $-1$ & $1$ & $0$ & $1$ & $0$ & $1$ & $\text{--}$\\
+    $0$ & $x_6$ & $1$ & $1$ & $0$ & $0$ & $-1$ & $1$ & $4$ & $4 / 1=4$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $-3$ & $3$ & $0$ & $3$ & $0$ & $3$ & \\
+    & $q$ & $7$ & $-4$ & $0$ & $0$ & $3$ & $0$ & $z_0=3$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Now enter $x_2$, since $q_2=-4$. The eligible ratios are $3/1=3$ for
@@ -119,26 +131,34 @@ $x_4$ and $4/1=4$ for $x_6$; row $x_3$ has coefficient $-1$ and cannot
 limit the step. With $x_4$ leaving, add row 1 to row 2 and subtract row 1
 from row 3. The original point becomes $(0,3,4)$ and the value becomes 15.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_2$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$\\
-    $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$\\
-    $x_6$ & $3$ & $0$ & $0$ & $-1$ & $-2$ & $1$ & $1$\\
-    \midrule
-    $q$ & $-1$ & $0$ & $0$ & $4$ & $7$ & $0$ & $z_0=15$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $-1$ & $1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $1$ & $x_2$ & $-2$ & $1$ & $0$ & $1$ & $1$ & $0$ & $3$ & $\text{--}$\\
+    $3$ & $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$ & $\text{--}$\\
+    $0$ & $x_6$ & $3$ & $0$ & $0$ & $-1$ & $-2$ & $1$ & $1$ & $1 / 3$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $-2$ & $1$ & $3$ & $4$ & $7$ & $0$ & $15$ & \\
+    & $q$ & $-1$ & $0$ & $0$ & $4$ & $7$ & $0$ & $z_0=15$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_1$, whose indicator is $-1$. Its coefficients in the first two
 rows are $-2$ and $0$; only $x_6$ can leave, at $\theta=1/3$.
 Divide row 3 by 3 and add twice the normalized row to row 1.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_2$ & $0$ & $1$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{2}{3}$ & $\tfrac{11}{3}$\\
-    $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$\\
-    $x_1$ & $1$ & $0$ & $0$ & $-\tfrac{1}{3}$ & $-\tfrac{2}{3}$ & $\tfrac{1}{3}$ & $\tfrac{1}{3}$\\
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
+    & $c_j$ & $-1$ & $1$ & $3$ & $0$ & $0$ & $0$ & \\
     \midrule
-    $q$ & $0$ & $0$ & $0$ & $\tfrac{11}{3}$ & $\tfrac{19}{3}$ & $\tfrac{1}{3}$ & $z_0=\tfrac{46}{3}$\\\bottomrule
+    $1$ & $x_2$ & $0$ & $1$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{2}{3}$ & $\tfrac{11}{3}$\\
+    $3$ & $x_3$ & $0$ & $0$ & $1$ & $1$ & $2$ & $0$ & $4$\\
+    $-1$ & $x_1$ & $1$ & $0$ & $0$ & $-\tfrac{1}{3}$ & $-\tfrac{2}{3}$ & $\tfrac{1}{3}$ & $\tfrac{1}{3}$\\
+    \midrule
+    & $z_j$ & $-1$ & $1$ & $3$ & $\tfrac{11}{3}$ & $\tfrac{19}{3}$ & $\tfrac{1}{3}$ & $\tfrac{46}{3}$\\
+    & $q$ & $0$ & $0$ & $0$ & $\tfrac{11}{3}$ & $\tfrac{19}{3}$ & $\tfrac{1}{3}$ & $z_0=\tfrac{46}{3}$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 All indicators are nonnegative. The original optimizer and value are
@@ -170,52 +190,68 @@ Add slacks $x_4,x_5,x_6$. The first inequality is automatically satisfied
 by nonnegative original variables, but retaining it gives a harmless basic
 slack. Start at the origin with $B=(4,5,6)$.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $-3$ & $-1$ & $-2$ & $1$ & $0$ & $0$ & $3$\\
-    $x_5$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$\\
-    $x_6$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
-    \midrule
-    $q$ & $-2$ & $1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_3\uparrow$)\\
+    & $c_j$ & $2$ & $-1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $-3$ & $-1$ & $-2$ & $1$ & $0$ & $0$ & $3$ & $\text{--}$\\
+    $0$ & $x_5$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$ & $2 / 1=2$\\
+    $0$ & $x_6$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$ & $1 / 1=1$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q$ & $-2$ & $1$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_3$. Ratios are $2/1=2$ for $x_5$ and $1/1=1$ for $x_6$;
 $x_4$ has coefficient $-2$. Thus $x_6$ leaves. Add twice row 3 to row 1
 and subtract row 3 from row 2.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $-3$ & $-3$ & $0$ & $1$ & $0$ & $2$ & $5$\\
-    $x_5$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$\\
-    $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
-    \midrule
-    $q$ & $-2$ & $-2$ & $0$ & $0$ & $0$ & $3$ & $z_0=3$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $2$ & $-1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $-3$ & $-3$ & $0$ & $1$ & $0$ & $2$ & $5$ & $\text{--}$\\
+    $0$ & $x_5$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $1 / 3$\\
+    $3$ & $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $-3$ & $3$ & $0$ & $0$ & $3$ & $3$ & \\
+    & $q$ & $-2$ & $-2$ & $0$ & $0$ & $0$ & $3$ & $z_0=3$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The indicators $q_1=q_2=-2$ tie; choose $x_1$ by smaller index.
 Only the $x_5$ row has a positive coefficient, giving step $1/3$.
 Divide row 2 by 3 and add three copies to row 1; $x_5$ leaves.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $0$ & $-2$ & $0$ & $1$ & $1$ & $1$ & $6$\\
-    $x_1$ & $1$ & $\tfrac{1}{3}$ & $0$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{1}{3}$\\
-    $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$\\
-    \midrule
-    $q$ & $0$ & $-\tfrac{4}{3}$ & $0$ & $0$ & $\tfrac{2}{3}$ & $\tfrac{7}{3}$ & $z_0=\tfrac{11}{3}$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $2$ & $-1$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $0$ & $-2$ & $0$ & $1$ & $1$ & $1$ & $6$ & $\text{--}$\\
+    $2$ & $x_1$ & $1$ & $\tfrac{1}{3}$ & $0$ & $0$ & $\tfrac{1}{3}$ & $-\tfrac{1}{3}$ & $\tfrac{1}{3}$ & $(1 / 3) / (1 / 3)=1$\\
+    $3$ & $x_3$ & $0$ & $-1$ & $1$ & $0$ & $0$ & $1$ & $1$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $2$ & $-\tfrac{7}{3}$ & $3$ & $0$ & $\tfrac{2}{3}$ & $\tfrac{7}{3}$ & $\tfrac{11}{3}$ & \\
+    & $q$ & $0$ & $-\tfrac{4}{3}$ & $0$ & $0$ & $\tfrac{2}{3}$ & $\tfrac{7}{3}$ & $z_0=\tfrac{11}{3}$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_2$, since $q_2=-4/3$. The only positive coefficient is $1/3$
 in row $x_1$, so the ratio is $(1/3)/(1/3)=1$. Multiply row 2 by 3,
 add twice that normalized row to row 1, and add it to row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $6$ & $0$ & $0$ & $1$ & $3$ & $-1$ & $8$\\
-    $x_2$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$\\
-    $x_3$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
+    & $c_j$ & $2$ & $-1$ & $3$ & $0$ & $0$ & $0$ & \\
     \midrule
-    $q$ & $4$ & $0$ & $0$ & $0$ & $2$ & $1$ & $z_0=5$\\\bottomrule
+    $0$ & $x_4$ & $6$ & $0$ & $0$ & $1$ & $3$ & $-1$ & $8$\\
+    $-1$ & $x_2$ & $3$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$\\
+    $3$ & $x_3$ & $3$ & $0$ & $1$ & $0$ & $1$ & $0$ & $2$\\
+    \midrule
+    & $z_j$ & $6$ & $-1$ & $3$ & $0$ & $2$ & $1$ & $5$\\
+    & $q$ & $4$ & $0$ & $0$ & $0$ & $2$ & $1$ & $z_0=5$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 The point is $x^*=(0,1,2)$, with maximum $z^*=5$ and slacks $(8,0,0)$.
@@ -244,38 +280,50 @@ Unboundedness of the feasible set does not imply an unbounded maximum.
 \]
 Add slacks $x_4,x_5,x_6$ and start with $B=(4,5,6)$ at the origin.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
-    $x_5$ & $-6$ & $3$ & $-2$ & $0$ & $1$ & $0$ & $2$\\
-    $x_6$ & $-7$ & $4$ & $-3$ & $0$ & $0$ & $1$ & $2$\\
-    \midrule
-    $q$ & $4$ & $-2$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_3\uparrow$)\\
+    & $c_j$ & $-4$ & $2$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$ & $2 / 1=2$\\
+    $0$ & $x_5$ & $-6$ & $3$ & $-2$ & $0$ & $1$ & $0$ & $2$ & $\text{--}$\\
+    $0$ & $x_6$ & $-7$ & $4$ & $-3$ & $0$ & $0$ & $1$ & $2$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q$ & $4$ & $-2$ & $-3$ & $0$ & $0$ & $0$ & $z_0=0$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_3$. Only row $x_4$ has a positive coefficient; it leaves at
 $\theta=2$. Add twice row 1 to row 2 and three times row 1 to row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_3$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$\\
-    $x_5$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$\\
-    $x_6$ & $-1$ & $1$ & $0$ & $3$ & $0$ & $1$ & $8$\\
-    \midrule
-    $q$ & $10$ & $-5$ & $0$ & $3$ & $0$ & $0$ & $z_0=6$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $-4$ & $2$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $3$ & $x_3$ & $2$ & $-1$ & $1$ & $1$ & $0$ & $0$ & $2$ & $\text{--}$\\
+    $0$ & $x_5$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$ & $6 / 1=6$\\
+    $0$ & $x_6$ & $-1$ & $1$ & $0$ & $3$ & $0$ & $1$ & $8$ & $8 / 1=8$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $-3$ & $3$ & $3$ & $0$ & $0$ & $6$ & \\
+    & $q$ & $10$ & $-5$ & $0$ & $3$ & $0$ & $0$ & $z_0=6$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_2$, since $q_2=-5$. Row $x_3$ has coefficient $-1$.
 The remaining ratios are $6/1=6$ and $8/1=8$, so $x_5$ leaves.
 Add row 2 to row 1 and subtract row 2 from row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$\\
-    $x_2$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$\\
-    $x_6$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
-    \midrule
-    $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $-4$ & $2$ & $3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $3$ & $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$ & $\text{--}$\\
+    $2$ & $x_2$ & $-2$ & $1$ & $0$ & $2$ & $1$ & $0$ & $6$ & $\text{--}$\\
+    $0$ & $x_6$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$ & $2 / 1=2$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $-4$ & $2$ & $3$ & $13$ & $5$ & $0$ & $36$ & \\
+    & $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 All indicators are nonnegative, so $(0,6,8)$ is optimal with value 36.
@@ -284,13 +332,17 @@ let it enter: only row $x_6$ has a positive coefficient, so $\theta=2>0$.
 The original point changes and the objective change is $-q_1\theta=0$.
 Add twice row 3 to row 2; $x_6$ leaves.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$\\
-    $x_2$ & $0$ & $1$ & $0$ & $4$ & $-1$ & $2$ & $10$\\
-    $x_1$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
+    & $c_j$ & $-4$ & $2$ & $3$ & $0$ & $0$ & $0$ & \\
     \midrule
-    $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$\\\bottomrule
+    $3$ & $x_3$ & $0$ & $0$ & $1$ & $3$ & $1$ & $0$ & $8$\\
+    $2$ & $x_2$ & $0$ & $1$ & $0$ & $4$ & $-1$ & $2$ & $10$\\
+    $-4$ & $x_1$ & $1$ & $0$ & $0$ & $1$ & $-1$ & $1$ & $2$\\
+    \midrule
+    & $z_j$ & $-4$ & $2$ & $3$ & $13$ & $5$ & $0$ & $36$\\
+    & $q$ & $0$ & $0$ & $0$ & $13$ & $5$ & $0$ & $z_0=36$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 The second endpoint is $(2,10,8)$, also of value 36.
@@ -330,13 +382,17 @@ values are $(2,8,4)$. No artificial variable is needed merely because a
 $\geq$ row occurs. Divide the first equation by 2, subtract the resulting
 row from row 2, and subtract twice it from row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$\\
-    $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$\\
-    $x_6$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
-    \midrule
-    $q$ & $-1$ & $0$ & $0$ & $-1$ & $0$ & $0$ & $z_0=4$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $1$ & $2$ & $1$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $2$ & $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$ & $\text{--}$\\
+    $0$ & $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$ & $\text{--}$\\
+    $0$ & $x_6$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$ & $4 / 1=4$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $2$ & $1$ & $-1$ & $0$ & $0$ & $4$ & \\
+    & $q$ & $-1$ & $0$ & $0$ & $-1$ & $0$ & $0$ & $z_0=4$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The indicators of $x_1$ and surplus $x_4$ tie at $-1$; choose $x_1$.
@@ -344,13 +400,17 @@ Only row $x_6$ has a positive entering coefficient, so $x_6$ leaves at
 $\theta=4$. That row already contains the entering identity column,
 so the constraint coefficients do not change; the basic label and objective do.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$\\
-    $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$\\
-    $x_1$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
-    \midrule
-    $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $1$ & $2$ & $1$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $2$ & $x_2$ & $0$ & $1$ & $\tfrac{1}{2}$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $2$ & $\text{--}$\\
+    $0$ & $x_5$ & $0$ & $0$ & $\tfrac{1}{2}$ & $\tfrac{1}{2}$ & $1$ & $0$ & $8$ & $8 / (1 / 2)=16$\\
+    $1$ & $x_1$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$ & $4 / 1=4$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $1$ & $2$ & $2$ & $0$ & $0$ & $1$ & $8$ & \\
+    & $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The original point $(4,2,0)$ is optimal with value 8. Its objective identity is
@@ -362,13 +422,17 @@ Its coefficient in row $x_2$ is $-1/2$ and does not limit the step.
 Ratios are $8/(1/2)=16$ for $x_5$ and $4/1=4$ for $x_1$.
 Thus $x_1$ leaves. Add half row 3 to row 1 and subtract half row 3 from row 2.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_2$ & $\tfrac{1}{2}$ & $1$ & $1$ & $0$ & $0$ & $\tfrac{1}{2}$ & $4$\\
-    $x_5$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $6$\\
-    $x_4$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
+    & $c_j$ & $1$ & $2$ & $1$ & $0$ & $0$ & $0$ & \\
     \midrule
-    $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$\\\bottomrule
+    $2$ & $x_2$ & $\tfrac{1}{2}$ & $1$ & $1$ & $0$ & $0$ & $\tfrac{1}{2}$ & $4$\\
+    $0$ & $x_5$ & $-\tfrac{1}{2}$ & $0$ & $0$ & $0$ & $1$ & $-\tfrac{1}{2}$ & $6$\\
+    $0$ & $x_4$ & $1$ & $0$ & $1$ & $1$ & $0$ & $1$ & $4$\\
+    \midrule
+    & $z_j$ & $1$ & $2$ & $2$ & $0$ & $0$ & $1$ & $8$\\
+    & $q$ & $0$ & $0$ & $1$ & $0$ & $0$ & $1$ & $z_0=8$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 The other endpoint is $(0,4,0)$, still of value 8. For any optimum,
@@ -406,13 +470,17 @@ The feasible augmented point is $(6,0,4,1,0)$.
 The independent columns $B=(4,3,1)$ give basic values $(1,4,6)$.
 Subtract twice the equality row from row 1, then add row 2 to row 1:
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_4$ & $0$ & $5$ & $0$ & $1$ & $-1$ & $1$\\
-    $x_3$ & $0$ & $2$ & $1$ & $0$ & $-1$ & $4$\\
-    $x_1$ & $1$ & $0$ & $0$ & $0$ & $0$ & $6$\\
-    \midrule
-    $q$ & $0$ & $1$ & $0$ & $0$ & $-1$ & $z_0=16$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_5\uparrow$)\\
+    & $c_j$ & $2$ & $1$ & $1$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $x_4$ & $0$ & $5$ & $0$ & $1$ & $-1$ & $1$ & $\text{--}$\\
+    $1$ & $x_3$ & $0$ & $2$ & $1$ & $0$ & $-1$ & $4$ & $\text{--}$\\
+    $2$ & $x_1$ & $1$ & $0$ & $0$ & $0$ & $0$ & $6$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $2$ & $2$ & $1$ & $0$ & $-1$ & $16$ & \\
+    & $q$ & $0$ & $1$ & $0$ & $0$ & $-1$ & $z_0=16$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Only $q_5=-1$ is negative. Its column is $(-1,-1,0)^T$,
@@ -468,13 +536,17 @@ Now $B=(4,2,6)$ is independent and has three positive basic values.
 Divide original row 2 by 5, subtract twice the normalized row from row 1,
 and add three times it to row 3:
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & $\tfrac{1}{5}$ & $0$ & $-1$ & $1$ & $-\tfrac{2}{5}$ & $0$ & $\tfrac{1}{5}$\\
-    $x_2$ & $\tfrac{2}{5}$ & $1$ & $-1$ & $0$ & $\tfrac{1}{5}$ & $0$ & $\tfrac{7}{5}$\\
-    $x_6$ & $\tfrac{16}{5}$ & $0$ & $-10$ & $0$ & $\tfrac{3}{5}$ & $1$ & $\tfrac{61}{5}$\\
-    \midrule
-    $q$ & $-\tfrac{26}{5}$ & $0$ & $1$ & $0$ & $\tfrac{2}{5}$ & $0$ & $z_0=\tfrac{14}{5}$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $6$ & $2$ & $-3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_4$ & $\tfrac{1}{5}$ & $0$ & $-1$ & $1$ & $-\tfrac{2}{5}$ & $0$ & $\tfrac{1}{5}$ & $(1 / 5) / (1 / 5)=1$\\
+    $2$ & $x_2$ & $\tfrac{2}{5}$ & $1$ & $-1$ & $0$ & $\tfrac{1}{5}$ & $0$ & $\tfrac{7}{5}$ & $(7 / 5) / (2 / 5)=7 / 2$\\
+    $0$ & $x_6$ & $\tfrac{16}{5}$ & $0$ & $-10$ & $0$ & $\tfrac{3}{5}$ & $1$ & $\tfrac{61}{5}$ & $(61 / 5) / (16 / 5)=61 / 16$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $\tfrac{4}{5}$ & $2$ & $-2$ & $0$ & $\tfrac{2}{5}$ & $0$ & $\tfrac{14}{5}$ & \\
+    & $q$ & $-\tfrac{26}{5}$ & $0$ & $1$ & $0$ & $\tfrac{2}{5}$ & $0$ & $z_0=\tfrac{14}{5}$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_1$ with $q_1=-26/5$. The three eligible ratios are
@@ -487,13 +559,17 @@ Hence $x_4$ leaves at $\theta=1$.
 Multiply row 1 by 5, subtract $(2/5)$ times that normalized row from row 2,
 and subtract $(16/5)$ times it from row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_1$ & $1$ & $0$ & $-5$ & $5$ & $-2$ & $0$ & $1$\\
-    $x_2$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
-    $x_6$ & $0$ & $0$ & $6$ & $-16$ & $7$ & $1$ & $9$\\
-    \midrule
-    $q$ & $0$ & $0$ & $-25$ & $26$ & $-10$ & $0$ & $z_0=8$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_3\uparrow$)\\
+    & $c_j$ & $6$ & $2$ & $-3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $6$ & $x_1$ & $1$ & $0$ & $-5$ & $5$ & $-2$ & $0$ & $1$ & $\text{--}$\\
+    $2$ & $x_2$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$ & $1 / 1=1$\\
+    $0$ & $x_6$ & $0$ & $0$ & $6$ & $-16$ & $7$ & $1$ & $9$ & $9 / 6=3 / 2$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $2$ & $-28$ & $26$ & $-10$ & $0$ & $8$ & \\
+    & $q$ & $0$ & $0$ & $-25$ & $26$ & $-10$ & $0$ & $z_0=8$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The point is $(1,1,0)$ and the objective is 8. Enter $x_3$ with
@@ -501,13 +577,17 @@ $q_3=-25$. Row $x_1$ has coefficient $-5$; the eligible ratios are
 $1/1=1$ for $x_2$ and $9/6=3/2$ for $x_6$. Thus $x_2$ leaves.
 Add five copies of row 2 to row 1 and subtract six copies from row 3:
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$\\
-    $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
-    $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$\\
-    \midrule
-    $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $6$ & $2$ & $-3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $6$ & $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$ & $\text{--}$\\
+    $-3$ & $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$ & $\text{--}$\\
+    $0$ & $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $27$ & $-3$ & $-24$ & $15$ & $0$ & $33$ & \\
+    & $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 This gives $(6,0,1)$, value 33. The negative indicator $q_4=-24$
@@ -521,26 +601,34 @@ independent basis with positive values $(3,1,2)$.
 Keep original row 1, subtract twice it from rows 2 and 3, and recompute the
 objective using the basic cost of $x_1$:
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_1$ & $1$ & $2$ & $-3$ & $1$ & $0$ & $0$ & $3$\\
-    $x_5$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
-    $x_6$ & $0$ & $-7$ & $-1$ & $-2$ & $0$ & $1$ & $2$\\
-    \midrule
-    $q$ & $0$ & $10$ & $-15$ & $6$ & $0$ & $0$ & $z_0=18$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_3\uparrow$)\\
+    & $c_j$ & $6$ & $2$ & $-3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $6$ & $x_1$ & $1$ & $2$ & $-3$ & $1$ & $0$ & $0$ & $3$ & $\text{--}$\\
+    $0$ & $x_5$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$ & $1 / 1=1$\\
+    $0$ & $x_6$ & $0$ & $-7$ & $-1$ & $-2$ & $0$ & $1$ & $2$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $12$ & $-18$ & $6$ & $0$ & $0$ & $18$ & \\
+    & $q$ & $0$ & $10$ & $-15$ & $6$ & $0$ & $0$ & $z_0=18$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_3$, whose indicator is $-15$.
 Only row $x_5$ has a positive coefficient; it leaves at $\theta=1$.
 Add three copies of row 2 to row 1 and add row 2 to row 3.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$\\
-    $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$\\
-    $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$\\
-    \midrule
-    $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $6$ & $2$ & $-3$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $6$ & $x_1$ & $1$ & $5$ & $0$ & $-5$ & $3$ & $0$ & $6$ & $\text{--}$\\
+    $-3$ & $x_3$ & $0$ & $1$ & $1$ & $-2$ & $1$ & $0$ & $1$ & $\text{--}$\\
+    $0$ & $x_6$ & $0$ & $-6$ & $0$ & $-4$ & $1$ & $1$ & $3$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $6$ & $27$ & $-3$ & $-24$ & $15$ & $0$ & $33$ & \\
+    & $q$ & $0$ & $25$ & $0$ & $-24$ & $15$ & $0$ & $z_0=33$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The new basis is $(1,3,6)$, exactly the same canonical system reached

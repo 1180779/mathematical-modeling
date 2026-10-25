@@ -367,7 +367,7 @@ first $m$ columns.
           \color{modelblue}x_{j_i}\\ \vdots\\ x_{j_m}
         \end{array}
         \quad
-        \left[\begin{array}{>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c|>{\columncolor{modelorange!12}\color{modelorange}}c>{\color{modelorange}}c>{\color{modelorange}}c|c}
+        \left[\begin{array}{>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c>{\color{modelblue}}c|>{\columncolor{modelorange!12}\color{modelorange}}c>{\color{modelorange}}c>{\color{modelorange}}c@{\qquad}c}
             x_{j_1}&\cdots&x_{j_i}&\cdots&x_{j_m}&x_{k_1}&\cdots&x_{k_s}&\text{RHS}\\\hline
             1&\cdots&0&\cdots&0&\bar a_{1k_1}&\cdots&\bar a_{1k_s}&\bar b_1\\
             \vdots&&\vdots&&\vdots&\vdots&&\vdots&\vdots\\
@@ -605,8 +605,31 @@ column with no positive entry. The same column with $q_k=0$ instead gives
 constant objective along a feasible ray.
 
 \subsection{Tableau update by row operations}\label{sec:row-operations}
-Write a tableau as the constraint rows $[\bar A\mid\bar b]$, followed by
-$[q^T\mid z_0]$. The last row expresses
+The tableau displays the original objective coefficients $c_j$ above the
+constraint rows. Beside each basic-variable label $x_{j_i}$, the $c_B$
+column records its objective coefficient $c_{j_i}$, not its current value.
+Below the constraint rows, compute
+\[
+  z_j=\sum_{i=1}^m c_{j_i}\bar a_{ij},\qquad
+  z_0=\sum_{i=1}^m c_{j_i}\bar b_i,\qquad q_j=z_j-c_j.
+\]
+Read this as a column calculation: multiply each entry of column $j$ by
+its row's $c_B$ coefficient, then add down the column. Doing the same to
+the RHS gives the current objective value $z_0$. The $z_j$ row therefore
+shows the weighted sum of the constraint rows; the next row subtracts the
+$c_j$ coefficients to obtain $q_j$. The RHS repeats $z_0$ in both rows;
+it is an objective value, not an additional reduced cost.
+
+For a basic column $j_i$, the weighted sum is exactly $c_{j_i}$ because
+that column is a unit vector. Subtracting $c_{j_i}$ gives its zero indicator.
+In Phase I, use the coefficients of the auxiliary objective for both $c_j$
+and $c_B$; restore the original coefficients in Phase II.
+
+In the displayed tableaus, extra space separates the
+variable coefficients from the RHS (including $z_0$ in the objective row).
+A further gap separates the RHS from the ratio calculations: these are
+annotations, not extra constraint coefficients. The ratio heading names the
+entering variable; a dash marks a row whose entering coefficient is nonpositive. The last row expresses
 $z+\sum_jq_jx_j=z_0$. For a pivot in row $r$, column $k$, use old coefficients
 on the right-hand sides of all update formulas:
 \begin{align*}
@@ -617,6 +640,8 @@ on the right-hand sides of all update formulas:
 \end{align*}
 Equivalently: divide the pivot row by $p$, then subtract suitable multiples of
 that normalized row from the other constraint rows and the indicator row.
+After the pivot, replace the leaving variable's $c_B$ entry by $c_k$ and
+recompute the $z_j$ row from the new constraint rows and basic costs.
 Column $k$ becomes a unit column, while the unchanged basic columns stay unit
 columns. The nonzero pivot also guarantees that the replacement basis is
 nonsingular. Row numbers are \emph{not} variable indices: row $r$ is labelled
@@ -637,28 +662,32 @@ $x_{j_r}$ before the pivot and $x_k$ afterwards.
   \begin{tikzpicture}[every node/.style={font=\small}]
     \node (before) at (0,0) {
       \renewcommand{\arraystretch}{1.15}
-      \begin{tabular}{ccccccc}\toprule
-        Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS\\\midrule
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
-        $x_{j_i}$ & $\cdots$ & $\bar a_{ij}$ & $\cdots$ & $\bar a_{ik}$ & $\cdots$ & $\bar b_i$\\
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
-        $\color{modelblue}x_{j_r}$ & $\cdots$ & $\color{modelblue}\bar a_{rj}$ & $\cdots$ & $\boxed{p=\bar a_{rk}}$ & $\cdots$ & $\color{modelblue}\bar b_r$\\
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\\midrule
-        $\color{modelorange}q$ & $\cdots$ & $\color{modelorange}q_j$ & $\cdots$ & $\color{modelorange}q_k$ & $\cdots$ & $\color{modelorange}z_0$\\\bottomrule
+      \begin{tabular}{r@{\enspace}c@{\quad}ccccc@{\qquad}c@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+        $c_B$ & Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS & Ratio ($x_k\uparrow$)\\
+        & $c_j$ & $\cdots$ & $c_j$ & $\cdots$ & $c_k$ & $\cdots$ &  & \\\cmidrule(r{1.5em}){1-8}
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$ & $\vdots$\\
+        $c_{j_i}$ & $x_{j_i}$ & $\cdots$ & $\bar a_{ij}$ & $\cdots$ & $\bar a_{ik}$ & $\cdots$ & $\bar b_i$ & $\bar b_i/\bar a_{ik}$\\
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$ & $\vdots$\\
+        $c_{j_r}$ & $\color{modelblue}x_{j_r}$ & $\cdots$ & $\color{modelblue}\bar a_{rj}$ & $\cdots$ & $\boxed{p=\bar a_{rk}}$ & $\cdots$ & $\color{modelblue}\bar b_r$ & $\bar b_r/p$\\
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$ & $\vdots$\\\cmidrule(r{1.5em}){1-8}
+        & $z_j$ & $\cdots$ & $z_j$ & $\cdots$ & $z_k$ & $\cdots$ & $z_0$ & \\
+        & $\color{modelorange}q$ & $\cdots$ & $\color{modelorange}q_j$ & $\cdots$ & $\color{modelorange}q_k$ & $\cdots$ & $\color{modelorange}z_0$ & \\\cmidrule(r{1.5em}){1-8}
       \end{tabular}
     };
     \node[anchor=south] at ($(before.north)+(0,0.3)$)
     {Before: pivot $p=\bar a_{rk}>0$; $x_k$ enters, $x_{j_r}$ leaves.};
     \node[anchor=north] (after) at ($(before.south)+(0,-1.5)$) {
       \renewcommand{\arraystretch}{1.35}
-      \begin{tabular}{ccccccc}\toprule
-        Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS\\\midrule
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
-        $x_{j_i}$ & $\cdots$ & $\bar a_{ij}-\dfrac{\bar a_{ik}\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\bar b_i-\dfrac{\bar a_{ik}\bar b_r}{p}$\\
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
-        $\color{modelblue}x_k$ & $\cdots$ & $\color{modelblue}\dfrac{\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}1$ & $\cdots$ & $\color{modelblue}\dfrac{\bar b_r}{p}$\\
-        $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\\midrule
-        $\color{modelorange}q'$ & $\cdots$ & $\color{modelorange}q_j-\dfrac{q_k\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\color{modelorange}z_0-\dfrac{q_k\bar b_r}{p}$\\\bottomrule
+      \begin{tabular}{r@{\enspace}c@{\quad}ccccc@{\qquad}c}\toprule
+        $c_B$ & Basic & $\cdots$ & $x_j$ & $\cdots$ & $\color{modelblue}x_k$ & $\cdots$ & RHS\\
+        & $c_j$ & $\cdots$ & $c_j$ & $\cdots$ & $c_k$ & $\cdots$ & \\\midrule
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $c_{j_i}$ & $x_{j_i}$ & $\cdots$ & $\bar a_{ij}-\dfrac{\bar a_{ik}\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\bar b_i-\dfrac{\bar a_{ik}\bar b_r}{p}$\\
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\
+        $c_k$ & $\color{modelblue}x_k$ & $\cdots$ & $\color{modelblue}\dfrac{\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}1$ & $\cdots$ & $\color{modelblue}\dfrac{\bar b_r}{p}$\\
+        $\vdots$ & $\vdots$ & & $\vdots$ & & $\vdots$ & & $\vdots$\\\midrule
+        & $z'_j$ & $\cdots$ & $z'_j$ & $\cdots$ & $c_k$ & $\cdots$ & $z'_0$\\
+        & $\color{modelorange}q'$ & $\cdots$ & $\color{modelorange}q_j-\dfrac{q_k\bar a_{rj}}{p}$ & $\cdots$ & $\color{modelblue}0$ & $\cdots$ & $\color{modelorange}z_0-\dfrac{q_k\bar b_r}{p}$\\\bottomrule
       \end{tabular}
     };
     \draw[model flow] ($(before.south)+(-4.8,-0.2)$)--($(after.north)+(-4.8,0.2)$);
@@ -671,7 +700,9 @@ $x_{j_r}$ before the pivot and $x_k$ afterwards.
     and the resulting unit column; orange marks the objective row $R_q$.
     The symbols $\bar a_{ij},\bar b_i,q_j,z_0$ denote old values;
     $R'_r$ is the normalized pivot row.
-    The structural zeros and one are independent of the problem data.}
+    The structural zeros and one are independent of the problem data.
+    Ratios on the right use old values and only rows with $\bar a_{ik}>0$;
+    the leaving row minimizes these eligible ratios.}
   \label{fig:general-tableau-pivot}
 \end{figure}
 Without degeneracy each pivot strictly increases the objective, so no basis
@@ -746,12 +777,17 @@ basic variables; all unlisted variables are zero at the current BFS.
 \subsection{Start: the slack basis}
 The ordered basis is $B=(3,4,5)$.
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_3$ & 2 & 1 & 1 & 0 & 0 & 10\\
-    $x_4$ & 3 & 3 & 0 & 1 & 0 & 24\\
-    $x_5$ & $\boxed{3/2}$ & 0 & 0 & 0 & 1 & 6\\\midrule
-    $q$ & $-3$ & $-2$ & 0 & 0 & 0 & $z_0=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $x_3$ & 2 & 1 & 1 & 0 & 0 & 10 & $10 / 2=5$\\
+    $0$ & $x_4$ & 3 & 3 & 0 & 1 & 0 & 24 & $24 / 3=8$\\
+    $0$ & $x_5$ & $\boxed{3/2}$ & 0 & 0 & 0 & 1 & 6 & $6 / (3 / 2)=4$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q$ & $-3$ & $-2$ & 0 & 0 & 0 & $z_0=0$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Dantzig's rule selects $x_1$, because $-3<-2$. Ratios are
@@ -764,14 +800,25 @@ Divide the third row by $3/2$, then eliminate column $x_1$ from the first two
 rows and the indicator row. For example, $R_1\leftarrow R_1-2R_3$ gives
 $x_2+x_3-\frac43x_5=2$.
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_3$ & 0 & $\boxed{1}$ & 1 & 0 & $-4/3$ & 2\\
-    $x_4$ & 0 & 3 & 0 & 1 & $-2$ & 12\\
-    $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4\\\midrule
-    $q$ & 0 & $-2$ & 0 & 0 & 2 & $z_0=12$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_2\uparrow$)\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $x_3$ & 0 & $\boxed{1}$ & 1 & 0 & $-4/3$ & 2 & $2 / 1=2$\\
+    $0$ & $x_4$ & 0 & 3 & 0 & 1 & $-2$ & 12 & $12 / 3=4$\\
+    $3$ & $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $3$ & $0$ & $0$ & $0$ & $2$ & $12$ & \\
+    & $q$ & 0 & $-2$ & 0 & 0 & 2 & $z_0=12$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
+The new basic costs are $(0,0,3)$ for $(x_3,x_4,x_1)$.
+For example, the $x_5$ column gives
+\[
+  z_5=0(-4/3)+0(-2)+3(2/3)=2,\qquad q_5=z_5-c_5=2-0=2.
+\]
+The same weights on the RHS give $z_0=0(2)+0(12)+3(4)=12$.
 The production point is $(4,0)$. Enter $x_2$: its positive-column ratios
 are $2/1=2$ and $12/3=4$, while the third row has coefficient zero and is
 excluded. Thus $x_3$ leaves and revenue gains $2\cdot2=4$.
@@ -780,12 +827,17 @@ excluded. Thus $x_3$ leaves and revenue gains $2\cdot2=4$.
 \subsection{Second pivot}
 The ordered basis is $B=(2,4,1)$.
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_2$ & 0 & 1 & 1 & 0 & $-4/3$ & 2\\
-    $x_4$ & 0 & 0 & $-3$ & 1 & $\boxed{2}$ & 6\\
-    $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4\\\midrule
-    $q$ & 0 & 0 & 2 & 0 & $-2/3$ & $z_0=16$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_5\uparrow$)\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $2$ & $x_2$ & 0 & 1 & 1 & 0 & $-4/3$ & 2 & $\text{--}$\\
+    $0$ & $x_4$ & 0 & 0 & $-3$ & 1 & $\boxed{2}$ & 6 & $6 / 2=3$\\
+    $3$ & $x_1$ & 1 & 0 & 0 & 0 & $2/3$ & 4 & $4 / (2 / 3)=6$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $3$ & $2$ & $2$ & $0$ & $-\tfrac{2}{3}$ & $16$ & \\
+    & $q$ & 0 & 0 & 2 & 0 & $-2/3$ & $z_0=16$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 At $(4,2)$, enter $x_5$. A slack can enter the basis just like any other
@@ -797,12 +849,17 @@ Thus $x_4$ leaves with step 3 and revenue gain $(2/3)\cdot3=2$.
 \subsection{Third pivot and certificate}
 The ordered basis is $B=(2,5,1)$.
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6\\
-    $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3\\
-    $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2\\\midrule
-    $q$ & 0 & 0 & 1 & $1/3$ & 0 & $z_0=18$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\
+    & $c_j$ & $3$ & $2$ & $0$ & $0$ & $0$ & \\
+    \midrule
+    $2$ & $x_2$ & 0 & 1 & $-1$ & $2/3$ & 0 & 6\\
+    $0$ & $x_5$ & 0 & 0 & $-3/2$ & $1/2$ & 1 & 3\\
+    $3$ & $x_1$ & 1 & 0 & 1 & $-1/3$ & 0 & 2\\
+    \midrule
+    & $z_j$ & $3$ & $2$ & $1$ & $\tfrac{1}{3}$ & $0$ & $18$\\
+    & $q$ & 0 & 0 & 1 & $1/3$ & 0 & $z_0=18$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 All indicators are nonnegative. Therefore
@@ -870,21 +927,31 @@ is unbounded above, give an improving feasible ray:
 \]
 Add slacks $x_5,x_6$. The initial basis is $(5,6)$ and the tableau is
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_5$ & $\boxed{1}$ & 2 & $-1$ & $-1$ & 1 & 0 & 4\\
-    $x_6$ & 2 & $-2$ & 3 & $-3$ & 0 & 1 & 9\\\midrule
-    $q$ & $-3$ & $-1$ & 3 & 1 & 0 & 0 & $z_0=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $3$ & $1$ & $-3$ & $-1$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $0$ & $x_5$ & $\boxed{1}$ & 2 & $-1$ & $-1$ & 1 & 0 & 4 & $4 / 1=4$\\
+    $0$ & $x_6$ & 2 & $-2$ & 3 & $-3$ & 0 & 1 & 9 & $9 / 2$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & \\
+    & $q$ & $-3$ & $-1$ & 3 & 1 & 0 & 0 & $z_0=0$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Enter $x_1$. The ratios $4$ and $9/2$ select the first row, so $x_5$ leaves.
 After subtracting twice the first row from the second:
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_1$ & 1 & 2 & $-1$ & $-1$ & 1 & 0 & 4\\
-    $x_6$ & 0 & $-6$ & 5 & $-1$ & $-2$ & 1 & 1\\\midrule
-    $q$ & 0 & 5 & 0 & $-2$ & 3 & 0 & $z_0=12$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $3$ & $1$ & $-3$ & $-1$ & $0$ & $0$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $3$ & $x_1$ & 1 & 2 & $-1$ & $-1$ & 1 & 0 & 4 & $\text{--}$\\
+    $0$ & $x_6$ & 0 & $-6$ & 5 & $-1$ & $-2$ & 1 & 1 & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $3$ & $6$ & $-3$ & $-3$ & $3$ & $0$ & $12$ & \\
+    & $q$ & 0 & 5 & 0 & $-2$ & 3 & 0 & $z_0=12$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Now $q_4=-2$ and the $x_4$ column is $(-1,-1)^T$. There is no positive
@@ -1065,42 +1132,62 @@ Introduce artificial variables $x_5,x_6$ and maximize $-x_5-x_6$ in Phase I:
 The basis $(5,6)$ gives $x_5=1$, $x_6=1/2$, and $w=3/2$.
 Use the Phase I coefficients $c^{\mathrm I}=(0,0,0,0,-1,-1)^T$:
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_5$ & 1 & 1 & 1 & 1 & 1 & 0 & 1\\
-    $x_6$ & $\boxed{1}$ & 0 & 1 & $-3$ & 0 & 1 & $1/2$\\\midrule
-    $q^{\mathrm I}$ & $-2$ & $-1$ & $-2$ & 2 & 0 & 0 & $z_{\mathrm I}=-3/2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $0$ & $-1$ & $-1$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $-1$ & $x_5$ & 1 & 1 & 1 & 1 & 1 & 0 & 1 & $1 / 1=1$\\
+    $-1$ & $x_6$ & $\boxed{1}$ & 0 & 1 & $-3$ & 0 & 1 & $1/2$ & $(1 / 2) / 1=1 / 2$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $-2$ & $-1$ & $-2$ & $2$ & $-1$ & $-1$ & $-\tfrac{3}{2}$ & \\
+    & $q^{\mathrm I}$ & $-2$ & $-1$ & $-2$ & 2 & 0 & 0 & $z_{\mathrm I}=-3/2$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 The most negative indicators tie for $x_1$ and $x_3$; select $x_1$ by smaller
 index. Ratios $1$ and $1/2$ select row 2, so $x_6$ leaves.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_5$ & 0 & 1 & 0 & $\boxed{4}$ & 1 & $-1$ & $1/2$\\
-    $x_1$ & 1 & 0 & 1 & $-3$ & 0 & 1 & $1/2$\\\midrule
-    $q^{\mathrm I}$ & 0 & $-1$ & 0 & $-4$ & 0 & 2 & $z_{\mathrm I}=-1/2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-9}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $0$ & $-1$ & $-1$ &  & \\
+    \cmidrule(r{1.5em}){1-9}
+    $-1$ & $x_5$ & 0 & 1 & 0 & $\boxed{4}$ & 1 & $-1$ & $1/2$ & $(1 / 2) / 4=1 / 8$\\
+    $0$ & $x_1$ & 1 & 0 & 1 & $-3$ & 0 & 1 & $1/2$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-9}
+    & $z_j$ & $0$ & $-1$ & $0$ & $-4$ & $-1$ & $1$ & $-\tfrac{1}{2}$ & \\
+    & $q^{\mathrm I}$ & 0 & $-1$ & 0 & $-4$ & 0 & 2 & $z_{\mathrm I}=-1/2$ & \\
+    \cmidrule(r{1.5em}){1-9}
   \end{tabular}
 \end{center}
 Now $x_4$ enters and only row 1 has a positive coefficient. The step is
 $(1/2)/4=1/8$, and $x_5$ leaves. The Phase I objective increases by
 $4\cdot(1/8)=1/2$ to zero.
 \begin{center}
-  \begin{tabular}{crrrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\\midrule
-    $x_4$ & 0 & $1/4$ & 0 & 1 & $1/4$ & $-1/4$ & $1/8$\\
-    $x_1$ & 1 & $3/4$ & 1 & 0 & $3/4$ & $1/4$ & $7/8$\\\midrule
-    $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & 1 & $z_{\mathrm I}=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & RHS\\
+    & $c_j$ & $0$ & $0$ & $0$ & $0$ & $-1$ & $-1$ & \\
+    \midrule
+    $0$ & $x_4$ & 0 & $1/4$ & 0 & 1 & $1/4$ & $-1/4$ & $1/8$\\
+    $0$ & $x_1$ & 1 & $3/4$ & 1 & 0 & $3/4$ & $1/4$ & $7/8$\\
+    \midrule
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$\\
+    & $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & 1 & $z_{\mathrm I}=0$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 Both artificials are nonbasic and zero. Delete columns 5 and 6; retain
 $B=(4,1)$. Recompute the objective using $c^{\mathrm{II}}=(-1,-2,-3,-4)^T$:
 \begin{center}
-  \begin{tabular}{crrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\\midrule
-    $x_4$ & 0 & $1/4$ & 0 & 1 & $1/8$\\
-    $x_1$ & 1 & $3/4$ & 1 & 0 & $7/8$\\\midrule
-    $q^{\mathrm{II}}$ & 0 & $1/4$ & 2 & 0 & $z_{\mathrm{II}}=-11/8$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\
+    & $c_j$ & $-1$ & $-2$ & $-3$ & $-4$ & \\
+    \midrule
+    $-4$ & $x_4$ & 0 & $1/4$ & 0 & 1 & $1/8$\\
+    $-1$ & $x_1$ & 1 & $3/4$ & 1 & 0 & $7/8$\\
+    \midrule
+    & $z_j$ & $-1$ & $-\tfrac{7}{4}$ & $-1$ & $-4$ & $-\tfrac{11}{8}$\\
+    & $q^{\mathrm{II}}$ & 0 & $1/4$ & 2 & 0 & $z_{\mathrm{II}}=-11/8$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 All Phase II indicators are nonnegative, so this start has already reached the
@@ -1124,30 +1211,45 @@ Keep $x_2$ basic in row 1 and introduce only $x_5=a$ in row 2:
 \]
 Start with $B=(2,5)$ and maximize $-x_5$.
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_2$ & 1 & 1 & 1 & 1 & 0 & 1\\
-    $x_5$ & $\boxed{1}$ & 0 & 1 & $-3$ & 1 & $1/2$\\\midrule
-    $q^{\mathrm I}$ & $-1$ & 0 & $-1$ & 3 & 0 & $z_{\mathrm I}=-1/2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-8}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS & Ratio ($x_1\uparrow$)\\
+    & $c_j$ & $0$ & $0$ & $0$ & $0$ & $-1$ &  & \\
+    \cmidrule(r{1.5em}){1-8}
+    $0$ & $x_2$ & 1 & 1 & 1 & 1 & 0 & 1 & $1 / 1=1$\\
+    $-1$ & $x_5$ & $\boxed{1}$ & 0 & 1 & $-3$ & 1 & $1/2$ & $(1 / 2) / 1=1 / 2$\\
+    \cmidrule(r{1.5em}){1-8}
+    & $z_j$ & $-1$ & $0$ & $-1$ & $3$ & $-1$ & $-\tfrac{1}{2}$ & \\
+    & $q^{\mathrm I}$ & $-1$ & 0 & $-1$ & 3 & 0 & $z_{\mathrm I}=-1/2$ & \\
+    \cmidrule(r{1.5em}){1-8}
   \end{tabular}
 \end{center}
 Enter $x_1$ and remove $x_5$ after step $1/2$:
 \begin{center}
-  \begin{tabular}{crrrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\\midrule
-    $x_2$ & 0 & 1 & 0 & 4 & $-1$ & $1/2$\\
-    $x_1$ & 1 & 0 & 1 & $-3$ & 1 & $1/2$\\\midrule
-    $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & $z_{\mathrm I}=0$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrrr@{\qquad}r}\toprule
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & RHS\\
+    & $c_j$ & $0$ & $0$ & $0$ & $0$ & $-1$ & \\
+    \midrule
+    $0$ & $x_2$ & 0 & 1 & 0 & 4 & $-1$ & $1/2$\\
+    $0$ & $x_1$ & 1 & 0 & 1 & $-3$ & 1 & $1/2$\\
+    \midrule
+    & $z_j$ & $0$ & $0$ & $0$ & $0$ & $0$ & $0$\\
+    & $q^{\mathrm I}$ & 0 & 0 & 0 & 0 & 1 & $z_{\mathrm I}=0$\\
+    \bottomrule
   \end{tabular}
 \end{center}
 Delete column 5. The feasible original point is $(1/2,1/2,0,0)^T$, but
 recomputing its \emph{original} objective gives
 \begin{center}
-  \begin{tabular}{crrrrr}\toprule
-    Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS\\\midrule
-    $x_2$ & 0 & 1 & 0 & $\boxed{4}$ & $1/2$\\
-    $x_1$ & 1 & 0 & 1 & $-3$ & $1/2$\\\midrule
-    $q^{\mathrm{II}}$ & 0 & 0 & 2 & $-1$ & $z_{\mathrm{II}}=-3/2$\\\bottomrule
+  \begin{tabular}{r@{\enspace}c@{\quad}rrrr@{\qquad}r@{\qquad\quad}l}\cmidrule(r{1.5em}){1-7}
+    $c_B$ & Basic & $x_1$ & $x_2$ & $x_3$ & $x_4$ & RHS & Ratio ($x_4\uparrow$)\\
+    & $c_j$ & $-1$ & $-2$ & $-3$ & $-4$ &  & \\
+    \cmidrule(r{1.5em}){1-7}
+    $-2$ & $x_2$ & 0 & 1 & 0 & $\boxed{4}$ & $1/2$ & $(1 / 2) / 4=1 / 8$\\
+    $-1$ & $x_1$ & 1 & 0 & 1 & $-3$ & $1/2$ & $\text{--}$\\
+    \cmidrule(r{1.5em}){1-7}
+    & $z_j$ & $-1$ & $-2$ & $-1$ & $-5$ & $-\tfrac{3}{2}$ & \\
+    & $q^{\mathrm{II}}$ & 0 & 0 & 2 & $-1$ & $z_{\mathrm{II}}=-3/2$ & \\
+    \cmidrule(r{1.5em}){1-7}
   \end{tabular}
 \end{center}
 The negative indicator for $x_4$ requires a Phase II pivot. Enter $x_4$,
