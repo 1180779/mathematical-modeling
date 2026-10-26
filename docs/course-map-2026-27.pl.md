@@ -5,14 +5,15 @@
 ## Zakres i ścieżki czytania
 
 Mapa obejmuje dostarczone `ProgMat_w1.pdf`, `ProgMatc1.pdf` i odręczny
-`lecture_19_10_2026.pdf` (19 października 2026), dwa dostarczone zadania z laboratorium 2
+`lecture_19_10_2026.pdf` (19 października 2026) oraz
+`lecture_26_10_2026.pdf` (26 października 2026), dwa dostarczone zadania z laboratorium 2
 oraz potwierdzone tematy laboratorium 3. Ścieżki źródeł,
 pochodzenie i rozbieżności opisuje [wykaz źródeł](sources.pl.md). Numery stron
 oznaczają strony PDF-ów. Numery rozdziałów opisują pojęciowy tok notatek;
 są niezależne od numerów bieżących wykładów i zestawów. Wszystkie poniższe tematy
 i zadania mają opracowane objaśnienia lub rozwiązania ręczne. Przyszły zakres kursu,
 szczegółowe wymagania zaliczeniowe i późniejsze laboratoria pozostają nieznane. Odręczne notatki ustalają
-datę wykładu 19 października; daty zajęć ze slajdów pozostają nieznane.
+daty wykładów 19 i 26 października; daty zajęć ze slajdów pozostają nieznane.
 
 Do modelowania przeczytaj [rozdział 1](../output/lectures/01-optimization-modeling.pdf),
 sekcje modelowania w [rozdziale 2](../output/lectures/02-linear-programming.pdf),
@@ -21,9 +22,11 @@ Do pierwszego zestawu przejdź przez postać standardową, geometrię i bazy w r
 [rozdział 3](../output/lectures/03-simplex-method.pdf) oraz potrzebne sekcje
 [rozdziału 4](../output/lectures/04-degeneracy-and-duality.pdf). Odręczne notatki
 potwierdzają cykle, perturbację, regułę Blanda, dualność i komplementarność jako
-bieżące tematy. Złożoność w rozdziale 4 oraz
-[rozdział 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) pozostają
-rozszerzeniami; dostarczone bieżące materiały nie potwierdzają ich jako wymagań.
+bieżące tematy. Wykład z 26 października dodaje sympleks dualny, inicjalizację
+z tymczasowym celem, przykład Klee–Minty’ego i analizę wrażliwości w
+[rozdziale 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf).
+Późniejsze usuwanie elementów modelu, mnożniki Lagrange’a, nieliniowe KKT
+i bariery pozostają rozszerzeniami o niepotwierdzonej zgodności z wykładem.
 
 ## Dostarczone zadania z laboratorium 2
 
@@ -115,6 +118,30 @@ Nowe tablice wymian i certyfikaty przeszły niezależne sprawdzenie w dokładnej
 arytmetyce wymiernej. Istniejącego skryptu MATLAB nie rozszerzano ani nie
 uruchamiano ponownie dla tych dodatków.
 
+## Odręczny wykład: 26 października 2026
+
+Przejrzano wizualnie wszystkie osiem stron BOOX. Kontynuuj sekcje sympleksu
+dualnego w rozdziale 4, następnie bazy i wrażliwość w rozdziale 5.
+
+| Strony PDF | Zapisany temat | Miejsce w notatkach i wynik |
+| --- | --- | --- |
+| 1–2 | Sympleks dualny, wybór ujemnej prawej strony, odwrócony test ilorazów | Rozdział 4, „Two dual pivots with an infeasible slack start”: bazy `(w1,x1,w3)`, następnie `(w1,x1,w2)`, prymalne `(7,0)`, dualne `(0,0,1)`, wartość `-7` |
+| 3 | Oba starty niedopuszczalne; cel tymczasowy i metoda dualno-prymalna | Rozdział 4, „A temporary objective to find a feasible point”: po uzyskaniu dopuszczalności przywrócić `(-1,4)`; promień `(7,0)+t(3,1)` ma wartość `-7+t`, więc zapisane zadanie jest nieograniczone, a dual sprzeczny |
+| 3–4 | Równości i zmienne swobodne w konstrukcji dualu | Rozdział 4, „Why an equality row has a free dual multiplier”; wyprowadzenie `y=y+−y−` i równości dualnej dla swobodnej zmiennej prymalnej |
+| 5 | Algebra bazy i rodzina Klee–Minty’ego | Rozdział 4, wspólna notacja i „Complexity and the route to an optimum”; rozdział 5, „What an optimal basis tells us”. Wykładnicza ścieżka zależy od reguły wyboru; nie wnioskujemy ogólnej średniej liniowej złożoności |
+| 6 | Wrażliwość na jedną prawą stronę i naprawa sympleksem dualnym | Rozdział 5, „Changing one right-hand side”: przecięcie nierówności wartości bazowych, puste granice i zerowe elementy, zachowanie bazy na przedziale domkniętym |
+| 7 | Zakresy współczynników celu niebazowego/bazowego | Rozdział 5, „Changing one objective coefficient”: `qk'=qk−t` dla kosztu niebazowego; `qj'=qj+t a_bar_sj` dla bazowego |
+| 7–8 | Zmiana całego celu i wektora prawych stron | Rozdział 5, „Vector changes and parameter regions” i „Choosing a method after a model change”; zmiana kosztu zachowuje dopuszczalność prymalną, zmiana prawej strony dualną |
+| 8 | Dodanie nierówności i bazowej zmiennej luzu | Rozdział 5, „Adding a constraint”: wyeliminować stare kolumny bazowe, zachować wskaźniki, przy ujemnej reszcie użyć sympleksu dualnego |
+
+Końcowe uwagi rozdziałów 4–5 zapisują korekty znaków i indeksów źródła:
+kolumny dualnej na s. 3, równania bazy na s. 5, górnej granicy zmiany prawej
+strony na s. 6 oraz wzorów kosztowych na s. 7. Pytanie z s. 8 o usunięcie
+ograniczenia zapowiedziano na następne zajęcia; istniejące opracowanie tej
+sekcji nie jest potwierdzone przez ten wykład. Nowe tablice i certyfikaty
+wyników przeszły dokładne sprawdzenie wymierne. Istniejących skryptów MATLAB
+nie rozszerzono ani nie uruchomiono ponownie.
+
 ## Dostarczony zestaw 1
 
 Trzy dokumenty zachowują oryginalne polskie polecenia i dane:
@@ -181,11 +208,12 @@ zachować niepewność przyszłej zgodności zamiast wnioskować z dawnych wykł
 
 ## Wizualne oznaczenia wykładu
 
-Kremowe ramki `lecturecore` w rozdziałach 1–4 i Schematach modelowania oznaczają
+Kremowe ramki `lecturecore` w rozdziałach 1–5 i Schematach modelowania oznaczają
 wybrane modele, wzory i twierdzenia bezpośrednio potwierdzone przez bieżące źródła
-wykładowe zmapowane powyżej (23 bloki). Każdy dokument ma legendę. Dowody,
-rozwiązania i inne dodatki poza ramkami nadal objaśniają materiał bez twierdzenia,
-że dokładnie te szczegóły zapisano na zajęciach. Rozdział 5 nie ma takich oznaczeń,
-ponieważ jego zgodność z wykładem pozostaje niepotwierdzona. Osobne kolory komórek
-w powiązanych tablicach rozdziału 4 śledzą role matematyczne, w tym współczynniki
-celu, prawe strony i odzyskane rozwiązania prymalne/dualne.
+wykładowe zmapowane powyżej. Każdy dokument ma legendę. Dowody, rozwiązania
+i inne dodatki poza ramkami nadal objaśniają materiał bez twierdzenia,
+że dokładnie te szczegóły zapisano na zajęciach. Oznaczenia rozdziału 5 obejmują
+potwierdzoną analizę wrażliwości; późniejsze tematy pozostają bez oznaczeń,
+gdy ich zgodność jest nieznana. Osobne kolory komórek w powiązanych tablicach
+rozdziału 4 śledzą role matematyczne, w tym współczynniki celu, prawe strony
+i odzyskane rozwiązania prymalne/dualne.

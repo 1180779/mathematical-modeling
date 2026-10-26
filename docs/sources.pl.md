@@ -5,7 +5,7 @@
 ## Bieżące materiały kursu 2026–27
 
 Użytkownik dostarczył następujące materiały bieżącego kursu. Odręczne notatki
-jawnie datują wykład na 19 października 2026. Daty zajęć ze slajdów i zestawu nie
+jawnie datują wykłady na 19 i 26 października 2026. Daty zajęć ze slajdów i zestawu nie
 są ustalone; same metadane PDF-ów ich nie ustalają.
 Ścieżki są względne wobec katalogu głównego repozytorium; oryginały pozostają poza nim.
 
@@ -14,6 +14,7 @@ są ustalone; same metadane PDF-ów ich nie ustalają.
 | `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
 | `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
 | `lecture_19_10_2026.pdf` | 10 | `../lecutures_notes/lecture_19_10_2026.pdf` |
+| `lecture_26_10_2026.pdf` | 8 | `../lecutures_notes/lecture_26_10_2026.pdf` |
 
 Odręczny eksport BOOX przejrzano wizualnie na wszystkich dziesięciu stronach.
 Treść włączono do rozdziału 4: cykle, perturbacja symboliczna, reguła Blanda,
@@ -26,6 +27,19 @@ mapa kursu podaje ścieżkę według stron. Dokładne sprawdzenie wymierne obję
 wszystkie osiem nowych tablic po wymianach i certyfikaty; nie przypisuje się
 nowego uruchomienia MATLAB-a.
 
+
+Osiem stron eksportu BOOX z 26 października również przejrzano wizualnie.
+Rozdział 4 rozwija teraz bezpośrednią ścieżkę dwóch wymian sympleksu dualnego,
+fazę dopuszczalności z tymczasowym celem i nieograniczoność zmienionego celu,
+a także wyprowadzenie dualu dla równości i zmiennych swobodnych. Istniejące
+objaśnienia wrażliwości i nowej nierówności w rozdziale 5 są teraz częściowo
+potwierdzone i wybiórczo oznaczone. Mapa kursu wskazuje miejsca dla wszystkich
+stron. Końcowe uwagi korygują znaki i indeksy źródła, zachowując dane zadań.
+Przykład Klee–Minty’ego jest już potwierdzonym tematem; nieokreślone twierdzenie
+źródła o średniej złożoności nadal opatrzono zastrzeżeniem. Usunięcie ograniczenia
+jedynie zapowiedziano, a późniejsze tematy rozdziału 5 pozostają rozszerzeniami.
+Nowe tablice i certyfikaty przeszły dokładne sprawdzenie wymierne;
+nie przypisuje się nowego uruchomienia MATLAB-a.
 
 Wykład rozwija modelowanie PL aż do sympleksu i inicjalizacji. Rozdziały 01–03
 oraz nowy dodatek ze schematami modelowania włączają jego treść. Zestaw ma 16

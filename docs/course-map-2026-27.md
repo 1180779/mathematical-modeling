@@ -5,14 +5,15 @@ English | [Polski](course-map-2026-27.pl.md)
 ## Scope and reading routes
 
 This map covers the supplied `ProgMat_w1.pdf`, `ProgMatc1.pdf`, and handwritten
-`lecture_19_10_2026.pdf` (19 October 2026), the two supplied Lab 2 tasks,
+`lecture_19_10_2026.pdf` (19 October 2026) and
+`lecture_26_10_2026.pdf` (26 October 2026), the two supplied Lab 2 tasks,
 and the confirmed Lab 3 topics. Source paths,
 provenance and discrepancies are in the [source inventory](sources.md). Page
 numbers mean PDF pages. Chapter numbers describe the notes' conceptual sequence;
 they are independent of current lecture and sheet numbers. All topics and tasks
 below have developed explanations or hand solutions. Future course coverage,
 detailed assessment requirements and later labs remain unknown. The handwriting establishes the
-19 October lecture date; delivery dates for the slide deck remain unknown.
+19 and 26 October lecture dates; delivery dates for the slide deck remain unknown.
 
 For modeling, read [Chapter 1](../output/lectures/01-optimization-modeling.pdf),
 the modeling sections of [Chapter 2](../output/lectures/02-linear-programming.pdf),
@@ -21,9 +22,11 @@ For the first sheet, follow Chapter 2's standard form, geometry and bases,
 [Chapter 3](../output/lectures/03-simplex-method.pdf), then the required sections
 of [Chapter 4](../output/lectures/04-degeneracy-and-duality.pdf). The handwritten
 lecture confirms cycling, perturbation, Bland's rule, duality and complementarity
-as current topics. Complexity in Chapter 4 and
-[Chapter 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf) remain
-enrichment; the supplied current materials do not confirm them as requirements.
+as current topics. The 26 October lecture adds dual simplex, temporary-objective
+initialization, the Klee–Minty example and sensitivity analysis in
+[Chapter 5](../output/lectures/05-sensitivity-and-lagrange-multipliers.pdf).
+Later structural deletions, Lagrange multipliers, nonlinear KKT and barriers
+remain enrichment with unconfirmed lecture alignment.
 
 ## Supplied Lab 2 tasks
 
@@ -111,6 +114,29 @@ a transformed dual; this is distinct from the dual-simplex algorithm. New pivot
 tableaus and certificates passed independent exact rational checks. The existing
 MATLAB companion has not been extended or rerun for these additions.
 
+## Handwritten lecture: 26 October 2026
+
+All eight BOOX pages were reviewed visually. Continue through Chapter 4's dual
+simplex sections, then Chapter 5's basis and sensitivity sections.
+
+| PDF pages | Recorded topic | Reading destination and outcome |
+| --- | --- | --- |
+| 1–2 | Dual simplex, negative RHS selection, reversed ratio test | Chapter 4, “Two dual pivots with an infeasible slack start”: bases `(w1,x1,w3)` then `(w1,x1,w2)`, primal `(7,0)`, dual `(0,0,1)`, value `-7` |
+| 3 | Neither start feasible; temporary objective and dual–primal method | Chapter 4, “A temporary objective to find a feasible point”: restore `(-1,4)` after feasibility; ray `(7,0)+t(3,1)` has value `-7+t`, so the written problem is unbounded and its dual infeasible |
+| 3–4 | Equality constraints and free variables in dual construction | Chapter 4, “Why an equality row has a free dual multiplier”; derive `y=y+−y−` and the dual equality for a free primal variable |
+| 5 | Basis algebra and Klee–Minty family | Chapter 4, canonical notation and “Complexity and the route to an optimum”; Chapter 5, “What an optimal basis tells us”. The exponential path depends on the pivot rule; no general average linear bound is inferred |
+| 6 | One-RHS sensitivity and dual-simplex repair | Chapter 5, “Changing one right-hand side”: intersect basic-value inequalities, handle empty bounds/zero entries, retain the basis on the closed interval |
+| 7 | Nonbasic/basic objective coefficient ranges | Chapter 5, “Changing one objective coefficient”: `qk'=qk−t` for a nonbasic cost; `qj'=qj+t a_bar_sj` for a basic cost |
+| 7–8 | Whole objective and RHS changes | Chapter 5, “Vector changes and parameter regions” and “Choosing a method after a model change”; primal feasibility survives a cost change, dual feasibility survives an RHS change |
+| 8 | Adding an inequality and a basic slack | Chapter 5, “Adding a constraint”: eliminate old basic columns, retain indicators, use dual simplex if the new residual is negative |
+
+Final remarks in Chapters 4–5 record sign/index corrections in the source:
+the page-3 dual column, the page-5 basis equation, the page-6 RHS upper bound,
+and page-7 cost formulas. The page-8 question about deleting a constraint is
+announced for next time; its existing developed section is not confirmed by
+this lecture. New pivot tableaus and outcome certificates passed exact rational
+checks. Existing MATLAB companions were not extended or rerun.
+
 ## Supplied sheet 1
 
 The three reading documents preserve the original Polish instructions and data:
@@ -176,11 +202,12 @@ preserve uncertain future alignment rather than extrapolating from historical le
 
 ## Visual lecture cues
 
-Cream `lecturecore` boxes in Chapters 1–4 and Modeling patterns mark selected
+Cream `lecturecore` boxes in Chapters 1–5 and Modeling patterns mark selected
 models, formulas and theorem statements directly supported by the current
-lecture sources mapped above (23 blocks). Each document includes a legend.
+lecture sources mapped above. Each document includes a legend.
 Unboxed proofs, worked solutions and other additions retain their explanatory
-role without a claim that those exact details were recorded in class. Chapter 5
-has no such highlights because its lecture alignment remains unconfirmed.
+role without a claim that those exact details were recorded in class.
+Chapter 5's highlights cover the confirmed sensitivity material; later topics
+remain unmarked where alignment is unknown.
 The separate cell colors in Chapter 4's paired tableaus track mathematical roles,
 including objective coefficients, RHS values and recovered primal/dual solutions.

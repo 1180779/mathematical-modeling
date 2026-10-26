@@ -8,6 +8,7 @@
 \date{}
 \begin{document}
 \maketitle
+\lecturelegend
 {\small\tableofcontents}
 \clearpage
 
@@ -21,20 +22,22 @@ We work with
 \]
 An ordered basis $B=(j_1,\ldots,j_m)$ selects a nonsingular matrix $A_B$.
 Let $N$ be the remaining indices, and define
-\begin{equation}\label{eq:basis-data}
-  \bar A=A_B^{-1}A,\quad\bar b=A_B^{-1}b,\quad
-  y=A_B^{-T}c_B,\quad q=A^Ty-c=\bar A^Tc_B-c.
-\end{equation}
-Our sign convention is $q_j=z_j-c_j$, the negative of the usual reduced cost.
-The basic solution and objective dictionary are
-\begin{equation}\label{eq:dictionary}
-  x_N=0,\quad x_B=\bar b,\qquad
-  c^Tx=z_0-q_N^Tx_N,\quad z_0=c_B^T\bar b=b^Ty.
-\end{equation}
-Thus $\bar b\geq0$ establishes primal feasibility, and $q\geq0$ establishes
-dual feasibility for $\min b^Ty$ subject to $A^Ty\geq c$, $y$ free.
-Together they certify optimality.
+\begin{lecturecore}
+  \begin{equation}\label{eq:basis-data}
+    \bar A=A_B^{-1}A,\quad\bar b=A_B^{-1}b,\quad
+    y=A_B^{-T}c_B,\quad q=A^Ty-c=\bar A^Tc_B-c.
+  \end{equation}
+  Our sign convention is $q_j=z_j-c_j$, the negative of the usual reduced cost.
+  The basic solution and objective dictionary are
+  \begin{equation}\label{eq:dictionary}
+    x_N=0,\quad x_B=\bar b,\qquad
+    c^Tx=z_0-q_N^Tx_N,\quad z_0=c_B^T\bar b=b^Ty.
+  \end{equation}
+  Thus $\bar b\geq0$ establishes primal feasibility, and $q\geq0$ establishes
+  dual feasibility for $\min b^Ty$ subject to $A^Ty\geq c$, $y$ free.
+  Together they certify optimality.
 
+\end{lecturecore}
 Here an \emph{optimal basis} means a basis passing both tests. An optimal point
 can have several bases, and at a degenerate optimal point a particular basis may
 fail $q\geq0$. The calculations below follow the chosen certifying basis.
@@ -70,17 +73,19 @@ they must be tested together, not against separate one-parameter intervals.
 \end{figure}
 
 \section{Changing one right-hand side}\label{sec:rhs}
-Change only equation $r$:
-\[
-  b'=b+t e_r,\qquad v=A_B^{-1}e_r,\qquad \bar b'=\bar b+t v.
-\]
-Since $A$ and $c$ stay fixed, $q$ and $y$ stay fixed. The basis remains optimal
-exactly when every basic value stays nonnegative:
-\begin{equation}\label{eq:rhs-interval}
-  \max_{i:v_i>0}\left(-\frac{\bar b_i}{v_i}\right)
-  \leq t\leq
-  \min_{i:v_i<0}\left(-\frac{\bar b_i}{v_i}\right).
-\end{equation}
+\begin{lecturecore}
+  Change only equation $r$:
+  \[
+    b'=b+t e_r,\qquad v=A_B^{-1}e_r,\qquad \bar b'=\bar b+t v.
+  \]
+  Since $A$ and $c$ stay fixed, $q$ and $y$ stay fixed. The basis remains optimal
+  exactly when every basic value stays nonnegative:
+  \begin{equation}\label{eq:rhs-interval}
+    \max_{i:v_i>0}\left(-\frac{\bar b_i}{v_i}\right)
+    \leq t\leq
+    \min_{i:v_i<0}\left(-\frac{\bar b_i}{v_i}\right).
+  \end{equation}
+\end{lecturecore}
 An empty maximum is $-\infty$, and an empty minimum is $+\infty$.
 A zero $v_i$ imposes no new restriction because the starting $\bar b_i\geq0$.
 Indices $i$ refer to \emph{basis rows}; $r$ refers to an original equation.
@@ -242,10 +247,12 @@ Changing $c$ preserves every feasible point and the old basic vector.
 It changes the dual certificate and, usually, the value.
 
 \subsection{A nonbasic coefficient}
-If $k\in N$ and $c_k'=c_k+t$, then $c_B$ and $y$ are unchanged:
-\[
-  q_k'=q_k-t,\qquad q_j'=q_j\ (j\ne k).
-\]
+\begin{lecturecore}
+  If $k\in N$ and $c_k'=c_k+t$, then $c_B$ and $y$ are unchanged:
+  \[
+    q_k'=q_k-t,\qquad q_j'=q_j\ (j\ne k).
+  \]
+\end{lecturecore}
 The basis remains optimal for $t\leq q_k$. Its objective is unchanged because
 $x_k=0$. For \eqref{eq:main-lp},
 \[
@@ -265,17 +272,19 @@ even a small positive step improves the objective, so the old point is no
 longer optimal.
 
 \subsection{A basic coefficient}
-If $k=j_s\in B$ and $c_k'=c_k+t$, then $c_B'=c_B+t e_s$ and
-\[
-  q_j'=q_j+t\bar a_{sj}\qquad(j\in N).
-\]
-For basic columns the simultaneous change in $c_k$ cancels, so $q_B'=0$.
-The exact basis range is
-\begin{equation}\label{eq:basic-cost-range}
-  \max_{j\in N:\bar a_{sj}>0}\left(-\frac{q_j}{\bar a_{sj}}\right)
-  \leq t\leq
-  \min_{j\in N:\bar a_{sj}<0}\left(-\frac{q_j}{\bar a_{sj}}\right).
-\end{equation}
+\begin{lecturecore}
+  If $k=j_s\in B$ and $c_k'=c_k+t$, then $c_B'=c_B+t e_s$ and
+  \[
+    q_j'=q_j+t\bar a_{sj}\qquad(j\in N).
+  \]
+  For basic columns the simultaneous change in $c_k$ cancels, so $q_B'=0$.
+  The exact basis range is
+  \begin{equation}\label{eq:basic-cost-range}
+    \max_{j\in N:\bar a_{sj}>0}\left(-\frac{q_j}{\bar a_{sj}}\right)
+    \leq t\leq
+    \min_{j\in N:\bar a_{sj}<0}\left(-\frac{q_j}{\bar a_{sj}}\right).
+  \end{equation}
+\end{lecturecore}
 Use original nonbasic columns only, not basic or removed artificial columns.
 A zero coefficient adds no restriction when $q_j\geq0$.
 The old point remains fixed and $z'=z_0+t x_k$.
@@ -407,6 +416,13 @@ decision space.
     The shaded regions continue beyond the plotting windows.
     The orange cost point is outside; the two marked RHS points are inside.}
 \end{figure}
+
+\begin{lecturecore}
+  Changing the whole objective preserves the old feasible basic point. Recompute
+  $q'=\bar A^Tc'_B-c'$; if an indicator becomes negative, use primal simplex
+  from that point. Changing only $b$ instead keeps $q$ fixed and permits dual
+  simplex if a basic value becomes negative.
+\end{lecturecore}
 
 \subsection{Reoptimize after changing the whole objective}
 Set decision costs to $(3,4,2)$. The old basic point is still feasible, its value
@@ -562,9 +578,14 @@ Both original inequalities with the new column are tight, and
 $y=(5,3)$ is dual feasible with value $6(5)+4(3)=42$.
 
 \section{Adding a constraint}\label{sec:new-constraint}
-A new constraint shrinks the feasible set. If an old optimizer satisfies it,
-that point remains optimal: no point in the smaller set can beat the old
-maximum. If the old point violates it, a new feasible point is required.
+\begin{lecturecore}
+  If an old optimizer satisfies an added constraint, it remains optimal.
+  Otherwise, for a new inequality, add a zero-cost slack as a basic variable
+  and eliminate the old basic columns from its row. Indicators remain dual
+  feasible; a negative new slack value can be repaired by dual simplex.
+\end{lecturecore}
+A new constraint shrinks the feasible set: no point in the smaller set can
+beat the old maximum. A violated new constraint requires a new feasible point.
 
 For a new inequality $a^Tx\leq\beta$, introduce a slack $s\geq0$:
 $a^Tx+s=\beta$. Substitute $x_B=\bar b-\bar A_Nx_N$ to obtain
@@ -1239,7 +1260,10 @@ No Optimization Toolbox is required.
   It has 10 PDF pages containing printed slides 1--38, with the last slide a
   closing graphic. The metadata creation date is 2019-11-03; this does not
   establish the delivery date. The folder is labelled 2020.
-  Alignment with the current lecturer, syllabus, exercises, and labs is unconfirmed.
+  The handwritten lecture of 26 October 2026 confirms basis formulas,
+  RHS and objective sensitivity, whole-vector changes, and adding an inequality.
+  Later structural changes, Lagrange multipliers, nonlinear KKT and barriers
+  remain unconfirmed as current lecture topics.
 
   \begin{center}
     \begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{8.4cm}}\toprule
@@ -1254,6 +1278,25 @@ No Optimization Toolbox is required.
       Slides 34--37: Lagrange multipliers & Section \ref{sec:lagrange}; candidate question retained and fully certified\\\bottomrule
     \end{tabular}
   \end{center}
+  \paragraph{Handwritten lecture, 26 October 2026.}
+  All eight pages of \path{../lecutures_notes/lecture_26_10_2026.pdf} were
+  inspected visually. Page 5 supplies the basis algebra; page 6 covers one-RHS
+  changes and dual-simplex repair (Sections~\ref{sec:basis}--\ref{sec:rhs}).
+  Page 7 covers nonbasic/basic cost changes and begins whole-objective changes
+  (Sections~\ref{sec:cost}--\ref{sec:vector}); page 8 covers whole-RHS changes
+  and a new inequality (Sections~\ref{sec:methods} and \ref{sec:new-constraint}).
+  The next-lecture question about deleting a constraint is not a delivered
+  derivation; Section~\ref{sec:delete-constraint} remains enrichment.
+  Cream boxes select recorded formulas and statements; the existing numerical
+  sensitivity examples and added proofs are not thereby attributed to this lecture.
+  The page-5 expression for $x_B$ needs a minus sign before $B^{-1}Nx_N$.
+  On page 6, the upper RHS endpoint uses negative column entries, not positive
+  ones. On page 7, $q'_k=q_k-\Delta c_k$ for a nonbasic cost change; the
+  final basic-cost lower bound needs $-q_j/\bar a_{sj}$ and nonbasic column
+  indices. Sections~\ref{sec:rhs} and \ref{sec:cost} derive the corrected signs.
+  Empty bound sets and zero entries are handled explicitly. No new MATLAB
+  execution is claimed for this integration.
+
   Added material includes the basic-value and indicator plots, complete piecewise
   value function with proofs, data-space regions, simultaneous-change
   counterexample and cross term, structural certificates, feasible-direction

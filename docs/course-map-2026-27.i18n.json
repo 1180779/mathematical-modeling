@@ -4,8 +4,8 @@
     "pl": "d45fc8d1a31cc103bc7ce657f027d970bd094b7e324da6a15a8d77822c5fc475"
   },
   "/course-map-2026-27/scope-and-reading-routes": {
-    "en": "2b9f275e4a22e56bd2aece5cba6a665ef3318773a4d769ad0eca0f61cc8bda98",
-    "pl": "2bdf87831f9da8f836f683174dd754aca76ced69e155d14fd188e7aa73eb426a"
+    "en": "b1ab82fec55eb14c5ab7e4febea24bf8590853568fc05b127a04ecac80ffe3b0",
+    "pl": "058eedde815bddff9cdc23cf68703b2e6753cd6b07a3950dac17aa236dbea1ca"
   },
   "/course-map-2026-27/supplied-lab-2-tasks": {
     "en": "3cb71680733b48d8deda62f4c6a2aae669cf11b978d808e99f433935b338dc4b",
@@ -23,6 +23,10 @@
     "en": "f73061b7d8acbb972a29366276459a536c7146f0e8032ab296183c74ab71489e",
     "pl": "17e21de8e206e47a1c6f93d0b19092e53ef16a49a2b56a6316d430a299e185cc"
   },
+  "/course-map-2026-27/handwritten-lecture-26-october-2026": {
+    "en": "c1993747305f02f11fb891cb1d974b34a5a3ec2b6a7f90f59ff89a27e0013b2d",
+    "pl": "2a1904dc869221486eb140cc364e2f7d15abdcd3cdc5fff56b0b1e42e7f9de44"
+  },
   "/course-map-2026-27/supplied-sheet-1": {
     "en": "838d83fd68eafe424b52f509af2d39ab5db0e6894ee5b1f24007b2ebc28e0809",
     "pl": "c0a93037a5ddb624732cb3d9c73bf1131eab8abf18c191706720ebf3f8aee5b1"
@@ -36,7 +40,7 @@
     "pl": "6af238335806fb4a9d10a50f2592a7aab93daf347d5edf9c6a0e85067c2718a5"
   },
   "/course-map-2026-27/visual-lecture-cues": {
-    "en": "993a3405f84ba697d76e95f1dca2808a25f3d05f4042e0d7bf4c842f6151f323",
-    "pl": "17205b85b808b5638dd968ca21b04daf27174bd10de4e62fddcd70bbd77f78ed"
+    "en": "cc726a4c99fddb686007b9a7b1fa14706b11e961a69805d504fa6678c859e32b",
+    "pl": "d21eff52a6ff82fd87284158683d837b0f520ea2addf278e41f93c0a5bcd71dc"
   }
 }

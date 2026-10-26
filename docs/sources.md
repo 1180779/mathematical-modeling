@@ -5,7 +5,7 @@ English | [Polski](sources.pl.md)
 ## Current course materials 2026–27
 
 The user supplied the following materials for the current course. The handwritten
-notes explicitly date the lecture to 19 October 2026. Delivery dates for the slide
+notes explicitly date the lectures to 19 and 26 October 2026. Delivery dates for the slide
 deck and sheet are not established; PDF metadata alone does not establish them.
 Paths are relative to the repository root, and originals stay outside it.
 
@@ -14,6 +14,7 @@ Paths are relative to the repository root, and originals stay outside it.
 | `ProgMat_w1.pdf` | 39 | `../lectures-2026-27/ProgMat_w1.pdf` |
 | `ProgMatc1.pdf` | 2 | `../execrices-2026-27/ProgMatc1.pdf` |
 | `lecture_19_10_2026.pdf` | 10 | `../lecutures_notes/lecture_19_10_2026.pdf` |
+| `lecture_26_10_2026.pdf` | 8 | `../lecutures_notes/lecture_26_10_2026.pdf` |
 
 The handwritten BOOX export was reviewed visually on all ten pages. Its content
 is integrated into Chapter 4: cycling, symbolic perturbation, Bland's rule,
@@ -25,6 +26,18 @@ the RHS `8`/`3` discrepancy and explain arithmetic corrections; the course map
 provides a page-by-page route. Exact rational checks passed for all eight new
 pivot tableaus and certificates; no new MATLAB execution is claimed.
 
+
+The eight pages of the 26 October BOOX export were also reviewed visually.
+Chapter 4 now develops the direct two-pivot dual-simplex path, temporary-objective
+feasibility phase and the unbounded outcome of the changed objective, plus the
+equality/free-variable dual derivation. Chapter 5's existing sensitivity and
+new-inequality explanations are now confirmed in part and selectively highlighted.
+The course map gives all page destinations. Final remarks correct source signs
+and indices while preserving problem data. The Klee–Minty example is now a
+confirmed topic; the source's unspecified average-complexity claim remains
+qualified. Deleting a constraint is only announced, and later Chapter 5 topics
+remain enrichment. New tableaus and certificates passed exact rational checks;
+no new MATLAB execution is claimed.
 
 The lecture develops LP modeling through simplex and initialization. Chapters 01–03
 and the new modeling-patterns supplement integrate its content. The sheet has 16

@@ -13,8 +13,8 @@
     "notes/lectures/02-linear-programming.tex": "c5280f125f87036a546c59c013ae35aaf5ebe9060042815c7ba9aa554a89c450",
     "notes/lectures/02a-linear-modeling-patterns.tex": "cad1bf3ee17abb7bb33c5b700b53e1c4113376e42eabadbd514b341abbd3fc77",
     "notes/lectures/03-simplex-method.tex": "bf9ac9406f1b2ab8c448e028d5ba97272a1e66dca3c182c20d559207a22069fc",
-    "notes/lectures/04-degeneracy-and-duality.tex": "76baefdfd8b28e2fbde3e6b52e64ca36930da0649771570a3b0a383f7775bee8",
-    "notes/lectures/05-sensitivity-and-lagrange-multipliers.tex": "182c16620f4e4faf395dd8a19f08418881c2a944b8b817379bdc49a655f8fd4f",
+    "notes/lectures/04-degeneracy-and-duality.tex": "3fd10c74514e7a4faa7e7ad02e3d309bc1ff0a2954f14154c7532b5591b64223",
+    "notes/lectures/05-sensitivity-and-lagrange-multipliers.tex": "834f203b4a40b01a23615df6b25c044eced4edc64582e1d6157e6a0900bef0c8",
     "notes/matlab-review/.latexmkrc": "e395f89a58e8e7da04365c286dca87ca9406ea4740cdb19982e87f9c0398afec",
     "notes/matlab-review/01-arrays-and-linear-systems.tex": "a315f338be427d4acc5eeb4be8180b5771f57a48fa1b7095cbc49b1fad9ae57b",
     "templates/modeling-notes.sty": "f2dafb5ab56f4cfebf2cf9388605db6cef0bb2332c21ea663748b6565c983aec"
@@ -31,8 +31,8 @@
     "output/lectures/02-linear-programming.pdf": "a79f98fdd19e6496562646c8a3c3aa2f1f20e8f53f76496653bef2e7f366c504",
     "output/lectures/02a-linear-modeling-patterns.pdf": "f6724576328263dbddabf7ed575c6db5a978cb317dd3882edc1609b92a8c7fcb",
     "output/lectures/03-simplex-method.pdf": "7c2b2c20855f0be8e3ac587186d864a5dc3210bd3efb89a11f5565c0d657f9d4",
-    "output/lectures/04-degeneracy-and-duality.pdf": "9b36d064a08ac41445e0f5881a537c3c5616a156d13db43feeb81b7132b82ec4",
-    "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "8e52e32ba4fbfc33b0e9594dc65dfdbd970de3bfa86f02ee2b83c6abb173fb77",
+    "output/lectures/04-degeneracy-and-duality.pdf": "58d17fda8bc4e6e03eed1040daa886b5b0c82fc08c0630c4cfa93f97e2fba395",
+    "output/lectures/05-sensitivity-and-lagrange-multipliers.pdf": "a4decf8d6d2d183bbde436cb496c7b47f077e567e763bca5ee252e06962bc90d",
     "output/matlab-review/01-arrays-and-linear-systems.pdf": "69ecffc2210e2e868716c53baa30c5c475fa70c477ee9e10b13a173f2db17bd3"
   }
 }

@@ -552,13 +552,15 @@ Indices 4--6 are the slack variables. The last constraint yields
   4x_1+2x_2+x_3\leq125-4x_1-2x_2\leq125,
 \]
 with equality only at $(0,0,125)$.
-The analogous $n$-variable family maximizes
-$\sum_{j=1}^n2^{n-j}x_j$, with rows
-\[
-  x_i+\sum_{j<i}2^{i-j+1}x_j\leq p^i,\quad i=1,\ldots,n,
-  \qquad x\geq0.
-\]
-For the usual choice $p=5$, this rule can require $2^n-1$ pivots. This is a
+\begin{lecturecore}
+  The analogous $n$-variable family maximizes
+  $\sum_{j=1}^n2^{n-j}x_j$, with rows
+  \[
+    x_i+\sum_{j<i}2^{i-j+1}x_j\leq p^i,\quad i=1,\ldots,n,
+    \qquad x\geq0.
+  \]
+  For the usual choice $p=5$, this rule can require $2^n-1$ pivots. \end{lecturecore}
+This is a
 worst-case statement about a specified pivot rule and family. It does not say
 that every simplex rule follows this path, or that simplex is slow on every LP.
 
@@ -853,6 +855,24 @@ Its dual is $\min(-c^Tx)$ subject to $-Ax\geq-b$, $x\geq0$.
 Negating that objective and the inequalities recovers (P). The new dual
 variables are indexed by the original $n$ primal variables, while the original
 multipliers $y$ have $m$ coordinates; consequently $b^Ty=\sum_{i=1}^m b_i y_i$.
+
+\subsection{Why an equality row has a free dual multiplier}\label{sec:equality-dual}
+\begin{lecturecore}
+  For $\max c^Tx$ subject to $Ax=b$, $x\geq0$, the dual is
+  \[
+    \min b^Ty,\qquad A^Ty\geq c,\qquad y\in\R^m.
+  \]
+  An equality row gives a free multiplier; a free primal variable gives an
+  equality in its dual column condition.
+\end{lecturecore}
+To derive the row rule, replace $a_i^Tx=b_i$ by the two inequalities
+$a_i^Tx\leq b_i$ and $-a_i^Tx\leq-b_i$. Their nonnegative multipliers
+$y_i^+,y_i^-$ contribute $(y_i^+-y_i^-)a_i$ to the dual constraints and
+$(y_i^+-y_i^-)b_i$ to its objective. Hence $y_i=y_i^+-y_i^-$ is unrestricted.
+Conversely, any real $y_i$ has this representation, so no condition is lost.
+For a free $x_j$, an upper bound requires
+$(c_j-a_j^Ty)x_j$ to be bounded above for both signs of $x_j$; therefore
+$a_j^Ty=c_j$.
 
 \subsection{Worked mixed-sign example}\label{sec:mixed}
 \[
@@ -1255,12 +1275,14 @@ supplied candidate, whose first three positive coordinates force $y=(1,2,0)$.
 \end{figure}
 
 \section{The dual simplex method}\label{sec:dual-simplex}
-For the standard max problem, a \emph{dual feasible basis} satisfies $q\geq0$;
-its basic solution may have negative coordinates. The associated
-$y=A_B^{-T}c_B$ satisfies $A^Ty\geq c$, and $b^Ty=z_0$, even if the primal
-basic vector is infeasible. A negative $z_0$ or $\bar b$ is not by itself an error.
-If also $\bar b\geq0$, primal and dual feasibility and equal values certify
-optimality.
+\begin{lecturecore}
+  For the standard max problem, a \emph{dual feasible basis} satisfies $q\geq0$;
+  its basic solution may have negative coordinates. The associated
+  $y=A_B^{-T}c_B$ satisfies $A^Ty\geq c$, and $b^Ty=z_0$, even if the primal
+  basic vector is infeasible. A negative $z_0$ or $\bar b$ is not by itself an error.
+  If also $\bar b\geq0$, primal and dual feasibility and equal values certify
+  optimality.
+\end{lecturecore}
 \begin{center}
   \begin{tabular}{lll}\toprule
     Feature & Primal simplex & Dual simplex\\\midrule
@@ -1291,13 +1313,15 @@ Define $\alpha=q_k/(-\bar a_{rk})\geq0$. The new indicators are
 \]
 For $\bar a_{rj}\geq0$, nonnegativity is automatic. For negative coefficients,
 we require $\alpha\leq q_j/(-\bar a_{rj})$. Therefore choose
-\begin{equation}\label{eq:dual-ratio}
-  k\in\operatorname*{arg\,min}_{j:\bar a_{rj}<0}
-  \frac{q_j}{-\bar a_{rj}}
-  \quad\Longleftrightarrow\quad
-  k\in\operatorname*{arg\,max}_{j:\bar a_{rj}<0}
-  \frac{q_j}{\bar a_{rj}}.
-\end{equation}
+\begin{lecturecore}
+  \begin{equation}\label{eq:dual-ratio}
+    k\in\operatorname*{arg\,min}_{j:\bar a_{rj}<0}
+    \frac{q_j}{-\bar a_{rj}}
+    \quad\Longleftrightarrow\quad
+    k\in\operatorname*{arg\,max}_{j:\bar a_{rj}<0}
+    \frac{q_j}{\bar a_{rj}}.
+  \end{equation}
+\end{lecturecore}
 This preserves dual feasibility. Since basic columns are unit columns, eligible
 columns are automatically nonbasic. The new entering basic value
 $\bar b_r/\bar a_{rk}$ is positive, but other basic values may still be negative.
@@ -1519,6 +1543,84 @@ The matching feasible values certify optimality; the same complementarity
 conditions prove uniqueness. This is primal simplex applied to a transformed
 dual problem, rather than the dual-simplex algorithm applied to the primal.
 
+\subsection{Two dual pivots with an infeasible slack start}\label{sec:october-dual-path}
+Use the problem in Section~\ref{sec:feasible-dual-start}, but apply dual simplex
+directly to its primal tableau. In column order $(x_1,x_2,w_1,w_2,w_3)$,
+with slack costs zero, the initial tableau has $q=(1,1,0,0,0)$:
+\[
+  \left[\begin{array}{rrrrr|r}
+      -2&-1&1&0&0&4\\
+      -2&4&0&1&0&-8\\
+      -1&3&0&0&1&-7
+    \end{array}\right].
+\]
+Row 2 has the most negative RHS. Its only eligible column is $x_1$;
+the dual ratio is $1/2$. Pivoting on $-2$ gives the basis $(w_1,x_1,w_3)$:
+\[
+  \left[\begin{array}{rrrrr|r}
+      0&-5&1&-1&0&12\\
+      1&-2&0&-1/2&0&4\\
+      0&1&0&-1/2&1&-3
+    \end{array}\right],\qquad q=(0,3,0,1/2,0),\quad z_0=-4.
+\]
+Only row 3 still has a negative RHS. Its only negative nonbasic coefficient
+is in column $w_2$, with ratio $(1/2)/(1/2)=1$. Pivot on $-1/2$:
+\[
+  \left[\begin{array}{rrrrr|r}
+      0&-7&1&0&-2&18\\
+      1&-3&0&0&-1&7\\
+      0&-2&0&1&-2&6
+    \end{array}\right],\qquad q=(0,4,0,0,1),\quad z_0=-7.
+\]
+All basic values and indicators are now nonnegative. We recover $x=(7,0)$,
+slacks $(18,6,0)$ and $y=(0,0,1)$, the same certificate obtained by solving
+the dual separately. The dual upper bounds decrease $0,-4,-7$; the first
+two basic vectors are primal infeasible and are not feasible primal iterates.
+
+\subsection{A temporary objective to find a feasible point}\label{sec:dual-primal-start}
+\begin{lecturecore}
+  If the available basis is neither primal feasible nor dual feasible, change
+  the objective temporarily to obtain dual feasibility. Use dual simplex to
+  find a primal-feasible basis, restore the original objective, and continue
+  with primal simplex. This is the dual--primal method.
+\end{lecturecore}
+The temporary objective is a feasibility device. It does not replace the
+original optimization task. For a standard-form basis, one possible construction
+is $\widehat c_B=0$, $\widehat c_N=-\mathbf1$, so that
+$\widehat q_B=0$, $\widehat q_N=\mathbf1$. Its objective
+$-\sum_{j\in N}x_j$ is bounded above by zero for every feasible point.
+An infeasibility row in this phase certifies infeasibility of the original
+constraints, which have not changed. With an anti-cycling rule and exact
+arithmetic, a feasible system instead yields a feasible basis. After restoring
+$c$, recompute the indicators before selecting a primal pivot.
+
+\begin{lecturecore}
+  Consider the changed objective with the same constraints:
+  \[
+    \max(-x_1+4x_2),\qquad
+    -2x_1-x_2\leq4,\quad -2x_1+4x_2\leq-8,\quad
+    -x_1+3x_2\leq-7,\qquad x\geq0.
+  \]
+\end{lecturecore}
+At the slack basis, $\bar b=(4,-8,-7)$ and $q=(1,-4,0,0,0)$, so neither
+simplex start test passes. Choose the temporary objective $-x_1-x_2$.
+The two pivots in Section~\ref{sec:october-dual-path} give a feasible basis.
+Restoring $c=(-1,4,0,0,0)$ changes its indicators to
+$q=(0,-1,0,0,1)$ and keeps the basic point $(7,0)$.
+Column $x_2$ is improving, but its entries $(-7,-3,-2)^T$ contain no
+positive element, so no variable leaves. Its feasible ray is
+\[
+  (x_1,x_2,w_1,w_2,w_3)
+  =(7,0,18,6,0)+t(3,1,7,2,0),\qquad t\geq0.
+\]
+The original objective is $-7+t\to+\infty$: the problem is unbounded.
+Its dual is infeasible, independently witnessed by its two requirements
+\[
+  2y_1+2y_2+y_3\leq1,\qquad -y_1+4y_2+3y_3\geq4,\qquad y\geq0.
+\]
+Indeed $-y_1+4y_2+3y_3\leq3(2y_1+2y_2+y_3)\leq3$, a contradiction.
+The feasibility phase succeeded; the restored objective has no finite maximum.
+
 \section{Checking numerical primal--dual certificates}\label{sec:numerical-certificate}
 For the standard pair $\max c^Tx$, $Ax=b$, $x\geq0$ and
 $\min b^Ty$, $A^Ty\geq c$, $y$ free, inspect three separate quantities:
@@ -1650,7 +1752,9 @@ dual construction, complementarity and dual simplex. These topics are not
 developed in the supplied \texttt{ProgMat\_w1.pdf}; its numbering does not
 establish when they were taught. The handwritten lecture dated 19 October 2026 confirms cycling, perturbation,
 Bland's rule, duality, complementarity, and paired simplex calculations as current
-lecture topics. Complexity remains historical enrichment.\\
+lecture topics. The handwritten lecture dated 26 October 2026 additionally
+confirms dual simplex, a temporary-objective feasibility method, equality/free-variable
+dual rules, and the distorted-cube complexity example.\\
 \textbf{Editorial scope:} Complete mathematical lecture content, reorganized
 in English, with hand proofs, worked paths, certificates, study questions, and
 editable TikZ illustrations. All source pages were reviewed; dense cycling,
@@ -1708,6 +1812,22 @@ These corrections follow from the supplied equations, without changing their
 problem data. New tableaus and certificates were independently recomputed in
 exact rational arithmetic; the existing MATLAB companion was not extended or
 rerun for these additions.
+
+\paragraph{Handwritten lecture, 26 October 2026.}
+All eight pages of \path{../lecutures_notes/lecture_26_10_2026.pdf} were
+inspected visually. Pages 1--2 give the direct dual-simplex path developed in
+Section~\ref{sec:october-dual-path}; page 3 changes the objective and proposes
+the temporary-objective method completed in Section~\ref{sec:dual-primal-start}.
+Pages 3--4 derive the equality/free-variable dual rules in
+Section~\ref{sec:equality-dual}; page 5 gives basis algebra and the Klee--Minty
+family in Section~\ref{sec:complexity}. Pages 6--8 are integrated into Chapter 5.
+The page-3 dual's second row must be $-y_1+4y_2+3y_3\geq4$, obtained from
+the primal's $x_2$ column. The written changed objective is retained and is
+unbounded, rather than assigned a finite optimum. Page 5's basis equation needs
+$x_B=B^{-1}b-B^{-1}Nx_N$, with a minus sign. Its average-complexity claim has
+no specified probability model; the qualifications in Section~\ref{sec:complexity}
+remain essential. New tableaus and certificates were checked with exact rational
+arithmetic; the existing MATLAB companion was not extended or rerun.
 
 \paragraph{Qualifications.}
 Section~\ref{sec:degeneracy} distinguishes zero steps from positive tied steps,

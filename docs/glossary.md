@@ -116,3 +116,4 @@ oznaczaj niepewne odpowiedniki do sprawdzenia z terminologią prowadzącego.
 | ścieżka centralna | central path | x_j q_j = τ > 0 | Perturbed complementarity / Zaburzona komplementarność |
 | optymalizacja odporna | robust optimization | constraints for all allowed data / ograniczenia dla wszystkich dopuszczonych danych | Uncertain parameters / Niepewne parametry |
 | optymalizacja stochastyczna | stochastic optimization | scenarios; recourse / scenariusze; decyzje dostosowawcze | Decisions with probabilistic data / Decyzje z danymi probabilistycznymi |
+| metoda dualno-prymalna | dual–primal method | temporary objective / cel tymczasowy | Dual simplex finds feasibility; primal simplex optimizes the restored objective / Sympleks dualny znajduje dopuszczalność, prymalny optymalizuje przywrócony cel |
